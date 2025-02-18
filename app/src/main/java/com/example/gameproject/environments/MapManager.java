@@ -14,6 +14,7 @@ import com.example.gameproject.helpers.HelpMethods;
 import com.example.gameproject.main.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MapManager {
 
@@ -21,9 +22,13 @@ public class MapManager {
     private float cameraX, cameraY;
     private Playing playing;
 
+
+    private Random random = new Random();
+    private final int temp = MainActivity.getGameStateTemp();
+
     public MapManager(Playing playing) {
         this.playing = playing;
-        initTestMap();
+        initTestMaps();
 
     }
 
@@ -59,10 +64,10 @@ public class MapManager {
         c.drawBitmap(b.getBuildingType().getHouseImg(), b.getPos().x + cameraX, b.getPos().y - b.getBuildingType().getHitboxRoof() + cameraY, null);
     }
 
-    public void drawTiles(Canvas c) {
+    public void drawTiles(Canvas canvas) {
         for (int j = 0; j < currentMap.getArrayHeight(); j++)
             for (int i = 0; i < currentMap.getArrayWidth(); i++)
-                c.drawBitmap(currentMap.getFloorType().getSprite(currentMap.getSpriteID(i, j)), i * GameConstants.Sprite.SIZE + cameraX, j * GameConstants.Sprite.SIZE + cameraY, null);
+                canvas.drawBitmap(currentMap.getFloorType().getSprite(currentMap.getSpriteID(i, j)), i * GameConstants.Sprite.SIZE + cameraX, j * GameConstants.Sprite.SIZE + cameraY, null);
     }
 
 
@@ -91,9 +96,9 @@ public class MapManager {
         return currentMap;
     }
 
-    private void initTestMap() {
+    private void initTestMaps() {
 
-        int[][] outsideArray = {
+        int[][] outsideArrayFinal = {
                 {188, 189, 279, 275, 187, 189, 279, 275, 279, 276, 275, 279, 275, 275, 279, 275, 278, 276, 275, 278, 275, 279, 275},
                 {188, 189, 275, 279, 187, 189, 276, 275, 279, 275, 277, 275, 275, 277, 276, 275, 279, 278, 278, 275, 275, 279, 275},
                 {188, 189, 275, 276, 187, 189, 276, 279, 275, 278, 279, 279, 275, 275, 278, 278, 275, 275, 275, 276, 275, 279, 275},
@@ -111,6 +116,29 @@ public class MapManager {
                 {253, 188, 188, 188, 256, 214, 167, 275, 235, 232, 232, 232, 259, 189, 279, 275, 275, 277, 275, 275, 275, 279, 275},
                 {188, 188, 188, 254, 188, 256, 214, 167, 275, 275, 277, 275, 187, 189, 275, 278, 275, 275, 279, 275, 279, 278, 275}
         };
+        int[][] outsideArrayEmpty = new int[15][23];
+        for (int i = 0; i < outsideArrayEmpty.length; i++)
+            for (int j = 0; j < outsideArrayEmpty[i].length; j++)
+                outsideArrayEmpty[i][j] = random.nextInt(5) + 275;
+
+
+        int[][] outsideArrayStarter = new int[15][23];
+        for (int i = 0; i < outsideArrayStarter.length; i++)
+            for (int j = 0; j < outsideArrayStarter[i].length; j++)
+                outsideArrayStarter[i][j] = random.nextInt(5) + 275;
+
+        int[][] lake = {
+                {462, 463, 463, 469},
+                {484, 515, 485, 491},
+                {484, 485, 556, 513},
+                {506, 507, 507, 535}
+        };
+
+        for (int i = 0; i < lake.length; i++) {
+            System.arraycopy(lake[i], 0, outsideArrayStarter[9 + i], 17, lake[i].length);
+
+        }
+
 
         int[][] insideArray = {
                 {374, 377, 377, 377, 377, 377, 378},
@@ -142,47 +170,64 @@ public class MapManager {
                 {472, 475, 473, 394, 474, 475, 476}
         };
 
-        ArrayList<Building> buildingArrayList = new ArrayList<>();
-        buildingArrayList.add(new Building(new PointF(1440, 160), Buildings.HOUSE_ONE));
-        buildingArrayList.add(new Building(new PointF(1540, 880), Buildings.HOUSE_TWO));
-        buildingArrayList.add(new Building(new PointF(575, 1000), Buildings.HOUSE_SIX));
+        ArrayList<Building> buildingArrayListFinal = new ArrayList<>();
+        buildingArrayListFinal.add(new Building(new PointF(1440, 160), Buildings.HOUSE_ONE));
+        buildingArrayListFinal.add(new Building(new PointF(1540, 880), Buildings.HOUSE_TWO));
+        buildingArrayListFinal.add(new Building(new PointF(575, 1000), Buildings.HOUSE_SIX));
 
-        ArrayList<GameObject> gameObjectArrayList = new ArrayList<>();
-        gameObjectArrayList.add(new GameObject(new PointF(190, 70), GameObjects.STATUE_ANGRY_YELLOW));
-        gameObjectArrayList.add(new GameObject(new PointF(580, 70), GameObjects.STATUE_ANGRY_YELLOW));
-        gameObjectArrayList.add(new GameObject(new PointF(1000, 550), GameObjects.BASKET_FULL_RED_FRUIT));
-        gameObjectArrayList.add(new GameObject(new PointF(620, 520), GameObjects.OVEN_SNOW_YELLOW));
+        ArrayList<GameObject> gameObjectArrayListFinal = new ArrayList<>();
+        gameObjectArrayListFinal.add(new GameObject(new PointF(190, 70), GameObjects.STATUE_ANGRY_YELLOW));
+        gameObjectArrayListFinal.add(new GameObject(new PointF(580, 70), GameObjects.STATUE_ANGRY_YELLOW));
+        gameObjectArrayListFinal.add(new GameObject(new PointF(1000, 550), GameObjects.BASKET_FULL_RED_FRUIT));
+        gameObjectArrayListFinal.add(new GameObject(new PointF(620, 520), GameObjects.OVEN_SNOW_YELLOW));
 
+
+        ArrayList<Building> buildingArrayListStarter = new ArrayList<>();
+        buildingArrayListStarter.add(new Building(new PointF(200, 200), Buildings.HOUSE_ONE));
 
 
         GameMap insideMap = new GameMap(insideArray, Tiles.INSIDE, null, null, HelpMethods.GetSkeletonsRandomized(2, insideArray));
-        GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, Tiles.INSIDE, null, null,null);
-        GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE, null, null,null);
+        GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, Tiles.INSIDE, null, null, null);
+        GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE, null, null, null);
 
-        GameMap outsideMap = new GameMap(outsideArray, Tiles.OUTSIDE, buildingArrayList, gameObjectArrayList, HelpMethods.GetSkeletonsRandomized(5, outsideArray));
+        GameMap outsideMap = switch (temp) {
+            case 1 ->
+                    new GameMap(outsideArrayEmpty, Tiles.OUTSIDE, null, null, HelpMethods.GetSkeletonsRandomized(7, outsideArrayEmpty));
+            case 2 ->
+                    new GameMap(outsideArrayStarter, Tiles.OUTSIDE, buildingArrayListStarter, null, HelpMethods.GetSkeletonsRandomized(5, outsideArrayStarter));
+            case 3 ->
+                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(3, outsideArrayFinal));
+            default ->
+                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(5, outsideArrayFinal));
+        };
+
+        if (temp == 2) {
+            HelpMethods.ConnectTwoDoorways(
+                    outsideMap,
+                    HelpMethods.CreatePointForDoorway(outsideMap, 0),
+                    insideMap,
+                    HelpMethods.CreatePointForDoorway(3, 6));
+        } else if (temp == 3) {
+            HelpMethods.ConnectTwoDoorways(
+                    outsideMap,
+                    HelpMethods.CreatePointForDoorway(outsideMap, 0),
+                    insideMap,
+                    HelpMethods.CreatePointForDoorway(3, 6));
+
+            HelpMethods.ConnectTwoDoorways(
+                    outsideMap,
+                    HelpMethods.CreatePointForDoorway(outsideMap, 1),
+                    insideFlatRoofHouseMap,
+                    HelpMethods.CreatePointForDoorway(3, 6));
+
+            HelpMethods.ConnectTwoDoorways(
+                    outsideMap,
+                    HelpMethods.CreatePointForDoorway(outsideMap, 2),
+                    insideGreenRoofHouseMap,
+                    HelpMethods.CreatePointForDoorway(3, 6));
 
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 0),
-                insideMap,
-                HelpMethods.CreatePointForDoorway(3, 6));
-
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 1),
-                insideFlatRoofHouseMap,
-                HelpMethods.CreatePointForDoorway(3, 6));
-
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 2),
-                insideGreenRoofHouseMap,
-                HelpMethods.CreatePointForDoorway(3, 6));
-
-
-
-
+        }
         currentMap = outsideMap;
     }
 }

@@ -20,8 +20,8 @@ public class BuildingManager {
         this.cameraY = cameraY;
     }
 
-    public void draw(Canvas c) {
+    public void draw(Canvas canvas) {
         for (Building b : buildingArrayList)
-            c.drawBitmap(b.getBuildingType().getHouseImg(), b.getPos().x + cameraX, b.getPos().y + cameraY, null);
+            canvas.drawBitmap(b.getBuildingType().getHouseImg(), b.getPos().x + cameraX, b.getPos().y + cameraY, null);
     }
 }

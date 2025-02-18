@@ -19,7 +19,7 @@ public final class GameConstants {
     }
 
     public static final class Animation{
-        public static final int SPEED = 4;
+        public static final int SPEED = 2;
         public static final int AMOUNT = 4;
     }
 }

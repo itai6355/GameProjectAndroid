@@ -44,25 +44,25 @@ public class PlayingUI {
 
     }
 
-    public void draw(Canvas c) {
-        drawUI(c);
+    public void draw(Canvas canvas) {
+        drawUI(canvas);
     }
 
-    private void drawUI(Canvas c) {
-        c.drawCircle(joystickCenterPos.x, joystickCenterPos.y, radius, circlePaint);
-        c.drawCircle(attackBtnCenterPos.x, attackBtnCenterPos.y, radius, circlePaint);
+    private void drawUI(Canvas canvas) {
+        canvas.drawCircle(joystickCenterPos.x, joystickCenterPos.y, radius, circlePaint);
+        canvas.drawCircle(attackBtnCenterPos.x, attackBtnCenterPos.y, radius, circlePaint);
 
-        c.drawBitmap(
+        canvas.drawBitmap(
                 ButtonImages.PLAYING_MENU.getBtnImg(btnMenu.isPushed(btnMenu.getPointerId())),
                 btnMenu.getHitbox().left,
                 btnMenu.getHitbox().top,
                 null);
 
-        drawHealth(c);
+        drawHealth(canvas);
 
     }
 
-    private void drawHealth(Canvas c) {
+    private void drawHealth(Canvas canvas) {
         Player player = playing.getPlayer();
         for (int i = 0; i < player.getMaxHealth() / 100; i++) {
             int x = healthIconX + 100 * i;
@@ -70,15 +70,15 @@ public class PlayingUI {
 
             if (heartValue < 100) {
                 if (heartValue <= 0)
-                    c.drawBitmap(HealthIcons.HEART_EMPTY.getIcon(), x, healthIconY, null);
+                    canvas.drawBitmap(HealthIcons.HEART_EMPTY.getIcon(), x, healthIconY, null);
                 else if (heartValue == 25)
-                    c.drawBitmap(HealthIcons.HEART_1Q.getIcon(), x, healthIconY, null);
+                    canvas.drawBitmap(HealthIcons.HEART_1Q.getIcon(), x, healthIconY, null);
                 else if (heartValue == 50)
-                    c.drawBitmap(HealthIcons.HEART_HALF.getIcon(), x, healthIconY, null);
+                    canvas.drawBitmap(HealthIcons.HEART_HALF.getIcon(), x, healthIconY, null);
                 else
-                    c.drawBitmap(HealthIcons.HEART_3Q.getIcon(), x, healthIconY, null);
+                    canvas.drawBitmap(HealthIcons.HEART_3Q.getIcon(), x, healthIconY, null);
             } else
-                c.drawBitmap(HealthIcons.HEART_FULL.getIcon(), x, healthIconY, null);
+                canvas.drawBitmap(HealthIcons.HEART_FULL.getIcon(), x, healthIconY, null);
         }
 
 

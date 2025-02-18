@@ -33,15 +33,15 @@ public class Menu extends BaseState implements GameStateInterface {
     }
 
     @Override
-    public void render(Canvas c) {
-        c.drawBitmap(
+    public void render(Canvas canvas) {
+        canvas.drawBitmap(
                 GameImages.MAINMENU_MENUBG.getImage(),
                 menuX,
                 menuY,
                 null);
 
 
-        c.drawBitmap(
+        canvas.drawBitmap(
                 ButtonImages.MENU_START.getBtnImg(btnStart.isPushed()),
                 btnStart.getHitbox().left,
                 btnStart.getHitbox().top,

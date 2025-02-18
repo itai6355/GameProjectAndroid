@@ -13,6 +13,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static Context gameContext;
     public static int GAME_WIDTH, GAME_HEIGHT;
+    private static final boolean DrawHitbox = true;
+
+    private static final int GameStateTemp = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,4 +46,14 @@ public class MainActivity extends AppCompatActivity {
     public static Context getGameContext() {
         return gameContext;
     }
+
+    public static int getGameStateTemp() {
+        return GameStateTemp;
+    }
+
+    public static boolean getDrawHitbox(){
+        return DrawHitbox;
+    }
+
+
 }

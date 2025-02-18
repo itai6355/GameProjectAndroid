@@ -30,25 +30,25 @@ public class DeathScreen extends BaseState implements GameStateInterface {
 
 
     @Override
-    public void render(Canvas c) {
-        drawBackground(c);
-        drawButtons(c);
+    public void render(Canvas canvas) {
+        drawBackground(canvas);
+        drawButtons(canvas);
     }
 
-    private void drawButtons(Canvas c) {
-        c.drawBitmap(ButtonImages.MENU_REPLAY.getBtnImg(buttonReplay.isPushed()),
+    private void drawButtons(Canvas canvas) {
+        canvas.drawBitmap(ButtonImages.MENU_REPLAY.getBtnImg(buttonReplay.isPushed()),
                 buttonReplay.getHitbox().left,
                 buttonReplay.getHitbox().top,
                 null);
 
-        c.drawBitmap(ButtonImages.MENU_MENU.getBtnImg(buttonMainMenu.isPushed()),
+        canvas.drawBitmap(ButtonImages.MENU_MENU.getBtnImg(buttonMainMenu.isPushed()),
                 buttonMainMenu.getHitbox().left,
                 buttonMainMenu.getHitbox().top,
                 null);
     }
 
-    private void drawBackground(Canvas c) {
-        c.drawBitmap(GameImages.DEATH_MENU_MENUBG.getImage(),
+    private void drawBackground(Canvas canvas) {
+        canvas.drawBitmap(GameImages.DEATH_MENU_MENUBG.getImage(),
                 menuX, menuY, null);
     }
 

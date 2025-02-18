@@ -11,20 +11,20 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-
-import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.Character;
 import com.example.gameproject.entities.Entity;
-import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.Player;
-import com.example.gameproject.entities.objects.Weapons;
 import com.example.gameproject.entities.enemies.Skeleton;
+import com.example.gameproject.entities.objects.Building;
+import com.example.gameproject.entities.objects.GameObject;
+import com.example.gameproject.entities.objects.Weapons;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.MapManager;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
+import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.PlayingUI;
 
 import java.util.Arrays;
@@ -53,7 +53,7 @@ public class Playing extends BaseState implements GameStateInterface {
         playingUI = new PlayingUI(this);
 
         redPaint = new Paint();
-        redPaint.setStrokeWidth(1);
+        redPaint.setStrokeWidth(3);
         redPaint.setStyle(Paint.Style.STROKE);
         redPaint.setColor(Color.RED);
 
@@ -186,79 +186,92 @@ public class Playing extends BaseState implements GameStateInterface {
 
 
     @Override
-    public void render(Canvas c) {
-        mapManager.drawTiles(c);
+    public void render(Canvas canvas) {
+        mapManager.drawTiles(canvas);
         if (listOfEntitiesMade)
-            drawSortedEntities(c);
+            drawSortedEntities(canvas);
 
-        playingUI.draw(c);
+        playingUI.draw(canvas);
     }
 
-    private void drawSortedEntities(Canvas c) {
+    private void drawSortedEntities(Canvas canvas) {
         for (Entity e : listOfDrawables) {
             if (e instanceof Skeleton skeleton) {
-                if (skeleton.isActive()) drawCharacter(c, skeleton);
+                if (skeleton.isActive()) drawCharacter(canvas, skeleton);
             } else if (e instanceof GameObject gameObject) {
-                mapManager.drawObject(c, gameObject);
+                mapManager.drawObject(canvas, gameObject);
             } else if (e instanceof Building building) {
-                mapManager.drawBuilding(c, building);
+                mapManager.drawBuilding(canvas, building);
             } else if (e instanceof Player) {
-                drawPlayer(c);
+                drawPlayer(canvas);
             }
         }
     }
 
 
-    private void drawPlayer(Canvas c) {
-        c.drawBitmap(Weapons.SHADOW.getWeaponImg(), player.getHitbox().left, player.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
-        c.drawBitmap(player.getGameCharType().getSprite(player.getAniIndex(), player.getFaceDir()), player.getHitbox().left - X_DRAW_OFFSET, player.getHitbox().top - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-        c.drawRect(player.getHitbox(), redPaint);
-        if (player.isAttacking()) drawWeapon(c, player);
+    private void drawPlayer(Canvas canvas) {
+        canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), player.getHitbox().left, player.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        canvas.drawBitmap(player.getGameCharType().getSprite(player.getAniIndex(), player.getFaceDir()), player.getHitbox().left - X_DRAW_OFFSET, player.getHitbox().top - GameConstants.Sprite.Y_DRAW_OFFSET, null);
+        if (MainActivity.getDrawHitbox())
+            canvas.drawRect(player.getHitbox(), redPaint);
+        if (player.isAttacking()) drawWeapon(canvas, player);
     }
 
 
-    private void drawWeapon(Canvas c, Character character) {
-        c.rotate(character.getWepRot(), character.getAttackBox().left, character.getAttackBox().top);
-        c.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + character.wepRotAdjustLeft(), character.getAttackBox().top + character.wepRotAdjustTop(), null);
-        c.rotate(character.getWepRot() * -1, character.getAttackBox().left, character.getAttackBox().top);
-        c.drawRect(character.getAttackBox(), redPaint);
+    private void drawWeapon(Canvas canvas, Character character) {
+        canvas.rotate(character.getWepRot(), character.getAttackBox().left, character.getAttackBox().top);
+        canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + character.wepRotAdjustLeft(), character.getAttackBox().top + character.wepRotAdjustTop(), null);
+        canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left, character.getAttackBox().top);
+        if (MainActivity.getDrawHitbox())
+            canvas.drawRect(character.getAttackBox(), redPaint);
     }
 
-    private void drawEnemyWeapon(Canvas c, Character character) {
-        c.rotate(character.getWepRot(), character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
-        c.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), null);
-        c.rotate(character.getWepRot() * -1, character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
+    private void drawEnemyWeapon(Canvas canvas, Character character) {
+        canvas.rotate(character.getWepRot(), character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
+        canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), null);
+        canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
+        canvas.drawRect(character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(),
+                character.getAttackBox().top + cameraY + character.wepRotAdjustTop(),
+                character.getAttackBox().right + cameraX,
+                character.getAttackBox().bottom + cameraY,
+                redPaint);
     }
 
 
-    public void drawCharacter(Canvas canvas, Character c) {
-        canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), c.getHitbox().left + cameraX, c.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
-        canvas.drawBitmap(c.getGameCharType().getSprite(c.getAniIndex(), c.getFaceDir()), c.getHitbox().left + cameraX - X_DRAW_OFFSET, c.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-        if (c.isAttacking())
-            drawEnemyWeapon(canvas, c);
+    public void drawCharacter(Canvas canvas, Character character) {
+        canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
+        canvas.drawBitmap(character.getGameCharType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
+        if (MainActivity.getDrawHitbox())
+            canvas.drawRect(character.getHitbox().left + cameraX,
+                    character.getHitbox().top + cameraY,
+                    character.getHitbox().right + cameraX,
+                    character.getHitbox().bottom +cameraY,
+                    redPaint);
+        if (character.isAttacking())
+            drawEnemyWeapon(canvas, character);
 
-        if (c.getCurrentHealth() < c.getMaxHealth())
-            drawHealthBar(canvas, c);
+        if (character.getCurrentHealth() < character.getMaxHealth())
+            drawHealthBar(canvas, character);
 
 
     }
 
-    private void drawHealthBar(Canvas canvas, Character c) {
-        canvas.drawLine(c.getHitbox().left + cameraX,
-                c.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER,
-                c.getHitbox().right + cameraX,
-                c.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, healthBarBlack);
+    private void drawHealthBar(Canvas canvas, Character character) {
+        canvas.drawLine(character.getHitbox().left + cameraX,
+                character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER,
+                character.getHitbox().right + cameraX,
+                character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, healthBarBlack);
 
-        float fullBarWidth = c.getHitbox().width();
-        float percentOfMaxHealth = (float) c.getCurrentHealth() / c.getMaxHealth();
+        float fullBarWidth = character.getHitbox().width();
+        float percentOfMaxHealth = (float) character.getCurrentHealth() / character.getMaxHealth();
         float barWidth = fullBarWidth * percentOfMaxHealth;
         float xDelta = (fullBarWidth - barWidth) / 2.0f;
 
 
-        canvas.drawLine(c.getHitbox().left + cameraX + xDelta,
-                c.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER,
-                c.getHitbox().left + cameraX + xDelta + barWidth,
-                c.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, healthBarRed);
+        canvas.drawLine(character.getHitbox().left + cameraX + xDelta,
+                character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER,
+                character.getHitbox().left + cameraX + xDelta + barWidth,
+                character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, healthBarRed);
     }
 
     private void updatePlayerMove(double delta) {
