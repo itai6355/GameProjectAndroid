@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 
-import com.example.gameproject.entities.Player;
+import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.gamestates.Playing;
 
 

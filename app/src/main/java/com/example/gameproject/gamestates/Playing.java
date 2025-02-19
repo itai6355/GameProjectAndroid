@@ -1,5 +1,6 @@
 package com.example.gameproject.gamestates;
 
+import static com.example.gameproject.helpers.GameConstants.Face_Dir.LEFT;
 import static com.example.gameproject.helpers.GameConstants.Sprite.X_DRAW_OFFSET;
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
@@ -11,10 +12,11 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-import com.example.gameproject.entities.Character;
-import com.example.gameproject.entities.Entity;
-import com.example.gameproject.entities.Player;
+import com.example.gameproject.entities.entities.Character;
+import com.example.gameproject.entities.entities.Entity;
+import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.enemies.Skeleton;
+import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.Weapons;
@@ -90,22 +92,29 @@ public class Playing extends BaseState implements GameStateInterface {
         if (player.isAttacking()) if (!player.isAttackChecked()) checkPlayerAttack();
 
         if (mapManager.getCurrentMap().getSkeletonArrayList() != null)
-            for (Skeleton skeleton : mapManager.getCurrentMap().getSkeletonArrayList())
-                if (skeleton.isActive()) {
-                    skeleton.update(delta, mapManager.getCurrentMap());
-                    if (skeleton.isAttacking()) {
-                        if (!skeleton.isAttackChecked()) {
-                            checkEnemyAttack(skeleton);
-                        }
-                    } else if (!skeleton.isPreparingAttack()) {
-                        if (HelpMethods.IsPlayerCloseForAttack(skeleton, player, cameraY, cameraX)) {
-                            skeleton.prepareAttack(player, cameraX, cameraY);
-                        }
-                    }
-                }
+            for (Character character : mapManager.getCurrentMap().getSkeletonArrayList()) {
+                if (character instanceof Skeleton skeleton)
+                    updateSkeleton(delta, skeleton);
+            }
 
 
         sortArray();
+
+    }
+
+    private void updateSkeleton(double delta, Skeleton skeleton) {
+        if (skeleton.isActive()) {
+            skeleton.update(delta, mapManager.getCurrentMap());
+            if (skeleton.isAttacking()) {
+                if (!skeleton.isAttackChecked()) {
+                    checkEnemyAttack(skeleton);
+                }
+            } else if (!skeleton.isPreparingAttack()) {
+                if (HelpMethods.IsPlayerCloseForAttack(skeleton, player, cameraY, cameraX)) {
+                    skeleton.prepareAttack(player, cameraX, cameraY);
+                }
+            }
+        }
 
     }
 
@@ -172,12 +181,16 @@ public class Playing extends BaseState implements GameStateInterface {
         attackBoxWithoutCamera.bottom -= cameraY;
 
         if (mapManager.getCurrentMap().getSkeletonArrayList() != null)
-            for (Skeleton s : mapManager.getCurrentMap().getSkeletonArrayList())
-                if (attackBoxWithoutCamera.intersects(s.getHitbox().left, s.getHitbox().top, s.getHitbox().right, s.getHitbox().bottom)) {
-                    s.damageCharacter(player.getDamage());
+            for (Character character : mapManager.getCurrentMap().getSkeletonArrayList())
+                if (attackBoxWithoutCamera.intersects(character.getHitbox().left, character.getHitbox().top, character.getHitbox().right, character.getHitbox().bottom)) {
+                    character.damageCharacter(player.getDamage());
 
-                    if (s.getCurrentHealth() <= 0)
-                        s.setSkeletonInactive();
+
+                    if (character.getCurrentHealth() <= 0) {
+                        if (character instanceof Skeleton skeleton)
+                            skeleton.setInactive();
+                    }
+
                 }
 
 
@@ -202,6 +215,8 @@ public class Playing extends BaseState implements GameStateInterface {
                 mapManager.drawObject(canvas, gameObject);
             } else if (e instanceof Building building) {
                 mapManager.drawBuilding(canvas, building);
+            } else if (e instanceof Item item) {
+                mapManager.drawItem(canvas, item);
             } else if (e instanceof Player) {
                 drawPlayer(canvas);
             }
@@ -230,11 +245,15 @@ public class Playing extends BaseState implements GameStateInterface {
         canvas.rotate(character.getWepRot(), character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
         canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), null);
         canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
-        canvas.drawRect(character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(),
-                character.getAttackBox().top + cameraY + character.wepRotAdjustTop(),
-                character.getAttackBox().right + cameraX,
-                character.getAttackBox().bottom + cameraY,
-                redPaint);
+        if (MainActivity.getDrawHitbox())
+            // TODO:      not true ): need fix!
+            // when weapon is facing left or up, the hitbox is bigger.
+            // not effecting the game and real hitbox IDK why.
+            canvas.drawRect(character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(),
+                    character.getAttackBox().top + cameraY + character.wepRotAdjustTop(),
+                    character.getAttackBox().right + cameraX,
+                    character.getAttackBox().bottom + cameraY,
+                    redPaint);
     }
 
 
@@ -245,7 +264,7 @@ public class Playing extends BaseState implements GameStateInterface {
             canvas.drawRect(character.getHitbox().left + cameraX,
                     character.getHitbox().top + cameraY,
                     character.getHitbox().right + cameraX,
-                    character.getHitbox().bottom +cameraY,
+                    character.getHitbox().bottom + cameraY,
                     redPaint);
         if (character.isAttacking())
             drawEnemyWeapon(canvas, character);
@@ -286,7 +305,7 @@ public class Playing extends BaseState implements GameStateInterface {
 
         if (xSpeed > ySpeed) {
             if (lastTouchDiff.x > 0) player.setFaceDir(GameConstants.Face_Dir.RIGHT);
-            else player.setFaceDir(GameConstants.Face_Dir.LEFT);
+            else player.setFaceDir(LEFT);
         } else {
             if (lastTouchDiff.y > 0) player.setFaceDir(GameConstants.Face_Dir.DOWN);
             else player.setFaceDir(GameConstants.Face_Dir.UP);

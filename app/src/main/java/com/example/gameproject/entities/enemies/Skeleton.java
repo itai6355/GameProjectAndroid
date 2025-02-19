@@ -3,9 +3,9 @@ package com.example.gameproject.entities.enemies;
 import android.graphics.PointF;
 
 
-import com.example.gameproject.entities.Character;
-import com.example.gameproject.entities.GameCharacters;
-import com.example.gameproject.entities.Player;
+import com.example.gameproject.entities.entities.Character;
+import com.example.gameproject.entities.entities.GameCharacters;
+import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
@@ -124,7 +124,4 @@ public class Skeleton extends Character {
         return preparingAttack;
     }
 
-    public void setSkeletonInactive() {
-        active = false;
-    }
 }

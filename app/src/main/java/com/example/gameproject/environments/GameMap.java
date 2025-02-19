@@ -1,9 +1,10 @@
 package com.example.gameproject.environments;
 
+import com.example.gameproject.entities.entities.Character;
+import com.example.gameproject.entities.entities.Entity;
+import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.objects.Building;
-import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.objects.GameObject;
-import com.example.gameproject.entities.enemies.Skeleton;
 import com.example.gameproject.helpers.GameConstants;
 
 import java.util.ArrayList;
@@ -15,15 +16,17 @@ public class GameMap {
     private ArrayList<Building> buildingArrayList;
     private ArrayList<Doorway> doorwayArrayList;
     private ArrayList<GameObject> gameObjectArrayList;
-    private ArrayList<Skeleton> skeletonArrayList;
+    private ArrayList<Character> skeletonArrayList;
+    private ArrayList<Item> itemArrayList;
 
-    public GameMap(int[][] spriteIds, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, ArrayList<Skeleton> skeletonArrayList) {
+    public GameMap(int[][] spriteIds, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, ArrayList<Character> skeletonArrayList, ArrayList<Item> itemArrayList) {
         this.spriteIds = spriteIds;
         this.tilesType = tilesType;
         this.buildingArrayList = buildingArrayList;
         this.gameObjectArrayList = gameObjectArrayList;
         this.skeletonArrayList = skeletonArrayList;
         this.doorwayArrayList = new ArrayList<>();
+        this.itemArrayList = itemArrayList;
     }
 
     public Entity[] getDrawableList() {
@@ -34,11 +37,14 @@ public class GameMap {
             for (Building b : buildingArrayList)
                 list[i++] = b;
         if (skeletonArrayList != null)
-            for (Skeleton s : skeletonArrayList)
-                list[i++] = s;
+            for (Character c : skeletonArrayList)
+                list[i++] = c;
         if (gameObjectArrayList != null)
             for (GameObject go : gameObjectArrayList)
                 list[i++] = go;
+        if (itemArrayList != null)
+            for (Item item : itemArrayList)
+                list[i++] = item;
 
         return list;
     }
@@ -51,6 +57,8 @@ public class GameMap {
             amount += gameObjectArrayList.size();
         if (skeletonArrayList != null)
             amount += skeletonArrayList.size();
+        if (itemArrayList != null)
+            amount += itemArrayList.size();
         amount++;
 
         return amount;
@@ -72,8 +80,12 @@ public class GameMap {
         return gameObjectArrayList;
     }
 
-    public ArrayList<Skeleton> getSkeletonArrayList() {
+    public ArrayList<Character> getSkeletonArrayList() {
         return skeletonArrayList;
+    }
+
+    public ArrayList<Item> getItemArrayList() {
+        return itemArrayList;
     }
 
     public Tiles getFloorType() {

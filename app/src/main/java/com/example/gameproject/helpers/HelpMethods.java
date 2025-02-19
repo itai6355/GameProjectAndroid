@@ -6,9 +6,9 @@ import android.graphics.RectF;
 
 
 import com.example.gameproject.entities.objects.Building;
-import com.example.gameproject.entities.Character;
+import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.objects.GameObject;
-import com.example.gameproject.entities.Player;
+import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.enemies.Skeleton;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.GameMap;
@@ -49,12 +49,12 @@ public class HelpMethods {
     }
 
 
-    public static ArrayList<Skeleton> GetSkeletonsRandomized(int amount, int[][] gameMapArray) {
+    public static ArrayList<Character> GetSkeletonsRandomized(int amount, int[][] gameMapArray) {
 
         int width = (gameMapArray[0].length - 1) * GameConstants.Sprite.SIZE;
         int height = (gameMapArray.length - 1) * GameConstants.Sprite.SIZE;
 
-        ArrayList<Skeleton> skeletonArrayList = new ArrayList<>();
+        ArrayList<Character> skeletonArrayList = new ArrayList<>();
 
         for (int i = 0; i < amount; i++) {
             float x = (float) (Math.random() * width);

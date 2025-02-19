@@ -1,4 +1,4 @@
-package com.example.gameproject.entities;
+package com.example.gameproject.entities.entities;
 
 import android.graphics.PointF;
 import android.graphics.RectF;

@@ -1,4 +1,4 @@
-package com.example.gameproject.entities;
+package com.example.gameproject.entities.entities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +12,8 @@ import com.example.gameproject.main.MainActivity;
 public enum GameCharacters implements BitmapMethods {
 
     PLAYER(R.drawable.boy_sprite_sheet),
+
+    MASKED_RAKKON(R.drawable.maskedrakoon_spriteshhets),
     SKELETON(R.drawable.skeleton_spritesheet);
 
     private Bitmap spriteSheet;

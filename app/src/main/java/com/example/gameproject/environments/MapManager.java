@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
+import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.Buildings;
 import com.example.gameproject.entities.objects.GameObject;
@@ -55,13 +56,16 @@ public class MapManager {
         return currentMap.getArrayHeight() * GameConstants.Sprite.SIZE;
     }
 
-
-    public void drawObject(Canvas c, GameObject go) {
-        c.drawBitmap(go.getObjectType().getObjectImg(), go.getHitbox().left + cameraX, go.getHitbox().top - go.getObjectType().getHitboxRoof() + cameraY, null);
+    public void drawItem(Canvas canvas, Item item) {
+        canvas.drawBitmap(item.getItemType().getImage(), item.getHitbox().left + cameraX, item.getHitbox().top + cameraY, null);
     }
 
-    public void drawBuilding(Canvas c, Building b) {
-        c.drawBitmap(b.getBuildingType().getHouseImg(), b.getPos().x + cameraX, b.getPos().y - b.getBuildingType().getHitboxRoof() + cameraY, null);
+    public void drawObject(Canvas canvas, GameObject gameObject) {
+        canvas.drawBitmap(gameObject.getObjectType().getObjectImg(), gameObject.getHitbox().left + cameraX, gameObject.getHitbox().top - gameObject.getObjectType().getHitboxRoof() + cameraY, null);
+    }
+
+    public void drawBuilding(Canvas canvas, Building building) {
+        canvas.drawBitmap(building.getBuildingType().getHouseImg(), building.getPos().x + cameraX, building.getPos().y - building.getBuildingType().getHitboxRoof() + cameraY, null);
     }
 
     public void drawTiles(Canvas canvas) {
@@ -186,19 +190,19 @@ public class MapManager {
         buildingArrayListStarter.add(new Building(new PointF(200, 200), Buildings.HOUSE_ONE));
 
 
-        GameMap insideMap = new GameMap(insideArray, Tiles.INSIDE, null, null, HelpMethods.GetSkeletonsRandomized(2, insideArray));
-        GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, Tiles.INSIDE, null, null, null);
-        GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE, null, null, null);
+        GameMap insideMap = new GameMap(insideArray, Tiles.INSIDE, null, null, HelpMethods.GetSkeletonsRandomized(2, insideArray), null);
+        GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, Tiles.INSIDE, null, null, null, null);
+        GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE, null, null, null, null);
 
         GameMap outsideMap = switch (temp) {
             case 1 ->
-                    new GameMap(outsideArrayEmpty, Tiles.OUTSIDE, null, null, HelpMethods.GetSkeletonsRandomized(7, outsideArrayEmpty));
+                    new GameMap(outsideArrayEmpty, Tiles.OUTSIDE, null, null, HelpMethods.GetSkeletonsRandomized(7, outsideArrayEmpty), null);
             case 2 ->
-                    new GameMap(outsideArrayStarter, Tiles.OUTSIDE, buildingArrayListStarter, null, HelpMethods.GetSkeletonsRandomized(5, outsideArrayStarter));
+                    new GameMap(outsideArrayStarter, Tiles.OUTSIDE, buildingArrayListStarter, null, HelpMethods.GetSkeletonsRandomized(5, outsideArrayStarter), null);
             case 3 ->
-                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(3, outsideArrayFinal));
+                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(3, outsideArrayFinal), null);
             default ->
-                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(5, outsideArrayFinal));
+                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(5, outsideArrayFinal), null);
         };
 
         if (temp == 2) {

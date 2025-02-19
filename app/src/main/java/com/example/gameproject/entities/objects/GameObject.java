@@ -2,7 +2,7 @@ package com.example.gameproject.entities.objects;
 
 import android.graphics.PointF;
 
-import com.example.gameproject.entities.Entity;
+import com.example.gameproject.entities.entities.Entity;
 
 public class GameObject extends Entity {
     private GameObjects objectType;

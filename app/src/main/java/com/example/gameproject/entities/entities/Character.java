@@ -1,4 +1,4 @@
-package com.example.gameproject.entities;
+package com.example.gameproject.entities.entities;
 
 import static com.example.gameproject.helpers.GameConstants.Sprite.HITBOX_SIZE;
 import static com.example.gameproject.helpers.GameConstants.Sprite.X_DRAW_OFFSET;
@@ -46,6 +46,7 @@ public abstract class Character extends Entity {
         return switch (gameCharType) {
             case PLAYER -> 50;
             case SKELETON -> 25;
+            case MASKED_RAKKON -> 0;
         };
     }
 
@@ -191,6 +192,10 @@ public abstract class Character extends Entity {
 
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    public void setInactive() {
+        active = false;
     }
 }
 

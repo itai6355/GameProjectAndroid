@@ -1,4 +1,4 @@
-package com.example.gameproject.entities;
+package com.example.gameproject.entities.entities;
 
 
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
