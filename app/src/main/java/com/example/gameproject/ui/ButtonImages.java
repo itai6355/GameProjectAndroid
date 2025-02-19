@@ -10,23 +10,23 @@ import com.example.gameproject.main.MainActivity;
 
 public enum ButtonImages implements BitmapMethods {
 
-    MENU_START(R.drawable.mainmenu_button_start, 300, 140),
-    PLAYING_MENU(R.drawable.playing_button_menu, 140, 140),
-    MENU_MENU(R.drawable.mainmenu_button_menu, 300, 140),
-    MENU_REPLAY(R.drawable.mainmenu_button_replay, 300, 140);
+    //TODO: need rework for it to fit to the style (;
+
+    MENU_START(R.drawable.icons_ui, 275, 242, 275, 276, 90, 27, 90, 25),
+    PLAYING_MENU(R.drawable.icons_ui, 773, 100, 805, 102, 22, 24, 22, 22),
+    EMPTY(R.drawable.icons_ui, 275, 178, 275, 212, 90, 27, 90, 25);
+
 
     private int width, height;
     private Bitmap normal, pushed;
 
-    ButtonImages(int resID, int width, int height) {
+    ButtonImages(int resID, int x1, int y1, int x2, int y2, int width1, int height1, int width2, int height2) {
         options.inScaled = false;
-        this.width = width;
-        this.height = height;
-
+        this.width = width1;
+        this.height = height1;
         Bitmap buttonAtlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
-        normal = Bitmap.createBitmap(buttonAtlas, 0, 0, width, height);
-        pushed = Bitmap.createBitmap(buttonAtlas, width, 0, width, height);
-
+        normal = Bitmap.createBitmap(buttonAtlas, x1, y1, width1, height1);
+        pushed = Bitmap.createBitmap(buttonAtlas, x2, y2, width2, height2);
     }
 
     public int getWidth() {

@@ -3,15 +3,18 @@ package com.example.gameproject.entities.items;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
-import com.example.gameproject.entities.entities.Entity;
+import com.example.gameproject.entities.Entity;
+import com.example.gameproject.helpers.GameConstants;
 
 public class Item extends Entity {
 
 
     private final Items itemType;
+    int aniIndex = 0;
+    float lastAni = System.currentTimeMillis();
 
     public Item(Items itemType, PointF pos) {
-        super(pos, itemType.getWidth(), itemType.getHeight());
+        super(pos, GameConstants.Sprite.DEFAULT_SIZE, GameConstants.Sprite.DEFAULT_SIZE);
         this.itemType = itemType;
     }
 
@@ -22,5 +25,12 @@ public class Item extends Entity {
     @Override
     public RectF getHitbox() {
         return super.getHitbox();
+    }
+
+    public int getAniIndex(Items itemType) {
+            if (aniIndex >= itemType.getAmount() - 1)
+                aniIndex = 0;
+            else aniIndex++;
+        return aniIndex;
     }
 }

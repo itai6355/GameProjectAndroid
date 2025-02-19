@@ -1,4 +1,4 @@
-package com.example.gameproject.entities.entities;
+package com.example.gameproject.entities.enemies;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,18 +8,16 @@ import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.main.MainActivity;
 
+public enum Enemies implements BitmapMethods {
 
-public enum GameCharacters implements BitmapMethods {
-
-    PLAYER(R.drawable.boy_sprite_sheet);
-
-
+    MASKED_RAKKON(R.drawable.maskedrakoon_spriteshhets),
+    SKELETON(R.drawable.skeleton_spritesheet);
 
     private Bitmap spriteSheet;
     private Bitmap[][] sprites = new Bitmap[7][4];
 
 
-    GameCharacters(int resID) {
+    Enemies(int resID) {
         options.inScaled = false;
         spriteSheet = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
         for (int j = 0; j < sprites.length; j++)
@@ -34,6 +32,5 @@ public enum GameCharacters implements BitmapMethods {
     public Bitmap getSprite(int yPos, int xPos) {
         return sprites[yPos][xPos];
     }
-
 
 }

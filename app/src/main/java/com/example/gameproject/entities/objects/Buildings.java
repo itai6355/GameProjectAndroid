@@ -19,9 +19,9 @@ public enum Buildings implements BitmapMethods {
     HOUSE_SIX(304, 0, 64, 48, 39, 40, 18, 35);
 
 
-    Bitmap houseImg;
-    PointF doorwayPoint;
-    int hitboxRoof, hitboxFloor, hitboxHeight, hitboxWidth;
+    final Bitmap houseImg;
+    final PointF doorwayPoint;
+    final int hitboxRoof, hitboxFloor, hitboxHeight, hitboxWidth;
 
 
     Buildings(int x, int y, int width, int height, int doorwayX, int doorwayY, int hitboxRoof, int hitboxFloor) {

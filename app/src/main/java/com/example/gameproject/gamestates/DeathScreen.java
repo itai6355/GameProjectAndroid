@@ -3,6 +3,7 @@ package com.example.gameproject.gamestates;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
@@ -15,17 +16,18 @@ public class DeathScreen extends BaseState implements GameStateInterface {
 
     private CustomButton buttonReplay, buttonMainMenu;
 
-    private int menuX = MainActivity.GAME_WIDTH / 6;
-    private int menuY = 200;
+    private int menuX = MainActivity.GAME_WIDTH / 2 - GameImages.MENU.getImage().getWidth() / 2;
+    private int menuY = MainActivity.GAME_HEIGHT / 2 - GameImages.MENU.getImage().getHeight() / 2;
 
-    private int buttonsX = menuX + GameImages.DEATH_MENU_MENUBG.getImage().getWidth() / 2 - ButtonImages.MENU_START.getWidth() / 2;
-    private int buttonReplayY = menuY + 200, buttonMainMenuY = buttonReplayY + 150;
+    private int buttonsX = menuX + GameImages.MENU.getImage().getWidth() / 2 - ButtonImages.MENU_START.getWidth() / 2 - 2 * GameConstants.Sprite.X_DRAW_OFFSET;
+    private int buttonReplayY = menuY + ButtonImages.MENU_START.getHeight(),
+            buttonMainMenuY = buttonReplayY + GameConstants.Sprite.SCALE_MULTIPLIER * GameConstants.Sprite.Y_DRAW_OFFSET;
 
 
     public DeathScreen(Game game) {
         super(game);
-        buttonReplay = new CustomButton(buttonsX, buttonReplayY, ButtonImages.MENU_REPLAY.getWidth(), ButtonImages.MENU_REPLAY.getHeight());
-        buttonMainMenu = new CustomButton(buttonsX, buttonMainMenuY, ButtonImages.MENU_MENU.getWidth(), ButtonImages.MENU_MENU.getHeight());
+        buttonReplay = new CustomButton(buttonsX, buttonReplayY, ButtonImages.EMPTY.getWidth(), ButtonImages.EMPTY.getHeight());
+        buttonMainMenu = new CustomButton(buttonsX, buttonMainMenuY, ButtonImages.EMPTY.getWidth(), ButtonImages.EMPTY.getHeight());
     }
 
 
@@ -36,19 +38,19 @@ public class DeathScreen extends BaseState implements GameStateInterface {
     }
 
     private void drawButtons(Canvas canvas) {
-        canvas.drawBitmap(ButtonImages.MENU_REPLAY.getBtnImg(buttonReplay.isPushed()),
+        canvas.drawBitmap(ButtonImages.EMPTY.getBtnImg(buttonReplay.isPushed()),
                 buttonReplay.getHitbox().left,
                 buttonReplay.getHitbox().top,
                 null);
 
-        canvas.drawBitmap(ButtonImages.MENU_MENU.getBtnImg(buttonMainMenu.isPushed()),
+        canvas.drawBitmap(ButtonImages.EMPTY.getBtnImg(buttonMainMenu.isPushed()),
                 buttonMainMenu.getHitbox().left,
                 buttonMainMenu.getHitbox().top,
                 null);
     }
 
     private void drawBackground(Canvas canvas) {
-        canvas.drawBitmap(GameImages.DEATH_MENU_MENUBG.getImage(),
+        canvas.drawBitmap(GameImages.MENU.getImage(),
                 menuX, menuY, null);
     }
 

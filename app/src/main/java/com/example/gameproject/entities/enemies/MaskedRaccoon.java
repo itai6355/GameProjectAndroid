@@ -2,25 +2,39 @@ package com.example.gameproject.entities.enemies;
 
 import android.graphics.PointF;
 
-import com.example.gameproject.entities.entities.Character;
-import com.example.gameproject.entities.entities.GameCharacters;
+import com.example.gameproject.entities.items.Item;
+import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 
-public class MaskedRaccoon extends Character {
+import java.util.ArrayList;
+import java.util.Random;
+
+public class MaskedRaccoon extends Enemy {
+
+    private long lastDirChange = System.currentTimeMillis();
+    private Random rand = new Random();
 
 
     public MaskedRaccoon(PointF pos) {
-        super(pos, GameCharacters.MASKED_RAKKON);
-        setStartHealth(300);
+        super(pos, Enemies.MASKED_RAKKON);
+        setStartHealth(50);
+        AddLoot(getKilledLoot());
     }
 
     public void update(double delta, GameMap gameMap) {
+        updateMove(delta, gameMap);
+        updateAnimation();
 
     }
 
     private void updateMove(double delta, GameMap gameMap) {
+
+        if (System.currentTimeMillis() - lastDirChange >= 3000) {
+            faceDir = rand.nextInt(4);
+            lastDirChange = System.currentTimeMillis();
+        }
 
         float deltaChange = (float) (delta * 300);
 
@@ -60,4 +74,11 @@ public class MaskedRaccoon extends Character {
     }
 
 
+    @Override
+    public void AddLoot(ArrayList<Item> KilledLoot) {
+        KilledLoot.add(new Item(Items.COIN, new PointF(this.hitbox.left, this.hitbox.top)));
+        KilledLoot.add(new Item(Items.COIN, new PointF(this.hitbox.left, this.hitbox.top)));
+        KilledLoot.add(new Item(Items.COIN, new PointF(this.hitbox.left, this.hitbox.top)));
+        KilledLoot.add(new Item(Items.COIN, new PointF(this.hitbox.left, this.hitbox.top)));
+    }
 }

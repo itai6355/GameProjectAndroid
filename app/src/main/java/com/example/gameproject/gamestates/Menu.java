@@ -1,9 +1,11 @@
 package com.example.gameproject.gamestates;
 
-import android.graphics.Canvas;
+import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
+import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
@@ -16,11 +18,11 @@ public class Menu extends BaseState implements GameStateInterface {
 
     private CustomButton btnStart;
 
-    private int menuX = MainActivity.GAME_WIDTH / 6;
-    private int menuY = 200;
+    private int menuX = GAME_WIDTH / 2 - GameImages.MENU.getImage().getWidth() / 2;
+    private int menuY = MainActivity.GAME_HEIGHT / 2 - GameImages.MENU.getImage().getHeight() / 2;
 
-    private int btnStartX = menuX + GameImages.MAINMENU_MENUBG.getImage().getWidth() / 2 - ButtonImages.MENU_START.getWidth() / 2;
-    private int btnStartY = menuY + 100;
+    private int btnStartX = menuX + GameImages.MENU.getImage().getWidth() / 2 - ButtonImages.MENU_START.getWidth() / 2 - 2 * GameConstants.Sprite.X_DRAW_OFFSET;
+    private int btnStartY = menuY + ButtonImages.MENU_START.getHeight();
 
     public Menu(Game game) {
         super(game);
@@ -34,8 +36,13 @@ public class Menu extends BaseState implements GameStateInterface {
 
     @Override
     public void render(Canvas canvas) {
+
         canvas.drawBitmap(
-                GameImages.MAINMENU_MENUBG.getImage(),
+                GameImages.BACKGRAWND.getImage(), 0, 0, null);
+
+
+        canvas.drawBitmap(
+                GameImages.MENU.getImage(),
                 menuX,
                 menuY,
                 null);

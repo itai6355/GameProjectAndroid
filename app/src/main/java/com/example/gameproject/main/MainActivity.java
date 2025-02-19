@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static Context gameContext;
     public static int GAME_WIDTH, GAME_HEIGHT;
-    private static final boolean DrawHitbox = true;
+    private static final boolean DrawHitbox = false;
 
     private static final int GameStateTemp = 3;
 

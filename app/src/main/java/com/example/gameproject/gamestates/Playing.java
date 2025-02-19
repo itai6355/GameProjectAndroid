@@ -12,11 +12,14 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-import com.example.gameproject.entities.entities.Character;
-import com.example.gameproject.entities.entities.Entity;
-import com.example.gameproject.entities.entities.Player;
+import com.example.gameproject.entities.Entity;
+import com.example.gameproject.entities.enemies.Enemy;
+import com.example.gameproject.entities.enemies.MaskedRaccoon;
 import com.example.gameproject.entities.enemies.Skeleton;
+import com.example.gameproject.entities.entities.Character;
+import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Item;
+import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.Weapons;
@@ -87,18 +90,27 @@ public class Playing extends BaseState implements GameStateInterface {
         player.update(delta, movePlayer);
         mapManager.setCameraValues(cameraX, cameraY);
         checkForDoorway();
-
-
         if (player.isAttacking()) if (!player.isAttackChecked()) checkPlayerAttack();
 
         if (mapManager.getCurrentMap().getSkeletonArrayList() != null)
             for (Character character : mapManager.getCurrentMap().getSkeletonArrayList()) {
-                if (character instanceof Skeleton skeleton)
-                    updateSkeleton(delta, skeleton);
+                if (character instanceof Enemy enemy) {
+                    if (enemy instanceof Skeleton skeleton)
+                        updateSkeleton(delta, skeleton);
+                    if (enemy instanceof MaskedRaccoon maskedRaccoon)
+                        updateMaskedRakoon(delta, maskedRaccoon);
+                }
             }
 
 
         sortArray();
+
+    }
+
+    private void updateMaskedRakoon(double delta, MaskedRaccoon maskedRaccoon) {
+        if (maskedRaccoon.isActive()) {
+            maskedRaccoon.update(delta, mapManager.getCurrentMap());
+        }
 
     }
 
@@ -186,13 +198,15 @@ public class Playing extends BaseState implements GameStateInterface {
                     character.damageCharacter(player.getDamage());
 
 
-                    if (character.getCurrentHealth() <= 0) {
-                        if (character instanceof Skeleton skeleton)
-                            skeleton.setInactive();
+                    if (character instanceof Enemy enemy) {
+                        if (enemy.getCurrentHealth() <= 0) {
+                            enemy.setInactive();
+                            //TODO: fix (not showing the medicPack):
+                            mapManager.getCurrentMap().getItemArrayList().addAll(enemy.getKilledLoot());
+                        }
                     }
 
                 }
-
 
         player.setAttackChecked(true);
     }
@@ -208,19 +222,23 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void drawSortedEntities(Canvas canvas) {
-        for (Entity e : listOfDrawables) {
-            if (e instanceof Skeleton skeleton) {
-                if (skeleton.isActive()) drawCharacter(canvas, skeleton);
-            } else if (e instanceof GameObject gameObject) {
-                mapManager.drawObject(canvas, gameObject);
-            } else if (e instanceof Building building) {
-                mapManager.drawBuilding(canvas, building);
-            } else if (e instanceof Item item) {
-                mapManager.drawItem(canvas, item);
-            } else if (e instanceof Player) {
-                drawPlayer(canvas);
+            for (Entity e : listOfDrawables) {
+                if (e instanceof Enemy enemy) {
+                    if (enemy instanceof Skeleton skeleton) {
+                        if (skeleton.isActive()) drawCharacter(canvas, skeleton);
+                    } else if (enemy instanceof MaskedRaccoon maskedRaccoon) {
+                        if (maskedRaccoon.isActive()) drawCharacter(canvas, maskedRaccoon);
+                    }
+                } else if (e instanceof GameObject gameObject) {
+                    mapManager.drawObject(canvas, gameObject);
+                } else if (e instanceof Building building) {
+                    mapManager.drawBuilding(canvas, building);
+                } else if (e instanceof Item item) {
+                    mapManager.drawItem(canvas, item);
+                } else if (e instanceof Player) {
+                    drawPlayer(canvas);
+                }
             }
-        }
     }
 
 
@@ -259,7 +277,7 @@ public class Playing extends BaseState implements GameStateInterface {
 
     public void drawCharacter(Canvas canvas, Character character) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
-        canvas.drawBitmap(character.getGameCharType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
+        canvas.drawBitmap(character.getEnemyType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
         if (MainActivity.getDrawHitbox())
             canvas.drawRect(character.getHitbox().left + cameraX,
                     character.getHitbox().top + cameraY,

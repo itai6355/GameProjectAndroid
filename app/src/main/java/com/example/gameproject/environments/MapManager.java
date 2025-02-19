@@ -5,6 +5,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 
 import com.example.gameproject.entities.items.Item;
+import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.Buildings;
 import com.example.gameproject.entities.objects.GameObject;
@@ -16,6 +17,7 @@ import com.example.gameproject.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MapManager {
 
@@ -57,7 +59,10 @@ public class MapManager {
     }
 
     public void drawItem(Canvas canvas, Item item) {
-        canvas.drawBitmap(item.getItemType().getImage(), item.getHitbox().left + cameraX, item.getHitbox().top + cameraY, null);
+        if (!item.getItemType().isAni())
+            canvas.drawBitmap(item.getItemType().getImage(), item.getHitbox().left + cameraX, item.getHitbox().top + cameraY, null);
+        else
+            canvas.drawBitmap(item.getItemType().getImage(item.getAniIndex(item.getItemType())), item.getHitbox().left + cameraX, item.getHitbox().top + cameraY, null);
     }
 
     public void drawObject(Canvas canvas, GameObject gameObject) {
@@ -190,7 +195,12 @@ public class MapManager {
         buildingArrayListStarter.add(new Building(new PointF(200, 200), Buildings.HOUSE_ONE));
 
 
-        GameMap insideMap = new GameMap(insideArray, Tiles.INSIDE, null, null, HelpMethods.GetSkeletonsRandomized(2, insideArray), null);
+        CopyOnWriteArrayList<Item> itemArrayList = new CopyOnWriteArrayList<>();
+        itemArrayList.add(new Item(Items.COIN, new PointF(0, 0)));
+
+
+        GameMap insideMap = new GameMap(insideArray, Tiles.INSIDE,
+                new ArrayList<>(), new ArrayList<>(), HelpMethods.GetSkeletonsRandomized(2, insideArray), null);
         GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, Tiles.INSIDE, null, null, null, null);
         GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE, null, null, null, null);
 
@@ -200,7 +210,7 @@ public class MapManager {
             case 2 ->
                     new GameMap(outsideArrayStarter, Tiles.OUTSIDE, buildingArrayListStarter, null, HelpMethods.GetSkeletonsRandomized(5, outsideArrayStarter), null);
             case 3 ->
-                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(3, outsideArrayFinal), null);
+                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(3, outsideArrayFinal), itemArrayList);
             default ->
                     new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(5, outsideArrayFinal), null);
         };

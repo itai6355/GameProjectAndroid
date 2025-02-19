@@ -1,6 +1,9 @@
 package com.example.gameproject.ui;
 
 
+import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
+import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -11,15 +14,23 @@ import com.example.gameproject.main.MainActivity;
 
 public enum GameImages implements BitmapMethods {
 
+    SETTING_MENU(R.drawable.setting_menu, 0, 0, 118, 144),
+    MENU(R.drawable.setting_menu, 138, 0, 118, 144),
+    BACKGRAWND(R.drawable.backgrawnd);
 
-    MAINMENU_MENUBG(R.drawable.mainmenu_menubackground),
-    DEATH_MENU_MENUBG(R.drawable.menu_youdied_background);
+    private final Bitmap atlas;
+    private Bitmap image;
 
-    private final Bitmap image;
+    GameImages(int resID, int x, int y, int width, int height) {
+        options.inScaled = false;
+        atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
+        image = getScaledBitmap(Bitmap.createBitmap(atlas, x, y, width, height));
+    }
 
     GameImages(int resID) {
         options.inScaled = false;
-        image = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
+        atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
+        image = Bitmap.createScaledBitmap(atlas, GAME_WIDTH, GAME_HEIGHT, false);
     }
 
     public Bitmap getImage() {

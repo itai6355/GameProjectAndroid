@@ -3,16 +3,17 @@ package com.example.gameproject.entities.enemies;
 import android.graphics.PointF;
 
 
-import com.example.gameproject.entities.entities.Character;
-import com.example.gameproject.entities.entities.GameCharacters;
 import com.example.gameproject.entities.entities.Player;
+import com.example.gameproject.entities.items.Item;
+import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Skeleton extends Character {
+public class Skeleton extends Enemy {
     private long lastDirChange = System.currentTimeMillis();
     private Random rand = new Random();
     private boolean moving = true, preparingAttack;
@@ -21,8 +22,9 @@ public class Skeleton extends Character {
 
 
     public Skeleton(PointF pos) {
-        super(pos, GameCharacters.SKELETON);
+        super(pos, Enemies.SKELETON);
         setStartHealth(100);
+        AddLoot(getKilledLoot());
     }
 
     public void update(double delta, GameMap gameMap) {
@@ -124,4 +126,14 @@ public class Skeleton extends Character {
         return preparingAttack;
     }
 
+    @Override
+    public void AddLoot(ArrayList<Item> KilledLoot) {
+        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
+        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
+        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
+        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
+        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
+        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
+
+    }
 }

@@ -5,6 +5,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 
 
+import com.example.gameproject.entities.enemies.MaskedRaccoon;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.objects.GameObject;
@@ -54,16 +55,22 @@ public class HelpMethods {
         int width = (gameMapArray[0].length - 1) * GameConstants.Sprite.SIZE;
         int height = (gameMapArray.length - 1) * GameConstants.Sprite.SIZE;
 
-        ArrayList<Character> skeletonArrayList = new ArrayList<>();
+        ArrayList<Character> enemyArrayList = new ArrayList<>();
 
         for (int i = 0; i < amount; i++) {
             float x = (float) (Math.random() * width);
             float y = (float) (Math.random() * height);
-            skeletonArrayList.add(new Skeleton(new PointF(x, y)));
+            enemyArrayList.add(new Skeleton(new PointF(x, y)));
+        }
+
+        for (int i = 0; i < 5; i++) {
+            float x = (float) (Math.random() * width);
+            float y = (float) (Math.random() * height);
+            enemyArrayList.add(new MaskedRaccoon(new PointF(x,y)));
         }
 
 
-        return skeletonArrayList;
+        return enemyArrayList;
 
     }
 

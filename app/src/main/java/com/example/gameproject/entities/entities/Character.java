@@ -7,6 +7,8 @@ import static com.example.gameproject.helpers.GameConstants.Sprite.Y_DRAW_OFFSET
 import android.graphics.PointF;
 import android.graphics.RectF;
 
+import com.example.gameproject.entities.Entity;
+import com.example.gameproject.entities.enemies.Enemies;
 import com.example.gameproject.entities.objects.Weapons;
 import com.example.gameproject.helpers.GameConstants;
 
@@ -14,6 +16,7 @@ public abstract class Character extends Entity {
     protected int aniTick, aniIndex;
     protected int faceDir = GameConstants.Face_Dir.DOWN;
     protected final GameCharacters gameCharType;
+    protected final Enemies EnemyType;
     protected boolean attacking, attackChecked;
     private RectF attackBox = null;
     private int attackDamage;
@@ -24,6 +27,16 @@ public abstract class Character extends Entity {
     public Character(PointF pos, GameCharacters gameCharType) {
         super(pos, HITBOX_SIZE, HITBOX_SIZE);
         this.gameCharType = gameCharType;
+        this.EnemyType = null;
+        attackDamage = setAttackDamage();
+        updateWepHitbox();
+
+    }
+
+    public Character(PointF pos, Enemies EnemyType) {
+        super(pos, HITBOX_SIZE, HITBOX_SIZE);
+        this.EnemyType = EnemyType;
+        this.gameCharType = null;
         attackDamage = setAttackDamage();
         updateWepHitbox();
 
@@ -42,12 +55,17 @@ public abstract class Character extends Entity {
         this.currentHealth -= damage;
     }
 
+    public boolean isEnemy() {
+        return EnemyType != null;
+    }
+
     private int setAttackDamage() {
-        return switch (gameCharType) {
-            case PLAYER -> 50;
-            case SKELETON -> 25;
-            case MASKED_RAKKON -> 0;
-        };
+        if (isEnemy())
+            return switch (EnemyType) {
+                case SKELETON -> 25;
+                case MASKED_RAKKON -> 0;
+            };
+        else return 50;
     }
 
     protected void updateAnimation() {
@@ -80,6 +98,10 @@ public abstract class Character extends Entity {
 
     public GameCharacters getGameCharType() {
         return gameCharType;
+    }
+
+    public Enemies getEnemyType() {
+        return EnemyType;
     }
 
     public void updateWepHitbox() {
@@ -197,5 +219,7 @@ public abstract class Character extends Entity {
     public void setInactive() {
         active = false;
     }
+
+
 }
 

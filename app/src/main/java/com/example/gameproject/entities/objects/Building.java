@@ -2,7 +2,7 @@ package com.example.gameproject.entities.objects;
 
 import android.graphics.PointF;
 
-import com.example.gameproject.entities.entities.Entity;
+import com.example.gameproject.entities.Entity;
 
 public class Building extends Entity {
 
