@@ -35,7 +35,7 @@ public enum Items implements BitmapMethods {
         this.amount = 1;
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
         images = new Bitmap[1];
-        images[0] = atlas;
+        images[0] = getScaledBitmap(atlas);
     }
 
 

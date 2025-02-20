@@ -2,13 +2,11 @@ package com.example.gameproject.entities.enemies;
 
 import android.graphics.PointF;
 
-import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class MaskedRaccoon extends Enemy {
@@ -20,7 +18,7 @@ public class MaskedRaccoon extends Enemy {
     public MaskedRaccoon(PointF pos) {
         super(pos, Enemies.MASKED_RAKKON);
         setStartHealth(50);
-        AddLoot(getKilledLoot());
+        AddLootTypes();
     }
 
     public void update(double delta, GameMap gameMap) {
@@ -75,10 +73,8 @@ public class MaskedRaccoon extends Enemy {
 
 
     @Override
-    public void AddLoot(ArrayList<Item> KilledLoot) {
-        KilledLoot.add(new Item(Items.COIN, new PointF(this.hitbox.left, this.hitbox.top)));
-        KilledLoot.add(new Item(Items.COIN, new PointF(this.hitbox.left, this.hitbox.top)));
-        KilledLoot.add(new Item(Items.COIN, new PointF(this.hitbox.left, this.hitbox.top)));
-        KilledLoot.add(new Item(Items.COIN, new PointF(this.hitbox.left, this.hitbox.top)));
+    public void AddLootTypes() {
+        KilledLoot.add(Items.COIN);
+
     }
 }

@@ -19,7 +19,6 @@ import com.example.gameproject.entities.enemies.Skeleton;
 import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Item;
-import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.Weapons;
@@ -95,8 +94,7 @@ public class Playing extends BaseState implements GameStateInterface {
         if (mapManager.getCurrentMap().getSkeletonArrayList() != null)
             for (Character character : mapManager.getCurrentMap().getSkeletonArrayList()) {
                 if (character instanceof Enemy enemy) {
-                    if (enemy instanceof Skeleton skeleton)
-                        updateSkeleton(delta, skeleton);
+                    if (enemy instanceof Skeleton skeleton) updateSkeleton(delta, skeleton);
                     if (enemy instanceof MaskedRaccoon maskedRaccoon)
                         updateMaskedRakoon(delta, maskedRaccoon);
                 }
@@ -176,8 +174,7 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void checkPlayerDead() {
-        if (player.getCurrentHealth() > 0)
-            return;
+        if (player.getCurrentHealth() > 0) return;
 
         game.setCurrentGameState(Game.GameState.DEATH_SCREEN);
         player.resetCharacterHealth();
@@ -196,13 +193,13 @@ public class Playing extends BaseState implements GameStateInterface {
             for (Character character : mapManager.getCurrentMap().getSkeletonArrayList())
                 if (attackBoxWithoutCamera.intersects(character.getHitbox().left, character.getHitbox().top, character.getHitbox().right, character.getHitbox().bottom)) {
                     character.damageCharacter(player.getDamage());
-
-
                     if (character instanceof Enemy enemy) {
                         if (enemy.getCurrentHealth() <= 0) {
                             enemy.setInactive();
-                            //TODO: fix (not showing the medicPack):
-                            mapManager.getCurrentMap().getItemArrayList().addAll(enemy.getKilledLoot());
+                            if (!enemy.isAddedLoot()) {
+                                mapManager.getCurrentMap().getItemArrayList().addAll(enemy.getLoot(new PointF(enemy.getHitbox().left, enemy.getHitbox().top)));
+                                enemy.setAddedLoot(true);
+                            }
                         }
                     }
 
@@ -215,38 +212,36 @@ public class Playing extends BaseState implements GameStateInterface {
     @Override
     public void render(Canvas canvas) {
         mapManager.drawTiles(canvas);
-        if (listOfEntitiesMade)
-            drawSortedEntities(canvas);
+        if (listOfEntitiesMade) drawSortedEntities(canvas);
 
         playingUI.draw(canvas);
     }
 
     private void drawSortedEntities(Canvas canvas) {
-            for (Entity e : listOfDrawables) {
-                if (e instanceof Enemy enemy) {
-                    if (enemy instanceof Skeleton skeleton) {
-                        if (skeleton.isActive()) drawCharacter(canvas, skeleton);
-                    } else if (enemy instanceof MaskedRaccoon maskedRaccoon) {
-                        if (maskedRaccoon.isActive()) drawCharacter(canvas, maskedRaccoon);
-                    }
-                } else if (e instanceof GameObject gameObject) {
-                    mapManager.drawObject(canvas, gameObject);
-                } else if (e instanceof Building building) {
-                    mapManager.drawBuilding(canvas, building);
-                } else if (e instanceof Item item) {
-                    mapManager.drawItem(canvas, item);
-                } else if (e instanceof Player) {
-                    drawPlayer(canvas);
+        for (Entity e : listOfDrawables) {
+            if (e instanceof Enemy enemy) {
+                if (enemy instanceof Skeleton skeleton) {
+                    if (skeleton.isActive()) drawCharacter(canvas, skeleton);
+                } else if (enemy instanceof MaskedRaccoon maskedRaccoon) {
+                    if (maskedRaccoon.isActive()) drawCharacter(canvas, maskedRaccoon);
                 }
+            } else if (e instanceof GameObject gameObject) {
+                mapManager.drawObject(canvas, gameObject);
+            } else if (e instanceof Building building) {
+                mapManager.drawBuilding(canvas, building);
+            } else if (e instanceof Item item) {
+                mapManager.drawItem(canvas, item);
+            } else if (e instanceof Player) {
+                drawPlayer(canvas);
             }
+        }
     }
 
 
     private void drawPlayer(Canvas canvas) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), player.getHitbox().left, player.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
         canvas.drawBitmap(player.getGameCharType().getSprite(player.getAniIndex(), player.getFaceDir()), player.getHitbox().left - X_DRAW_OFFSET, player.getHitbox().top - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-        if (MainActivity.getDrawHitbox())
-            canvas.drawRect(player.getHitbox(), redPaint);
+        if (MainActivity.getDrawHitbox()) canvas.drawRect(player.getHitbox(), redPaint);
         if (player.isAttacking()) drawWeapon(canvas, player);
     }
 
@@ -255,8 +250,7 @@ public class Playing extends BaseState implements GameStateInterface {
         canvas.rotate(character.getWepRot(), character.getAttackBox().left, character.getAttackBox().top);
         canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + character.wepRotAdjustLeft(), character.getAttackBox().top + character.wepRotAdjustTop(), null);
         canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left, character.getAttackBox().top);
-        if (MainActivity.getDrawHitbox())
-            canvas.drawRect(character.getAttackBox(), redPaint);
+        if (MainActivity.getDrawHitbox()) canvas.drawRect(character.getAttackBox(), redPaint);
     }
 
     private void drawEnemyWeapon(Canvas canvas, Character character) {
@@ -267,11 +261,7 @@ public class Playing extends BaseState implements GameStateInterface {
             // TODO:      not true ): need fix!
             // when weapon is facing left or up, the hitbox is bigger.
             // not effecting the game and real hitbox IDK why.
-            canvas.drawRect(character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(),
-                    character.getAttackBox().top + cameraY + character.wepRotAdjustTop(),
-                    character.getAttackBox().right + cameraX,
-                    character.getAttackBox().bottom + cameraY,
-                    redPaint);
+            canvas.drawRect(character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), character.getAttackBox().right + cameraX, character.getAttackBox().bottom + cameraY, redPaint);
     }
 
 
@@ -279,13 +269,8 @@ public class Playing extends BaseState implements GameStateInterface {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
         canvas.drawBitmap(character.getEnemyType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
         if (MainActivity.getDrawHitbox())
-            canvas.drawRect(character.getHitbox().left + cameraX,
-                    character.getHitbox().top + cameraY,
-                    character.getHitbox().right + cameraX,
-                    character.getHitbox().bottom + cameraY,
-                    redPaint);
-        if (character.isAttacking())
-            drawEnemyWeapon(canvas, character);
+            canvas.drawRect(character.getHitbox().left + cameraX, character.getHitbox().top + cameraY, character.getHitbox().right + cameraX, character.getHitbox().bottom + cameraY, redPaint);
+        if (character.isAttacking()) drawEnemyWeapon(canvas, character);
 
         if (character.getCurrentHealth() < character.getMaxHealth())
             drawHealthBar(canvas, character);
@@ -294,10 +279,7 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void drawHealthBar(Canvas canvas, Character character) {
-        canvas.drawLine(character.getHitbox().left + cameraX,
-                character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER,
-                character.getHitbox().right + cameraX,
-                character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, healthBarBlack);
+        canvas.drawLine(character.getHitbox().left + cameraX, character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, character.getHitbox().right + cameraX, character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, healthBarBlack);
 
         float fullBarWidth = character.getHitbox().width();
         float percentOfMaxHealth = (float) character.getCurrentHealth() / character.getMaxHealth();
@@ -305,10 +287,7 @@ public class Playing extends BaseState implements GameStateInterface {
         float xDelta = (fullBarWidth - barWidth) / 2.0f;
 
 
-        canvas.drawLine(character.getHitbox().left + cameraX + xDelta,
-                character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER,
-                character.getHitbox().left + cameraX + xDelta + barWidth,
-                character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, healthBarRed);
+        canvas.drawLine(character.getHitbox().left + cameraX + xDelta, character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, character.getHitbox().left + cameraX + xDelta + barWidth, character.getHitbox().top + cameraY - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, healthBarRed);
     }
 
     private void updatePlayerMove(double delta) {
@@ -375,5 +354,10 @@ public class Playing extends BaseState implements GameStateInterface {
 
     public PlayingUI getPlayingUI() {
         return playingUI;
+    }
+
+
+    public void setGameStateToSettings() {
+        game.setCurrentGameState(Game.GameState.SETTINGS);
     }
 }

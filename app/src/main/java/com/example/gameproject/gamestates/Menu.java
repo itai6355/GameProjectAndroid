@@ -18,11 +18,12 @@ public class Menu extends BaseState implements GameStateInterface {
 
     private CustomButton btnStart;
 
+
     private int menuX = GAME_WIDTH / 2 - GameImages.MENU.getImage().getWidth() / 2;
     private int menuY = MainActivity.GAME_HEIGHT / 2 - GameImages.MENU.getImage().getHeight() / 2;
 
-    private int btnStartX = menuX + GameImages.MENU.getImage().getWidth() / 2 - ButtonImages.MENU_START.getWidth() / 2 - 2 * GameConstants.Sprite.X_DRAW_OFFSET;
-    private int btnStartY = menuY + ButtonImages.MENU_START.getHeight();
+    private int btnStartX = (menuX + GameImages.MENU.getImage().getWidth() / 2 - ButtonImages.MENU_START.getWidth() / 2 - (int) (Math.PI - 0.45) * GameConstants.Sprite.X_DRAW_OFFSET);
+    private int btnStartY = menuY + (int) 5.5f * GameConstants.Sprite.Y_DRAW_OFFSET;
 
     public Menu(Game game) {
         super(game);

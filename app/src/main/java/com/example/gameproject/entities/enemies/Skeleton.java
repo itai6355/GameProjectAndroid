@@ -2,15 +2,12 @@ package com.example.gameproject.entities.enemies;
 
 import android.graphics.PointF;
 
-
 import com.example.gameproject.entities.entities.Player;
-import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Skeleton extends Enemy {
@@ -24,7 +21,7 @@ public class Skeleton extends Enemy {
     public Skeleton(PointF pos) {
         super(pos, Enemies.SKELETON);
         setStartHealth(100);
-        AddLoot(getKilledLoot());
+        AddLootTypes();
     }
 
     public void update(double delta, GameMap gameMap) {
@@ -127,13 +124,7 @@ public class Skeleton extends Enemy {
     }
 
     @Override
-    public void AddLoot(ArrayList<Item> KilledLoot) {
-        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
-        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
-        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
-        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
-        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
-        KilledLoot.add(new Item(Items.MEDIPACK, new PointF(this.hitbox.left, this.hitbox.top)));
-
+    public void AddLootTypes() {
+        KilledLoot.add(Items.MEDIPACK);
     }
 }

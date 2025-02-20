@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.gamestates.Playing;
+import com.example.gameproject.helpers.GameConstants;
 
 
 public class PlayingUI {
@@ -26,6 +27,8 @@ public class PlayingUI {
     private boolean touchDown;
 
     private CustomButton btnMenu;
+    private CustomButton btnSetting;
+
 
     private final Playing playing;
 
@@ -40,7 +43,8 @@ public class PlayingUI {
         circlePaint.setStrokeWidth(5);
         circlePaint.setStyle(Paint.Style.STROKE);
 
-        btnMenu = new CustomButton(5, 5, ButtonImages.PLAYING_MENU.getWidth(), ButtonImages.PLAYING_MENU.getHeight());
+        btnMenu = new CustomButton(0, 0, ButtonImages.PLAYING_MENU.getWidth(), ButtonImages.PLAYING_MENU.getHeight());
+        btnSetting = new CustomButton(ButtonImages.PLAYING_MENU.getWidth() + GameConstants.Sprite.DEFAULT_SIZE * GameConstants.Sprite.SCALE_MULTIPLIER, 0, ButtonImages.PLAYING_SETTING.getWidth(), ButtonImages.PLAYING_SETTING.getHeight());
 
     }
 
@@ -56,6 +60,11 @@ public class PlayingUI {
                 ButtonImages.PLAYING_MENU.getBtnImg(btnMenu.isPushed(btnMenu.getPointerId())),
                 btnMenu.getHitbox().left,
                 btnMenu.getHitbox().top,
+                null);
+        canvas.drawBitmap(
+                ButtonImages.PLAYING_SETTING.getBtnImg(btnSetting.isPushed(btnSetting.getPointerId())),
+                btnSetting.getHitbox().left,
+                btnSetting.getHitbox().top,
                 null);
 
         drawHealth(canvas);
@@ -126,6 +135,8 @@ public class PlayingUI {
                 } else {
                     if (isIn(eventPos, btnMenu))
                         btnMenu.setPushed(true, pointerId);
+                    else if (isIn(eventPos, btnSetting))
+                        btnSetting.setPushed(true, pointerId);
                 }
             }
 
@@ -143,12 +154,19 @@ public class PlayingUI {
                 if (pointerId == joystickPointerId) {
                     resetJoystickButton();
                 } else {
-                    if (isIn(eventPos, btnMenu))
+                    if (isIn(eventPos, btnMenu)) {
                         if (btnMenu.isPushed(pointerId)) {
                             resetJoystickButton();
                             playing.setGameStateToMenu();
                         }
+                    }else if (isIn(eventPos, btnSetting)){
+                        if (btnSetting.isPushed(pointerId)) {
+                            resetJoystickButton();
+                            playing.setGameStateToSettings();
+                        }
+                    }
                     btnMenu.unPush(pointerId);
+                    btnSetting.unPush(pointerId);
                     if (pointerId == attackBtnPointerId) {
                         playing.getPlayer().setAttacking(false);
                         attackBtnPointerId = -1;

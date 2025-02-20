@@ -8,13 +8,17 @@ import android.view.SurfaceHolder;
 import com.example.gameproject.gamestates.DeathScreen;
 import com.example.gameproject.gamestates.Menu;
 import com.example.gameproject.gamestates.Playing;
+import com.example.gameproject.gamestates.Setting;
 
 public class Game {
 
     private SurfaceHolder holder;
+
     private Menu menu;
     private Playing playing;
+    private Setting setting;
     private DeathScreen deathScreen;
+
     private GameLoop gameLoop;
     private GameState currentGameState = GameState.MENU;
 
@@ -29,26 +33,29 @@ public class Game {
             case MENU -> menu.update(delta);
             case PLAYING -> playing.update(delta);
             case DEATH_SCREEN -> deathScreen.update(delta);
+            case SETTINGS -> setting.update(delta);
         }
     }
 
     public void render() {
-        Canvas c = holder.lockCanvas();
-        c.drawColor(Color.BLACK);
+        Canvas canvas = holder.lockCanvas();
+        canvas.drawColor(Color.BLACK);
 
         switch (currentGameState) {
-            case MENU -> menu.render(c);
-            case PLAYING -> playing.render(c);
-            case DEATH_SCREEN -> deathScreen.render(c);
+            case MENU -> menu.render(canvas);
+            case PLAYING -> playing.render(canvas);
+            case DEATH_SCREEN -> deathScreen.render(canvas);
+            case SETTINGS -> setting.render(canvas);
         }
 
-        holder.unlockCanvasAndPost(c);
+        holder.unlockCanvasAndPost(canvas);
     }
 
     private void initGameStates() {
         menu = new Menu(this);
         playing = new Playing(this);
         deathScreen = new DeathScreen(this);
+        setting = new Setting(this);
     }
 
     public boolean touchEvent(MotionEvent event) {
@@ -56,6 +63,7 @@ public class Game {
             case MENU -> menu.touchEvents(event);
             case PLAYING -> playing.touchEvents(event);
             case DEATH_SCREEN -> deathScreen.touchEvents(event);
+            case SETTINGS -> setting.touchEvents(event);
         }
 
         return true;
@@ -66,7 +74,7 @@ public class Game {
     }
 
     public enum GameState {
-        MENU, PLAYING, DEATH_SCREEN;
+        MENU, PLAYING, DEATH_SCREEN, SETTINGS;
     }
 
     public GameState getCurrentGameState() {

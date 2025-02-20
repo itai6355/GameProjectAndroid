@@ -11,7 +11,6 @@ public class Item extends Entity {
 
     private final Items itemType;
     int aniIndex = 0;
-    float lastAni = System.currentTimeMillis();
 
     public Item(Items itemType, PointF pos) {
         super(pos, GameConstants.Sprite.DEFAULT_SIZE, GameConstants.Sprite.DEFAULT_SIZE);
