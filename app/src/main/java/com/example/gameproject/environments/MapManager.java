@@ -1,5 +1,9 @@
 package com.example.gameproject.environments;
 
+
+import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
+import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
+
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -13,7 +17,6 @@ import com.example.gameproject.entities.objects.GameObjects;
 import com.example.gameproject.gamestates.Playing;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
-import com.example.gameproject.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,7 +30,6 @@ public class MapManager {
 
 
     private Random random = new Random();
-    private final int temp = MainActivity.getGameStateTemp();
 
     public MapManager(Playing playing) {
         this.playing = playing;
@@ -91,8 +93,8 @@ public class MapManager {
     public void changeMap(Doorway doorwayTarget) {
         this.currentMap = doorwayTarget.getGameMapLocatedIn();
 
-        float cX = MainActivity.GAME_WIDTH / 2f - doorwayTarget.getPosOfDoorway().x + GameConstants.Sprite.HITBOX_SIZE / 2f;
-        float cY = MainActivity.GAME_HEIGHT / 2f - doorwayTarget.getPosOfDoorway().y + GameConstants.Sprite.HITBOX_SIZE / 2f;
+        float cX = GAME_WIDTH / 2f - doorwayTarget.getPosOfDoorway().x + GameConstants.Sprite.HITBOX_SIZE / 2f;
+        float cY = GAME_HEIGHT / 2f - doorwayTarget.getPosOfDoorway().y + GameConstants.Sprite.HITBOX_SIZE / 2f;
 
         playing.setCameraValues(new PointF(cX, cY));
         cameraX = cX;
@@ -204,44 +206,28 @@ public class MapManager {
         GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, Tiles.INSIDE, null, null, null, null);
         GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE, null, null, null, null);
 
-        GameMap outsideMap = switch (temp) {
-            case 1 ->
-                    new GameMap(outsideArrayEmpty, Tiles.OUTSIDE, null, null, HelpMethods.GetSkeletonsRandomized(7, outsideArrayEmpty), null);
-            case 2 ->
-                    new GameMap(outsideArrayStarter, Tiles.OUTSIDE, buildingArrayListStarter, null, HelpMethods.GetSkeletonsRandomized(5, outsideArrayStarter), null);
-            case 3 ->
-                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(3, outsideArrayFinal), itemArrayList);
-            default ->
-                    new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(5, outsideArrayFinal), null);
-        };
-
-        if (temp == 2) {
-            HelpMethods.ConnectTwoDoorways(
-                    outsideMap,
-                    HelpMethods.CreatePointForDoorway(outsideMap, 0),
-                    insideMap,
-                    HelpMethods.CreatePointForDoorway(3, 6));
-        } else if (temp == 3) {
-            HelpMethods.ConnectTwoDoorways(
-                    outsideMap,
-                    HelpMethods.CreatePointForDoorway(outsideMap, 0),
-                    insideMap,
-                    HelpMethods.CreatePointForDoorway(3, 6));
-
-            HelpMethods.ConnectTwoDoorways(
-                    outsideMap,
-                    HelpMethods.CreatePointForDoorway(outsideMap, 1),
-                    insideFlatRoofHouseMap,
-                    HelpMethods.CreatePointForDoorway(3, 6));
-
-            HelpMethods.ConnectTwoDoorways(
-                    outsideMap,
-                    HelpMethods.CreatePointForDoorway(outsideMap, 2),
-                    insideGreenRoofHouseMap,
-                    HelpMethods.CreatePointForDoorway(3, 6));
+        GameMap outsideMap =
+                new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(3, outsideArrayFinal), itemArrayList);
 
 
-        }
+        HelpMethods.ConnectTwoDoorways(
+                outsideMap,
+                HelpMethods.CreatePointForDoorway(outsideMap, 0),
+                insideMap,
+                HelpMethods.CreatePointForDoorway(3, 6));
+
+        HelpMethods.ConnectTwoDoorways(
+                outsideMap,
+                HelpMethods.CreatePointForDoorway(outsideMap, 1),
+                insideFlatRoofHouseMap,
+                HelpMethods.CreatePointForDoorway(3, 6));
+
+        HelpMethods.ConnectTwoDoorways(
+                outsideMap,
+                HelpMethods.CreatePointForDoorway(outsideMap, 2),
+                insideGreenRoofHouseMap,
+                HelpMethods.CreatePointForDoorway(3, 6));
+
         currentMap = outsideMap;
     }
 }

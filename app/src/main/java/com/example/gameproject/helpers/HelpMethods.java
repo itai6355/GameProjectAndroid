@@ -66,6 +66,7 @@ public class HelpMethods {
         for (int i = 0; i < 5; i++) {
             float x = (float) (Math.random() * width);
             float y = (float) (Math.random() * height);
+
             enemyArrayList.add(new MaskedRaccoon(new PointF(x,y)));
         }
 

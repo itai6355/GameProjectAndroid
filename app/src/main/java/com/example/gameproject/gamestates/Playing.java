@@ -28,6 +28,7 @@ import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
+import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.PlayingUI;
 
@@ -48,6 +49,8 @@ public class Playing extends BaseState implements GameStateInterface {
 
     public Playing(Game game) {
         super(game);
+
+        System.out.println("Coins amount: " + MainActivity.getDbHelper().getCoins(GameActivity.getUsername()));
 
         mapManager = new MapManager(this);
         calcStartCameraValues();
@@ -100,9 +103,17 @@ public class Playing extends BaseState implements GameStateInterface {
                 }
             }
 
+        updatePickedItems();
+
 
         sortArray();
 
+    }
+
+    private void updatePickedItems() {
+        for (Item item : mapManager.getCurrentMap().getItemArrayList()) {
+           //TODO: add picking items!!
+        }
     }
 
     private void updateMaskedRakoon(double delta, MaskedRaccoon maskedRaccoon) {
@@ -241,7 +252,7 @@ public class Playing extends BaseState implements GameStateInterface {
     private void drawPlayer(Canvas canvas) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), player.getHitbox().left, player.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
         canvas.drawBitmap(player.getGameCharType().getSprite(player.getAniIndex(), player.getFaceDir()), player.getHitbox().left - X_DRAW_OFFSET, player.getHitbox().top - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-        if (MainActivity.getDrawHitbox()) canvas.drawRect(player.getHitbox(), redPaint);
+        if (GameActivity.getDrawHitbox()) canvas.drawRect(player.getHitbox(), redPaint);
         if (player.isAttacking()) drawWeapon(canvas, player);
     }
 
@@ -250,14 +261,14 @@ public class Playing extends BaseState implements GameStateInterface {
         canvas.rotate(character.getWepRot(), character.getAttackBox().left, character.getAttackBox().top);
         canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + character.wepRotAdjustLeft(), character.getAttackBox().top + character.wepRotAdjustTop(), null);
         canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left, character.getAttackBox().top);
-        if (MainActivity.getDrawHitbox()) canvas.drawRect(character.getAttackBox(), redPaint);
+        if (GameActivity.getDrawHitbox()) canvas.drawRect(character.getAttackBox(), redPaint);
     }
 
     private void drawEnemyWeapon(Canvas canvas, Character character) {
         canvas.rotate(character.getWepRot(), character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
         canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), null);
         canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
-        if (MainActivity.getDrawHitbox())
+        if (GameActivity.getDrawHitbox())
             // TODO:      not true ): need fix!
             // when weapon is facing left or up, the hitbox is bigger.
             // not effecting the game and real hitbox IDK why.
@@ -268,7 +279,7 @@ public class Playing extends BaseState implements GameStateInterface {
     public void drawCharacter(Canvas canvas, Character character) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
         canvas.drawBitmap(character.getEnemyType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-        if (MainActivity.getDrawHitbox())
+        if (GameActivity.getDrawHitbox())
             canvas.drawRect(character.getHitbox().left + cameraX, character.getHitbox().top + cameraY, character.getHitbox().right + cameraX, character.getHitbox().bottom + cameraY, redPaint);
         if (character.isAttacking()) drawEnemyWeapon(canvas, character);
 
@@ -329,9 +340,6 @@ public class Playing extends BaseState implements GameStateInterface {
         }
     }
 
-    public void setGameStateToMenu() {
-        game.setCurrentGameState(Game.GameState.MENU);
-    }
 
     public void setPlayerMoveTrue(PointF lastTouchDiff) {
         movePlayer = true;
@@ -359,5 +367,8 @@ public class Playing extends BaseState implements GameStateInterface {
 
     public void setGameStateToSettings() {
         game.setCurrentGameState(Game.GameState.SETTINGS);
+    }
+    public void setGameStateToInventory() {
+        game.setCurrentGameState(Game.GameState.INVENTORY);
     }
 }

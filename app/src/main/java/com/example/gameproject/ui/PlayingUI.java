@@ -1,5 +1,6 @@
 package com.example.gameproject.ui;
 
+
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
@@ -11,7 +12,6 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.gamestates.Playing;
-import com.example.gameproject.helpers.GameConstants;
 
 
 public class PlayingUI {
@@ -26,13 +26,13 @@ public class PlayingUI {
     private int attackBtnPointerId = -1;
     private boolean touchDown;
 
-    private CustomButton btnMenu;
     private CustomButton btnSetting;
+    private CustomButton btnInventory;
 
 
     private final Playing playing;
 
-    private final int healthIconX = 150, healthIconY = 25;
+    private final int healthIconX = 350, healthIconY = 25;
 
 
     public PlayingUI(Playing playing) {
@@ -43,9 +43,9 @@ public class PlayingUI {
         circlePaint.setStrokeWidth(5);
         circlePaint.setStyle(Paint.Style.STROKE);
 
-        btnMenu = new CustomButton(0, 0, ButtonImages.PLAYING_MENU.getWidth(), ButtonImages.PLAYING_MENU.getHeight());
-        btnSetting = new CustomButton(ButtonImages.PLAYING_MENU.getWidth() + GameConstants.Sprite.DEFAULT_SIZE * GameConstants.Sprite.SCALE_MULTIPLIER, 0, ButtonImages.PLAYING_SETTING.getWidth(), ButtonImages.PLAYING_SETTING.getHeight());
 
+        btnSetting = new CustomButton(GAME_WIDTH - 230, 50, ButtonImages.PLAYING_SETTING.getWidth(), ButtonImages.PLAYING_SETTING.getHeight());
+        btnInventory = new CustomButton(GAME_WIDTH - 230, 70 + ButtonImages.PLAYING_SETTING.getHeight(), ButtonImages.PLAYING_MENU.getWidth(), ButtonImages.PLAYING_MENU.getHeight());
     }
 
     public void draw(Canvas canvas) {
@@ -56,20 +56,33 @@ public class PlayingUI {
         canvas.drawCircle(joystickCenterPos.x, joystickCenterPos.y, radius, circlePaint);
         canvas.drawCircle(attackBtnCenterPos.x, attackBtnCenterPos.y, radius, circlePaint);
 
-        canvas.drawBitmap(
-                ButtonImages.PLAYING_MENU.getBtnImg(btnMenu.isPushed(btnMenu.getPointerId())),
-                btnMenu.getHitbox().left,
-                btnMenu.getHitbox().top,
-                null);
-        canvas.drawBitmap(
-                ButtonImages.PLAYING_SETTING.getBtnImg(btnSetting.isPushed(btnSetting.getPointerId())),
-                btnSetting.getHitbox().left,
-                btnSetting.getHitbox().top,
-                null);
 
+        canvas.drawBitmap(GameImages.PLAYER_BOX.getImage(), 0, 0, null);
+        canvas.drawBitmap(GameImages.ICON_BOX.getImage(), 25, 25, null);
+        canvas.drawBitmap(playing.getPlayer().getIcon(), 65, 65, null);
+
+
+        drawButtons(canvas);
         drawHealth(canvas);
 
     }
+
+
+    private void drawButtons(Canvas canvas) {
+        canvas.drawBitmap(ButtonImages.PLAYING_SETTING.getBtnImg(btnSetting.isPushed(btnSetting.getPointerId())), btnSetting.getHitbox().left, btnSetting.getHitbox().top, null);
+
+
+        canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(btnInventory.isPushed(btnInventory.getPointerId())), btnInventory.getHitbox().left, btnInventory.getHitbox().top, null);
+
+        if (btnInventory.isPushed(btnInventory.getPointerId())) {
+            canvas.drawBitmap(ButtonImages.PLAYING_INVENTORY.getBtnImg(btnInventory.isPushed(btnInventory.getPointerId())), btnInventory.getHitbox().left + 20, btnInventory.getHitbox().top + 20, null);
+        } else {
+            canvas.drawBitmap(ButtonImages.PLAYING_INVENTORY.getBtnImg(btnInventory.isPushed(btnInventory.getPointerId())), btnInventory.getHitbox().left + 25, btnInventory.getHitbox().top + 40, null);
+
+        }
+
+    }
+
 
     private void drawHealth(Canvas canvas) {
         Player player = playing.getPlayer();
@@ -84,10 +97,8 @@ public class PlayingUI {
                     canvas.drawBitmap(HealthIcons.HEART_1Q.getIcon(), x, healthIconY, null);
                 else if (heartValue == 50)
                     canvas.drawBitmap(HealthIcons.HEART_HALF.getIcon(), x, healthIconY, null);
-                else
-                    canvas.drawBitmap(HealthIcons.HEART_3Q.getIcon(), x, healthIconY, null);
-            } else
-                canvas.drawBitmap(HealthIcons.HEART_FULL.getIcon(), x, healthIconY, null);
+                else canvas.drawBitmap(HealthIcons.HEART_3Q.getIcon(), x, healthIconY, null);
+            } else canvas.drawBitmap(HealthIcons.HEART_FULL.getIcon(), x, healthIconY, null);
         }
 
 
@@ -125,48 +136,44 @@ public class PlayingUI {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
-                if (checkInsideJoyStick(eventPos, pointerId))
-                    touchDown = true;
+                if (checkInsideJoyStick(eventPos, pointerId)) touchDown = true;
                 else if (checkInsideAttackBtn(eventPos)) {
                     if (attackBtnPointerId < 0) {
                         playing.getPlayer().setAttacking(true);
                         attackBtnPointerId = pointerId;
                     }
                 } else {
-                    if (isIn(eventPos, btnMenu))
-                        btnMenu.setPushed(true, pointerId);
-                    else if (isIn(eventPos, btnSetting))
-                        btnSetting.setPushed(true, pointerId);
+                    if (isIn(eventPos, btnSetting)) btnSetting.setPushed(true, pointerId);
+                    else if (isIn(eventPos, btnInventory)) btnInventory.setPushed(true, pointerId);
                 }
             }
 
             case MotionEvent.ACTION_MOVE -> {
-                if (touchDown)
-                    for (int i = 0; i < event.getPointerCount(); i++) {
-                        if (event.getPointerId(i) == joystickPointerId) {
-                            float xDiff = event.getX(i) - joystickCenterPos.x;
-                            float yDiff = event.getY(i) - joystickCenterPos.y;
-                            playing.setPlayerMoveTrue(new PointF(xDiff, yDiff));
-                        }
+                if (touchDown) for (int i = 0; i < event.getPointerCount(); i++) {
+                    if (event.getPointerId(i) == joystickPointerId) {
+                        float xDiff = event.getX(i) - joystickCenterPos.x;
+                        float yDiff = event.getY(i) - joystickCenterPos.y;
+                        playing.setPlayerMoveTrue(new PointF(xDiff, yDiff));
                     }
+                }
             }
             case MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
                 if (pointerId == joystickPointerId) {
                     resetJoystickButton();
                 } else {
-                    if (isIn(eventPos, btnMenu)) {
-                        if (btnMenu.isPushed(pointerId)) {
-                            resetJoystickButton();
-                            playing.setGameStateToMenu();
-                        }
-                    }else if (isIn(eventPos, btnSetting)){
+                    if (isIn(eventPos, btnSetting)) {
                         if (btnSetting.isPushed(pointerId)) {
                             resetJoystickButton();
                             playing.setGameStateToSettings();
                         }
+                    } else if (isIn(eventPos, btnInventory)) {
+                        if (btnInventory.isPushed(pointerId)) {
+                            resetJoystickButton();
+                            playing.setGameStateToInventory();
+                        }
                     }
-                    btnMenu.unPush(pointerId);
                     btnSetting.unPush(pointerId);
+                    btnInventory.unPush(pointerId);
                     if (pointerId == attackBtnPointerId) {
                         playing.getPlayer().setAttacking(false);
                         attackBtnPointerId = -1;

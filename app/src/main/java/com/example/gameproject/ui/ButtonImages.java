@@ -17,8 +17,11 @@ public enum ButtonImages implements BitmapMethods {
     SETTINGS_BACK(R.drawable.icons_ui, 837, 132, 869, 134, 22, 24, 22, 22),
 
     SETTINGS_VOLUMES(R.drawable.icons_ui, 406, 98, 406, 114, 4, 12, 4, 12),
+    PLAYING_INVENTORY(R.drawable.items_basic, 33, 84, 49, 81, 14, 11, 14, 14),
 
-    EMPTY(R.drawable.icons_ui, 275, 178, 275, 212, 90, 27, 90, 25);
+
+    EMPTY(R.drawable.icons_ui, 275, 178, 275, 212, 90, 27, 90, 25),
+    EMPTY_SMALL(R.drawable.icons_ui, 837, 4, 869, 6, 22, 24, 22, 22);
 
 
     private int width, height;
