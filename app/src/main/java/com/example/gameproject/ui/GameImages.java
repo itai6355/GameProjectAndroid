@@ -16,6 +16,8 @@ public enum GameImages implements BitmapMethods {
 
     SETTING_MENU(R.drawable.setting_menu, 0, 0, 118, 144),
     MENU(R.drawable.setting_menu, 138, 0, 118, 144),
+    SOUND_ICON(R.drawable.button_ui, 99, 162, 11, 11),
+    SILENT_ICON(R.drawable.button_ui, 115, 162, 11, 11),
     BACKGRAWND(R.drawable.backgrawnd);
 
     private final Bitmap atlas;
