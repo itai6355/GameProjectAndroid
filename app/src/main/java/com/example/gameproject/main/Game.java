@@ -77,20 +77,8 @@ public class Game {
         PLAYING, DEATH_SCREEN, SETTINGS, INVENTORY;
     }
 
-    public GameState getCurrentGameState() {
-        return currentGameState;
-    }
-
     public void setCurrentGameState(GameState gameState) {
         this.currentGameState = gameState;
     }
 
-
-    public Playing getPlaying() {
-        return playing;
-    }
-
-    public DeathScreen getDeathScreen() {
-        return deathScreen;
-    }
 }

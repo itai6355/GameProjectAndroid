@@ -38,7 +38,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
 
     @Override
     public void update(double delta) {
-
+        //TODO: get the inventory from the SQL and update it to the inventory array.
     }
 
     @Override
@@ -50,8 +50,6 @@ public class InventoryState extends BaseState implements GameStateInterface {
             }
         }
         canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), inventory[xCurrIndex][yCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, inventory[xCurrIndex][yCurrIndex].getY() - GameConstants.Sprite.SCALE_MULTIPLIER, null);
-
-
     }
 
     @Override

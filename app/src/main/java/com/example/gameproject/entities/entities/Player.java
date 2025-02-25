@@ -7,12 +7,18 @@ import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 
+import com.example.gameproject.DatabaseHelper;
 import com.example.gameproject.entities.items.Item;
+import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.main.GameActivity;
+import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.GameImages;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Character {
+
+    private DatabaseHelper dbHelper;
 
     private final CopyOnWriteArrayList<Item> inventory = new CopyOnWriteArrayList<>();
 
@@ -20,6 +26,7 @@ public class Player extends Character {
     public Player() {
         super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.PLAYER);
         setStartHealth(600);
+        dbHelper = MainActivity.getDbHelper();
     }
 
     public void update(double delta, boolean movePlayer) {
@@ -34,5 +41,9 @@ public class Player extends Character {
 
     public CopyOnWriteArrayList<Item> getInventory() {
         return inventory;
+    }
+
+    public void updateSQL() {
+        //TODO: set to the SQL to the arraylist
     }
 }

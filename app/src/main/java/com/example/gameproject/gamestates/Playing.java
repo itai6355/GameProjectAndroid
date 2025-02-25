@@ -50,8 +50,6 @@ public class Playing extends BaseState implements GameStateInterface {
     public Playing(Game game) {
         super(game);
 
-        System.out.println("Coins amount: " + MainActivity.getDbHelper().getCoins(GameActivity.getUsername()));
-
         mapManager = new MapManager(this);
         calcStartCameraValues();
 
@@ -87,6 +85,7 @@ public class Playing extends BaseState implements GameStateInterface {
 
     @Override
     public void update(double delta) {
+        System.out.println("Coins amount: " + MainActivity.getDbHelper().getCoins(GameActivity.getUsername()));
         buildEntityList();
         updatePlayerMove(delta);
         player.update(delta, movePlayer);
@@ -111,10 +110,23 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void updatePickedItems() {
-        for (Item item : mapManager.getCurrentMap().getItemArrayList()) {
-           //TODO: add picking items!!
-        }
+        for (Item item : mapManager.getCurrentMap().getItemArrayList())
+            if (isNear(player.getHitbox(), item.getHitbox()))
+                pickItem(player,item);
+
     }
+
+    private void pickItem(Player player, Item item) {
+        player.getInventory().add(item);
+        player.updateSQL();
+        mapManager.getCurrentMap().getItemArrayList().remove(item);
+
+    }
+
+    private boolean isNear(RectF in, RectF out) {
+
+        RectF playerHitbox = new RectF(in.left - cameraX, in.top - cameraY, in.right - cameraX, in.bottom - cameraY);
+        return playerHitbox.left < out.right && playerHitbox.right > out.left && playerHitbox.top < out.bottom && playerHitbox.bottom > out.top;    }
 
     private void updateMaskedRakoon(double delta, MaskedRaccoon maskedRaccoon) {
         if (maskedRaccoon.isActive()) {
@@ -136,7 +148,6 @@ public class Playing extends BaseState implements GameStateInterface {
                 }
             }
         }
-
     }
 
 
@@ -368,6 +379,7 @@ public class Playing extends BaseState implements GameStateInterface {
     public void setGameStateToSettings() {
         game.setCurrentGameState(Game.GameState.SETTINGS);
     }
+
     public void setGameStateToInventory() {
         game.setCurrentGameState(Game.GameState.INVENTORY);
     }

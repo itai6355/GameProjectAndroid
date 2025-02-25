@@ -10,6 +10,8 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gameproject.Battery;
+
 public class GameActivity extends AppCompatActivity {
 
 
