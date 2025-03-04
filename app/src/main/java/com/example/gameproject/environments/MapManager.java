@@ -14,7 +14,7 @@ import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.Buildings;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.GameObjects;
-import com.example.gameproject.gamestates.Playing;
+import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 
@@ -26,10 +26,10 @@ public class MapManager {
 
     private GameMap currentMap;
     private float cameraX, cameraY;
-    private Playing playing;
+    private final Playing playing;
 
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public MapManager(Playing playing) {
         this.playing = playing;
@@ -46,10 +46,7 @@ public class MapManager {
         if (x < 0 || y < 0)
             return false;
 
-        if (x >= getMaxWidthCurrentMap() || y >= getMaxHeightCurrentMap())
-            return false;
-
-        return true;
+        return !(x >= getMaxWidthCurrentMap()) && !(y >= getMaxHeightCurrentMap());
     }
 
     public int getMaxWidthCurrentMap() {
@@ -202,12 +199,15 @@ public class MapManager {
 
 
         GameMap insideMap = new GameMap(insideArray, Tiles.INSIDE,
-                new ArrayList<>(), new ArrayList<>(), HelpMethods.GetSkeletonsRandomized(2, insideArray), null);
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), null);
         GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, Tiles.INSIDE, null, null, null, null);
         GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE, null, null, null, null);
 
         GameMap outsideMap =
-                new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal, gameObjectArrayListFinal, HelpMethods.GetSkeletonsRandomized(3, outsideArrayFinal), itemArrayList);
+                new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal,
+                        gameObjectArrayListFinal,
+                        new ArrayList<>(),
+                        itemArrayList);
 
 
         HelpMethods.ConnectTwoDoorways(

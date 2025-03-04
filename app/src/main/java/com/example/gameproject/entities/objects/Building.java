@@ -6,7 +6,7 @@ import com.example.gameproject.entities.Entity;
 
 public class Building extends Entity {
 
-    private Buildings buildingType;
+    private final Buildings buildingType;
 
     public Building(PointF pos, Buildings buildingType) {
         super(new PointF(pos.x, pos.y + buildingType.hitboxRoof),

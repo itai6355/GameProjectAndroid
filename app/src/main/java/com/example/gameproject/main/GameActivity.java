@@ -1,16 +1,11 @@
 package com.example.gameproject.main;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.gameproject.Battery;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -20,6 +15,21 @@ public class GameActivity extends AppCompatActivity {
     private static String username;
     private static String password;
 
+    public static boolean getDrawHitbox() {
+        return DrawHitbox;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static boolean isDev() {
+        return username.equals("admin") && password.equals("admin");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +54,4 @@ public class GameActivity extends AppCompatActivity {
         setContentView(new GamePanel(this));
     }
 
-    public static boolean getDrawHitbox() {
-        return DrawHitbox;
-    }
-
-    public static String getPassword() {
-        return password;
-    }
-
-    public static String getUsername() {
-        return username;
-    }
 }

@@ -12,7 +12,7 @@ import java.util.Random;
 public class MaskedRaccoon extends Enemy {
 
     private long lastDirChange = System.currentTimeMillis();
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
 
     public MaskedRaccoon(PointF pos) {

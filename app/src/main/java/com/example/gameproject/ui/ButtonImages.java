@@ -21,11 +21,14 @@ public enum ButtonImages implements BitmapMethods {
 
 
     EMPTY(R.drawable.icons_ui, 275, 178, 275, 212, 90, 27, 90, 25),
-    EMPTY_SMALL(R.drawable.icons_ui, 837, 4, 869, 6, 22, 24, 22, 22);
+    EMPTY_SMALL(R.drawable.icons_ui, 837, 4, 869, 6, 22, 24, 22, 22),
+    PLAYING_DEBUG(R.drawable.icons_ui, 709, 132, 741, 134, 22, 24, 22, 22);
 
 
-    private int width, height;
-    private Bitmap normal, pushed;
+    private final int width;
+    private final int height;
+    private final Bitmap normal;
+    private final Bitmap pushed;
 
     ButtonImages(int resID, int x1, int y1, int x2, int y2, int width1, int height1, int width2, int height2) {
         options.inScaled = false;

@@ -5,10 +5,10 @@ import android.graphics.PointF;
 import com.example.gameproject.entities.Entity;
 
 public class GameObject extends Entity {
-    private GameObjects objectType;
+    private final GameObjects objectType;
 
     public GameObject(PointF pos, GameObjects objectType) {
-        super(new PointF(pos.x,pos.y + objectType.hitboxRoof),
+        super(new PointF(pos.x, pos.y + objectType.hitboxRoof),
                 objectType.getHitboxWidth(),
                 objectType.getHitboxHeight()
         );

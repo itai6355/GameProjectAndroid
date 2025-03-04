@@ -27,9 +27,9 @@ public class Item extends Entity {
     }
 
     public int getAniIndex(Items itemType) {
-            if (aniIndex >= itemType.getAmount() - 1)
-                aniIndex = 0;
-            else aniIndex++;
+        if (aniIndex >= itemType.getAmount() - 1)
+            aniIndex = 0;
+        else aniIndex++;
         return aniIndex;
     }
 }

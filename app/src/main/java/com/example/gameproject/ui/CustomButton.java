@@ -27,6 +27,10 @@ public class CustomButton {
         return pushed;
     }
 
+    public void setPushed(boolean pushed) {
+        this.pushed = pushed;
+    }
+
     public void unPush(int pointerId) {
         if (this.pointerId != pointerId)
             return;
@@ -39,10 +43,6 @@ public class CustomButton {
             return;
         this.pushed = pushed;
         this.pointerId = pointerId;
-    }
-
-    public void setPushed(boolean pushed) {
-        this.pushed = pushed;
     }
 
     public int getPointerId() {

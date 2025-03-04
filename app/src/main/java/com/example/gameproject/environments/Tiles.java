@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import com.example.gameproject.R;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
-import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
 
@@ -15,7 +14,7 @@ public enum Tiles implements BitmapMethods {
     OUTSIDE(R.drawable.tileset_floor, 22, 26),
     INSIDE(R.drawable.floor_inside, 22, 22);
 
-    private Bitmap[] sprites;
+    private final Bitmap[] sprites;
 
     Tiles(int resID, int tilesInWidth, int tilesInHeight) {
         options.inScaled = false;

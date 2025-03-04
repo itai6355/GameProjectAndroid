@@ -3,8 +3,6 @@ package com.example.gameproject.entities;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
-import com.example.gameproject.entities.items.Item;
-
 public abstract class Entity implements Comparable<Entity> {
 
     protected RectF hitbox;
@@ -15,12 +13,12 @@ public abstract class Entity implements Comparable<Entity> {
         this.hitbox = new RectF(pos.x, pos.y, pos.x + width, pos.y + height);
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public boolean isActive() {
         return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public RectF getHitbox() {

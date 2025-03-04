@@ -6,10 +6,10 @@ import android.graphics.RectF;
 public class Doorway {
 
 
-    private boolean active = true;
     private final GameMap gameMapLocatedIn;
+    private boolean active = true;
     private Doorway doorwayConnectedTo;
-    private PointF doorwayPoint;
+    private final PointF doorwayPoint;
 
     public Doorway(PointF doorwayPoint, GameMap gameMapLocatedIn) {
         this.doorwayPoint = doorwayPoint;

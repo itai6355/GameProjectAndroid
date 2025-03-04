@@ -1,4 +1,4 @@
-package com.example.gameproject.gamestates;
+package com.example.gameproject.gamestates.playing;
 
 import static com.example.gameproject.helpers.GameConstants.Face_Dir.LEFT;
 import static com.example.gameproject.helpers.GameConstants.Sprite.X_DRAW_OFFSET;
@@ -19,30 +19,31 @@ import com.example.gameproject.entities.enemies.Skeleton;
 import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Item;
+import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.Weapons;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.MapManager;
+import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
-import com.example.gameproject.ui.PlayingUI;
 
 import java.util.Arrays;
 
 public class Playing extends BaseState implements GameStateInterface {
+
+    private final Paint redPaint, healthBarRed, healthBarBlack;
     private float cameraX, cameraY;
     private boolean movePlayer;
     private PointF lastTouchDiff;
-    private MapManager mapManager;
-    private Player player;
-    private PlayingUI playingUI;
-    private final Paint redPaint, healthBarRed, healthBarBlack;
-
+    private final MapManager mapManager;
+    private final Player player;
+    private final PlayingUI playingUI;
     private boolean doorwayJustPassed;
     private Entity[] listOfDrawables;
     private boolean listOfEntitiesMade;
@@ -85,7 +86,10 @@ public class Playing extends BaseState implements GameStateInterface {
 
     @Override
     public void update(double delta) {
-        System.out.println("Coins amount: " + MainActivity.getDbHelper().getCoins(GameActivity.getUsername()));
+        System.out.println("Coins amount: " + MainActivity.getDbHelper().getItemQuantity(GameActivity.getUsername(), Items.COIN.getName()));
+        System.out.println("MedicPack amount: " + MainActivity.getDbHelper().getItemQuantity(GameActivity.getUsername(), Items.MEDIPACK.getName()));
+        System.out.println("Fish amount: " + MainActivity.getDbHelper().getItemQuantity(GameActivity.getUsername(), Items.FISH.getName()));
+        System.out.println("Pot  amount: " + MainActivity.getDbHelper().getItemQuantity(GameActivity.getUsername(), Items.EMPTY_POT.getName()));
         buildEntityList();
         updatePlayerMove(delta);
         player.update(delta, movePlayer);
@@ -93,8 +97,8 @@ public class Playing extends BaseState implements GameStateInterface {
         checkForDoorway();
         if (player.isAttacking()) if (!player.isAttackChecked()) checkPlayerAttack();
 
-        if (mapManager.getCurrentMap().getSkeletonArrayList() != null)
-            for (Character character : mapManager.getCurrentMap().getSkeletonArrayList()) {
+        if (mapManager.getCurrentMap().getEnemysArrayList() != null)
+            for (Character character : mapManager.getCurrentMap().getEnemysArrayList()) {
                 if (character instanceof Enemy enemy) {
                     if (enemy instanceof Skeleton skeleton) updateSkeleton(delta, skeleton);
                     if (enemy instanceof MaskedRaccoon maskedRaccoon)
@@ -111,22 +115,31 @@ public class Playing extends BaseState implements GameStateInterface {
 
     private void updatePickedItems() {
         for (Item item : mapManager.getCurrentMap().getItemArrayList())
-            if (isNear(player.getHitbox(), item.getHitbox()))
-                pickItem(player,item);
+            if (isNear(player.getHitbox(), item.getHitbox())) pickItem(player, item);
 
     }
 
     private void pickItem(Player player, Item item) {
-        player.getInventory().add(item);
-        player.updateSQL();
-        mapManager.getCurrentMap().getItemArrayList().remove(item);
+        switch (item.getItemType()) {
+            case COIN -> {
+                player.getInventory().add(item.getItemType());
+                player.updateSQL();
+                mapManager.getCurrentMap().getItemArrayList().remove(item);
+            }
+            case MEDIPACK -> {
+                player.addHealth(100);
+                mapManager.getCurrentMap().getItemArrayList().remove(item);
+            }
 
+        }
+        game.getInventoryState().SyncInventories(player);
     }
 
     private boolean isNear(RectF in, RectF out) {
 
         RectF playerHitbox = new RectF(in.left - cameraX, in.top - cameraY, in.right - cameraX, in.bottom - cameraY);
-        return playerHitbox.left < out.right && playerHitbox.right > out.left && playerHitbox.top < out.bottom && playerHitbox.bottom > out.top;    }
+        return playerHitbox.left < out.right && playerHitbox.right > out.left && playerHitbox.top < out.bottom && playerHitbox.bottom > out.top;
+    }
 
     private void updateMaskedRakoon(double delta, MaskedRaccoon maskedRaccoon) {
         if (maskedRaccoon.isActive()) {
@@ -211,8 +224,8 @@ public class Playing extends BaseState implements GameStateInterface {
         attackBoxWithoutCamera.right -= cameraX;
         attackBoxWithoutCamera.bottom -= cameraY;
 
-        if (mapManager.getCurrentMap().getSkeletonArrayList() != null)
-            for (Character character : mapManager.getCurrentMap().getSkeletonArrayList())
+        if (mapManager.getCurrentMap().getEnemysArrayList() != null)
+            for (Character character : mapManager.getCurrentMap().getEnemysArrayList())
                 if (attackBoxWithoutCamera.intersects(character.getHitbox().left, character.getHitbox().top, character.getHitbox().right, character.getHitbox().bottom)) {
                     character.damageCharacter(player.getDamage());
                     if (character instanceof Enemy enemy) {
@@ -382,5 +395,13 @@ public class Playing extends BaseState implements GameStateInterface {
 
     public void setGameStateToInventory() {
         game.setCurrentGameState(Game.GameState.INVENTORY);
+    }
+
+    public void setGameStateToShop() {
+        game.setCurrentGameState(Game.GameState.SHOP);
+    }
+
+    public void setGameStateToDebug() {
+        game.setCurrentGameState(Game.GameState.DEBUG);
     }
 }

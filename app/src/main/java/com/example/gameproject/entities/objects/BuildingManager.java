@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class BuildingManager {
 
-    private ArrayList<Building> buildingArrayList;
+    private final ArrayList<Building> buildingArrayList;
     private float cameraX, cameraY;
 
     public BuildingManager() {

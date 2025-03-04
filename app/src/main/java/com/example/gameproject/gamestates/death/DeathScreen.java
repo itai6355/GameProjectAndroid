@@ -1,4 +1,4 @@
-package com.example.gameproject.gamestates;
+package com.example.gameproject.gamestates.death;
 
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
@@ -6,6 +6,7 @@ import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
@@ -16,13 +17,13 @@ import com.example.gameproject.ui.GameImages;
 
 public class DeathScreen extends BaseState implements GameStateInterface {
 
-    private CustomButton buttonReplay;
+    private final CustomButton buttonReplay;
 
-    private int menuX = GAME_WIDTH / 2 - GameImages.MENU.getImage().getWidth() / 2;
-    private int menuY = GAME_HEIGHT / 2 - GameImages.MENU.getImage().getHeight() / 2;
+    private final int menuX = GAME_WIDTH / 2 - GameImages.MENU.getImage().getWidth() / 2;
+    private final int menuY = GAME_HEIGHT / 2 - GameImages.MENU.getImage().getHeight() / 2;
 
-    private int buttonsX = menuX + GameImages.MENU.getImage().getWidth() / 2 - ButtonImages.MENU_START.getWidth() / 2 - 2 * GameConstants.Sprite.X_DRAW_OFFSET;
-    private int buttonReplayY = menuY + ButtonImages.MENU_START.getHeight(), buttonMainMenuY = buttonReplayY + GameConstants.Sprite.SCALE_MULTIPLIER * GameConstants.Sprite.Y_DRAW_OFFSET;
+    private final int buttonsX = menuX + GameImages.MENU.getImage().getWidth() / 2 - ButtonImages.MENU_START.getWidth() / 2 - 2 * GameConstants.Sprite.X_DRAW_OFFSET;
+    private final int buttonReplayY = menuY + ButtonImages.MENU_START.getHeight();
 
 
     public DeathScreen(Game game) {

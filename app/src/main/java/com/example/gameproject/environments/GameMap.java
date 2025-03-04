@@ -12,20 +12,20 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameMap {
 
-    private int[][] spriteIds;
-    private Tiles tilesType;
     private final ArrayList<Building> buildingArrayList;
-    private ArrayList<Doorway> doorwayArrayList;
     private final ArrayList<GameObject> gameObjectArrayList;
-    private final ArrayList<Character> skeletonArrayList;
+    private final ArrayList<Character> enemysArrayList;
     private final CopyOnWriteArrayList<Item> itemArrayList;
+    private final int[][] spriteIds;
+    private final Tiles tilesType;
+    private final ArrayList<Doorway> doorwayArrayList;
 
-    public GameMap(int[][] spriteIds, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, ArrayList<Character> skeletonArrayList, CopyOnWriteArrayList<Item> itemArrayList) {
+    public GameMap(int[][] spriteIds, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, ArrayList<Character> enemysArrayList, CopyOnWriteArrayList<Item> itemArrayList) {
         this.spriteIds = spriteIds;
         this.tilesType = tilesType;
         this.buildingArrayList = buildingArrayList != null ? buildingArrayList : new ArrayList<>();
         this.gameObjectArrayList = gameObjectArrayList != null ? gameObjectArrayList : new ArrayList<>();
-        this.skeletonArrayList = skeletonArrayList != null ? skeletonArrayList : new ArrayList<>();
+        this.enemysArrayList = enemysArrayList != null ? enemysArrayList : new ArrayList<>();
         this.doorwayArrayList = new ArrayList<>();
         this.itemArrayList = itemArrayList != null ? itemArrayList : new CopyOnWriteArrayList<>();
     }
@@ -38,7 +38,7 @@ public class GameMap {
         for (Building b : buildingArrayList)
             list[i++] = b;
 
-        for (Character c : skeletonArrayList)
+        for (Character c : enemysArrayList)
             list[i++] = c;
 
         for (GameObject go : gameObjectArrayList)
@@ -54,10 +54,10 @@ public class GameMap {
 
     private int getDrawableAmount() {
         int amount = 0;
-            amount += buildingArrayList.size();
-            amount += gameObjectArrayList.size();
-            amount += skeletonArrayList.size();
-            amount += itemArrayList.size();
+        amount += buildingArrayList.size();
+        amount += gameObjectArrayList.size();
+        amount += enemysArrayList.size();
+        amount += itemArrayList.size();
         amount++;
 
         return amount;
@@ -79,8 +79,8 @@ public class GameMap {
         return gameObjectArrayList;
     }
 
-    public ArrayList<Character> getSkeletonArrayList() {
-        return skeletonArrayList;
+    public ArrayList<Character> getEnemysArrayList() {
+        return enemysArrayList;
     }
 
     public CopyOnWriteArrayList<Item> getItemArrayList() {

@@ -22,22 +22,24 @@ import com.example.gameproject.ui.GameImages;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final boolean dev = true;
-
-    private static Context gameContext;
     public static int GAME_WIDTH, GAME_HEIGHT;
-
+    private static Context gameContext;
+    private static DatabaseHelper dbHelper;
+    private final boolean dev = true;
     private EditText userName;
     private EditText password;
-
     private ImageView background;
     private ImageView menu;
-
-    private boolean isBtnPushed = false;
+    private final boolean isBtnPushed = false;
     private ImageView btnStart;
 
-    private static DatabaseHelper dbHelper;
+    public static Context getGameContext() {
+        return gameContext;
+    }
 
+    public static DatabaseHelper getDbHelper() {
+        return dbHelper;
+    }
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -112,13 +114,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }
-    }
-
-    public static Context getGameContext() {
-        return gameContext;
-    }
-
-    public static DatabaseHelper getDbHelper() {
-        return dbHelper;
     }
 }

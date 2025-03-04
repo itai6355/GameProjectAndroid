@@ -2,8 +2,8 @@ package com.example.gameproject.main;
 
 public class GameLoop implements Runnable {
 
-    private Thread gameThread;
-    private Game game;
+    private final Thread gameThread;
+    private final Game game;
 
     public GameLoop(Game game) {
         this.game = game;

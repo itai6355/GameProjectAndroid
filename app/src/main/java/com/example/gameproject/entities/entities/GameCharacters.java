@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import com.example.gameproject.R;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
-import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
 
@@ -15,9 +14,8 @@ public enum GameCharacters implements BitmapMethods {
     PLAYER(R.drawable.boy_sprite_sheet);
 
 
-
-    private Bitmap spriteSheet;
-    private Bitmap[][] sprites = new Bitmap[7][4];
+    private final Bitmap spriteSheet;
+    private final Bitmap[][] sprites = new Bitmap[7][4];
 
 
     GameCharacters(int resID) {

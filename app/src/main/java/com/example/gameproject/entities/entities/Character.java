@@ -13,13 +13,13 @@ import com.example.gameproject.entities.objects.Weapons;
 import com.example.gameproject.helpers.GameConstants;
 
 public abstract class Character extends Entity {
-    protected int aniTick, aniIndex;
-    protected int faceDir = GameConstants.Face_Dir.DOWN;
     protected final GameCharacters gameCharType;
     protected final Enemies EnemyType;
+    protected int aniTick, aniIndex;
+    protected int faceDir = GameConstants.Face_Dir.DOWN;
     protected boolean attacking, attackChecked;
     private RectF attackBox = null;
-    private int attackDamage;
+    private final int attackDamage;
 
     private int maxHealth;
     private int currentHealth;
@@ -187,13 +187,13 @@ public abstract class Character extends Entity {
         return attackBox;
     }
 
+    public boolean isAttacking() {
+        return attacking;
+    }
+
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
         if (!attacking) attackChecked = false;
-    }
-
-    public boolean isAttacking() {
-        return attacking;
     }
 
     public boolean isAttackChecked() {
@@ -221,5 +221,9 @@ public abstract class Character extends Entity {
     }
 
 
+    public void addHealth(int health) {
+        currentHealth += health;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+    }
 }
 

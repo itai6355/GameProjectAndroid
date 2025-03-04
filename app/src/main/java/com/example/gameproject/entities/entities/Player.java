@@ -8,9 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.PointF;
 
 import com.example.gameproject.DatabaseHelper;
-import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.GameImages;
 
@@ -18,20 +16,27 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Character {
 
-    private DatabaseHelper dbHelper;
-
-    private final CopyOnWriteArrayList<Item> inventory = new CopyOnWriteArrayList<>();
-
+    private final CopyOnWriteArrayList<Items> inventory = new CopyOnWriteArrayList<>();
     public Bitmap icon = GameImages.BOY_ICON.getImage();
+    private final DatabaseHelper dbHelper;
+
     public Player() {
         super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.PLAYER);
         setStartHealth(600);
         dbHelper = MainActivity.getDbHelper();
+        inventory.add(Items.MEDIPACK);
+        inventory.add(Items.COIN);
+        inventory.add(Items.FISH);
+        inventory.add(Items.COIN);
+        inventory.add(Items.MEDIPACK);
+        inventory.add(Items.MEDIPACK);
+        inventory.add(Items.FISH);
+        inventory.add(Items.EMPTY_POT);
+        inventory.add(Items.FISH);
     }
 
     public void update(double delta, boolean movePlayer) {
-        if (movePlayer)
-            updateAnimation();
+        if (movePlayer) updateAnimation();
         updateWepHitbox();
     }
 
@@ -39,11 +44,11 @@ public class Player extends Character {
         return icon;
     }
 
-    public CopyOnWriteArrayList<Item> getInventory() {
+    public CopyOnWriteArrayList<Items> getInventory() {
         return inventory;
     }
 
     public void updateSQL() {
-        //TODO: set to the SQL to the arraylist
     }
+
 }

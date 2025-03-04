@@ -1,36 +1,35 @@
-package com.example.gameproject.gamestates;
+package com.example.gameproject.gamestates.setting;
+
+import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
+import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
-
-import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
-import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
 public class Setting extends BaseState implements GameStateInterface {
 
-    private final int menuX =GAME_WIDTH / 2 - GameImages.SETTING_MENU.getImage().getWidth() / 2;
+    final int space = 20;
+    private final int menuX = GAME_WIDTH / 2 - GameImages.SETTING_MENU.getImage().getWidth() / 2;
     private final int menuY = GAME_HEIGHT / 2 - GameImages.SETTING_MENU.getImage().getHeight() / 2;
-
-    private CustomButton btnBack;
     private final int btnXBack = menuX + 2 * GameConstants.Sprite.X_DRAW_OFFSET;
     private final int btnYBack = menuY + 2 * GameConstants.Sprite.Y_DRAW_OFFSET;
 
 
     private final CustomButton[] btnVolumeButtons;
-    final int space = 20;
     private final int btnXVolume = menuX + GameConstants.Sprite.X_DRAW_OFFSET;
-    private final int btnYVolume = menuY + 16 * GameConstants.Sprite.Y_DRAW_OFFSET;
-
-    private final CustomButton btnSound;
     private final int SoundIconX = btnXVolume + space * GameConstants.Sprite.SCALE_MULTIPLIER;
+    private final int btnYVolume = menuY + 16 * GameConstants.Sprite.Y_DRAW_OFFSET;
     private final int SoundIconY = btnYVolume - 4 * GameConstants.Sprite.Y_DRAW_OFFSET;
+    private final CustomButton btnSound;
+    private final CustomButton btnBack;
 
 
     public Setting(Game game) {

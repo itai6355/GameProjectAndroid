@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 
 import com.example.gameproject.R;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
-import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
 public enum Items implements BitmapMethods {
@@ -54,5 +53,9 @@ public enum Items implements BitmapMethods {
 
     public int getAmount() {
         return amount;
+    }
+
+    public String getName() {
+        return name();
     }
 }

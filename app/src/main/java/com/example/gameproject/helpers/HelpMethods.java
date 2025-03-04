@@ -4,13 +4,12 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
-
 import com.example.gameproject.entities.enemies.MaskedRaccoon;
-import com.example.gameproject.entities.objects.Building;
-import com.example.gameproject.entities.entities.Character;
-import com.example.gameproject.entities.objects.GameObject;
-import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.enemies.Skeleton;
+import com.example.gameproject.entities.entities.Character;
+import com.example.gameproject.entities.entities.Player;
+import com.example.gameproject.entities.objects.Building;
+import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.environments.Tiles;
@@ -54,27 +53,20 @@ public class HelpMethods {
 
         int width = (gameMapArray[0].length - 1) * GameConstants.Sprite.SIZE;
         int height = (gameMapArray.length - 1) * GameConstants.Sprite.SIZE;
-
         ArrayList<Character> enemyArrayList = new ArrayList<>();
-
         for (int i = 0; i < amount; i++) {
             float x = (float) (Math.random() * width);
             float y = (float) (Math.random() * height);
             enemyArrayList.add(new Skeleton(new PointF(x, y)));
         }
-
         for (int i = 0; i < 5; i++) {
             float x = (float) (Math.random() * width);
             float y = (float) (Math.random() * height);
 
-            enemyArrayList.add(new MaskedRaccoon(new PointF(x,y)));
+            enemyArrayList.add(new MaskedRaccoon(new PointF(x, y)));
         }
-
-
         return enemyArrayList;
-
     }
-
 
 
     public static boolean CanWalkHereUpDown(RectF hitbox, float deltaY, float currentCameraX, GameMap gameMap) {
@@ -84,16 +76,14 @@ public class HelpMethods {
         if (gameMap.getGameObjectArrayList() != null) {
             RectF tempHitbox = new RectF(hitbox.left + currentCameraX, hitbox.top + deltaY, hitbox.right + currentCameraX, hitbox.bottom + deltaY);
             for (GameObject go : gameMap.getGameObjectArrayList()) {
-                if (RectF.intersects(go.getHitbox(), tempHitbox))
-                    return false;
+                if (RectF.intersects(go.getHitbox(), tempHitbox)) return false;
             }
         }
 
         if (gameMap.getBuildingArrayList() != null) {
             RectF tempHitbox = new RectF(hitbox.left + currentCameraX, hitbox.top + deltaY, hitbox.right + currentCameraX, hitbox.bottom + deltaY);
             for (Building b : gameMap.getBuildingArrayList())
-                if (RectF.intersects(b.getHitbox(), tempHitbox))
-                    return false;
+                if (RectF.intersects(b.getHitbox(), tempHitbox)) return false;
         }
 
         Point[] tileCords = GetTileCords(hitbox, currentCameraX, deltaY);
@@ -109,16 +99,14 @@ public class HelpMethods {
         if (gameMap.getGameObjectArrayList() != null) {
             RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + currentCameraY, hitbox.right + deltaX, hitbox.bottom + currentCameraY);
             for (GameObject go : gameMap.getGameObjectArrayList()) {
-                if (RectF.intersects(go.getHitbox(), tempHitbox))
-                    return false;
+                if (RectF.intersects(go.getHitbox(), tempHitbox)) return false;
             }
         }
 
         if (gameMap.getBuildingArrayList() != null) {
             RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + currentCameraY, hitbox.right + deltaX, hitbox.bottom + currentCameraY);
             for (Building b : gameMap.getBuildingArrayList())
-                if (RectF.intersects(b.getHitbox(), tempHitbox))
-                    return false;
+                if (RectF.intersects(b.getHitbox(), tempHitbox)) return false;
         }
 
         Point[] tileCords = GetTileCords(hitbox, deltaX, currentCameraY);
@@ -136,8 +124,7 @@ public class HelpMethods {
         if (gameMap.getGameObjectArrayList() != null) {
             RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + deltaY, hitbox.right + deltaX, hitbox.bottom + deltaY);
             for (GameObject go : gameMap.getGameObjectArrayList()) {
-                if (RectF.intersects(go.getHitbox(), tempHitbox))
-                    return false;
+                if (RectF.intersects(go.getHitbox(), tempHitbox)) return false;
             }
         }
 
@@ -145,8 +132,7 @@ public class HelpMethods {
         if (gameMap.getBuildingArrayList() != null) {
             RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + deltaY, hitbox.right + deltaX, hitbox.bottom + deltaY);
             for (Building b : gameMap.getBuildingArrayList())
-                if (RectF.intersects(b.getHitbox(), tempHitbox))
-                    return false;
+                if (RectF.intersects(b.getHitbox(), tempHitbox)) return false;
         }
 
         Point[] tileCords = GetTileCords(hitbox, deltaX, deltaY);
@@ -185,14 +171,12 @@ public class HelpMethods {
 
     public static boolean IsTilesWalkable(int[] tileIds, Tiles tilesType) {
         for (int i : tileIds)
-            if (!(IsTileWalkable(i, tilesType)))
-                return false;
+            if (!(IsTileWalkable(i, tilesType))) return false;
         return true;
     }
 
     public static boolean IsTileWalkable(int tileId, Tiles tilesType) {
-        if (tilesType == Tiles.INSIDE)
-            return (tileId == 394 || tileId < 374);
+        if (tilesType == Tiles.INSIDE) return (tileId == 394 || tileId < 374);
 
         return true;
     }

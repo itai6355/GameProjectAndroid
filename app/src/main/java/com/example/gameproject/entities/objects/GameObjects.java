@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import com.example.gameproject.R;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
-import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
 public enum GameObjects implements BitmapMethods {
@@ -35,7 +34,7 @@ public enum GameObjects implements BitmapMethods {
     PILLAR_SHORT_GREEN(112, 96, 16, 32, 21, 30),
     PILLAR_SNOW_GREEN(128, 96, 16, 32, 21, 30),
     POT_ONE_FULL(144, 0, 16, 19, 10, 17),
-    
+
     POT_ONE_EMPTY(160, 0, 16, 19, 10, 17),
     POT_TWO_FULL(144, 19, 16, 21, 12, 19),
     POT_TWO_EMPTY(160, 20, 16, 20, 12, 19),
