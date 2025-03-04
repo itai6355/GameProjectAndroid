@@ -7,8 +7,10 @@ import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 
-import com.example.gameproject.DatabaseHelper;
+import com.example.gameproject.database.DatabaseColumns;
+import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.GameImages;
 
@@ -19,20 +21,24 @@ public class Player extends Character {
     private final CopyOnWriteArrayList<Items> inventory = new CopyOnWriteArrayList<>();
     public Bitmap icon = GameImages.BOY_ICON.getImage();
     private final DatabaseHelper dbHelper;
+    private final int id;
+    private final String username, password;
 
     public Player() {
         super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.PLAYER);
         setStartHealth(600);
         dbHelper = MainActivity.getDbHelper();
-        inventory.add(Items.MEDIPACK);
-        inventory.add(Items.COIN);
-        inventory.add(Items.FISH);
-        inventory.add(Items.COIN);
-        inventory.add(Items.MEDIPACK);
-        inventory.add(Items.MEDIPACK);
-        inventory.add(Items.FISH);
-        inventory.add(Items.EMPTY_POT);
-        inventory.add(Items.FISH);
+
+        username = GameActivity.getUsername();
+        password = GameActivity.getPassword();
+
+        id = dbHelper.getUserId(username, password);
+
+          dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COLUMN_COINS));
+//        dbHelper.updateColumn(id, DatabaseColumns.COINS, 5);
+//        dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COLUMN_COINS));
+
+
     }
 
     public void update(double delta, boolean movePlayer) {
@@ -49,6 +55,7 @@ public class Player extends Character {
     }
 
     public void updateSQL() {
+
     }
 
 }

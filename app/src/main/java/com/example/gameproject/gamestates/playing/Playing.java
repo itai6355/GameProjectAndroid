@@ -19,7 +19,6 @@ import com.example.gameproject.entities.enemies.Skeleton;
 import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Item;
-import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.Weapons;
@@ -31,7 +30,6 @@ import com.example.gameproject.helpers.HelpMethods;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
-import com.example.gameproject.main.MainActivity;
 
 import java.util.Arrays;
 
@@ -57,6 +55,8 @@ public class Playing extends BaseState implements GameStateInterface {
         player = new Player();
 
         playingUI = new PlayingUI(this);
+
+
 
         redPaint = new Paint();
         redPaint.setStrokeWidth(3);
@@ -86,10 +86,6 @@ public class Playing extends BaseState implements GameStateInterface {
 
     @Override
     public void update(double delta) {
-        System.out.println("Coins amount: " + MainActivity.getDbHelper().getItemQuantity(GameActivity.getUsername(), Items.COIN.getName()));
-        System.out.println("MedicPack amount: " + MainActivity.getDbHelper().getItemQuantity(GameActivity.getUsername(), Items.MEDIPACK.getName()));
-        System.out.println("Fish amount: " + MainActivity.getDbHelper().getItemQuantity(GameActivity.getUsername(), Items.FISH.getName()));
-        System.out.println("Pot  amount: " + MainActivity.getDbHelper().getItemQuantity(GameActivity.getUsername(), Items.EMPTY_POT.getName()));
         buildEntityList();
         updatePlayerMove(delta);
         player.update(delta, movePlayer);

@@ -15,7 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.gameproject.DatabaseHelper;
+import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.R;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.GameImages;
@@ -25,10 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int GAME_WIDTH, GAME_HEIGHT;
     private static Context gameContext;
     private static DatabaseHelper dbHelper;
-    private final boolean dev = true;
+    private final boolean dev = false;
     private EditText userName;
     private EditText password;
-    private ImageView background;
     private ImageView menu;
     private final boolean isBtnPushed = false;
     private ImageView btnStart;
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         dbHelper = new DatabaseHelper(this);
 
-        background = findViewById(R.id.background);
         menu = findViewById(R.id.menu);
         btnStart = findViewById(R.id.startBtn);
         userName = findViewById(R.id.UserNameText);
