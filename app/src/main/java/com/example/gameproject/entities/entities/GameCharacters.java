@@ -11,7 +11,16 @@ import com.example.gameproject.main.MainActivity;
 
 public enum GameCharacters implements BitmapMethods {
 
-    PLAYER(R.drawable.boy_sprite_sheet);
+    BOY(R.drawable.boy_sprite_sheet),
+    EGG_BOY(R.drawable.eggboy_sprite_sheet),
+    EGG_GIRL(R.drawable.eggirl_spritesheet),
+    ESKIMOS(R.drawable.eskimo_spritesheet),
+    INSPECTOR(R.drawable.inspector_spritesheet),
+    FIGHTER(R.drawable._fighter_spritesheet),
+    HUNTER(R.drawable.hunter_spritesheet),
+    RED_NINJA(R.drawable.red_ninja_spritesheets);
+
+
 
 
     private final Bitmap spriteSheet;

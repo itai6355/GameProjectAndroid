@@ -22,7 +22,9 @@ public enum ButtonImages implements BitmapMethods {
 
     EMPTY(R.drawable.icons_ui, 275, 178, 275, 212, 90, 27, 90, 25),
     EMPTY_SMALL(R.drawable.icons_ui, 837, 4, 869, 6, 22, 24, 22, 22),
-    PLAYING_DEBUG(R.drawable.icons_ui, 709, 132, 741, 134, 22, 24, 22, 22);
+    PLAYING_DEBUG(R.drawable.icons_ui, 709, 132, 741, 134, 22, 24, 22, 22),
+    DOOR_IMAGE(R.drawable.shop_backgrawnd_items, 67, 29, 128, 29, 51, 56, 51, 56),
+    CHEST(R.drawable.shop_backgrawnd_items, 303, 70, 330, 65, 23, 15, 23, 20);
 
 
     private final int width;

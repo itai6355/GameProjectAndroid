@@ -30,15 +30,14 @@ public enum GameImages implements BitmapMethods {
     BACKGRAWND(R.drawable.backgrawnd, GAME_WIDTH, GAME_HEIGHT),
 
     INVENTORY_SLOTH(R.drawable.icons_ui, 59, 107, 26, 26, 1),
-    INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.2f),
+    INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.37f),
 
 
 
 
 
     ICON_BOX(R.drawable.icons_ui, 245, 101, 38, 38, 1),
-    PLAYER_BOX(R.drawable.icons_ui, 275, 212, 90, 25, 2),
-    BOY_ICON(R.drawable.boy_icon, 150, 150);
+    PLAYER_BOX(R.drawable.icons_ui, 275, 212, 90, 25, 2);
 
 
     private final Bitmap atlas;

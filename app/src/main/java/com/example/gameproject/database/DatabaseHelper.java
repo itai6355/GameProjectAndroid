@@ -56,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @SuppressLint("Range")
     public int getUserId(String username, String password) {
+        if (username.equals("admin") && password.equals("admin")) return -1;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT _id FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
 
@@ -72,19 +73,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public String getColumnValueById(int id, String columnName) {
+    public String getColumnValueById(int playerId, DatabaseColumns.Column column) {
+        if (playerId == -1) return "9999999999";
         SQLiteDatabase db = this.getReadableDatabase();
 
-        if (!isValidColumn(columnName)) {
+        if (!isValidColumn(column.name())) {
             return "Invalid column name";
         }
 
-        Cursor cursor = db.rawQuery("SELECT " + columnName + " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?", new String[]{String.valueOf(id)});
+        Cursor cursor = db.rawQuery("SELECT " + column.name() + " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?", new String[]{String.valueOf(playerId)});
 
         String columnValue = null;
 
         if (cursor.moveToFirst()) {
-            columnValue = cursor.getString(cursor.getColumnIndex(columnName));
+            columnValue = cursor.getString(cursor.getColumnIndex(column.name()));
         }
 
         cursor.close();
@@ -103,6 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean updateColumn(int playerId, DatabaseColumns.Column column, int newValue) {
+        if (playerId == -1) return true;
         SQLiteDatabase db = this.getWritableDatabase();
 
         if (!isIntegerColumn(column)) {

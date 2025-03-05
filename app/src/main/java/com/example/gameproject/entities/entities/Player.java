@@ -9,24 +9,27 @@ import android.graphics.PointF;
 
 import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
+import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.GameImages;
 
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Character {
 
     private final CopyOnWriteArrayList<Items> inventory = new CopyOnWriteArrayList<>();
-    public Bitmap icon = GameImages.BOY_ICON.getImage();
+    public Bitmap icon = Icons.BOY_ICON.getImage();
     private final DatabaseHelper dbHelper;
     private final int id;
     private final String username, password;
 
     public Player() {
-        super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.PLAYER);
+        super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.BOY);
         setStartHealth(600);
+
         dbHelper = MainActivity.getDbHelper();
 
         username = GameActivity.getUsername();
@@ -34,7 +37,7 @@ public class Player extends Character {
 
         id = dbHelper.getUserId(username, password);
 
-          dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COLUMN_COINS));
+        dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
 //        dbHelper.updateColumn(id, DatabaseColumns.COINS, 5);
 //        dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COLUMN_COINS));
 
@@ -54,8 +57,11 @@ public class Player extends Character {
         return inventory;
     }
 
-    public void updateSQL() {
-
+    public void updateSQL(Item item) {
+        if (Objects.requireNonNull(item.getItemType()) == Items.COIN) {
+            dbHelper.updateColumn(id, DatabaseColumns.COINS, Integer.parseInt(dbHelper.getColumnValueById(id, DatabaseColumns.COINS)) + 1);
+            dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
+        }
     }
 
 }

@@ -119,7 +119,7 @@ public class Playing extends BaseState implements GameStateInterface {
         switch (item.getItemType()) {
             case COIN -> {
                 player.getInventory().add(item.getItemType());
-                player.updateSQL();
+                player.updateSQL(item);
                 mapManager.getCurrentMap().getItemArrayList().remove(item);
             }
             case MEDIPACK -> {
