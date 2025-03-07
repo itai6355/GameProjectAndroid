@@ -230,4 +230,9 @@ public class MapManager {
 
         currentMap = outsideMap;
     }
+
+    public void setCurrentMap(GameMap currentMap) {
+        if (currentMap != null)
+            this.currentMap = currentMap;
+    }
 }

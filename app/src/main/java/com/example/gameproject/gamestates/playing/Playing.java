@@ -12,6 +12,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
+import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.enemies.Enemy;
 import com.example.gameproject.entities.enemies.MaskedRaccoon;
@@ -39,23 +40,24 @@ public class Playing extends BaseState implements GameStateInterface {
     private float cameraX, cameraY;
     private boolean movePlayer;
     private PointF lastTouchDiff;
-    private final MapManager mapManager;
     private final Player player;
     private final PlayingUI playingUI;
     private boolean doorwayJustPassed;
     private Entity[] listOfDrawables;
     private boolean listOfEntitiesMade;
 
+    private static MapManager mapManager;
+
     public Playing(Game game) {
         super(game);
-
         mapManager = new MapManager(this);
         calcStartCameraValues();
+
+
 
         player = new Player();
 
         playingUI = new PlayingUI(this);
-
 
 
         redPaint = new Paint();
@@ -384,6 +386,9 @@ public class Playing extends BaseState implements GameStateInterface {
         return playingUI;
     }
 
+    public static MapManager getMapManager() {
+        return mapManager;
+    }
 
     public void setGameStateToSettings() {
         game.setCurrentGameState(Game.GameState.SETTINGS);

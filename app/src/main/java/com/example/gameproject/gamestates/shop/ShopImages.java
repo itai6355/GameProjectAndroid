@@ -37,7 +37,7 @@ public enum ShopImages implements BitmapMethods {
     SHOP_ARROW_LEFT(R.drawable.arrow_left,1,1,32,35,0.4f),
     SHOP_ARROW_RIGHT(R.drawable.arrow_right,0,0,32,35,0.4f),
 
-    CHARACTER_SHOP_BOOk(R.drawable.wooden_ui,38,1666,249,280,0.6f);
+    CHARACTER_SHOP_BOOK(R.drawable.wooden_ui,38,1666,249,280,0.6f);
 
 
     private final Bitmap atlas;

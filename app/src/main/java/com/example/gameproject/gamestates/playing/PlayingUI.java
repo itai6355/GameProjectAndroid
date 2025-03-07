@@ -69,7 +69,7 @@ public class PlayingUI {
 
         canvas.drawBitmap(GameImages.PLAYER_BOX.getImage(), 0, 0, null);
         canvas.drawBitmap(GameImages.ICON_BOX.getImage(), 25, 25, null);
-        canvas.drawBitmap(playing.getPlayer().getIcon(), 65, 65, null);
+        canvas.drawBitmap(playing.getPlayer().getIcon().getImage(), 65, 65, null);
 
 
         drawButtons(canvas);

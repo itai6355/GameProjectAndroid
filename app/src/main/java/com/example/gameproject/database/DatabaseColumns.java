@@ -16,12 +16,14 @@ public class DatabaseColumns {
     public static final Column USERNAME = new Column(COLUMN_USERNAME, "TEXT");
     public static final Column PASSWORD = new Column(COLUMN_PASSWORD, "TEXT");
     public static final Column COINS = new Column(COLUMN_COINS, "INTEGER");
+    public static final Column SKIN = new Column("skin", "TEXT");
 
     static {
         ALL_COLUMNS.add(ID);
         ALL_COLUMNS.add(USERNAME);
         ALL_COLUMNS.add(PASSWORD);
         ALL_COLUMNS.add(COINS);
+        ALL_COLUMNS.add(SKIN);
     }
 
     public static List<Column> getAllColumns() {

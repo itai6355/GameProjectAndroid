@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.entities.Player;
+import com.example.gameproject.environments.MapManager;
 import com.example.gameproject.gamestates.death.DeathScreen;
 import com.example.gameproject.gamestates.debug.DebugState;
 import com.example.gameproject.gamestates.invenory.InventoryState;
@@ -16,6 +18,7 @@ import com.example.gameproject.gamestates.shop.ShopState;
 public class Game {
 
     private final SurfaceHolder holder;
+    private final DatabaseHelper dbHelper;
 
     private Playing playing;
     private Setting setting;
@@ -30,6 +33,8 @@ public class Game {
     public Game(SurfaceHolder holder) {
         this.holder = holder;
         gameLoop = new GameLoop(this);
+        dbHelper = MainActivity.getDbHelper();
+
         initGameStates();
     }
 
@@ -107,4 +112,7 @@ public class Game {
         PLAYING, DEATH_SCREEN, SETTINGS, INVENTORY, SHOP, DEBUG
     }
 
+    public DatabaseHelper getDbHelper() {
+        return dbHelper;
+    }
 }
