@@ -25,7 +25,7 @@ public enum GameImages implements BitmapMethods {
     BACKGRAWND(R.drawable.backgrawnd, GAME_WIDTH, GAME_HEIGHT),
 
     INVENTORY_SLOTH(R.drawable.icons_ui, 59, 107, 26, 26, 1),
-    INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.37f),
+    INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.2f),
 
     COIN_SMALL(R.drawable.coins, 0,0,16, 16, 0.7f),
 

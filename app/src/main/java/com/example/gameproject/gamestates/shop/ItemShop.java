@@ -1,15 +1,12 @@
 package com.example.gameproject.gamestates.shop;
 
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
-
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
-import com.example.gameproject.ui.GameImages;
 
 public class ItemShop extends ShopState implements GameStateInterface {
 
@@ -58,7 +55,7 @@ public class ItemShop extends ShopState implements GameStateInterface {
             for (ShopSloth SS : SSs)
                 if (SS != null && SS.getAmount() > 0) drawItem(canvas, SS);
 
-        canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        canvas.drawBitmap(ShopImages.SHOP_INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
     }
 
     private void drawItem(Canvas canvas, ShopSloth ss) {

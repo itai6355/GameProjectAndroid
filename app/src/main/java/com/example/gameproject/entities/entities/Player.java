@@ -10,6 +10,7 @@ import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.gamestates.debug.DebugState;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
@@ -60,18 +61,22 @@ public class Player extends Character {
         return icon;
     }
 
+    public GameCharacters getSkin() {
+        return skin;
+    }
+
     public CopyOnWriteArrayList<Items> getInventory() {
         return inventory;
     }
 
     public void updateSQL(Item item) {
         if (Objects.requireNonNull(item.getItemType()) == Items.COIN) {
-            dbHelper.updateColumn(id, DatabaseColumns.COINS, Integer.parseInt(dbHelper.getColumnValueById(id, DatabaseColumns.COINS)) + 1);
+            dbHelper.updateIntColumn(id, DatabaseColumns.COINS, Integer.parseInt(dbHelper.getColumnValueById(id, DatabaseColumns.COINS)) + 1);
             dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
         }
     }
 
-    private void setSkinAndIcon(String skinName) {
+    public void setSkinAndIcon(String skinName) {
         switch (skinName) {
             case "Egg Boy" -> {
                 skin = GameCharacters.EGG_BOY;
@@ -107,5 +112,19 @@ public class Player extends Character {
             }
         }
     }
+
+    public int getCoins() {
+        try {
+            return Integer.parseInt(dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
+        }catch (Exception e){
+            DebugState.getBug(e);
+        }
+        return 0;
+    }
+
+    public void setCoins(int coins) {
+        dbHelper.updateIntColumn(id, DatabaseColumns.COINS, coins);
+    }
+
 
 }

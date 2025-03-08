@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
     private static final String DATABASE_NAME = "Lerning.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_NAME = "lerning";
 
@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @SuppressLint("Range")
     public String getColumnValueById(int playerId, DatabaseColumns.Column column) {
-        if (playerId == -1) return "9999999999";
+        if (playerId == -1) return "999999";
         SQLiteDatabase db = this.getReadableDatabase();
 
         if (!isValidColumn(column.name())) {
@@ -104,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public boolean updateColumn(int playerId, DatabaseColumns.Column column, int newValue) {
+    public boolean updateIntColumn(int playerId, DatabaseColumns.Column column, int newValue) {
         if (playerId == -1) return true;
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -129,6 +129,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean updateStringColumn(int playerId, DatabaseColumns.Column column, String newValue) {
+        if (playerId == -1) return true;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if (!isStringrColumn(column)) {
+            showToast("The specified column is not an String column.");
+            db.close();
+            return false;
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(column.name(), newValue);
+
+        try {
+            long result = db.update(TABLE_NAME, values, "_id = ?", new String[]{String.valueOf(playerId)});
+            db.close();
+            return result != -1;
+        } catch (Exception e) {
+            showToast("Error: " + e.getMessage());
+            db.close();
+            return false;
+        }
+    }
+
+    private boolean isStringrColumn(DatabaseColumns.Column column) {
+        return column.type().equals("TEXT");
+    }
 
     private boolean isIntegerColumn(DatabaseColumns.Column column) {
         return column.type().equals("INTEGER");
@@ -183,15 +210,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PASSWORD, password);
         values.put(COLUMN_COINS, 0);
 
+        long result;
         try {
-            long result = db.insert(TABLE_NAME, null, values);
+            result = db.insert(TABLE_NAME, null, values);
             db.close();
             Log("registerUser", "Result: " + result + ", Username: " + username + ", Password: " + password);
-            return result != -1;
+
         } catch (Exception e) {
             showToast("Error: " + e.getMessage());
             return false;
         }
+
+        int id = getUserId(username, password);
+        Log("registerUser", "User ID: " + id);
+        updateStringColumn(id, DatabaseColumns.SKIN, "Boy");
+
+        return result != -1;
     }
 
     public boolean loginUserByUsername(String username, String password) {

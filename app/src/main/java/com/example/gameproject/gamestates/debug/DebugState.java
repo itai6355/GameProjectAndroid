@@ -32,4 +32,8 @@ public class DebugState extends BaseState implements GameStateInterface {
     public void touchEvents(MotionEvent event) {
 
     }
+
+    public static void getBug(Exception e){
+
+    }
 }

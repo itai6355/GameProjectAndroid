@@ -19,12 +19,13 @@ public class ShopState extends BaseState implements GameStateInterface {
     private boolean init = false;
     private final CustomButton btnBack = new CustomButton(20, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
 
+
     private final Paint paint = new Paint();
     final Paint BlackPaint = new Paint();
     final Paint textPaint = new Paint();
 
 
-    private final ShopStates state = ShopStates.CHARACTERS;
+    private final ShopStates state = ShopStates.ITEMS;
 
     private ItemShop shopItemState;
     private CharacterShop shopCharactersState;
