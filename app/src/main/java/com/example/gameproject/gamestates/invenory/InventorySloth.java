@@ -5,9 +5,10 @@ import static com.example.gameproject.ui.GameImages.INVENTORY_SLOTH;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
-public class InventorySloth {
+public class InventorySloth extends CustomButton {
     public static final int SLOT_SIZE = INVENTORY_SLOTH.getImage().getWidth();
     int xSpot, ySpot;
     int x, y;
@@ -16,6 +17,7 @@ public class InventorySloth {
     private int amount = 0;
 
     public InventorySloth(int xSpot, int ySpot, int x, int y) {
+        super(x,y,SLOT_SIZE,SLOT_SIZE);
         this.xSpot = xSpot;
         this.ySpot = ySpot;
         this.x = x;

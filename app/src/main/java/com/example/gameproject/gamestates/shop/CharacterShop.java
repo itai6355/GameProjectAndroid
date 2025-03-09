@@ -5,15 +5,19 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.entities.entities.GameCharacters;
 import com.example.gameproject.entities.entities.Icons;
+import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
+import com.example.gameproject.ui.ButtonImages;
+import com.example.gameproject.ui.CustomButton;
 
 public class CharacterShop extends ShopState implements GameStateInterface {
 
     private static final int MAX_PAGES = 8;
 
     private static final CharacterPage[] pages = new CharacterPage[MAX_PAGES];
+
 
     private int page = 0;
 
@@ -32,7 +36,8 @@ public class CharacterShop extends ShopState implements GameStateInterface {
     public void render(Canvas canvas) {
         canvas.drawBitmap(ShopImages.CHARACTER_SHOP_BOOK.getImage(), (float) (MainActivity.GAME_WIDTH / 2 - ShopImages.CHARACTER_SHOP_BOOK.getWidth() / 2), (float) (MainActivity.GAME_HEIGHT / 2 - ShopImages.CHARACTER_SHOP_BOOK.getHeight() / 2), null);
 
-        pages[page].draw(canvas);
+
+        pages[page].render(canvas);
 
     }
 

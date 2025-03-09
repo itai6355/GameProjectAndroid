@@ -1,7 +1,6 @@
 package com.example.gameproject.gamestates.shop;
 
 import com.example.gameproject.gamestates.invenory.InventorySloth;
-import com.example.gameproject.ui.GameImages;
 
 public class ShopSloth extends InventorySloth {
 
@@ -11,11 +10,6 @@ public class ShopSloth extends InventorySloth {
     public ShopSloth(int xSpot, int ySpot, int x, int y) {
         super(xSpot, ySpot, x, y);
     }
-    public ShopSloth(int xSpot, int ySpot, int x, int y, int type) {
-        super(xSpot, ySpot, x, y);
-        slothType = type;
-    }
-
 
 
     public ShopImages getSlothImage() {
@@ -26,11 +20,11 @@ public class ShopSloth extends InventorySloth {
         };
     }
 
-    public boolean isBought() {
-        return bought;
-    }
-
     public int getSlothType() {
         return slothType;
+    }
+
+    public boolean hasItem() {
+        return super.getItem() != null;
     }
 }

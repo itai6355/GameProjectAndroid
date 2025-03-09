@@ -73,12 +73,4 @@ public class PlayerShopAI {
         }
     }
 
-    public void touchEvents(MotionEvent event) {
-
-    }
-
-
-    public boolean isIn(MotionEvent e, CustomButton b) {
-        return b.getHitbox().contains(e.getX(), e.getY());
-    }
 }

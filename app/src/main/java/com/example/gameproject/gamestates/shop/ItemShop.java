@@ -2,6 +2,7 @@ package com.example.gameproject.gamestates.shop;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
+
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
@@ -17,6 +18,10 @@ public class ItemShop extends ShopState implements GameStateInterface {
     private final int ShopWidth = 10;
     private final int ShopHeight = 4;
 
+    private ShopSloth currSS;
+
+    private ShopState shopState;
+
 
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;
@@ -24,11 +29,15 @@ public class ItemShop extends ShopState implements GameStateInterface {
     int yCurr = 200;
     int Xspace = 50;
     int Yspace = 100;
+
+    private final BuyPage buyPage;
     private final ShopSloth[][][] ShopItems = new ShopSloth[MAX_PAGES][ShopWidth][ShopHeight];
 
 
-    public ItemShop(Game game) {
+    public ItemShop(Game game, ShopState shopState) {
         super(game);
+        buyPage = new BuyPage(this);
+        this.shopState = shopState;
 
 
         for (int k = 0; k < MAX_PAGES; k++)
@@ -42,11 +51,17 @@ public class ItemShop extends ShopState implements GameStateInterface {
 
     @Override
     public void update(double delta) {
-
+        if (buyPage.isInPage()) {
+            buyPage.update(delta);
+        }
     }
 
     @Override
     public void render(Canvas canvas) {
+        if (buyPage.isInPage()) {
+            buyPage.render(canvas);
+            return;
+        }
         for (ShopSloth[] shopSloths : ShopItems[page])
             for (ShopSloth slot : shopSloths)
                 canvas.drawBitmap(slot.getSlothImage().getImage(), slot.getX(), slot.getY(), null);
@@ -56,6 +71,7 @@ public class ItemShop extends ShopState implements GameStateInterface {
                 if (SS != null && SS.getAmount() > 0) drawItem(canvas, SS);
 
         canvas.drawBitmap(ShopImages.SHOP_INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
+
     }
 
     private void drawItem(Canvas canvas, ShopSloth ss) {
@@ -68,12 +84,33 @@ public class ItemShop extends ShopState implements GameStateInterface {
 
     @Override
     public void touchEvents(MotionEvent event) {
+        if (buyPage.isInPage()) {
+            buyPage.touchEvents(event);
+            return;
+        }
         for (int i = 0; i < ShopWidth; i++)
             for (int j = 0; j < ShopHeight; j++)
                 if (ShopItems[page][i][j].isIn(event)) {
                     xCurrIndex = i;
                     yCurrIndex = j;
                 }
+
+
+        currSS = ShopItems[page][xCurrIndex][yCurrIndex];
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isIn(event, currSS) && currSS.hasItem()) {
+                currSS.setPushed(true);
+            }
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (isIn(event, currSS) && currSS.isPushed()) {
+                buyPage.setToPage(true, currSS);
+                shopState.setIsBuying(true);
+            }
+            currSS.setPushed(false);
+        }
+
+
     }
 
 
@@ -103,4 +140,9 @@ public class ItemShop extends ShopState implements GameStateInterface {
     public void setPage(int page) {
         this.page = page;
     }
+
+    public ShopSloth getCurrSS() {
+        return currSS;
+    }
+
 }

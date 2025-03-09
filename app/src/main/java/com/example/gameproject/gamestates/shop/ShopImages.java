@@ -18,10 +18,6 @@ public enum ShopImages implements BitmapMethods {
     SHOP_BAR_2(R.drawable.ui_1, 50, 47, 44, 14, 1),
     SHOP_BAR_3(R.drawable.ui_1, 97, 47, 46, 13, 1),
 
-    SHOP_WALL_BOTTOM_BACKGRAWND(R.drawable.shop_backgrawnd_tilemap, 64, 704, 147, 32, 1),
-    SHOP_WALL_BACKGRAWND(R.drawable.shop_backgrawnd_tilemap, 125, 616, 84, 89, 0.8f),
-    SHOP_WALL_BRICK_BACKGRAWND(R.drawable.shop_backgrawnd_tilemap, 198, 588, 74, 70, 1),
-
     SHOP_INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.37f),
 
 

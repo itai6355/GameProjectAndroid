@@ -228,6 +228,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    public void loginUser(String username, String password) {
+        if (isUserExist(username)) {
+            if (loginUserByUsername(username, password)) {
+                Log("loginUser", "Login successful for username: " + username);
+            } else {
+                showToast("Password is wrong");
+            }
+        } else {
+            Log("loginUser", "User does not exist, registering: " + username);
+            boolean isRegistered = registerUser(username, password);
+            if (isRegistered) {
+                Log("loginUser", "User registered and logged in: " + username);
+            } else {
+                showToast("Registration failed. Please try again.");
+            }
+        }
+    }
+
+    private boolean isUserExist(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=?", new String[]{username});
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
     public boolean loginUserByUsername(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
@@ -237,6 +264,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log("loginUserByUsername", "Result: " + result + ", Username: " + username + ", Password: " + password);
         return result;
     }
+
 
     private void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

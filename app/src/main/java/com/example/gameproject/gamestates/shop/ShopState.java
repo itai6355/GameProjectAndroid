@@ -26,6 +26,7 @@ public class ShopState extends BaseState implements GameStateInterface {
 
 
     private final ShopStates state = ShopStates.ITEMS;
+    private boolean isBuying = false;
 
     private ItemShop shopItemState;
     private CharacterShop shopCharactersState;
@@ -50,6 +51,9 @@ public class ShopState extends BaseState implements GameStateInterface {
 
     @Override
     public void update(double delta) {
+        System.out.println("ITEM_SHOP before update:" + isBuying);
+
+
         if (!init) initStates();
         switch (state) {
             case ITEMS -> {
@@ -63,6 +67,8 @@ public class ShopState extends BaseState implements GameStateInterface {
                 this.maxPagesInThis = shopCharactersState.getMAX_PAGES();
             }
         }
+
+        System.out.println("ITEM_SHOP after update:" + isBuying);
 
     }
 
@@ -78,6 +84,8 @@ public class ShopState extends BaseState implements GameStateInterface {
     }
 
     private void drawBackground(Canvas canvas) {
+
+        System.out.println("isBuying in render(): " + isBuying);
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
         canvas.drawBitmap(ShopImages.SHOP_WINDOW_BACKGRAWND.getImage(), 200, 200, null);
         canvas.drawBitmap(ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getImage(), 0, MainActivity.GAME_HEIGHT - ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight(), null);
@@ -88,23 +96,22 @@ public class ShopState extends BaseState implements GameStateInterface {
             canvas.drawBitmap(ButtonImages.CHEST.getBtnImg(chest.isPushed()), chest.getHitbox().left, chest.getHitbox().top - 4 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
         canvas.drawBitmap(ShopImages.SHOP_BARREL_BACKGRAWND.getImage(), ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getWidth(), MainActivity.GAME_HEIGHT - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight() / 2, null);
         canvas.drawBitmap(ButtonImages.DOOR_IMAGE.getBtnImg(door.isPushed()), door.getHitbox().left, door.getHitbox().top, null);
+
         canvas.drawBitmap(ButtonImages.SETTINGS_BACK.getBtnImg(btnBack.isPushed()), btnBack.getHitbox().left, btnBack.getHitbox().top, null);
 
-        canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(arrowLeft.isPushed()), arrowLeft.getHitbox().left, arrowLeft.getHitbox().top, null);
-        canvas.drawBitmap(ShopImages.SHOP_ARROW_LEFT.getImage(), arrowLeft.getHitbox().left + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, arrowLeft.getHitbox().top + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
 
-        canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(arrowRight.isPushed()), arrowRight.getHitbox().left, arrowRight.getHitbox().top, null);
-        canvas.drawBitmap(ShopImages.SHOP_ARROW_RIGHT.getImage(), arrowRight.getHitbox().left + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, arrowRight.getHitbox().top + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        if (!isBuying) {
+            canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(arrowLeft.isPushed()), arrowLeft.getHitbox().left, arrowLeft.getHitbox().top, null);
+            canvas.drawBitmap(ShopImages.SHOP_ARROW_LEFT.getImage(), arrowLeft.getHitbox().left + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, arrowLeft.getHitbox().top + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
 
-        canvas.drawBitmap(ShopImages.SHOP_BAR_1.getImage(),
-                (float) (MainActivity.GAME_WIDTH / 2 - ShopImages.SHOP_BAR_1.getWidth() / 2),
-                ((float) MainActivity.GAME_HEIGHT / 8 * 7) + GameConstants.Sprite.SCALE_MULTIPLIER, null);
+            canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(arrowRight.isPushed()), arrowRight.getHitbox().left, arrowRight.getHitbox().top, null);
+            canvas.drawBitmap(ShopImages.SHOP_ARROW_RIGHT.getImage(), arrowRight.getHitbox().left + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, arrowRight.getHitbox().top + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        }
+
+        canvas.drawBitmap(ShopImages.SHOP_BAR_1.getImage(), (float) (MainActivity.GAME_WIDTH / 2 - ShopImages.SHOP_BAR_1.getWidth() / 2), ((float) MainActivity.GAME_HEIGHT / 8 * 7) + GameConstants.Sprite.SCALE_MULTIPLIER, null);
 
 
-        canvas.drawText("Page: " + (page + 1) + "/" + maxPagesInThis,
-                (float) (MainActivity.GAME_WIDTH / 2 - ShopImages.SHOP_BAR_1.getWidth() / 2) + 13 * GameConstants.Sprite.SCALE_MULTIPLIER,
-                ((float) MainActivity.GAME_HEIGHT / 8 * 7) + 14 * GameConstants.Sprite.SCALE_MULTIPLIER,
-                textPaint);
+        canvas.drawText("Page: " + (page + 1) + "/" + maxPagesInThis, (float) (MainActivity.GAME_WIDTH / 2 - ShopImages.SHOP_BAR_1.getWidth() / 2) + 13 * GameConstants.Sprite.SCALE_MULTIPLIER, ((float) MainActivity.GAME_HEIGHT / 8 * 7) + 14 * GameConstants.Sprite.SCALE_MULTIPLIER, textPaint);
     }
 
 
@@ -127,8 +134,7 @@ public class ShopState extends BaseState implements GameStateInterface {
             } else if (isIn(event, arrowLeft)) {
                 if (arrowLeft.isPushed() && page > 0) page--;
             } else if (isIn(event, arrowRight)) {
-                if (arrowRight.isPushed() && page < maxPagesInThis - 1)
-                    page++;
+                if (arrowRight.isPushed() && page < maxPagesInThis - 1) page++;
             }
             arrowLeft.setPushed(false);
             arrowRight.setPushed(false);
@@ -159,13 +165,17 @@ public class ShopState extends BaseState implements GameStateInterface {
 
     private void initStates() {
         init = true;
-        shopItemState = new ItemShop(game);
+        shopItemState = new ItemShop(game,this);
         shopCharactersState = new CharacterShop(game);
     }
 
 
     enum ShopStates {
         ITEMS, CHARACTERS
+    }
+
+    public void setIsBuying(boolean isBuying) {
+            this.isBuying = isBuying;
     }
 
 }

@@ -10,13 +10,14 @@ import com.example.gameproject.entities.entities.GameCharacters;
 import com.example.gameproject.entities.entities.Icons;
 import com.example.gameproject.entities.entities.PlayerShopAI;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
-public class CharacterPage {
+public class CharacterPage implements GameStateInterface {
 
     private final GameCharacters skin;
     private final Icons icon;
@@ -50,9 +51,13 @@ public class CharacterPage {
         playerShopAI = new PlayerShopAI(skin, bound);
         btnBuy = new CustomButton(xStart + 2 * icon.getWidth() - (float) ShopImages.SHOP_BAR_2.getWidth() / 4 * 3, yStart + 2 * icon.getHeight(), ShopImages.SHOP_BAR_2.getImage().getWidth(), ShopImages.SHOP_BAR_2.getImage().getHeight());
     }
+    @Override
+    public void update(double delta) {
+        playerShopAI.update(delta);
+    }
 
-
-    public void draw(Canvas canvas) {
+    @Override
+    public void render(Canvas canvas) {
         canvas.drawBitmap(icon.getImage(), xStart + icon.getWidth(), yStart + icon.getWidth(), null);
 
         canvas.drawBitmap(ShopImages.SHOP_BAR_3.getImage(), xStart + 2 * icon.getWidth() + 2 * GameConstants.Sprite.SCALE_MULTIPLIER, yStart + GameConstants.Sprite.SCALE_MULTIPLIER, null);
@@ -69,14 +74,11 @@ public class CharacterPage {
         }
         playerShopAI.render(canvas);
 
+
     }
 
-    public void update(double delta) {
-        playerShopAI.update(delta);
-    }
-
+    @Override
     public void touchEvents(MotionEvent event) {
-        playerShopAI.touchEvents(event);
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             settingSkin = true;
             btnBuy.setPushed(true);
