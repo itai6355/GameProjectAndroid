@@ -19,10 +19,10 @@ import androidx.annotation.Nullable;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
-    private static final String DATABASE_NAME = "Lerning.db";
+    private static final String DATABASE_NAME = "Game.db";
     private static final int DATABASE_VERSION = 2;
 
-    private static final String TABLE_NAME = "lerning";
+    private static final String TABLE_NAME = "game_table";
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -188,6 +188,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             showToast("Error: " + e.getMessage());
         }
     }
+    public void deleteTable() {
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+            Log("deleteTable", "Table deleted successfully.");
+        } catch (Exception e) {
+            showToast("Error: " + e.getMessage());
+            Log("deleteTable", "Error deleting table: " + e.getMessage());
+        }
+    }
+
 
     public boolean registerUser(String username, String password) {
         if (username.length() < 4 || password.length() < 4) {
@@ -226,33 +236,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         updateStringColumn(id, DatabaseColumns.SKIN, "Boy");
 
         return result != -1;
-    }
-
-    public void loginUser(String username, String password) {
-        if (isUserExist(username)) {
-            if (loginUserByUsername(username, password)) {
-                Log("loginUser", "Login successful for username: " + username);
-            } else {
-                showToast("Password is wrong");
-            }
-        } else {
-            Log("loginUser", "User does not exist, registering: " + username);
-            boolean isRegistered = registerUser(username, password);
-            if (isRegistered) {
-                Log("loginUser", "User registered and logged in: " + username);
-            } else {
-                showToast("Registration failed. Please try again.");
-            }
-        }
-    }
-
-    private boolean isUserExist(String username) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=?", new String[]{username});
-        boolean exists = cursor.moveToFirst();
-        cursor.close();
-        db.close();
-        return exists;
     }
 
     public boolean loginUserByUsername(String username, String password) {

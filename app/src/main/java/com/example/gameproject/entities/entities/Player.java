@@ -45,9 +45,7 @@ public class Player extends Character {
 
 
         dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
-//        dbHelper.updateColumn(id, DatabaseColumns.COINS, 5);
-//        dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COLUMN_COINS));
-
+        dbHelper.updateIntColumn(id, DatabaseColumns.COINS, 143);
 
     }
 

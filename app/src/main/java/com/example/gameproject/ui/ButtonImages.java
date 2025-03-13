@@ -15,7 +15,7 @@ public enum ButtonImages implements BitmapMethods {
     PLAYING_SETTING(R.drawable.icons_ui, 837, 228, 869, 230, 22, 24, 22, 22),
     SETTINGS_BACK(R.drawable.icons_ui, 837, 132, 869, 134, 22, 24, 22, 22),
 
-    SHOP_APPROVE(R.drawable.icons_ui, 837, 132, 869, 134, 22, 24, 22, 22),
+    SHOP_APPROVE(R.drawable.icons_ui, 837, 100, 869, 102, 22, 24, 22, 22),
     SHOP_ADD(R.drawable.icons_ui, 837, 164, 869, 166, 22, 24, 22, 22),
     SHOP_REDUCE(R.drawable.icons_ui, 837, 196, 869, 198, 22, 24, 22, 22),
 

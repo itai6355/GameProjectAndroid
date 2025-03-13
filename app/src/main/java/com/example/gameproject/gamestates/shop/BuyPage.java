@@ -1,43 +1,91 @@
 package com.example.gameproject.gamestates.shop;
 
+import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
+import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
+
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 
+import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
+import com.example.gameproject.ui.GameImages;
 
 public class BuyPage implements GameStateInterface {
 
     private Items item;
     private int amount;
+    private int price;
     private final int MAX_AMOUNT = 99;
+
+    Paint BlackPaint;
+
+    int space = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
+
+    int xMiddle = GAME_WIDTH / 2;
+    int yMiddle = GAME_HEIGHT / 2;
+
+    float xDrawBackground = xMiddle - (float) ShopImages.SHOP_BUY_BACKGRAWND.getWidth() / 2;
+    float yDrawBackground = yMiddle - (float) ShopImages.SHOP_BUY_BACKGRAWND.getHeight() / 2;
+
+    float xDrawBlock = xMiddle - (float) ShopImages.SHOP_BUY_BLOCK.getWidth() / 2;
+    float yDrawBlock = yMiddle - (float) ShopImages.SHOP_BUY_BLOCK.getHeight() / 2;
+
+    float xDrawBar = xDrawBlock - (float) space / 3;
+    float yDrawBar = yDrawBlock + ShopImages.SHOP_BUY_BLOCK.getHeight() + (float) space / 3;
+
+    float xDrawAmount = xMiddle - (float) (String.valueOf(amount).length() * GameConstants.Sprite.SCALE_MULTIPLIER) / 2;
+    float yDrawAmount = yDrawBlock + ShopImages.SHOP_BUY_BLOCK.getHeight() - 2.5f * GameConstants.Sprite.Y_DRAW_OFFSET;
+
+    float xDrawPrice = xDrawBlock + 4 * GameConstants.Sprite.X_DRAW_OFFSET;
+    float yDrawPrice = yDrawBar + 3 * GameConstants.Sprite.Y_DRAW_OFFSET;
+
+    float xDrawADD = xDrawBlock + ShopImages.SHOP_BUY_BLOCK.getWidth() + space;
+    float yDrawADD = yMiddle - (float) ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
+
+    float xDrawReduce = xDrawBlock - ButtonImages.SHOP_REDUCE.getWidth() - space;
+    float yDrawReduce = yMiddle - (float) ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
+
+    float xDrawApprove = xDrawBackground + ShopImages.SHOP_BUY_BACKGRAWND.getWidth() - 2 * ButtonImages.SHOP_APPROVE.getWidth() - (float) space / 2;
+    float yDrawApprove = yDrawBackground + (float) ShopImages.SHOP_BUY_BACKGRAWND.getHeight() - 2 * ButtonImages.SHOP_APPROVE.getHeight() + GameConstants.Sprite.Y_DRAW_OFFSET;
 
     private boolean isInPage = false;
 
     private ItemShop itemShop;
     private final CustomButton btnBack = new CustomButton(20 + ButtonImages.SETTINGS_BACK.getWidth() + GameConstants.Sprite.X_DRAW_OFFSET, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
 
-    //TODO: add values
-    private final CustomButton btnAdd = new CustomButton(0, 0, 0, 0);
-    private final CustomButton btnReduce = new CustomButton(0, 0, 0, 0);
-    private final CustomButton btnApprove = new CustomButton(0, 0, 0, 0);
+    private final CustomButton btnAdd = new CustomButton(xDrawADD, yDrawADD, ButtonImages.SHOP_ADD.getWidth(), ButtonImages.SHOP_ADD.getHeight());
+    private final CustomButton btnReduce = new CustomButton(xDrawReduce, yDrawReduce, ButtonImages.SHOP_REDUCE.getWidth(), ButtonImages.SHOP_REDUCE.getHeight());
+    private final CustomButton btnApprove = new CustomButton(xDrawApprove, yDrawApprove, ButtonImages.SHOP_APPROVE.getWidth(), ButtonImages.SHOP_APPROVE.getHeight());
 
     public BuyPage(ItemShop itemShop) {
         this.itemShop = itemShop;
+        initPaint();
     }
+
 
     @Override
     public void update(double delta) {
-
+        updatePrice();
     }
 
     @Override
     public void render(Canvas canvas) {
+        canvas.drawBitmap(ShopImages.SHOP_BUY_BACKGRAWND.getImage(), xDrawBackground, yDrawBackground, null);
+        canvas.drawBitmap(ShopImages.SHOP_BUY_BLOCK.getImage(), xDrawBlock, yDrawBlock, null);
+        canvas.drawText(String.valueOf(amount), xDrawAmount, yDrawAmount, BlackPaint);
+
+        canvas.drawBitmap(ShopImages.SHOP_BAR_2_SCALED.getImage(), xDrawBar, yDrawBar, null);
+        canvas.drawBitmap(item.getImage(), xMiddle - (float) item.getImage().getWidth() / 2, yMiddle - (float) item.getImage().getHeight() / 2, null);
+        canvas.drawText(String.valueOf(price), xDrawPrice, yDrawPrice, BlackPaint);
+        canvas.drawBitmap(GameImages.COIN_SMALL.getImage(), xDrawPrice + (float) ShopImages.SHOP_BAR_2_SCALED.getWidth() / 2 + String.valueOf(price).length() * GameConstants.Sprite.SCALE_MULTIPLIER, yDrawPrice - 2 * GameConstants.Sprite.Y_DRAW_OFFSET - 2 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
+
         canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(btnBack.isPushed()), btnBack.getHitbox().left, btnBack.getHitbox().top, null);
-        canvas.drawBitmap(ShopImages.SHOP_ARROW_LEFT.getImage(), btnBack.getHitbox().left + GameConstants.Sprite.SCALE_MULTIPLIER, btnBack.getHitbox().top + GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        canvas.drawBitmap(ShopImages.SHOP_ARROW_LEFT.getImage(), btnBack.getHitbox().left + GameConstants.Sprite.X_DRAW_OFFSET + 2 * GameConstants.Sprite.SCALE_MULTIPLIER, btnBack.getHitbox().top + GameConstants.Sprite.Y_DRAW_OFFSET, null);
 
         canvas.drawBitmap(ButtonImages.SHOP_ADD.getBtnImg(btnAdd.isPushed()), btnAdd.getHitbox().left, btnAdd.getHitbox().top, null);
         canvas.drawBitmap(ButtonImages.SHOP_REDUCE.getBtnImg(btnReduce.isPushed()), btnReduce.getHitbox().left, btnReduce.getHitbox().top, null);
@@ -55,9 +103,10 @@ public class BuyPage implements GameStateInterface {
             if (isIn(event, btnBack) && btnBack.isPushed()) setNotBuying();
             else if (isIn(event, btnAdd) && btnAdd.isPushed() && amount < MAX_AMOUNT) amount++;
             else if (isIn(event, btnReduce) && btnReduce.isPushed() && amount > 0) amount--;
-            else if (isIn(event, btnApprove) && btnApprove.isPushed()) buyItem();
+            else if (isIn(event, btnApprove) && btnApprove.isPushed()) buyItems();
 
 
+            btnApprove.setPushed(false);
             btnAdd.setPushed(false);
             btnReduce.setPushed(false);
             btnBack.setPushed(false);
@@ -65,15 +114,26 @@ public class BuyPage implements GameStateInterface {
 
     }
 
-    private void buyItem() {
+    private void buyItems() {
+        Player player = itemShop.getGame().getPlayer();
+        if (player.getCoins() >= price) {
+            player.setCoins(player.getCoins() - price);
+            for (int i = 0; i < amount; i++)
+                player.getInventory().add(item);
+            setNotBuying();
+            itemShop.getGame().getInventoryState().SyncInventories(player);
+        } else {
+            System.out.println("Not enough coins");
+        }
+
 
     }
 
     private void setNotBuying() {
         this.isInPage = false;
-        item = null;
+        itemShop.getShopState().setIsBuying(false);
+        item = Items.COIN;
         amount = 0;
-        itemShop.setIsBuying(false);
     }
 
 
@@ -85,6 +145,19 @@ public class BuyPage implements GameStateInterface {
         this.isInPage = isInPage;
         item = currSS.getItem();
         amount = currSS.getAmount();
+        updatePrice();
     }
+
+
+    private void initPaint() {
+        BlackPaint = new Paint();
+        BlackPaint.setColor(0xFF000000);
+        BlackPaint.setTextSize(10 * GameConstants.Sprite.SCALE_MULTIPLIER);
+    }
+
+    private void updatePrice() {
+        price = itemShop.getItemHelper().getPrice(item) * amount;
+    }
+
 
 }

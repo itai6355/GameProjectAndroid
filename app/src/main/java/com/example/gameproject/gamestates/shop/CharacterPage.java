@@ -51,6 +51,7 @@ public class CharacterPage implements GameStateInterface {
         playerShopAI = new PlayerShopAI(skin, bound);
         btnBuy = new CustomButton(xStart + 2 * icon.getWidth() - (float) ShopImages.SHOP_BAR_2.getWidth() / 4 * 3, yStart + 2 * icon.getHeight(), ShopImages.SHOP_BAR_2.getImage().getWidth(), ShopImages.SHOP_BAR_2.getImage().getHeight());
     }
+
     @Override
     public void update(double delta) {
         playerShopAI.update(delta);
@@ -84,16 +85,8 @@ public class CharacterPage implements GameStateInterface {
             btnBuy.setPushed(true);
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             if (settingSkin && isIn(event, setSkinBtn)) setSkin();
-            else if (isIn(event, btnBuy)) {
-                System.out.println("Test42:  Player in the btnBuy");
-                if (!bought) {
-                    System.out.println("Test42:  Player didnt bought the skin");
-                    if (btnBuy.isPushed()) {
-                        System.out.println("Test42:  the button is pused , starting the buying");
-                        startBuying();
-                    }
-                }
-            }
+            else if (isIn(event, btnBuy) && !bought && btnBuy.isPushed()) startBuying();
+
 
             btnBuy.setPushed(false);
             settingSkin = false;

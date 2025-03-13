@@ -120,12 +120,7 @@ public class Playing extends BaseState implements GameStateInterface {
     private void pickItem(Player player, Item item) {
         switch (item.getItemType()) {
             case COIN -> {
-                player.getInventory().add(item.getItemType());
                 player.updateSQL(item);
-                mapManager.getCurrentMap().getItemArrayList().remove(item);
-            }
-            case MEDIPACK -> {
-                player.addHealth(100);
                 mapManager.getCurrentMap().getItemArrayList().remove(item);
             }
 
@@ -134,10 +129,18 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private boolean isNear(RectF in, RectF out) {
-
         RectF playerHitbox = new RectF(in.left - cameraX, in.top - cameraY, in.right - cameraX, in.bottom - cameraY);
-        return playerHitbox.left < out.right && playerHitbox.right > out.left && playerHitbox.top < out.bottom && playerHitbox.bottom > out.top;
+        float close = 50;
+
+        float closestX = Math.max(out.left - close, Math.min(playerHitbox.centerX(), out.right + close));
+        float closestY = Math.max(out.top - close, Math.min(playerHitbox.centerY(), out.bottom + close));
+
+        float distanceX = playerHitbox.centerX() - closestX;
+        float distanceY = playerHitbox.centerY() - closestY;
+
+        return Math.sqrt(distanceX * distanceX + distanceY * distanceY) < close;
     }
+
 
     private void updateMaskedRakoon(double delta, MaskedRaccoon maskedRaccoon) {
         if (maskedRaccoon.isActive()) {

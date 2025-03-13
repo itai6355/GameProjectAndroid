@@ -11,15 +11,18 @@ import com.example.gameproject.main.MainActivity;
 public enum ShopImages implements BitmapMethods {
 
     SHOP_SLOTH_1(R.drawable.ui_1, 6, 3, 36, 36, 1),
-    SHOP_SLOTH_2(R.drawable.ui_1, 54, 3, 3, 36, 1),
+    SHOP_SLOTH_2(R.drawable.ui_1, 54, 3, 36, 36, 1),
     SHOP_SLOTH_3(R.drawable.ui_1, 99, 0, 42, 42, 0.9f),
 
-    SHOP_BAR_1(R.drawable.ui_1, 0, 47, 48, 13, 1.5f,1.5f),
+    SHOP_BAR_1(R.drawable.ui_1, 0, 47, 48, 13, 1.5f, 1.5f),
     SHOP_BAR_2(R.drawable.ui_1, 50, 47, 44, 14, 1),
     SHOP_BAR_3(R.drawable.ui_1, 97, 47, 46, 13, 1),
 
     SHOP_INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.37f),
 
+    SHOP_BUY_BACKGRAWND(R.drawable.ui_2, 0, 96, 48, 32, 5f),
+    SHOP_BUY_BLOCK(R.drawable.ui_1, 54, 3, 36, 36, 2f),
+    SHOP_BAR_2_SCALED(R.drawable.ui_1, 50, 47, 44, 14, 1.7f),
 
 
     SHOP_BRICK_BOX_BACKGRAWND(R.drawable.shop_backgrawnd_tilemap, 639, 159, 97, 98, 0.5f),
@@ -33,10 +36,10 @@ public enum ShopImages implements BitmapMethods {
     SHOP_LADDER_BACKGRAWND(R.drawable.shop_backgrawnd_items, 196, 95, 24, 75, 1),
     SHOP_LAMP(R.drawable.shop_backgrawnd_items, 432, 113, 26, 31, 0.7f),
 
-    SHOP_ARROW_LEFT(R.drawable.arrow_left,1,1,32,35,0.4f),
-    SHOP_ARROW_RIGHT(R.drawable.arrow_right,0,0,32,35,0.4f),
+    SHOP_ARROW_LEFT(R.drawable.arrow_left, 1, 1, 32, 35, 0.4f),
+    SHOP_ARROW_RIGHT(R.drawable.arrow_right, 0, 0, 32, 35, 0.4f),
 
-    CHARACTER_SHOP_BOOK(R.drawable.wooden_ui,38,1666,249,280,0.6f);
+    CHARACTER_SHOP_BOOK(R.drawable.wooden_ui, 38, 1666, 249, 280, 0.6f);
 
 
     private final Bitmap atlas;

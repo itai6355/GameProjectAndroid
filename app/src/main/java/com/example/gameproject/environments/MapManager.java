@@ -196,6 +196,8 @@ public class MapManager {
 
         CopyOnWriteArrayList<Item> itemArrayList = new CopyOnWriteArrayList<>();
         itemArrayList.add(new Item(Items.COIN, new PointF(0, 0)));
+        itemArrayList.add(new Item(Items.COIN, new PointF(20, 0)));
+        itemArrayList.add(new Item(Items.COIN, new PointF(40, 0)));
 
 
         GameMap insideMap = new GameMap(insideArray, Tiles.INSIDE,
@@ -231,8 +233,4 @@ public class MapManager {
         currentMap = outsideMap;
     }
 
-    public void setCurrentMap(GameMap currentMap) {
-        if (currentMap != null)
-            this.currentMap = currentMap;
-    }
 }

@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.gamestates.BaseState;
+import com.example.gameproject.helpers.ItemHelper;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
@@ -20,7 +21,7 @@ public class DebugState extends BaseState implements GameStateInterface {
     @Override
     public void update(double delta) {
         game.setCurrentGameState(Game.GameState.DEATH_SCREEN);
-
+        ItemHelper.PrintAll();
     }
 
     @Override

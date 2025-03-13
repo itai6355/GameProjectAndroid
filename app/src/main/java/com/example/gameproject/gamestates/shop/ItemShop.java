@@ -4,24 +4,24 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.ItemHelper;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 
 public class ItemShop extends ShopState implements GameStateInterface {
+    //TODO: sort teh items
 
     private int page = 0;
 
-    private final int MAX_PAGES = 3;
+    private final int MAX_PAGES = 10;
 
     private final int ShopWidth = 10;
     private final int ShopHeight = 4;
 
     private ShopSloth currSS;
-
-    private ShopState shopState;
-
+    private final ShopState shopState;
+    private final ItemHelper itemHelper;
 
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;
@@ -38,6 +38,7 @@ public class ItemShop extends ShopState implements GameStateInterface {
         super(game);
         buyPage = new BuyPage(this);
         this.shopState = shopState;
+        itemHelper = new ItemHelper();
 
 
         for (int k = 0; k < MAX_PAGES; k++)
@@ -79,7 +80,6 @@ public class ItemShop extends ShopState implements GameStateInterface {
         int imageX = (int) (ss.getX() + (float) ss.getSlothImage().getImage().getWidth() / 2 - (float) itemType.getImage().getWidth() / 2);
         int imageY = (int) (ss.getY() + (float) ss.getSlothImage().getImage().getHeight() / 2 - (float) itemType.getImage().getHeight() / 2);
         canvas.drawBitmap(itemType.getImage(), imageX, imageY, null);
-        canvas.drawText(String.valueOf(ss.getAmount()), ss.getX() + InventorySloth.SLOT_SIZE - GameConstants.Sprite.SCALE_MULTIPLIER, ss.getY() + InventorySloth.SLOT_SIZE - GameConstants.Sprite.SCALE_MULTIPLIER, super.BlackPaint);
     }
 
     @Override
@@ -115,20 +115,14 @@ public class ItemShop extends ShopState implements GameStateInterface {
 
 
     private void initItems() {
+        int index = 0;
         for (int i = 0; i < MAX_PAGES; i++) {
             for (ShopSloth[] shopSloths : ShopItems[i])
-                for (ShopSloth slot : shopSloths)
-                    switch (i) {
-                        case 1:
-                            slot.setItem(Items.EMPTY_POT);
-                            break;
-                        case 0:
-                            slot.setItem(Items.COIN);
-                            break;
-                        default:
-                            slot.setItem(Items.MEDIPACK);
-                            break;
-                    }
+                for (ShopSloth slot : shopSloths) {
+                    if (index < ItemHelper.getItems().size())
+                        slot.setItem(ItemHelper.getItems().get(index));
+                    index++;
+                }
         }
 
     }
@@ -145,4 +139,11 @@ public class ItemShop extends ShopState implements GameStateInterface {
         return currSS;
     }
 
+    public ItemHelper getItemHelper() {
+        return itemHelper;
+    }
+
+    public ShopState getShopState() {
+        return shopState;
+    }
 }

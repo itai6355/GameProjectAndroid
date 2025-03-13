@@ -76,9 +76,9 @@ public class InventoryState extends BaseState implements GameStateInterface {
 
     private void drawItem(Canvas canvas, InventorySloth IS) {
         Items itemType = IS.getItem();
-        int imageX = (int) (IS.getX() + (float) IS.getImage().getImage().getWidth() / 2 - (float) itemType.getImage().getWidth() / 2);
-        int imageY = (int) (IS.getY() + (float) IS.getImage().getImage().getHeight() / 2 - (float) itemType.getImage().getHeight() / 2);
-        canvas.drawBitmap(itemType.getImage(), imageX, imageY, null);
+        int imageX = (int) (IS.getX() + (float) IS.getImage().getImage().getWidth() / 2 - (float) itemType.getSmallImage().getWidth() / 2);
+        int imageY = (int) (IS.getY() + (float) IS.getImage().getImage().getHeight() / 2 - (float) itemType.getSmallImage().getHeight() / 2);
+        canvas.drawBitmap(itemType.getSmallImage(), imageX, imageY, null);
         canvas.drawText(String.valueOf(IS.getAmount()), IS.getX() + InventorySloth.SLOT_SIZE - 6 * GameConstants.Sprite.SCALE_MULTIPLIER, IS.getY() + InventorySloth.SLOT_SIZE - 6 * GameConstants.Sprite.SCALE_MULTIPLIER, BlackPaint);
     }
 

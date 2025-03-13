@@ -28,7 +28,7 @@ public class Game {
     private DebugState debugState;
 
     private final GameLoop gameLoop;
-    private GameState currentGameState = GameState.SHOP;
+    private GameState currentGameState = GameState.PLAYING;
 
     public Game(SurfaceHolder holder) {
         this.holder = holder;

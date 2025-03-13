@@ -1,5 +1,9 @@
 package com.example.gameproject.helpers;
 
+import com.example.gameproject.entities.items.Items;
+
+import java.util.HashMap;
+
 public final class GameConstants {
     public static final class Face_Dir {
         public static final int DOWN = 0;
@@ -22,4 +26,5 @@ public final class GameConstants {
         public static final int SPEED = 2;
         public static final int AMOUNT = 4;
     }
+
 }
