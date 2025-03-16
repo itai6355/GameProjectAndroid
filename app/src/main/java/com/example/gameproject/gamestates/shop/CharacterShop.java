@@ -64,11 +64,6 @@ public class CharacterShop extends ShopState implements GameStateInterface {
         pages[5] = new CharacterPage(game, GameCharacters.FIGHTER, Icons.FIGHTER_ICON, "Fighter", 34);
         pages[6] = new CharacterPage(game, GameCharacters.HUNTER, Icons.HUNTER_ICON, "Hunter", 54);
         pages[7] = new CharacterPage(game, GameCharacters.RED_NINJA, Icons.RED_NINJA_ICON, "Red Ninja", 121);
-
-        pages[0].Buy();
-        pages[2].Buy();
-        pages[6].Buy();
-
     }
 
     static void setSkin(CharacterPage skin) {

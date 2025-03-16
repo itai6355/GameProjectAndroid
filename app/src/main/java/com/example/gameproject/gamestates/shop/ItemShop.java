@@ -3,21 +3,19 @@ package com.example.gameproject.gamestates.shop;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.ItemHelper;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 
 public class ItemShop extends ShopState implements GameStateInterface {
-    //TODO: sort teh items
+    //TODO: sort the items more clearly.
+    private Category category = Category.FOOD;
+    private final int MAX_CATEGORIES = Category.values().length;
 
-    private int page = 0;
-
-    private final int MAX_PAGES = 10;
 
     private final int ShopWidth = 10;
     private final int ShopHeight = 4;
+
 
     private ShopSloth currSS;
     private final ShopState shopState;
@@ -25,13 +23,10 @@ public class ItemShop extends ShopState implements GameStateInterface {
 
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;
-    int xCurr = 450;
-    int yCurr = 200;
-    int Xspace = 50;
-    int Yspace = 100;
+
 
     private final BuyPage buyPage;
-    private final ShopSloth[][][] ShopItems = new ShopSloth[MAX_PAGES][ShopWidth][ShopHeight];
+    private final CategoryPage[] CategoryPages = new CategoryPage[MAX_CATEGORIES];
 
 
     public ItemShop(Game game, ShopState shopState) {
@@ -41,12 +36,9 @@ public class ItemShop extends ShopState implements GameStateInterface {
         itemHelper = new ItemHelper();
 
 
-        for (int k = 0; k < MAX_PAGES; k++)
-            for (int i = 0; i < ShopWidth; i++)
-                for (int j = 0; j < ShopHeight; j++)
-                    ShopItems[k][i][j] = new ShopSloth(i, j, xCurr + (i * (ShopSloth.SLOT_SIZE + Xspace)), yCurr + (j * (ShopSloth.SLOT_SIZE + Yspace)));
+        for (int i = 0; i < MAX_CATEGORIES; i++)
+            CategoryPages[i] = new CategoryPage(category);
 
-        initItems();
     }
 
 
@@ -54,33 +46,16 @@ public class ItemShop extends ShopState implements GameStateInterface {
     public void update(double delta) {
         if (buyPage.isInPage()) {
             buyPage.update(delta);
-        }
+        } else CategoryPages[category.value].update(delta);
     }
 
     @Override
     public void render(Canvas canvas) {
-        if (buyPage.isInPage()) {
-            buyPage.render(canvas);
-            return;
-        }
-        for (ShopSloth[] shopSloths : ShopItems[page])
-            for (ShopSloth slot : shopSloths)
-                canvas.drawBitmap(slot.getSlothImage().getImage(), slot.getX(), slot.getY(), null);
-
-        for (ShopSloth[] SSs : ShopItems[page])
-            for (ShopSloth SS : SSs)
-                if (SS != null && SS.getAmount() > 0) drawItem(canvas, SS);
-
-        canvas.drawBitmap(ShopImages.SHOP_INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        if (buyPage.isInPage()) buyPage.render(canvas);
+        else CategoryPages[category.value].render(canvas);
 
     }
 
-    private void drawItem(Canvas canvas, ShopSloth ss) {
-        Items itemType = ss.getItem();
-        int imageX = (int) (ss.getX() + (float) ss.getSlothImage().getImage().getWidth() / 2 - (float) itemType.getImage().getWidth() / 2);
-        int imageY = (int) (ss.getY() + (float) ss.getSlothImage().getImage().getHeight() / 2 - (float) itemType.getImage().getHeight() / 2);
-        canvas.drawBitmap(itemType.getImage(), imageX, imageY, null);
-    }
 
     @Override
     public void touchEvents(MotionEvent event) {
@@ -88,15 +63,17 @@ public class ItemShop extends ShopState implements GameStateInterface {
             buyPage.touchEvents(event);
             return;
         }
+        CategoryPage categoryPage = CategoryPages[category.value];
+
         for (int i = 0; i < ShopWidth; i++)
             for (int j = 0; j < ShopHeight; j++)
-                if (ShopItems[page][i][j].isIn(event)) {
-                    xCurrIndex = i;
-                    yCurrIndex = j;
+                if (categoryPage.getShopItems()[0][i][j].isIn(event)) {
+                    categoryPage.setXCurr(i);
+                    categoryPage.setYCurr(j);
                 }
 
 
-        currSS = ShopItems[page][xCurrIndex][yCurrIndex];
+        currSS = categoryPage.getShopItems()[categoryPage.getPage()][xCurrIndex][yCurrIndex];
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (isIn(event, currSS) && currSS.hasItem()) {
@@ -114,27 +91,6 @@ public class ItemShop extends ShopState implements GameStateInterface {
     }
 
 
-    private void initItems() {
-        int index = 0;
-        for (int i = 0; i < MAX_PAGES; i++) {
-            for (ShopSloth[] shopSloths : ShopItems[i])
-                for (ShopSloth slot : shopSloths) {
-                    if (index < ItemHelper.getItems().size())
-                        slot.setItem(ItemHelper.getItems().get(index));
-                    index++;
-                }
-        }
-
-    }
-
-    public int getMAX_PAGES() {
-        return MAX_PAGES;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
     public ShopSloth getCurrSS() {
         return currSS;
     }
@@ -146,4 +102,34 @@ public class ItemShop extends ShopState implements GameStateInterface {
     public ShopState getShopState() {
         return shopState;
     }
+
+    public void setPage(int page) {
+        CategoryPages[category.value].setPage(page);
+    }
+
+    public int getMAX_PAGES() {
+        return CategoryPages[category.value].getMAX_PAGES();
+    }
+
+    enum Category {
+        BASIC(0), FRUIT(1), FOOD(2), MEAT(3), SNACKS(4), CAKE(5);
+
+        final int value;
+
+        Category(int value) {
+            this.value = value;
+        }
+
+        public Enum[] getItems() {
+            return switch (this) {
+                case BASIC -> ItemHelper.basicProduct.values();
+                case FRUIT -> ItemHelper.fruit.values();
+                case FOOD -> ItemHelper.food.values();
+                case MEAT -> ItemHelper.meat.values();
+                case SNACKS -> ItemHelper.snacks.values();
+                case CAKE -> ItemHelper.cakes.values();
+            };
+        }
+    }
+
 }
