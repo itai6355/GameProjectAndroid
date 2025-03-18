@@ -21,6 +21,14 @@ public interface BitmapMethods {
         return Bitmap.createScaledBitmap(bitmap, GameConstants.Sprite.SIZE, GameConstants.Sprite.SIZE, false);
     }
 
+    default Bitmap getSmallestItemSize(Bitmap bitmap) {
+        return Bitmap.createScaledBitmap(bitmap, GameConstants.Sprite.DEFAULT_SIZE * 5, GameConstants.Sprite.DEFAULT_SIZE * 5, false);
+    }
+
+    default Bitmap getItemBiggerSize(Bitmap bitmap) {
+        return Bitmap.createScaledBitmap(bitmap, GameConstants.Sprite.SIZE * 2, GameConstants.Sprite.SIZE * 2, false);
+    }
+
     default Bitmap getItemSize(Bitmap bitmap) {
         return Bitmap.createScaledBitmap(bitmap, 24 * GameConstants.Sprite.SCALE_MULTIPLIER, 24 * GameConstants.Sprite.SCALE_MULTIPLIER, false);
     }

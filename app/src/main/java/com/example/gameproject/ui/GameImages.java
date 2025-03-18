@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.gameproject.R;
+import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.main.MainActivity;
 
@@ -30,7 +31,14 @@ public enum GameImages implements BitmapMethods {
     COIN_SMALL(R.drawable.coins, 0,0,16, 16, 0.7f),
 
     ICON_BOX(R.drawable.icons_ui, 245, 101, 38, 38, 1),
-    PLAYER_BOX(R.drawable.icons_ui, 275, 212, 90, 25, 2);
+    PLAYER_BOX(R.drawable.icons_ui, 275, 212, 90, 25, 2),
+
+    ICON_BASIC(Items.SLICED_BREAD_P),
+    ICON_FRUIT(Items.RED_APPLE),
+    ICON_FOOD(Items.HAMBURGER),
+    ICON_MEAT(Items.RED_APPLE_P),
+    ICON_SNACKS(Items.POTATOCHIP_BLUE),
+    ICON_CAKE(Items.TIRAMISU);
 
 
     private final Bitmap atlas;
@@ -46,6 +54,10 @@ public enum GameImages implements BitmapMethods {
         options.inScaled = false;
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
         image = Bitmap.createScaledBitmap(atlas, width, height, false);
+    }
+    GameImages(Items item){
+        atlas = item.getImage();
+        image = getMultiplierBitmap(item.getImage(), 0.6f, 0.6f);
     }
 
     public Bitmap getImage() {

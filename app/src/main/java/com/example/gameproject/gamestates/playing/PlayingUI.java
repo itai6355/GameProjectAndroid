@@ -33,8 +33,8 @@ public class PlayingUI {
     private final CustomButton btnSetting;
     private final CustomButton btnInventory;
     private final CustomButton btnShop;
-    //dev:
     private final CustomButton btnDebug;
+    //TODO: add Item bar.
 
 
     public PlayingUI(Playing playing) {

@@ -16,13 +16,20 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.gameproject.entities.items.Items;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private Context context;
-    private static final String DATABASE_NAME = "Game.db";
-    private static final int DATABASE_VERSION = 2;
+    private final Context context;
+    private static final String DATABASE_NAME = "GAME_DB.db";
+    private static final int DATABASE_VERSION = 5;
 
-    private static final String TABLE_NAME = "game_table";
+    private static final String TABLE_NAME = "GAME_DB";
+    private SQLiteDatabase db;
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        this.db = db;
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("CREATE TABLE " + TABLE_NAME + " (");
 
@@ -38,9 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             DatabaseColumns.Column column = DatabaseColumns.ALL_COLUMNS.get(i);
             queryBuilder.append(column.name()).append(" ").append(column.type());
 
-            if (i < DatabaseColumns.ALL_COLUMNS.size() - 1) {
-                queryBuilder.append(", ");
-            }
+            if (i < DatabaseColumns.ALL_COLUMNS.size() - 1) queryBuilder.append(", ");
         }
         queryBuilder.append(");");
 
@@ -50,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        this.db = db;
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
@@ -57,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public int getUserId(String username, String password) {
         if (username.equals("admin") && password.equals("admin")) return -1;
-        SQLiteDatabase db = this.getReadableDatabase();
+        db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT _id FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
 
         int userId = -1;
@@ -75,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressLint("Range")
     public String getColumnValueById(int playerId, DatabaseColumns.Column column) {
         if (playerId == -1) return "999999";
-        SQLiteDatabase db = this.getReadableDatabase();
+        db = this.getReadableDatabase();
 
         if (!isValidColumn(column.name())) {
             return "Invalid column name";
@@ -106,11 +113,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean updateIntColumn(int playerId, DatabaseColumns.Column column, int newValue) {
         if (playerId == -1) return true;
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
 
         if (!isIntegerColumn(column)) {
             showToast("The specified column is not an integer column.");
-            db.close();
             return false;
         }
 
@@ -120,18 +126,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             long result = db.update(TABLE_NAME, values, "_id = ?", new String[]{String.valueOf(playerId)});
 
-            db.close();
+            if (result == -1) {
+                showToast("Failed to update.");
+            }
             return result != -1;
         } catch (Exception e) {
             showToast("Error: " + e.getMessage());
-            db.close();
             return false;
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
         }
     }
 
+
     public boolean updateStringColumn(int playerId, DatabaseColumns.Column column, String newValue) {
         if (playerId == -1) return true;
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
 
         if (!isStringrColumn(column)) {
             showToast("The specified column is not an String column.");
@@ -158,12 +170,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private boolean isIntegerColumn(DatabaseColumns.Column column) {
-        return column.type().equals("INTEGER");
+        return column.type().equals("INTEGER") || column.type().equals("INTEGER DEFAULT 0");
     }
 
 
     Cursor readAllData() {
-        SQLiteDatabase db = this.getReadableDatabase();
+        db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
     }
 
@@ -188,6 +200,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             showToast("Error: " + e.getMessage());
         }
     }
+
     public void deleteTable() {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
@@ -204,7 +217,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=?", new String[]{username});
 
         if (cursor.moveToFirst()) {
@@ -239,7 +252,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean loginUserByUsername(String username, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
         boolean result = cursor.moveToFirst();
         cursor.close();
@@ -255,5 +268,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void Log(String tag, String message) {
         Log.d(tag, message);
+    }
+
+    public void addIntColumn(int id, DatabaseColumns.Column itemColumnByName) {
+        updateIntColumn(id, itemColumnByName, Integer.parseInt(getColumnValueById(id, DatabaseColumns.COINS)) + 1);
+    }
+
+    public void setInventory(int id, CopyOnWriteArrayList<Items> inventory) {
+        List<Items> tempInventory = new ArrayList<>();
+        for (DatabaseColumns.Column column : DatabaseColumns.getAllColumns()) {
+            if (column.name().startsWith(DatabaseColumns.COLUMN_ITEM_PREFIX)) {
+                int itemValue;
+                try {
+                    itemValue = Integer.parseInt(getColumnValueById(id, column));
+                } catch (NumberFormatException e) {
+                    Log.e("setInventory", "Invalid value for item quantity: " + getColumnValueById(id, column));
+                    continue;
+                }
+                for (int i = 0; i < itemValue; i++) {
+                    Log("setInventory", "Adding item: " + Items.valueOf(column.name().substring(DatabaseColumns.COLUMN_ITEM_PREFIX.length())));
+                    tempInventory.add(Items.valueOf(column.name().substring(DatabaseColumns.COLUMN_ITEM_PREFIX.length())));
+                }
+            }
+        }
+        inventory.addAll(tempInventory);
+
     }
 }

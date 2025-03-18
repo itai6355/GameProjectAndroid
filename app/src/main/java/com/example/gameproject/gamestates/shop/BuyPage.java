@@ -80,7 +80,7 @@ public class BuyPage implements GameStateInterface {
         canvas.drawText(String.valueOf(amount), xDrawAmount, yDrawAmount, BlackPaint);
 
         canvas.drawBitmap(ShopImages.SHOP_BAR_2_SCALED.getImage(), xDrawBar, yDrawBar, null);
-        canvas.drawBitmap(item.getImage(), xMiddle - (float) item.getImage().getWidth() / 2, yMiddle - (float) item.getImage().getHeight() / 2, null);
+        canvas.drawBitmap(item.getBiggerImage(), xMiddle - (float) item.getBiggerImage().getWidth() / 2, yMiddle - (float) item.getBiggerImage().getHeight() / 2, null);
         canvas.drawText(String.valueOf(price), xDrawPrice, yDrawPrice, BlackPaint);
         canvas.drawBitmap(GameImages.COIN_SMALL.getImage(), xDrawPrice + (float) ShopImages.SHOP_BAR_2_SCALED.getWidth() / 2 + String.valueOf(price).length() * GameConstants.Sprite.SCALE_MULTIPLIER, yDrawPrice - 2 * GameConstants.Sprite.Y_DRAW_OFFSET - 2 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
 
@@ -118,12 +118,11 @@ public class BuyPage implements GameStateInterface {
         Player player = itemShop.getGame().getPlayer();
         if (player.getCoins() >= price) {
             player.setCoins(player.getCoins() - price);
-            for (int i = 0; i < amount; i++)
-                player.getInventory().add(item);
+            for (int i = 0; i < amount; i++) {
+                player.addToInventory(item);
+            }
             setNotBuying();
             itemShop.getGame().getInventoryState().SyncInventories(player);
-        } else {
-            System.out.println("Not enough coins");
         }
 
 

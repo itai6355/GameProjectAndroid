@@ -1,5 +1,6 @@
 package com.example.gameproject.gamestates.shop;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
@@ -9,28 +10,32 @@ import com.example.gameproject.helpers.interfaces.GameStateInterface;
 
 public class CategoryPage implements GameStateInterface {
     private int page;
-    private final int MAX_PAGES = 2;
+    private final int MAX_PAGES;
 
     private final int ShopWidth = 10;
     private final int ShopHeight = 4;
 
-    private int xCurr = 450;
-    private int yCurr = 200;
+    private int xCurr;
+    private int yCurr;
     private int Xspace = 50;
     private int Yspace = 100;
 
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;
 
-    ItemShop.Category thiscategory;
+    private Bitmap icon;
+    private final ItemShop.Category thiscategory;
 
-    private final ShopSloth[][][] ShopItems = new ShopSloth[MAX_PAGES][ShopWidth][ShopHeight];
+    private final ShopSloth[][][] ShopItems;
 
-    public CategoryPage(ItemShop.Category category) {
+    public CategoryPage(ItemShop.Category category, int xCurr, int yCurr) {
+        this.xCurr = xCurr;
+        this.yCurr = yCurr;
+        MAX_PAGES = (int) Math.ceil((double) category.getItems().length / (ShopWidth * ShopHeight));
+        ShopItems = new ShopSloth[MAX_PAGES][ShopWidth][ShopHeight];
         thiscategory = category;
         page = 0;
         initPages();
-
     }
 
 
@@ -45,7 +50,6 @@ public class CategoryPage implements GameStateInterface {
                         index++;
                     }
                 }
-
     }
 
     @Override
@@ -57,12 +61,10 @@ public class CategoryPage implements GameStateInterface {
     public void render(Canvas canvas) {
         for (ShopSloth[] shopSloths : ShopItems[page])
             for (ShopSloth slot : shopSloths)
-                canvas.drawBitmap(slot.getSlothImage().getImage(), slot.getX(), slot.getY(), null);
-
-        for (ShopSloth[] SSs : ShopItems[page])
-            for (ShopSloth SS : SSs)
-                if (SS != null && SS.getAmount() > 0) drawItem(canvas, SS);
-
+                if (slot != null) {
+                    canvas.drawBitmap(slot.getSlothImage().getImage(), slot.getX(), slot.getY(), null);
+                    if (slot.getAmount() > 0) drawItem(canvas, slot);
+                }
         canvas.drawBitmap(ShopImages.SHOP_INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
     }
 
@@ -79,19 +81,11 @@ public class CategoryPage implements GameStateInterface {
     }
 
 
-    public void setXCurr(int xCurr) {
-        this.xCurr = xCurr;
-    }
-
-    public void setYCurr(int yCurr) {
-        this.yCurr = yCurr;
-    }
-
     public ShopSloth[][][] getShopItems() {
         return ShopItems;
     }
 
-    public int getPage() {
+    public int getCurrPage() {
         return page;
     }
 
@@ -99,7 +93,33 @@ public class CategoryPage implements GameStateInterface {
         this.page = page;
     }
 
+
     public int getMAX_PAGES() {
         return MAX_PAGES;
+    }
+
+    public Bitmap getIcon() {
+        return icon;
+    }
+
+
+    public void setIcon() {
+        switch (thiscategory) {
+            case BASIC -> icon = Items.SLICED_BREAD_P.getSmallestImage();
+            case FRUIT -> icon = Items.RED_APPLE.getSmallestImage();
+            case FOOD -> icon = Items.HAMBURGER.getSmallestImage();
+            case MEAT -> icon = Items.RED_APPLE_P.getSmallestImage();
+            case SNACKS -> icon = Items.POTATOCHIP_BLUE.getSmallestImage();
+            case CAKE -> icon = Items.TIRAMISU.getSmallestImage();
+            case BAKERY_TOOLS -> icon = Items.SPATULA.getSmallestImage();
+        }
+    }
+
+    public void setXCurr(int xCurrIndex) {
+        this.xCurrIndex = xCurrIndex;
+    }
+
+    public void setYCurr(int yCurrIndex) {
+        this.yCurrIndex = yCurrIndex;
     }
 }

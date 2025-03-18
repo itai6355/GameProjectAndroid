@@ -196,6 +196,7 @@ public enum Items implements BitmapMethods {
     RED_JELLY(R.drawable.redjelly),
     RED_VELVET_CAKE(R.drawable.redvelvetcake),
     RED_APPLE(R.drawable.red_apple),
+    RED_APPLE_P(R.drawable.red_apple_p),
     ROASTED_CHICKEN_DISH(R.drawable.roastedchicken_dish),
     SALMON(R.drawable.salmon),
     SALMON2(R.drawable.salmon2),
@@ -245,6 +246,69 @@ public enum Items implements BitmapMethods {
     WINE_WHITE2(R.drawable.wine_white2),
     WINE_WHITE3(R.drawable.wine_white3),
     YELLOW_JELLY(R.drawable.yellowjelly),
+    ALUMINUM_FOIL(R.drawable.aluminum_foil),
+    BAKING_POWDER(R.drawable.baking_powder),
+    BALL_PEN(R.drawable.ball_pen),
+    BANDAGE_BOX(R.drawable.bandage_box),
+    BASKET_METAL(R.drawable.basket_metal),
+    BASKET_YELLOW(R.drawable.basket_yellow),
+    BATHROOM_CLEANER(R.drawable.bathroom_cleaner),
+    BATTERIES(R.drawable.batteries),
+    BODY_LOTION(R.drawable.body_lotion),
+    BOWL(R.drawable.bowl),
+    CHOPPING_BOARD(R.drawable.chopping_board),
+    CLEANING_BRUSH(R.drawable.cleaning_brush),
+    CLEANING_GLOVES(R.drawable.cleaning_gloves),
+    COFFEE_MUG(R.drawable.coffee_mug),
+    CREDIT_CARD_1(R.drawable.credit_card_1),
+    CREDIT_CARD_2(R.drawable.credit_card_2),
+    CREDIT_CARD_3(R.drawable.credit_card_3),
+    DETERGENT(R.drawable.detergent),
+    ERASER(R.drawable.eraser),
+    FRYING_PAN(R.drawable.frying_pan),
+    GLUE(R.drawable.glue),
+    GLUE_STICK(R.drawable.glue_stick),
+    HAND_SANITISER(R.drawable.hand_sanitiser),
+    I_WOOL_CLOTH(R.drawable.i_wool_cloth),
+    KITCHEN_KNIFE_SET(R.drawable.kitchen_knife_set),
+    KITCHEN_KNIFE_SET_P(R.drawable.kitchen_knife_set_p),
+    KITCHEN_SOAP(R.drawable.kitchen_soap),
+    LIGHT_BULB(R.drawable.light_bulb),
+    LIGHT_BULB_BOX(R.drawable.light_bulb_box),
+    PAPER_BAG(R.drawable.paper_bag),
+    POWER_STRIP_TYPEA(R.drawable.power_strip_typea),
+    POWER_STRIP_TYPEF(R.drawable.power_strip_typef),
+    RECEIPT(R.drawable.receipt),
+    ROLLING_PIN(R.drawable.rolling_pin),
+    SCISSORS(R.drawable.scissors),
+    SCISSORS_P(R.drawable.scissors_p),
+    SCRUB_BRUSH(R.drawable.scrub_brush),
+    SCRUB_SPONGE(R.drawable.scrub_sponge),
+    SHAMPOO(R.drawable.shampoo),
+    SOAP(R.drawable.soap),
+    SOAP_BOX(R.drawable.soap_box),
+    SPATULA(R.drawable.spatula),
+    SUN_CREAM_TUBE(R.drawable.sun_cream_tube),
+    TEAKETTLE(R.drawable.teakettle),
+    TOILET_PAPER(R.drawable.toilet_paper),
+    TOOTHBRUSH(R.drawable.toothbrush),
+    TOOTHBRUSH_SET(R.drawable.toothbrush_set),
+    TOOTHPASTE(R.drawable.toothpaste),
+    TOOTHPASTE_BOX(R.drawable.toothpaste_box),
+    WAX(R.drawable.wax),
+    WET_WIPE(R.drawable.wet_wipe),
+    WHISK(R.drawable.whisk),
+    CHOCOLATE_DISH(R.drawable.chocolate_dish),
+    EGGTART_DISH(R.drawable.eggtart_dish),
+    GARLICBREAD_DISH(R.drawable.garlicbread_dish),
+    GIANTGUMMYBEAR_DISH(R.drawable.giantgummybear_dish),
+    HOTDOG_DISH(R.drawable.hotdog_dish),
+    ICECREAM_BOWL(R.drawable.icecream_bowl),
+    LOAFBREAD_DISH(R.drawable.loafbread_dish),
+    MEATBALL_DISH(R.drawable.meatball_dish),
+    NACHO_DISH(R.drawable.nacho_dish),
+    POTATOCHIPS_BOWL(R.drawable.potatochips_bowl),
+    
     COIN(R.drawable.coins, 16, 16, 14);
 
     final Bitmap atlas;
@@ -267,9 +331,11 @@ public enum Items implements BitmapMethods {
         isAni = false;
         this.amount = 1;
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
-        images = new Bitmap[2];
-        images[0] = getItemSize(atlas);
-        images[1] = getSmallItemSize(atlas);
+        images = new Bitmap[4];
+        images[0] = getItemBiggerSize(atlas);
+        images[1] = getItemSize(atlas);
+        images[2] = getSmallItemSize(atlas);
+        images[3] = getSmallestItemSize(atlas);
         ItemHelper.getItems().add(this);
     }
 
@@ -279,10 +345,16 @@ public enum Items implements BitmapMethods {
     }
 
     public Bitmap getImage() {
-        return images[0];
+        return images[1];
     }
     public Bitmap getSmallImage() {
-        return images[1];
+        return images[2];
+    }
+    public Bitmap getSmallestImage() {
+        return images[3];
+    }
+    public Bitmap getBiggerImage() {
+        return images[0];
     }
 
     public boolean isAni() {
@@ -296,7 +368,6 @@ public enum Items implements BitmapMethods {
     public String getName() {
         return name();
     }
-
-
 }
+
 

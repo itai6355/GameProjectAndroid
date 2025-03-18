@@ -41,14 +41,10 @@ public class Player extends Character {
 
 
         setSkinAndIcon(dbHelper.getColumnValueById(id, DatabaseColumns.SKIN));
-
-
-
-        dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
-        dbHelper.updateIntColumn(id, DatabaseColumns.COINS, 143);
+        dbHelper.setInventory(id, inventory);
+        //TODO: sync the inventoryes with the database
 
     }
-
 
     public void update(double delta, boolean movePlayer) {
         if (movePlayer) updateAnimation();
@@ -67,11 +63,12 @@ public class Player extends Character {
         return inventory;
     }
 
-    public void updateSQL(Item item) {
-        if (Objects.requireNonNull(item.getItemType()) == Items.COIN) {
-            dbHelper.updateIntColumn(id, DatabaseColumns.COINS, Integer.parseInt(dbHelper.getColumnValueById(id, DatabaseColumns.COINS)) + 1);
-            dbHelper.Log("Coins for player:" + username + " " + password + " " + id + " ", dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
-        }
+    public void addToSQL(Items item) {
+        if (Objects.requireNonNull(item) == Items.COIN)
+            dbHelper.addIntColumn(id, DatabaseColumns.COINS);
+        else
+            dbHelper.addIntColumn(id,DatabaseColumns.getItemColumnByName(item));
+
     }
 
     public void setSkinAndIcon(String skinName) {
@@ -125,4 +122,8 @@ public class Player extends Character {
     }
 
 
+    public void addToInventory(Items item) {
+        inventory.add(item);
+        addToSQL(item);
+    }
 }

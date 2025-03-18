@@ -120,7 +120,7 @@ public class Playing extends BaseState implements GameStateInterface {
     private void pickItem(Player player, Item item) {
         switch (item.getItemType()) {
             case COIN -> {
-                player.updateSQL(item);
+                player.addToSQL(item.getItemType());
                 mapManager.getCurrentMap().getItemArrayList().remove(item);
             }
 
@@ -294,7 +294,7 @@ public class Playing extends BaseState implements GameStateInterface {
         canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), null);
         canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
         if (GameActivity.getDrawHitbox())
-            // TODO:      not true ): need fix!
+            //  not true ): need fix!
             // when weapon is facing left or up, the hitbox is bigger.
             // not effecting the game and real hitbox IDK why.
             canvas.drawRect(character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), character.getAttackBox().right + cameraX, character.getAttackBox().bottom + cameraY, redPaint);
