@@ -164,7 +164,6 @@ public class ItemHelper {
             case LOLLIPOP -> price = 10;
             case MACRONS -> price = 14;
             case MARSHMALLOWS -> price = 9;
-            case MEAT -> price = 17;
             case MEAT1 -> price = 17;
             case MEAT1_P -> price = 18;
             case MEAT2 -> price = 19;
@@ -387,7 +386,7 @@ public class ItemHelper {
     }
 
     public enum meat {
-        BACON, CHICKEN, FISH_SALOMON, MEAT1, MEAT1_P, MEAT2, MEAT, MUSTARD, KETCHUP, SAUSAGE_P, SALMON_P, SALMON;
+        BACON, CHICKEN, FISH_SALOMON, MEAT1, MEAT1_P, MEAT2, MUSTARD, KETCHUP, SAUSAGE_P, SALMON_P, SALMON;
 
         public static boolean contains(Items item) {
             for (meat p : meat.values()) {

@@ -28,13 +28,13 @@ public class GameLoop implements Runnable {
             game.render();
             lastDelta = nowDelta;
 
-//            fps++;
-//            long now = System.currentTimeMillis();
-//            if (now - lastFPScheck >= 1000) {
-//                System.out.println("FPS: " + fps);
-//                fps = 0;
-//                lastFPScheck += 1000;
-//            }
+            fps++;
+            long now = System.currentTimeMillis();
+            if (now - lastFPScheck >= 1000) {
+                System.out.println("FPS: " + fps);
+                fps = 0;
+                lastFPScheck += 1000;
+            }
 
 
         }

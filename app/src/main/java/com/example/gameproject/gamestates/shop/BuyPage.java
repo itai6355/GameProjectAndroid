@@ -6,11 +6,13 @@ import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
+import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
@@ -118,11 +120,12 @@ public class BuyPage implements GameStateInterface {
         Player player = itemShop.getGame().getPlayer();
         if (player.getCoins() >= price) {
             player.setCoins(player.getCoins() - price);
-            for (int i = 0; i < amount; i++) {
+            for (int i = 0; i < amount; i++)
                 player.addToInventory(item);
-            }
             setNotBuying();
             itemShop.getGame().getInventoryState().SyncInventories(player);
+        }else {
+            Toast.makeText(MainActivity.getGameContext(), "Not enough coins", Toast.LENGTH_SHORT).show();
         }
 
 

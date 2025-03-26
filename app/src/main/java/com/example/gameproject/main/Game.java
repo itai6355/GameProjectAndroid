@@ -100,12 +100,12 @@ public class Game {
     }
 
     private void initGameStates() {
-        playing = new Playing(this);
         deathScreen = new DeathScreen(this);
         setting = new Setting(this);
         inventoryState = new InventoryState(this);
         shopState = new ShopState(this);
         debugState = new DebugState(this);
+        playing = new Playing(this);
     }
 
     public enum GameState {

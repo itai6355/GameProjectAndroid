@@ -74,8 +74,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
-
         return userId;
     }
 
@@ -92,12 +90,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String columnValue = null;
 
+
         if (cursor.moveToFirst()) {
             columnValue = cursor.getString(cursor.getColumnIndex(column.name()));
         }
 
         cursor.close();
-        db.close();
 
         return columnValue;
     }
@@ -133,10 +131,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             showToast("Error: " + e.getMessage());
             return false;
-        } finally {
-            if (db != null && db.isOpen()) {
-                db.close();
-            }
         }
     }
 
@@ -147,7 +141,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (!isStringrColumn(column)) {
             showToast("The specified column is not an String column.");
-            db.close();
             return false;
         }
 
@@ -156,11 +149,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         try {
             long result = db.update(TABLE_NAME, values, "_id = ?", new String[]{String.valueOf(playerId)});
-            db.close();
             return result != -1;
         } catch (Exception e) {
             showToast("Error: " + e.getMessage());
-            db.close();
             return false;
         }
     }
@@ -222,7 +213,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             cursor.close();
-            db.close();
             return false;
         }
 
@@ -236,7 +226,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result;
         try {
             result = db.insert(TABLE_NAME, null, values);
-            db.close();
             Log("registerUser", "Result: " + result + ", Username: " + username + ", Password: " + password);
 
         } catch (Exception e) {
@@ -256,7 +245,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
         boolean result = cursor.moveToFirst();
         cursor.close();
-        db.close();
         Log("loginUserByUsername", "Result: " + result + ", Username: " + username + ", Password: " + password);
         return result;
     }
@@ -272,6 +260,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void addIntColumn(int id, DatabaseColumns.Column itemColumnByName) {
         updateIntColumn(id, itemColumnByName, Integer.parseInt(getColumnValueById(id, DatabaseColumns.COINS)) + 1);
+    }
+    public void reduceIntColumn(int id, DatabaseColumns.Column itemColumnByName) {
+        updateIntColumn(id, itemColumnByName, Integer.parseInt(getColumnValueById(id, DatabaseColumns.COINS)) - 1);
     }
 
     public void setInventory(int id, CopyOnWriteArrayList<Items> inventory) {
@@ -292,6 +283,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         inventory.addAll(tempInventory);
-
+        Log("setInventory", inventory.toString());
     }
+
+    @Override
+    public synchronized SQLiteDatabase getReadableDatabase() {
+        if (db == null || !db.isOpen()) db = super.getReadableDatabase();
+        return db;
+    }
+
+    @Override
+    public synchronized SQLiteDatabase getWritableDatabase() {
+        if (db == null || !db.isOpen()) db = super.getWritableDatabase();
+        return db;
+    }
+
+    public void closeDatabase() {
+        if (db != null && db.isOpen()) db.close();
+    }
+
 }

@@ -59,12 +59,16 @@ public class CategoryPage implements GameStateInterface {
 
     @Override
     public void render(Canvas canvas) {
-        for (ShopSloth[] shopSloths : ShopItems[page])
-            for (ShopSloth slot : shopSloths)
-                if (slot != null) {
-                    canvas.drawBitmap(slot.getSlothImage().getImage(), slot.getX(), slot.getY(), null);
-                    if (slot.getAmount() > 0) drawItem(canvas, slot);
-                }
+        try {
+            for (ShopSloth[] shopSloths : ShopItems[page])
+                for (ShopSloth slot : shopSloths)
+                    if (slot != null) {
+                        canvas.drawBitmap(slot.getSlothImage().getImage(), slot.getX(), slot.getY(), null);
+                        if (slot.getAmount() > 0) drawItem(canvas, slot);
+                    }
+        } catch (Exception e) {
+            // somtimes when you move from 2 pages to 1 page it can throw an ArrayIndexOutOfBoundsException
+        }
         canvas.drawBitmap(ShopImages.SHOP_INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
     }
 

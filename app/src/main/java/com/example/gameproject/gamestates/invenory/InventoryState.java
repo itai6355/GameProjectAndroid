@@ -22,7 +22,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
 
     private final CustomButton btnBack = new CustomButton(20, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
     private final int inventoryWidth = 8;
-    private final int inventoryHeight = 6;
+    private final int inventoryHeight = 4;
     int xCurr = 750;
     int yCurr = 200;
     int space = 15;
@@ -30,6 +30,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
     private int yCurrIndex = 0;
     private final InventorySloth[][] inventory = new InventorySloth[inventoryWidth][inventoryHeight];
     private final Paint BlackPaint;
+    private InventorySloth lstItem;
 
 
     public InventoryState(Game game) {
@@ -62,6 +63,8 @@ public class InventoryState extends BaseState implements GameStateInterface {
                 canvas.drawBitmap(slot.getImage().getImage(), slot.getX(), slot.getY(), null);
             }
         }
+        var itemBar = game.getPlaying().getPlayer().getItemBar();
+        drawItemBar(canvas, itemBar);
 
         canvas.drawBitmap(ButtonImages.SETTINGS_BACK.getBtnImg(btnBack.isPushed()), btnBack.getHitbox().left, btnBack.getHitbox().top, null);
 
@@ -69,9 +72,21 @@ public class InventoryState extends BaseState implements GameStateInterface {
             for (InventorySloth IS : ISs)
                 if (IS != null && IS.getAmount() > 0) drawItem(canvas, IS);
 
-        canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), inventory[xCurrIndex][yCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, inventory[xCurrIndex][yCurrIndex].getY() - GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        for (InventorySloth IS : itemBar)
+            if (IS != null && IS.getAmount() > 0) drawItem(canvas, IS);
 
+        if (yCurrIndex == -1)
+            canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), itemBar[xCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, itemBar[xCurrIndex].getY(), null);
+        else
+            canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), inventory[xCurrIndex][yCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, inventory[xCurrIndex][yCurrIndex].getY() - GameConstants.Sprite.SCALE_MULTIPLIER, null);
+    }
 
+    private void drawItemBar(Canvas canvas, InventorySloth[] itemBar) {
+        for (InventorySloth inventorySloth : itemBar) {
+            if (inventorySloth != null) {
+                canvas.drawBitmap(inventorySloth.getImage().getImage(), inventorySloth.getX(), inventorySloth.getY(), null);
+            }
+        }
     }
 
     private void drawItem(Canvas canvas, InventorySloth IS) {
@@ -94,14 +109,33 @@ public class InventoryState extends BaseState implements GameStateInterface {
             btnBack.setPushed(false);
         }
 
-        for (int i = 0; i < inventory.length; i++) {
-            for (int j = 0; j < inventory[i].length; j++) {
+        for (int i = 0; i < inventory.length; i++)
+            for (int j = 0; j < inventory[i].length; j++)
                 if (inventory[i][j].isIn(event)) {
                     xCurrIndex = i;
                     yCurrIndex = j;
+                    if (lstItem != null && inventory[i][j].getItem() == null)
+                        moveItem(lstItem, inventory[i][j]);
+                    else lstItem = inventory[i][j];
                 }
+
+        var itemBar = game.getPlaying().getPlayer().getItemBar();
+        for (int i = 0; i < itemBar.length; i++)
+            if (itemBar[i].isIn(event)) {
+                xCurrIndex = i;
+                yCurrIndex = -1;
+
+                if (lstItem != null && itemBar[i].getItem() == null) moveItem(lstItem, itemBar[i]);
+                else lstItem = itemBar[i];
             }
-        }
+
+    }
+
+    private void moveItem(InventorySloth lst, InventorySloth curr) {
+        curr.setItem(lst.getItem());
+        curr.setAmount(lst.getAmount());
+        lst.setItem(null);
+        lst.setAmount(0);
     }
 
 
@@ -113,26 +147,30 @@ public class InventoryState extends BaseState implements GameStateInterface {
                 if (inventory[i][j].getItem() != null) {
                     inventory[i][j].setAmount(0);
                     itemSlotMap.put(inventory[i][j].getItem(), inventory[i][j]);
-                } else {
-                    itemSlotMap.put(null, inventory[i][j]);
                 }
             }
         }
-
 
         for (Items item : player.getInventory()) {
             InventorySloth slot = itemSlotMap.get(item);
             if (slot != null) {
                 slot.addAmount();
             } else {
-                slot = itemSlotMap.get(null);
-                if (slot != null) {
-                    slot.setItem(item);
-                    slot.setAmount(1);
-                    itemSlotMap.put(item, slot);
-                    itemSlotMap.remove(null);
+                boolean added = false;
+                for (int i = 0; i < inventory.length - 1; i++) {
+                    for (int j = 0; j < inventory[i].length - 1; j++) {
+                        if (inventory[i][j].getItem() == null) {
+                            inventory[i][j].setItem(item);
+                            inventory[i][j].setAmount(1);
+                            itemSlotMap.put(item, inventory[i][j]);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (added) break;
                 }
             }
         }
     }
+
 }

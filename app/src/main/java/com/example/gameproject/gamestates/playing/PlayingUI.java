@@ -11,6 +11,9 @@ import android.graphics.PointF;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.entities.Player;
+import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.gamestates.invenory.InventorySloth;
+import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
@@ -34,7 +37,7 @@ public class PlayingUI {
     private final CustomButton btnInventory;
     private final CustomButton btnShop;
     private final CustomButton btnDebug;
-    //TODO: add Item bar.
+    private final Paint BlackPaint;
 
 
     public PlayingUI(Playing playing) {
@@ -44,6 +47,11 @@ public class PlayingUI {
         circlePaint.setColor(Color.RED);
         circlePaint.setStrokeWidth(5);
         circlePaint.setStyle(Paint.Style.STROKE);
+        BlackPaint = new Paint();
+        BlackPaint.setColor(Color.BLACK);
+        BlackPaint.setTextSize(BlackPaint.getTextSize() + 15);
+        BlackPaint.setStrokeWidth(3);
+        BlackPaint.setStyle(Paint.Style.STROKE);
 
 
         btnSetting = new CustomButton(GAME_WIDTH - 230, 50, ButtonImages.PLAYING_SETTING.getWidth(), ButtonImages.PLAYING_SETTING.getHeight());
@@ -74,7 +82,42 @@ public class PlayingUI {
 
         drawButtons(canvas);
         drawHealth(canvas);
+        drawHungerBar(canvas);
+        drawItemBar(canvas);
 
+    }
+
+    private void drawHungerBar(Canvas canvas) {
+        int hunger = playing.getPlayer().getCurrHunger();
+        int maxHunger = playing.getPlayer().getMaxHunger();
+        int y = healthIconY + HealthIcons.HEART_FULL.getIcon().getWidth() + GameConstants.Sprite.Y_DRAW_OFFSET;
+        int x = healthIconX - 50;
+        for (int i = 0; i < maxHunger - hunger; i++) {
+            canvas.drawBitmap(GameImages.HUNGER_EMPTY.getImage(), x + 70 * i, y, null);
+        }
+        for (int i = 0; i < hunger; i++) {
+            canvas.drawBitmap(GameImages.HUNGER_FULL.getImage(), x + 70 * (i + maxHunger - hunger), y, null);
+        }
+
+
+    }
+
+    private void drawItemBar(Canvas canvas) {
+        var itemBar = playing.getPlayer().getItemBar();
+        for (InventorySloth inventorySloth : itemBar) {
+            if (inventorySloth != null)
+                canvas.drawBitmap(inventorySloth.getImage().getImage(), inventorySloth.getX(), inventorySloth.getY(), null);
+            if (inventorySloth != null && inventorySloth.getAmount() > 0)
+                drawItem(canvas, inventorySloth);
+        }
+    }
+
+    private void drawItem(Canvas canvas, InventorySloth IS) {
+        Items itemType = IS.getItem();
+        int imageX = (int) (IS.getX() + (float) IS.getImage().getImage().getWidth() / 2 - (float) itemType.getSmallImage().getWidth() / 2);
+        int imageY = (int) (IS.getY() + (float) IS.getImage().getImage().getHeight() / 2 - (float) itemType.getSmallImage().getHeight() / 2);
+        canvas.drawBitmap(itemType.getSmallImage(), imageX, imageY, null);
+        canvas.drawText(String.valueOf(IS.getAmount()), IS.getX() + InventorySloth.SLOT_SIZE - 6 * GameConstants.Sprite.SCALE_MULTIPLIER, IS.getY() + InventorySloth.SLOT_SIZE - 6 * GameConstants.Sprite.SCALE_MULTIPLIER, BlackPaint);
     }
 
 
@@ -145,6 +188,7 @@ public class PlayingUI {
 
 
     public void touchEvents(MotionEvent event) {
+        //TODO: need fix, somtimes you cant move the item to the first itemBar
         final int action = event.getActionMasked();
         final int actionIndex = event.getActionIndex();
         final int pointerId = event.getPointerId(actionIndex);
@@ -184,21 +228,25 @@ public class PlayingUI {
                         if (btnSetting.isPushed(pointerId)) {
                             resetJoystickButton();
                             playing.setGameStateToSettings();
+                            playing.resetLastItem();
                         }
                     } else if (isIn(eventPos, btnInventory)) {
                         if (btnInventory.isPushed(pointerId)) {
                             resetJoystickButton();
                             playing.setGameStateToInventory();
+                            playing.resetLastItem();
                         }
                     } else if (isIn(eventPos, btnShop)) {
                         if (btnShop.isPushed(pointerId)) {
                             resetJoystickButton();
                             playing.setGameStateToShop();
+                            playing.resetLastItem();
                         }
                     } else if (isIn(eventPos, btnDebug)) {
                         if (btnDebug.isPushed(pointerId)) {
                             resetJoystickButton();
                             playing.setGameStateToDebug();
+                            playing.resetLastItem();
                         }
                     }
 

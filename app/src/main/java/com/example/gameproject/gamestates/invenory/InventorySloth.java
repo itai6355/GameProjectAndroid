@@ -17,7 +17,7 @@ public class InventorySloth extends CustomButton {
     private int amount = 0;
 
     public InventorySloth(int xSpot, int ySpot, int x, int y) {
-        super(x,y,SLOT_SIZE,SLOT_SIZE);
+        super(x, y, SLOT_SIZE, SLOT_SIZE);
         this.xSpot = xSpot;
         this.ySpot = ySpot;
         this.x = x;
@@ -69,6 +69,15 @@ public class InventorySloth extends CustomButton {
 
     public void addAmount() {
         amount++;
+    }
+
+    public void reduceAmount() {
+        if (amount > 0) {
+            amount--;
+        }else {
+            item = null;
+            amount = 0;
+        }
     }
 
     public boolean isChecked() {

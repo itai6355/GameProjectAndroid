@@ -4,12 +4,16 @@ import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.BaseState;
+import com.example.gameproject.gamestates.shop.ShopImages;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
+import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
@@ -22,7 +26,6 @@ public class Setting extends BaseState implements GameStateInterface {
     private final int btnXBack = menuX + 2 * GameConstants.Sprite.X_DRAW_OFFSET;
     private final int btnYBack = menuY + 2 * GameConstants.Sprite.Y_DRAW_OFFSET;
 
-
     private final CustomButton[] btnVolumeButtons;
     private final int btnXVolume = menuX + GameConstants.Sprite.X_DRAW_OFFSET;
     private final int SoundIconX = btnXVolume + space * GameConstants.Sprite.SCALE_MULTIPLIER;
@@ -31,27 +34,66 @@ public class Setting extends BaseState implements GameStateInterface {
     private final CustomButton btnSound;
     private final CustomButton btnBack;
 
+    private final CustomButton btnNext;
+    private final CustomButton btnPrev;
+
+    private final Paint BlackPaint;
+
+    private float volume = 0.5f;
+
 
     public Setting(Game game) {
         super(game);
         btnBack = new CustomButton(btnXBack, btnYBack, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
         btnVolumeButtons = new CustomButton[20];
-        for (int i = 0; i < btnVolumeButtons.length; i++)
+        for (int i = 0; i < btnVolumeButtons.length; i++) {
             btnVolumeButtons[i] = new CustomButton(btnXVolume + i * ButtonImages.SETTINGS_VOLUMES.getWidth() + space * GameConstants.Sprite.SCALE_MULTIPLIER
                     , btnYVolume, ButtonImages.SETTINGS_VOLUMES.getWidth(), ButtonImages.SETTINGS_VOLUMES.getHeight());
+            btnVolumeButtons[i].setPushed(true);
+        }
+        btnNext = new CustomButton(btnVolumeButtons[19].getHitbox().right - ButtonImages.EMPTY_SMALL.getWidth(), btnYVolume + ButtonImages.EMPTY_SMALL.getHeight() , ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
+        btnPrev = new CustomButton(btnXVolume + space * GameConstants.Sprite.SCALE_MULTIPLIER, btnYVolume + ButtonImages.EMPTY_SMALL.getHeight(), ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
+
         btnSound = new CustomButton(SoundIconX, SoundIconY, GameImages.SOUND_ICON.getImage().getWidth(), GameImages.SOUND_ICON.getImage().getHeight());
+        BlackPaint = new Paint();
+        BlackPaint.setColor(Color.BLACK);
+        BlackPaint.setTextSize(BlackPaint.getTextSize() + 50);
+        BlackPaint.setStrokeWidth(3);
+        BlackPaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
     public void update(double delta) {
-
+        volume = 0.0f;
+        for (CustomButton btn : btnVolumeButtons)
+            if (btn.isPushed()) volume += 0.05f;
+        GameActivity.getMpHelper().setVolume(volume, volume);
     }
 
     @Override
     public void render(Canvas canvas) {
         drawBackground(canvas);
         drawButtons(canvas);
+        drawSong(canvas);
+        drawArrow(canvas, btnNext, btnNext.getHitbox().left, btnNext.getHitbox().top);
+        drawArrow(canvas, btnPrev, btnPrev.getHitbox().left, btnPrev.getHitbox().top);
 
+    }
+
+    private void drawArrow(Canvas canvas, CustomButton arrow, float arrowX, float arrowY) {
+        canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(arrow.isPushed()), arrowX, arrowY, null);
+        if (arrow == btnPrev)
+            canvas.drawBitmap(ShopImages.SHOP_ARROW_LEFT.getImage(), arrowX + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, arrowY + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        else
+            canvas.drawBitmap(ShopImages.SHOP_ARROW_RIGHT.getImage(), arrowX + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, arrowY + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
+    }
+
+    private void drawSong(Canvas canvas) {
+        var mp = GameActivity.getMpHelper();
+        String name = mp.getCurrSong().name();
+        float widthM = ((float) GAME_WIDTH / 2 - name.length() * BlackPaint.getTextSize() / 2 + GameConstants.Sprite.X_DRAW_OFFSET);
+        float heightM = (float) GAME_HEIGHT / 2 - GameConstants.Sprite.Y_DRAW_OFFSET * 2;
+        canvas.drawText(name, widthM, heightM, BlackPaint);
     }
 
     private void drawButtons(Canvas canvas) {
@@ -80,6 +122,10 @@ public class Setting extends BaseState implements GameStateInterface {
                 btnBack.setPushed(true);
             else if (isIn(event, btnSound))
                 btnSound.setPushed(true);
+            else if (isIn(event, btnNext))
+                btnNext.setPushed(true);
+            else if (isIn(event, btnPrev))
+                btnPrev.setPushed(true);
             else
                 for (CustomButton btn : btnVolumeButtons)
                     if (isIn(event, btn))
@@ -97,7 +143,6 @@ public class Setting extends BaseState implements GameStateInterface {
                     }
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            isActive = true;
             if (isIn(event, btnBack)) {
                 if (btnBack.isPushed())
                     game.setCurrentGameState(Game.GameState.PLAYING);
@@ -106,6 +151,12 @@ public class Setting extends BaseState implements GameStateInterface {
                     for (CustomButton btn : btnVolumeButtons)
                         btn.setPushed(false);
 
+            }else if (isIn(event, btnNext)){
+                if (btnNext.isPushed())
+                    GameActivity.getMpHelper().playNextSong();
+            }else if (isIn(event, btnPrev)){
+                if (btnPrev.isPushed())
+                    GameActivity.getMpHelper().playPreviousSong();
             }
 
             btnBack.setPushed(false);

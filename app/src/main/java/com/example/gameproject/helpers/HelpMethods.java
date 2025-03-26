@@ -128,7 +128,6 @@ public class HelpMethods {
             }
         }
 
-
         if (gameMap.getBuildingArrayList() != null) {
             RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + deltaY, hitbox.right + deltaX, hitbox.bottom + deltaY);
             for (Building b : gameMap.getBuildingArrayList())

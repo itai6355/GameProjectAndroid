@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 
 import com.example.gameproject.R;
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.main.MainActivity;
 
@@ -28,17 +29,14 @@ public enum GameImages implements BitmapMethods {
     INVENTORY_SLOTH(R.drawable.icons_ui, 59, 107, 26, 26, 1),
     INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.2f),
 
-    COIN_SMALL(R.drawable.coins, 0,0,16, 16, 0.7f),
+    HUNGER_FULL(R.drawable.meat, 0.7f),
+    HUNGER_EMPTY(R.drawable.meat_empty,  0.7f),
+
+
+    COIN_SMALL(R.drawable.coins, 0, 0, 16, 16, 0.7f),
 
     ICON_BOX(R.drawable.icons_ui, 245, 101, 38, 38, 1),
-    PLAYER_BOX(R.drawable.icons_ui, 275, 212, 90, 25, 2),
-
-    ICON_BASIC(Items.SLICED_BREAD_P),
-    ICON_FRUIT(Items.RED_APPLE),
-    ICON_FOOD(Items.HAMBURGER),
-    ICON_MEAT(Items.RED_APPLE_P),
-    ICON_SNACKS(Items.POTATOCHIP_BLUE),
-    ICON_CAKE(Items.TIRAMISU);
+    PLAYER_BOX(R.drawable.icons_ui, 275, 212, 90, 25, 2);
 
 
     private final Bitmap atlas;
@@ -47,7 +45,7 @@ public enum GameImages implements BitmapMethods {
     GameImages(int resID, int x, int y, int width, int height, float multiplier) {
         options.inScaled = false;
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
-        image = getMultiplierBitmap(Bitmap.createBitmap(atlas, x, y, width, height), multiplier,multiplier);
+        image = getMultiplierBitmap(Bitmap.createBitmap(atlas, x, y, width, height), multiplier, multiplier);
     }
 
     GameImages(int resID, int width, int height) {
@@ -55,7 +53,14 @@ public enum GameImages implements BitmapMethods {
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
         image = Bitmap.createScaledBitmap(atlas, width, height, false);
     }
-    GameImages(Items item){
+
+    GameImages(int resID, float multiplier) {
+        options.inScaled = false;
+        atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
+        image = getMultiplierBitmap(atlas, multiplier, multiplier);
+    }
+
+    GameImages(Items item) {
         atlas = item.getImage();
         image = getMultiplierBitmap(item.getImage(), 0.6f, 0.6f);
     }

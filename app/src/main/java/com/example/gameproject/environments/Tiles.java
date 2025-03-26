@@ -1,5 +1,7 @@
 package com.example.gameproject.environments;
 
+import static com.example.gameproject.R.drawable.tileset_floor;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -11,7 +13,7 @@ import com.example.gameproject.main.MainActivity;
 
 public enum Tiles implements BitmapMethods {
 
-    OUTSIDE(R.drawable.tileset_floor, 22, 26),
+    OUTSIDE(tileset_floor, 22, 26),
     INSIDE(R.drawable.floor_inside, 22, 22);
 
     private final Bitmap[] sprites;

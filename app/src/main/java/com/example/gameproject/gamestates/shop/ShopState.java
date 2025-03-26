@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.BaseState;
+import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
@@ -60,7 +61,7 @@ public class ShopState extends BaseState implements GameStateInterface {
     private int page = 0;
     private int maxPagesInThis;
 
-
+    //TODO: add un objects shop.
     public ShopState(Game game) {
         super(game);
         initPaint();
@@ -95,6 +96,7 @@ public class ShopState extends BaseState implements GameStateInterface {
             case CHARACTERS -> shopCharactersState.render(canvas);
         }
     }
+
 
     private void drawBackground(Canvas canvas) {
         int coinsLength = calculateCoinsLength();

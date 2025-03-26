@@ -7,15 +7,18 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gameproject.Media.MPHelper;
+
 public class GameActivity extends AppCompatActivity {
 
 
     private static final boolean DrawHitbox = false;
+    private static MPHelper mpHelper;
 
     private static String username;
     private static String password;
 
-    public static boolean getDrawHitbox() {
+    public static boolean isDrawHitbox() {
         return DrawHitbox;
     }
 
@@ -50,8 +53,18 @@ public class GameActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("username");
         password = getIntent().getStringExtra("password");
 
-
         setContentView(new GamePanel(this));
+        mpHelper = new MPHelper(this);
+        mpHelper.initializeMediaPlayerAsync(() -> mpHelper.play());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mpHelper.stop();
+    }
+
+    public static MPHelper getMpHelper() {
+        return mpHelper;
+    }
 }

@@ -145,7 +145,6 @@ public enum Items implements BitmapMethods {
     LOLLIPOP(R.drawable.lollipop),
     MACRONS(R.drawable.macrons),
     MARSHMALLOWS(R.drawable.marshmallows),
-    MEAT(R.drawable.meat),
     MEAT1(R.drawable.meat1),
     MEAT1_P(R.drawable.meat1_p),
     MEAT2(R.drawable.meat2),

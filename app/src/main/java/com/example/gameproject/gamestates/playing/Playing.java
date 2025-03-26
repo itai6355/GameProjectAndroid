@@ -12,7 +12,6 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.enemies.Enemy;
 import com.example.gameproject.entities.enemies.MaskedRaccoon;
@@ -26,6 +25,7 @@ import com.example.gameproject.entities.objects.Weapons;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.MapManager;
 import com.example.gameproject.gamestates.BaseState;
+import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
@@ -47,6 +47,7 @@ public class Playing extends BaseState implements GameStateInterface {
     private boolean listOfEntitiesMade;
 
     private static MapManager mapManager;
+    private InventorySloth lastItem;
 
     public Playing(Game game) {
         super(game);
@@ -54,8 +55,7 @@ public class Playing extends BaseState implements GameStateInterface {
         calcStartCameraValues();
 
 
-
-        player = new Player();
+        player = new Player(game);
 
         playingUI = new PlayingUI(this);
 
@@ -118,13 +118,10 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void pickItem(Player player, Item item) {
-        switch (item.getItemType()) {
-            case COIN -> {
-                player.addToSQL(item.getItemType());
-                mapManager.getCurrentMap().getItemArrayList().remove(item);
-            }
 
-        }
+        player.addToSQL(item.getItemType());
+        mapManager.getCurrentMap().getItemArrayList().remove(item);
+
         game.getInventoryState().SyncInventories(player);
     }
 
@@ -214,6 +211,7 @@ public class Playing extends BaseState implements GameStateInterface {
 
         game.setCurrentGameState(Game.GameState.DEATH_SCREEN);
         player.resetCharacterHealth();
+        player.resetHungerBar();
 
     }
 
@@ -273,11 +271,10 @@ public class Playing extends BaseState implements GameStateInterface {
         }
     }
 
-
     private void drawPlayer(Canvas canvas) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), player.getHitbox().left, player.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
         canvas.drawBitmap(player.getSkin().getSprite(player.getAniIndex(), player.getFaceDir()), player.getHitbox().left - X_DRAW_OFFSET, player.getHitbox().top - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-        if (GameActivity.getDrawHitbox()) canvas.drawRect(player.getHitbox(), redPaint);
+        if (GameActivity.isDrawHitbox()) canvas.drawRect(player.getHitbox(), redPaint);
         if (player.isAttacking()) drawWeapon(canvas, player);
     }
 
@@ -286,14 +283,14 @@ public class Playing extends BaseState implements GameStateInterface {
         canvas.rotate(character.getWepRot(), character.getAttackBox().left, character.getAttackBox().top);
         canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + character.wepRotAdjustLeft(), character.getAttackBox().top + character.wepRotAdjustTop(), null);
         canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left, character.getAttackBox().top);
-        if (GameActivity.getDrawHitbox()) canvas.drawRect(character.getAttackBox(), redPaint);
+        if (GameActivity.isDrawHitbox()) canvas.drawRect(character.getAttackBox(), redPaint);
     }
 
     private void drawEnemyWeapon(Canvas canvas, Character character) {
         canvas.rotate(character.getWepRot(), character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
         canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), null);
         canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
-        if (GameActivity.getDrawHitbox())
+        if (GameActivity.isDrawHitbox())
             //  not true ): need fix!
             // when weapon is facing left or up, the hitbox is bigger.
             // not effecting the game and real hitbox IDK why.
@@ -304,7 +301,7 @@ public class Playing extends BaseState implements GameStateInterface {
     public void drawCharacter(Canvas canvas, Character character) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
         canvas.drawBitmap(character.getEnemyType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-        if (GameActivity.getDrawHitbox())
+        if (GameActivity.isDrawHitbox())
             canvas.drawRect(character.getHitbox().left + cameraX, character.getHitbox().top + cameraY, character.getHitbox().right + cameraX, character.getHitbox().bottom + cameraY, redPaint);
         if (character.isAttacking()) drawEnemyWeapon(canvas, character);
 
@@ -378,7 +375,19 @@ public class Playing extends BaseState implements GameStateInterface {
 
     @Override
     public void touchEvents(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            var itemBar = player.getItemBar();
+            for (InventorySloth inventorySloth : itemBar)
+                if (inventorySloth.isIn(event))
+                    if (lastItem == inventorySloth)
+                        player.eat(lastItem);
+                    else
+                        lastItem = inventorySloth;
+        }
         playingUI.touchEvents(event);
+    }
+    public void resetLastItem() {
+        lastItem = null;
     }
 
     public Player getPlayer() {
