@@ -9,6 +9,7 @@ import android.os.Handler;
 
 
 public class Battery extends BroadcastReceiver {
+    //
 
     private final int battery;
 
