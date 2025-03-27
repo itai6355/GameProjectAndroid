@@ -22,18 +22,18 @@ public enum Icons implements BitmapMethods {
 
     Icons(int resID) {
         options.inScaled = false;
-        image = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options), 150, 150, false);
+        image = deScaledBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options), 150, 150, false), 0.8f);
     }
 
     public Bitmap getImage() {
         return image;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return image.getWidth();
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return image.getHeight();
     }
 }

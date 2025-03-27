@@ -47,12 +47,12 @@ public class MPHelper {
     }
 
     public void setVolume(float leftVolume, float rightVolume) {
-        if (mPlayer != null && mPlayer.isPlaying())
-            try {
+        try {
+            if (mPlayer != null && mPlayer.isPlaying())
                 mPlayer.setVolume(leftVolume, rightVolume);
-            } catch (IllegalStateException e) {
-                Log.e("MPHelper", "Error setting volume: MediaPlayer is in an invalid state", e);
-            }
+        } catch (IllegalStateException e) {
+            Log.e("MPHelper", "Error setting volume: MediaPlayer is in an invalid state", e);
+        }
     }
 
     public void play() {
@@ -79,10 +79,7 @@ public class MPHelper {
     }
 
     private void playSong(Context context, int idSong) {
-//        if (mPlayer != null && mPlayer.isPlaying()) {
-//            mPlayer.release();
-//            mPlayer = null;
-//        }
+        stop();
         Log.d("MPHelper", "playNextSong: " + currentSongId + " name: " + mSongs.getSong(currentSongId).name());
 
         currentSongId = idSong;

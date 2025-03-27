@@ -61,7 +61,7 @@ public class MapManager {
         if (!item.getItemType().isAni())
             canvas.drawBitmap(item.getItemType().getImage(), item.getHitbox().left + cameraX, item.getHitbox().top + cameraY, null);
         else
-            canvas.drawBitmap(item.getItemType().getImage(item.getAniIndex(item.getItemType())), item.getHitbox().left + cameraX, item.getHitbox().top + cameraY, null);
+            canvas.drawBitmap(item.getItemType().getImage(item.getAniIndex()), item.getHitbox().left + cameraX, item.getHitbox().top + cameraY, null);
     }
 
     public void drawObject(Canvas canvas, GameObject gameObject) {
@@ -189,26 +189,20 @@ public class MapManager {
         gameObjectArrayListFinal.add(new GameObject(new PointF(1000, 550), GameObjects.BASKET_FULL_RED_FRUIT));
         gameObjectArrayListFinal.add(new GameObject(new PointF(620, 520), GameObjects.OVEN_SNOW_YELLOW));
 
-
-        ArrayList<Building> buildingArrayListStarter = new ArrayList<>();
-        buildingArrayListStarter.add(new Building(new PointF(200, 200), Buildings.HOUSE_ONE));
-
-
         CopyOnWriteArrayList<Item> itemArrayList = new CopyOnWriteArrayList<>();
         itemArrayList.add(new Item(Items.COIN, new PointF(0, 0)));
         itemArrayList.add(new Item(Items.COIN, new PointF(20, 0)));
         itemArrayList.add(new Item(Items.COIN, new PointF(40, 0)));
 
 
-        GameMap insideMap = new GameMap(insideArray, Tiles.INSIDE,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), null);
-        GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, Tiles.INSIDE, null, null, null, null);
-        GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE, null, null, null, null);
+        GameMap insideMap = new GameMap(insideArray, 0, Tiles.INSIDE, null, null, null, null);
+        GameMap insideFlatRoofHouseMap = new GameMap(insideFlatHouseArray, 0, Tiles.INSIDE, null, null, null, null);
+        GameMap insideGreenRoofHouseMap = new GameMap(insideGreenRoofHouseArr, 0, Tiles.INSIDE, null, null, null, null);
 
         GameMap outsideMap =
-                new GameMap(outsideArrayFinal, Tiles.OUTSIDE, buildingArrayListFinal,
+                new GameMap(outsideArrayFinal, 10, Tiles.OUTSIDE, buildingArrayListFinal,
                         gameObjectArrayListFinal,
-                        new ArrayList<>(),
+                        HelpMethods.GetEnemiesRandomized(3, outsideArrayFinal),
                         itemArrayList);
 
 

@@ -29,7 +29,7 @@ public class PlayingUI {
     private final float radius = 150;
     private final Paint circlePaint;
     private final Playing playing;
-    private final int healthIconX = 350, healthIconY = 25;
+    private final int healthIconX = 250, healthIconY = 25;
     private int joystickPointerId = -1;
     private int attackBtnPointerId = -1;
     private boolean touchDown;

@@ -183,10 +183,16 @@ public class Player extends Character {
     }
 
     public void eat(InventorySloth item) {
-        if (currHunger != maxHunger) {
-            dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
-            item.reduceAmount();
-            addHunger(1);
+        if (item.getItem().isAdible()) {
+            if (currHunger != maxHunger) {
+                dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
+                item.reduceAmount();
+                addHunger(1);
+            }
+        }else {
+            switch (item.getItem()){
+
+            }
         }
     }
 

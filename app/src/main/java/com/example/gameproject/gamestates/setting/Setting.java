@@ -91,8 +91,8 @@ public class Setting extends BaseState implements GameStateInterface {
     private void drawSong(Canvas canvas) {
         var mp = GameActivity.getMpHelper();
         String name = mp.getCurrSong().name();
-        float widthM = ((float) GAME_WIDTH / 2 - name.length() * BlackPaint.getTextSize() / 2 + GameConstants.Sprite.X_DRAW_OFFSET);
-        float heightM = (float) GAME_HEIGHT / 2 - GameConstants.Sprite.Y_DRAW_OFFSET * 2;
+        float widthM = ((float) GAME_WIDTH / 2 - GameConstants.Sprite.X_DRAW_OFFSET * 12);
+        float heightM = (float) GAME_HEIGHT / 2 - GameConstants.Sprite.Y_DRAW_OFFSET * 4;
         canvas.drawText(name, widthM, heightM, BlackPaint);
     }
 

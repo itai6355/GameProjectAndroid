@@ -51,6 +51,7 @@ public class Game {
 
     public void render() {
         Canvas canvas = holder.lockCanvas();
+        if (canvas == null) return;
         canvas.drawColor(Color.BLACK);
 
         switch (currentGameState) {

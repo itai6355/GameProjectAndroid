@@ -1,9 +1,5 @@
 package com.example.gameproject.helpers;
 
-import com.example.gameproject.entities.items.Items;
-
-import java.util.HashMap;
-
 public final class GameConstants {
     public static final class Face_Dir {
         public static final int DOWN = 0;
@@ -14,7 +10,7 @@ public final class GameConstants {
 
     public static final class Sprite {
         public static final int DEFAULT_SIZE = 16;
-        public static final int SCALE_MULTIPLIER = 6;
+        public static final int SCALE_MULTIPLIER = 5;
         public static final int SIZE = DEFAULT_SIZE * SCALE_MULTIPLIER;
         public static final int HITBOX_SIZE = 12 * SCALE_MULTIPLIER;
         public static final int X_DRAW_OFFSET = 2 * SCALE_MULTIPLIER;

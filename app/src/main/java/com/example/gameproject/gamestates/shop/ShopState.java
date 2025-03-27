@@ -90,6 +90,8 @@ public class ShopState extends BaseState implements GameStateInterface {
     public void render(Canvas canvas) {
         drawBackground(canvas);
         if (!init) initStates();
+        if (shopItemState == null) return;
+        if (shopCharactersState == null) return;
 
         switch (state) {
             case ITEMS -> shopItemState.render(canvas);
@@ -189,9 +191,9 @@ public class ShopState extends BaseState implements GameStateInterface {
     }
 
     private void initStates() {
-        init = true;
         shopItemState = new ItemShop(game, this);
         shopCharactersState = new CharacterShop(game);
+        init = true;
     }
 
 

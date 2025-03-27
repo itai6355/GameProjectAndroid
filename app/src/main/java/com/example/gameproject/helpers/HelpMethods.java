@@ -14,7 +14,7 @@ import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.environments.Tiles;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class HelpMethods {
 
@@ -49,22 +49,22 @@ public class HelpMethods {
     }
 
 
-    public static ArrayList<Character> GetSkeletonsRandomized(int amount, int[][] gameMapArray) {
+    public static CopyOnWriteArrayList<Character> GetEnemiesRandomized(int amount, int[][] gameMapArray) {
 
         int width = (gameMapArray[0].length - 1) * GameConstants.Sprite.SIZE;
         int height = (gameMapArray.length - 1) * GameConstants.Sprite.SIZE;
-        ArrayList<Character> enemyArrayList = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
+        CopyOnWriteArrayList<Character> enemyArrayList = new CopyOnWriteArrayList<>();
+        for (int i = 0; i < amount / 2; i++) {
             float x = (float) (Math.random() * width);
             float y = (float) (Math.random() * height);
             enemyArrayList.add(new Skeleton(new PointF(x, y)));
         }
-//        for (int i = 0; i < 5; i++) {
-//            float x = (float) (Math.random() * width);
-//            float y = (float) (Math.random() * height);
-//
-//            enemyArrayList.add(new MaskedRaccoon(new PointF(x, y)));
-//        }
+        for (int i = 0; i < amount / 2; i++) {
+            float x = (float) (Math.random() * width);
+            float y = (float) (Math.random() * height);
+
+            enemyArrayList.add(new MaskedRaccoon(new PointF(x, y)));
+        }
         return enemyArrayList;
     }
 

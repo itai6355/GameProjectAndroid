@@ -14,20 +14,22 @@ public class GameMap {
 
     private final ArrayList<Building> buildingArrayList;
     private final ArrayList<GameObject> gameObjectArrayList;
-    private final ArrayList<Character> enemysArrayList;
+    private final CopyOnWriteArrayList<Character> enemysArrayList;
     private final CopyOnWriteArrayList<Item> itemArrayList;
     private final int[][] spriteIds;
     private final Tiles tilesType;
     private final ArrayList<Doorway> doorwayArrayList;
+    private final int MAX_ENEMIES;
 
-    public GameMap(int[][] spriteIds, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, ArrayList<Character> enemysArrayList, CopyOnWriteArrayList<Item> itemArrayList) {
+    public GameMap(int[][] spriteIds, int maxEnemies, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, CopyOnWriteArrayList<Character> enemysArrayList, CopyOnWriteArrayList<Item> itemArrayList) {
         this.spriteIds = spriteIds;
         this.tilesType = tilesType;
         this.buildingArrayList = buildingArrayList != null ? buildingArrayList : new ArrayList<>();
         this.gameObjectArrayList = gameObjectArrayList != null ? gameObjectArrayList : new ArrayList<>();
-        this.enemysArrayList = enemysArrayList != null ? enemysArrayList : new ArrayList<>();
+        this.enemysArrayList = enemysArrayList != null ? enemysArrayList : new CopyOnWriteArrayList<>();
         this.doorwayArrayList = new ArrayList<>();
         this.itemArrayList = itemArrayList != null ? itemArrayList : new CopyOnWriteArrayList<>();
+        MAX_ENEMIES = maxEnemies;
     }
 
 
@@ -79,9 +81,10 @@ public class GameMap {
         return gameObjectArrayList;
     }
 
-    public ArrayList<Character> getEnemysArrayList() {
+    public CopyOnWriteArrayList<Character> getEnemysArrayList() {
         return enemysArrayList;
     }
+
 
     public CopyOnWriteArrayList<Item> getItemArrayList() {
         return itemArrayList;
@@ -94,6 +97,10 @@ public class GameMap {
     public int getSpriteID(int xIndex, int yIndex) {
         return spriteIds[yIndex][xIndex];
     }
+    public int[][] getSpritesID() {
+        return spriteIds;
+    }
+
 
     public int getArrayWidth() {
         return spriteIds[0].length;
@@ -111,4 +118,7 @@ public class GameMap {
         return getArrayHeight() * GameConstants.Sprite.SIZE;
     }
 
+    public int getMaxEnemies() {
+        return MAX_ENEMIES;
+    }
 }

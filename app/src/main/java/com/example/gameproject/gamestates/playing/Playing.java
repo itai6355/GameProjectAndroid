@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.Entity;
@@ -99,21 +100,30 @@ public class Playing extends BaseState implements GameStateInterface {
             for (Character character : mapManager.getCurrentMap().getEnemysArrayList()) {
                 if (character instanceof Enemy enemy) {
                     if (enemy instanceof Skeleton skeleton) updateSkeleton(delta, skeleton);
-                    if (enemy instanceof MaskedRaccoon maskedRaccoon)
-                        updateMaskedRakoon(delta, maskedRaccoon);
+                    if (enemy instanceof MaskedRaccoon maskedRaccoon) updateMaskedRakoon(delta, maskedRaccoon);
                 }
             }
 
-        updatePickedItems();
-
-
+        updateItems();
         sortArray();
+        generateEnemies();
 
     }
 
-    private void updatePickedItems() {
-        for (Item item : mapManager.getCurrentMap().getItemArrayList())
-            if (isNear(player.getHitbox(), item.getHitbox())) pickItem(player, item);
+    private void generateEnemies() {
+        var map = mapManager.getCurrentMap();
+        var enemies = map.getEnemysArrayList();
+        int max = map.getMaxEnemies();
+        if (enemies.size() == max) return;
+        var temp = HelpMethods.GetEnemiesRandomized(max - enemies.size(), map.getSpritesID());
+        enemies.addAll(temp);
+    }
+
+    private void updateItems() {
+        for (Item item : mapManager.getCurrentMap().getItemArrayList()) {
+            item.updateAni();
+            if (isNear(player.getHitbox(), item.getHitbox()) && item.updatePickUp()) pickItem(player, item);
+        }
 
     }
 
@@ -216,15 +226,17 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void checkPlayerAttack() {
-
         RectF attackBoxWithoutCamera = new RectF(player.getAttackBox());
         attackBoxWithoutCamera.left -= cameraX;
         attackBoxWithoutCamera.top -= cameraY;
         attackBoxWithoutCamera.right -= cameraX;
         attackBoxWithoutCamera.bottom -= cameraY;
 
-        if (mapManager.getCurrentMap().getEnemysArrayList() != null)
-            for (Character character : mapManager.getCurrentMap().getEnemysArrayList())
+        float attackBoxPadding = 20.0f;
+        attackBoxWithoutCamera.inset(-attackBoxPadding, -attackBoxPadding);
+
+        if (mapManager.getCurrentMap().getEnemysArrayList() != null) {
+            for (Character character : mapManager.getCurrentMap().getEnemysArrayList()) {
                 if (attackBoxWithoutCamera.intersects(character.getHitbox().left, character.getHitbox().top, character.getHitbox().right, character.getHitbox().bottom)) {
                     character.damageCharacter(player.getDamage());
                     if (character instanceof Enemy enemy) {
@@ -234,10 +246,12 @@ public class Playing extends BaseState implements GameStateInterface {
                                 mapManager.getCurrentMap().getItemArrayList().addAll(enemy.getLoot(new PointF(enemy.getHitbox().left, enemy.getHitbox().top)));
                                 enemy.setAddedLoot(true);
                             }
+                            mapManager.getCurrentMap().getEnemysArrayList().remove(enemy);
                         }
                     }
-
                 }
+            }
+        }
 
         player.setAttackChecked(true);
     }
@@ -386,6 +400,7 @@ public class Playing extends BaseState implements GameStateInterface {
         }
         playingUI.touchEvents(event);
     }
+
     public void resetLastItem() {
         lastItem = null;
     }

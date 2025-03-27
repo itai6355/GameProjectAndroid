@@ -16,6 +16,9 @@ public interface BitmapMethods {
     default Bitmap getMultiplierBitmap(Bitmap bitmap, float Xmultiplier, float Ymultiplier) {
         return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * GameConstants.Sprite.SCALE_MULTIPLIER * Xmultiplier), (int) (bitmap.getHeight() * GameConstants.Sprite.SCALE_MULTIPLIER * Ymultiplier), false);
     }
+    default Bitmap deScaledBitmap(Bitmap bitmap, float multiplier) {
+        return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * multiplier), (int) (bitmap.getHeight() * multiplier), false);
+    }
 
     default Bitmap getSmallItemSize(Bitmap bitmap) {
         return Bitmap.createScaledBitmap(bitmap, GameConstants.Sprite.SIZE, GameConstants.Sprite.SIZE, false);

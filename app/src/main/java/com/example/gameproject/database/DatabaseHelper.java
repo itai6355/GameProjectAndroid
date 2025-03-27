@@ -204,7 +204,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public boolean registerUser(String username, String password) {
-        if (username.length() < 4 || password.length() < 4) {
+        if (username.length() < 2 || password.length() < 2) {
             return false;
         }
 
@@ -266,6 +266,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void setInventory(int id, CopyOnWriteArrayList<Items> inventory) {
+        if (id == -1) return;
         List<Items> tempInventory = new ArrayList<>();
         for (DatabaseColumns.Column column : DatabaseColumns.getAllColumns()) {
             if (column.name().startsWith(DatabaseColumns.COLUMN_ITEM_PREFIX)) {
