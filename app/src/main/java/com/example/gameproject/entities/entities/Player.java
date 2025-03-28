@@ -117,8 +117,11 @@ public class Player extends Character {
     public void addToSQL(Items item) {
         if (Objects.requireNonNull(item) == Items.COIN)
             dbHelper.addIntColumn(id, DatabaseColumns.COINS);
-        else
+        else {
             dbHelper.addIntColumn(id, DatabaseColumns.getItemColumnByName(item));
+            inventory.add(item);
+        }
+
 
     }
 
@@ -182,18 +185,37 @@ public class Player extends Character {
         return itemBar;
     }
 
-    public void eat(InventorySloth item) {
-        if (item.getItem().isAdible()) {
-            if (currHunger != maxHunger) {
-                dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
-                item.reduceAmount();
-                addHunger(1);
-            }
-        }else {
-            switch (item.getItem()){
+    public void UseItem(InventorySloth item) {
+        if (item.getItem() == null) return;
+        if (item.getItem().isAdible())
+            if (currHunger != maxHunger) addHunger(1);
+            else return;
+        else
+            switch (item.getItem()) {
+                case MEDIPCK -> {
+                    if (this.getCurrentHealth() == this.getMaxHealth()) return;
+                    heal(50);
+                }
 
+                default -> {
+                    return;
+                }
             }
-        }
+
+        useItem(item);
+
     }
+
+    public void useItem(InventorySloth item) {
+        try {
+            dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
+            item.reduceAmount();
+            inventory.remove(item.getItem());
+        } catch (Exception e) {
+            DebugState.getBug(e);
+        }
+
+    }
+
 
 }

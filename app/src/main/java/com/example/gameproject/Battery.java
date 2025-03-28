@@ -9,7 +9,6 @@ import android.os.Handler;
 
 
 public class Battery extends BroadcastReceiver {
-    //
 
     private final int battery;
 
@@ -34,6 +33,7 @@ public class Battery extends BroadcastReceiver {
     }
 
     public void timerDelayRemoveDialog(long time, final Dialog d) {
+
         new Handler().postDelayed(d::dismiss, time);
     }
 

@@ -348,13 +348,12 @@ public enum Items implements BitmapMethods {
         isAni = false;
         this.isAdible = false;
         this.amount = 1;
-        //TODO: the medipack is stiil huge!!
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
         images = new Bitmap[4];
-        images[0] = getItemBiggerSize(atlas);
-        images[1] = getItemSize(atlas);
-        images[2] = getSmallItemSize(atlas);
-        images[3] = getSmallestItemSize(atlas);
+        images[0] = getItemSize(atlas);
+        images[1] = regSize(atlas);
+        images[2] = deSize(atlas);
+        images[3] = SmalldeSize(atlas);
         ItemHelper.getItems().add(this);
     }
 

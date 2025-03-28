@@ -64,8 +64,11 @@ public class InventorySloth extends CustomButton {
     }
 
     public boolean isIn(MotionEvent event) {
-        return event.getX() >= x && event.getX() <= x + SLOT_SIZE && event.getY() >= y && event.getY() <= y + SLOT_SIZE;
+        return event.getX() >= getX() && event.getX() <= getX() + SLOT_SIZE &&
+                event.getY() >= getY() && event.getY() <= getY() + SLOT_SIZE;
     }
+
+
 
     public void addAmount() {
         amount++;

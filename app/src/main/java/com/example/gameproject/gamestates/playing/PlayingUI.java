@@ -20,7 +20,6 @@ import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 import com.example.gameproject.ui.HealthIcons;
 
-
 public class PlayingUI {
 
 

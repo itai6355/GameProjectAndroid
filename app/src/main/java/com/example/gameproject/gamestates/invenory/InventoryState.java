@@ -58,11 +58,10 @@ public class InventoryState extends BaseState implements GameStateInterface {
     @Override
     public void render(Canvas canvas) {
         canvas.drawBitmap(GameImages.BACKGRAWND.getImage(), 0, 0, null);
-        for (InventorySloth[] inventorySloths : inventory) {
-            for (InventorySloth slot : inventorySloths) {
+        for (InventorySloth[] inventorySloths : inventory)
+            for (InventorySloth slot : inventorySloths)
                 canvas.drawBitmap(slot.getImage().getImage(), slot.getX(), slot.getY(), null);
-            }
-        }
+
         var itemBar = game.getPlaying().getPlayer().getItemBar();
         drawItemBar(canvas, itemBar);
 
@@ -105,30 +104,35 @@ public class InventoryState extends BaseState implements GameStateInterface {
             if (isIn(event, btnBack)) {
                 if (btnBack.isPushed()) game.setCurrentGameState(Game.GameState.PLAYING);
             }
-
             btnBack.setPushed(false);
         }
 
-        for (int i = 0; i < inventory.length; i++)
-            for (int j = 0; j < inventory[i].length; j++)
+        for (int i = 0; i < inventory.length; i++) {
+            for (int j = 0; j < inventory[i].length; j++) {
                 if (inventory[i][j].isIn(event)) {
                     xCurrIndex = i;
                     yCurrIndex = j;
-                    if (lstItem != null && inventory[i][j].getItem() == null)
+                    if (lstItem != null && inventory[i][j].getItem() == null) {
                         moveItem(lstItem, inventory[i][j]);
-                    else lstItem = inventory[i][j];
+                    } else {
+                        lstItem = inventory[i][j];
+                    }
                 }
+            }
+        }
 
         var itemBar = game.getPlaying().getPlayer().getItemBar();
-        for (int i = 0; i < itemBar.length; i++)
+        for (int i = 0; i < itemBar.length; i++) {
             if (itemBar[i].isIn(event)) {
                 xCurrIndex = i;
                 yCurrIndex = -1;
-
-                if (lstItem != null && itemBar[i].getItem() == null) moveItem(lstItem, itemBar[i]);
-                else lstItem = itemBar[i];
+                if (lstItem != null && itemBar[i].getItem() == null) {
+                    moveItem(lstItem, itemBar[i]);
+                } else {
+                    lstItem = itemBar[i];
+                }
             }
-
+        }
     }
 
     private void moveItem(InventorySloth lst, InventorySloth curr) {
@@ -136,6 +140,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
         curr.setAmount(lst.getAmount());
         lst.setItem(null);
         lst.setAmount(0);
+        lstItem = null;
     }
 
 
@@ -172,5 +177,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
             }
         }
     }
+
+
 
 }

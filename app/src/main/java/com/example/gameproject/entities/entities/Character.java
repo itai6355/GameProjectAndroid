@@ -53,6 +53,12 @@ public abstract class Character extends Entity {
 
     public void damageCharacter(int damage) {
         this.currentHealth -= damage;
+        if (currentHealth < 0) currentHealth = 0;
+    }
+
+    protected void heal(int heal){
+        currentHealth += heal;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
     }
 
     public boolean isEnemy() {

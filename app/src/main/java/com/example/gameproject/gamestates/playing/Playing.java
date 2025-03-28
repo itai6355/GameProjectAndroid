@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.Entity;
@@ -128,7 +127,6 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void pickItem(Player player, Item item) {
-
         player.addToSQL(item.getItemType());
         mapManager.getCurrentMap().getItemArrayList().remove(item);
 
@@ -394,7 +392,7 @@ public class Playing extends BaseState implements GameStateInterface {
             for (InventorySloth inventorySloth : itemBar)
                 if (inventorySloth.isIn(event))
                     if (lastItem == inventorySloth)
-                        player.eat(lastItem);
+                        player.UseItem(lastItem);
                     else
                         lastItem = inventorySloth;
         }

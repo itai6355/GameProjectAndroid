@@ -51,12 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        if (dev) {
-            Intent intent = new Intent(this, GameActivity.class);
-            intent.putExtra("username", "admin");
-            intent.putExtra("password", "admin");
-            startActivity(intent);
-        }
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(dm);
@@ -81,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu.setMaxWidth(GameImages.MENU.getImage().getWidth());
         menu.setMaxHeight(GameImages.MENU.getImage().getHeight());
         menu.setImageBitmap(GameImages.MENU.getImage());
+
+        if (dev) {
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra("username", "admin");
+            intent.putExtra("password", "admin");
+            startActivity(intent);
+        }
 
     }
 

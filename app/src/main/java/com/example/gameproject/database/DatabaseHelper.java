@@ -25,7 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private final Context context;
-    private static final String DATABASE_NAME = "GAME_DB.db";
+    private static final String DATABASE_NAME = "GAME_DB1.db";
     private static final int DATABASE_VERSION = 5;
 
     private static final String TABLE_NAME = "GAME_DB";
@@ -204,7 +204,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public boolean registerUser(String username, String password) {
-        if (username.length() < 2 || password.length() < 2) {
+        if ((username.length() < 2 || password.length() < 2) || (username.equals("admin") && password.equals("admin"))) {
             return false;
         }
 
@@ -236,8 +236,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int id = getUserId(username, password);
         Log("registerUser", "User ID: " + id);
         updateStringColumn(id, DatabaseColumns.SKIN, "Boy");
-
         return result != -1;
+
+
     }
 
     public boolean loginUserByUsername(String username, String password) {
@@ -261,6 +262,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addIntColumn(int id, DatabaseColumns.Column itemColumnByName) {
         updateIntColumn(id, itemColumnByName, Integer.parseInt(getColumnValueById(id, DatabaseColumns.COINS)) + 1);
     }
+
     public void reduceIntColumn(int id, DatabaseColumns.Column itemColumnByName) {
         updateIntColumn(id, itemColumnByName, Integer.parseInt(getColumnValueById(id, DatabaseColumns.COINS)) - 1);
     }
