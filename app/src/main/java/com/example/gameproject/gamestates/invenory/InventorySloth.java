@@ -9,10 +9,9 @@ import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
 public class InventorySloth extends CustomButton {
-    public static final int SLOT_SIZE = INVENTORY_SLOTH.getImage().getWidth();
+    public static final int SLOT_SIZE = INVENTORY_SLOTH.getImage().getWidth() / 4 * 3;
     int xSpot, ySpot;
     int x, y;
-    private boolean isChecked = false;
     private Items item;
     private int amount = 0;
 
@@ -47,14 +46,6 @@ public class InventorySloth extends CustomButton {
         return INVENTORY_SLOTH;
     }
 
-    public int getxSpot() {
-        return xSpot;
-    }
-
-    public int getySpot() {
-        return ySpot;
-    }
-
     public int getX() {
         return x;
     }
@@ -69,7 +60,6 @@ public class InventorySloth extends CustomButton {
     }
 
 
-
     public void addAmount() {
         amount++;
     }
@@ -77,17 +67,10 @@ public class InventorySloth extends CustomButton {
     public void reduceAmount() {
         if (amount > 0) {
             amount--;
-        }else {
+        } else {
             item = null;
             amount = 0;
         }
     }
 
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean isChecked) {
-        this.isChecked = isChecked;
-    }
 }

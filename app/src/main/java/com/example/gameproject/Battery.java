@@ -13,7 +13,7 @@ public class Battery extends BroadcastReceiver {
     private final int battery;
 
     public Battery() {
-        this(99);
+        this(30);
     }
 
     public Battery(int battery) {

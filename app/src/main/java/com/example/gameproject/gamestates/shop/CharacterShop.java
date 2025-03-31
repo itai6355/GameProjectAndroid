@@ -56,14 +56,17 @@ public class CharacterShop extends ShopState implements GameStateInterface {
     }
 
     private void initPages() {
-        pages[0] = new CharacterPage(game, GameCharacters.BOY, Icons.BOY_ICON, "Boy", 100);
-        pages[1] = new CharacterPage(game, GameCharacters.EGG_BOY, Icons.EGG_BOY_ICON, "Egg Boy", 573);
-        pages[2] = new CharacterPage(game, GameCharacters.EGG_GIRL, Icons.EGG_GIRL_ICON, "Egg Girl", 21);
-        pages[3] = new CharacterPage(game, GameCharacters.ESKIMOS, Icons.ESKIMOS_ICON, "Eskimo", 567);
-        pages[4] = new CharacterPage(game, GameCharacters.INSPECTOR, Icons.INSPECTOR_ICON, "Inspector", 1000);
-        pages[5] = new CharacterPage(game, GameCharacters.FIGHTER, Icons.FIGHTER_ICON, "Fighter", 34);
-        pages[6] = new CharacterPage(game, GameCharacters.HUNTER, Icons.HUNTER_ICON, "Hunter", 54);
-        pages[7] = new CharacterPage(game, GameCharacters.RED_NINJA, Icons.RED_NINJA_ICON, "Red Ninja", 121);
+        //TODO: Add more characters.
+        pages[0] = new CharacterPage(game, GameCharacters.BOY, Icons.BOY_ICON, "Boy", 0);
+        pages[1] = new CharacterPage(game, GameCharacters.EGG_BOY, Icons.EGG_BOY_ICON, "Egg Boy", 10);
+        pages[2] = new CharacterPage(game, GameCharacters.EGG_GIRL, Icons.EGG_GIRL_ICON, "Egg Girl", 15);
+        pages[3] = new CharacterPage(game, GameCharacters.ESKIMOS, Icons.ESKIMOS_ICON, "Eskimo", 25);
+        pages[4] = new CharacterPage(game, GameCharacters.INSPECTOR, Icons.INSPECTOR_ICON, "Inspector",50 );
+        pages[5] = new CharacterPage(game, GameCharacters.FIGHTER, Icons.FIGHTER_ICON, "Fighter", 60);
+        pages[6] = new CharacterPage(game, GameCharacters.HUNTER, Icons.HUNTER_ICON, "Hunter", 100);
+        pages[7] = new CharacterPage(game, GameCharacters.RED_NINJA, Icons.RED_NINJA_ICON, "Red Ninja", 250);
+
+        pages[0].Buy();
     }
 
     static void setSkin(CharacterPage skin) {

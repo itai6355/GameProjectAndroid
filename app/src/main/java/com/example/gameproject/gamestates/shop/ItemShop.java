@@ -26,12 +26,12 @@ public class ItemShop extends ShopState implements GameStateInterface {
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;
 
-    private int xStart = 450;
+    private int xStart = 375;
     private int yStart = 200;
 
     float xBtnStart, yBtnStart;
     float xBtnMiddle, yBtnMiddle;
-    int xSpace = 4 * GameConstants.Sprite.SCALE_MULTIPLIER;
+    int xSpace = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
 
 
 //    private final int xBtn = xStart;
@@ -60,7 +60,7 @@ public class ItemShop extends ShopState implements GameStateInterface {
         for (int i = 0; i < MAX_CATEGORIES; i++) {
             CategoryPages[i] = new CategoryPage(Categories[i], xStart, yStart);
             CategoryPages[i].setIcon();
-            CategoriesButtons[i] = new CustomButton(xBtn + (i * ButtonImages.EMPTY_SUPER_SMALL.getWidth()) + xSpace, yBtn, ButtonImages.EMPTY_SUPER_SMALL.getWidth(), ButtonImages.EMPTY_SUPER_SMALL.getHeight());
+            CategoriesButtons[i] = new CustomButton(xBtn + (i * ButtonImages.EMPTY_SUPER_SMALL.getWidth() + xSpace), yBtn, ButtonImages.EMPTY_SUPER_SMALL.getWidth(), ButtonImages.EMPTY_SUPER_SMALL.getHeight());
         }
     }
 
@@ -102,7 +102,7 @@ public class ItemShop extends ShopState implements GameStateInterface {
                 }
 
 
-        currSS = categoryPage.getShopItems()[categoryPage.getCurrPage()][xCurrIndex][yCurrIndex];
+        currSS = categoryPage.getShopItems()[0][xCurrIndex][yCurrIndex];
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (isIn(event, currSS) && currSS.hasItem()) currSS.setPushed(true);
@@ -163,11 +163,12 @@ public class ItemShop extends ShopState implements GameStateInterface {
 
     public void setCategory(Category category) {
         this.category = category;
+        //TODO: fix this, the page is not being reset.
         CategoryPages[category.value].setPage(0);
     }
 
     enum Category {
-        BASIC(0), FRUIT(1), FOOD(2), MEAT(3), SNACKS(4), CAKE(5),BAKERY_TOOLS(6);
+        BASIC(0), FRUIT(1), FOOD(2), MEAT(3), SNACKS(4), CAKE(5), BAKERY_TOOLS(6);
 
         final int value;
 

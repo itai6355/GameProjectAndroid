@@ -17,7 +17,7 @@ public class CategoryPage implements GameStateInterface {
 
     private int xCurr;
     private int yCurr;
-    private int Xspace = 50;
+    private int Xspace = 13 * GameConstants.Sprite.SCALE_MULTIPLIER;
     private int Yspace = 100;
 
     private int xCurrIndex = 0;
@@ -66,10 +66,11 @@ public class CategoryPage implements GameStateInterface {
                         canvas.drawBitmap(slot.getSlothImage().getImage(), slot.getX(), slot.getY(), null);
                         if (slot.getAmount() > 0) drawItem(canvas, slot);
                     }
+
+            canvas.drawBitmap(ShopImages.SHOP_INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
         } catch (Exception e) {
             // somtimes when you move from 2 pages to 1 page it can throw an ArrayIndexOutOfBoundsException
         }
-        canvas.drawBitmap(ShopImages.SHOP_INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
     }
 
     @Override

@@ -23,9 +23,12 @@ public class InventoryState extends BaseState implements GameStateInterface {
     private final CustomButton btnBack = new CustomButton(20, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
     private final int inventoryWidth = 8;
     private final int inventoryHeight = 4;
-    int xCurr = 750;
+
+    //every time to change, change in player the itemBar too.
+    int xCurr = 550;
     int yCurr = 200;
-    int space = 15;
+    int space = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
+
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;
     private final InventorySloth[][] inventory = new InventorySloth[inventoryWidth][inventoryHeight];
@@ -40,6 +43,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
         BlackPaint.setTextSize(BlackPaint.getTextSize() + 15);
         BlackPaint.setStrokeWidth(3);
         BlackPaint.setStyle(Paint.Style.STROKE);
+
 
         for (int i = 0; i < inventory.length; i++) {
             for (int j = 0; j < inventory[i].length; j++) {
@@ -177,7 +181,6 @@ public class InventoryState extends BaseState implements GameStateInterface {
             }
         }
     }
-
 
 
 }

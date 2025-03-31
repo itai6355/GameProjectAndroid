@@ -19,7 +19,6 @@ import com.example.gameproject.ui.GameImages;
 
 public class CharacterPage implements GameStateInterface {
 
-    private final GameCharacters skin;
     private final Icons icon;
     private final String name;
     private boolean bought = false;
@@ -41,7 +40,6 @@ public class CharacterPage implements GameStateInterface {
     private CustomButton btnBuy;
 
     public CharacterPage(Game game, GameCharacters skin, Icons icon, String name, int price) {
-        this.skin = skin;
         this.icon = icon;
         this.name = name;
         this.PRICE = price;

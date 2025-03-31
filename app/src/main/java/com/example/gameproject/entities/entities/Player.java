@@ -36,6 +36,9 @@ public class Player extends Character {
     private final int id;
     private final String username, password;
 
+    int space = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
+    int xCurr = 550;
+
 
     public Player(Game game) {
         super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.BOY);
@@ -59,7 +62,7 @@ public class Player extends Character {
 
     private void initItemBar() {
         for (int i = 0; i < itemBar.length; i++)
-            itemBar[i] = new InventorySloth(i, 1, 750 + (i * (InventorySloth.SLOT_SIZE + GameConstants.Sprite.X_DRAW_OFFSET)), GAME_HEIGHT - InventorySloth.SLOT_SIZE - GameConstants.Sprite.Y_DRAW_OFFSET);
+            itemBar[i] = new InventorySloth(i, 1, xCurr + (i * (InventorySloth.SLOT_SIZE + space)), GAME_HEIGHT - InventorySloth.SLOT_SIZE - GameConstants.Sprite.Y_DRAW_OFFSET - space);
     }
 
     public void update(double delta, boolean movePlayer) {
