@@ -1,35 +1,21 @@
 package com.example.gameproject.entities.entities;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RectF;
-import android.view.MotionEvent;
 
-import com.example.gameproject.environments.GameMap;
-import com.example.gameproject.environments.MapManager;
-import com.example.gameproject.environments.Tiles;
-import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.HelpMethods;
-import com.example.gameproject.main.Game;
-import com.example.gameproject.main.GameActivity;
-import com.example.gameproject.main.GamePanel;
-import com.example.gameproject.ui.ButtonImages;
-import com.example.gameproject.ui.CustomButton;
 
 import java.util.Random;
 
 public class PlayerShopAI {
 
     private final Random random = new Random();
-
-    private int aniTick, aniIndex;
-    private int x;
     private final int y;
     private final RectF bound;
     private final GameCharacters skin;
+    private int aniTick, aniIndex;
+    private int x;
     private int faceDir;
-
 
 
     public PlayerShopAI(GameCharacters skin, RectF bound) {

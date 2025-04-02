@@ -18,9 +18,13 @@ public enum GameCharacters implements BitmapMethods {
     INSPECTOR(R.drawable.inspector_spritesheet),
     FIGHTER(R.drawable._fighter_spritesheet),
     HUNTER(R.drawable.hunter_spritesheet),
-    RED_NINJA(R.drawable.red_ninja_spritesheets);
-
-
+    RED_NINJA(R.drawable.red_ninja_spritesheets),
+    VILLAGER_DAD(R.drawable.villager_dad),
+    VILLAGER_MOM(R.drawable.villager_woman),
+    VILLAGER_BOY(R.drawable.villager_boy),
+    VILLAGER_GREEN(R.drawable.villager_green),
+    VILLAGER_BLACK(R.drawable.villager_black),
+    VILLAGER_OLIVE(R.drawable.villager_olive);
 
 
     private final Bitmap spriteSheet;

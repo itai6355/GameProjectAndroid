@@ -5,7 +5,7 @@ import com.example.gameproject.gamestates.invenory.InventorySloth;
 public class ShopSloth extends InventorySloth {
 
     private final boolean bought = false;
-    private int slothType = 1;
+    private final int slothType = 1;
 
     public ShopSloth(int xSpot, int ySpot, int x, int y) {
         super(xSpot, ySpot, x, y);

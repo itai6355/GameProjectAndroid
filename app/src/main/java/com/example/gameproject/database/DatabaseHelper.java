@@ -24,11 +24,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private final Context context;
     private static final String DATABASE_NAME = "GAME_DB1.db";
     private static final int DATABASE_VERSION = 5;
-
     private static final String TABLE_NAME = "GAME_DB";
+    private final Context context;
     private SQLiteDatabase db;
 
     public DatabaseHelper(@Nullable Context context) {

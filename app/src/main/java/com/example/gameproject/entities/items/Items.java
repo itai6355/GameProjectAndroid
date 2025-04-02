@@ -358,8 +358,6 @@ public enum Items implements BitmapMethods {
     }
 
 
-
-
     public Bitmap getImage(int index) {
         return images[index];
     }

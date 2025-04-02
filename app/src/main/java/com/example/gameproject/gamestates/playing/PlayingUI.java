@@ -29,14 +29,14 @@ public class PlayingUI {
     private final Paint circlePaint;
     private final Playing playing;
     private final int healthIconX = 250, healthIconY = 25;
-    private int joystickPointerId = -1;
-    private int attackBtnPointerId = -1;
-    private boolean touchDown;
     private final CustomButton btnSetting;
     private final CustomButton btnInventory;
     private final CustomButton btnShop;
     private final CustomButton btnDebug;
     private final Paint BlackPaint;
+    private int joystickPointerId = -1;
+    private int attackBtnPointerId = -1;
+    private boolean touchDown;
 
 
     public PlayingUI(Playing playing) {

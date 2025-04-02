@@ -23,21 +23,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Player extends Character {
 
     private final CopyOnWriteArrayList<Items> inventory = new CopyOnWriteArrayList<>();
-    public Icons icon;
-    public GameCharacters skin;
     private final InventorySloth[] itemBar = new InventorySloth[8];
-
-    private float maxHunger = 10.0f;
-    private float currHunger = maxHunger;
-    private int hungerTick = 0;
-    private int hungerTickMax = 100;
-
     private final DatabaseHelper dbHelper;
     private final int id;
     private final String username, password;
-
+    public Icons icon;
+    public GameCharacters skin;
     int space = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
     int xCurr = 550;
+    private final float maxHunger = 10.0f;
+    private float currHunger = maxHunger;
+    private int hungerTick = 0;
+    private final int hungerTickMax = 100;
 
 
     public Player(Game game) {

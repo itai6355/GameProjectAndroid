@@ -19,6 +19,16 @@ public class ItemHelper {
 
     }
 
+    public static ArrayList<Items> getItems() {
+        return items;
+    }
+
+    public static void PrintAll() {
+        for (Items item : items) {
+            System.out.println("Items: " + item);
+        }
+    }
+
     private void initItemPrices() {
         for (Items item : Items.values()) {
             itemPrices.put(item, getPrice(item));
@@ -331,19 +341,8 @@ public class ItemHelper {
         return price;
     }
 
-
-    public static ArrayList<Items> getItems() {
-        return items;
-    }
-
     public HashMap<Items, Integer> getItemPrices() {
         return itemPrices;
-    }
-
-    public static void PrintAll() {
-        for (Items item : items) {
-            System.out.println("Items: " + item);
-        }
     }
 
     public enum basicProduct {

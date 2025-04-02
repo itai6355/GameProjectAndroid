@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.BaseState;
-import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
@@ -18,20 +17,22 @@ import com.example.gameproject.ui.GameImages;
 public class ShopState extends BaseState implements GameStateInterface {
 
 
-    private boolean init = false;
-    int yButtons = MainActivity.GAME_HEIGHT / 2 - ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
-
+    final Paint BlackPaint = new Paint();
+    final Paint textPaint = new Paint();
     private final CustomButton btnBack = new CustomButton(20, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
     private final CustomButton door = new CustomButton(MainActivity.GAME_WIDTH - ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getWidth() - 20 * GameConstants.Sprite.SCALE_MULTIPLIER, MainActivity.GAME_HEIGHT - ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getHeight(), ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getWidth(), ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getHeight());
     private final CustomButton chest = new CustomButton(0, MainActivity.GAME_HEIGHT - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight() - (float) ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getHeight(), ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getWidth(), ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getHeight());
+    private final Paint paint = new Paint();
+    int yButtons = MainActivity.GAME_HEIGHT / 2 - ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
     private final CustomButton arrowLeft = new CustomButton(270, yButtons, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
+    float arrowLeftX = arrowLeft.getHitbox().left;
+    float arrowLeftY = arrowLeft.getHitbox().top;
     private final CustomButton arrowRight = new CustomButton(MainActivity.GAME_WIDTH - 400, yButtons, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
-
-
+    float arrowRightX = arrowRight.getHitbox().left;
+    float arrowRightY = arrowRight.getHitbox().top;
     float gameWidth = MainActivity.GAME_WIDTH;
     float gameHeight = MainActivity.GAME_HEIGHT;
     float scaleMultiplier = GameConstants.Sprite.SCALE_MULTIPLIER;
-
     float windowX = 200;
     float windowY = 200;
     float brickBoxY = gameHeight - ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight();
@@ -41,17 +42,7 @@ public class ShopState extends BaseState implements GameStateInterface {
     float barrelY = gameHeight - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight() / 2;
     float bar1X = (gameWidth / 2 - (float) ShopImages.SHOP_BAR_1.getWidth() / 2);
     float bar1Y = (gameHeight / 8 * 7) + scaleMultiplier;
-    float arrowLeftX = arrowLeft.getHitbox().left;
-    float arrowLeftY = arrowLeft.getHitbox().top;
-    float arrowRightX = arrowRight.getHitbox().left;
-    float arrowRightY = arrowRight.getHitbox().top;
-
-
-    private final Paint paint = new Paint();
-    final Paint BlackPaint = new Paint();
-    final Paint textPaint = new Paint();
-
-
+    private boolean init = false;
     private ShopStates state = ShopStates.ITEMS;
     private boolean isBuying = false;
 
@@ -196,11 +187,6 @@ public class ShopState extends BaseState implements GameStateInterface {
         init = true;
     }
 
-
-    enum ShopStates {
-        ITEMS, CHARACTERS
-    }
-
     public void setIsBuying(boolean isBuying) {
         this.isBuying = isBuying;
     }
@@ -208,6 +194,10 @@ public class ShopState extends BaseState implements GameStateInterface {
     public void setState(ShopStates state) {
         this.state = state;
         page = 0;
+    }
+
+    enum ShopStates {
+        ITEMS, CHARACTERS
     }
 
 }

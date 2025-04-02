@@ -5,12 +5,9 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.entities.entities.GameCharacters;
 import com.example.gameproject.entities.entities.Icons;
-import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
-import com.example.gameproject.ui.ButtonImages;
-import com.example.gameproject.ui.CustomButton;
 
 public class CharacterShop extends ShopState implements GameStateInterface {
 
@@ -26,6 +23,11 @@ public class CharacterShop extends ShopState implements GameStateInterface {
         initPages();
     }
 
+    static void setSkin(CharacterPage skin) {
+        for (CharacterPage page : pages)
+            if (!page.equals(skin)) page.setSkinBtn.setPushed(false);
+            else if (!skin.setSkinBtn.isPushed()) pages[0].setSkinBtn.setPushed(true);
+    }
 
     @Override
     public void update(double delta) {
@@ -61,18 +63,12 @@ public class CharacterShop extends ShopState implements GameStateInterface {
         pages[1] = new CharacterPage(game, GameCharacters.EGG_BOY, Icons.EGG_BOY_ICON, "Egg Boy", 10);
         pages[2] = new CharacterPage(game, GameCharacters.EGG_GIRL, Icons.EGG_GIRL_ICON, "Egg Girl", 15);
         pages[3] = new CharacterPage(game, GameCharacters.ESKIMOS, Icons.ESKIMOS_ICON, "Eskimo", 25);
-        pages[4] = new CharacterPage(game, GameCharacters.INSPECTOR, Icons.INSPECTOR_ICON, "Inspector",50 );
+        pages[4] = new CharacterPage(game, GameCharacters.INSPECTOR, Icons.INSPECTOR_ICON, "Inspector", 50);
         pages[5] = new CharacterPage(game, GameCharacters.FIGHTER, Icons.FIGHTER_ICON, "Fighter", 60);
         pages[6] = new CharacterPage(game, GameCharacters.HUNTER, Icons.HUNTER_ICON, "Hunter", 100);
         pages[7] = new CharacterPage(game, GameCharacters.RED_NINJA, Icons.RED_NINJA_ICON, "Red Ninja", 250);
 
         pages[0].Buy();
-    }
-
-    static void setSkin(CharacterPage skin) {
-        for (CharacterPage page : pages)
-            if (!page.equals(skin)) page.setSkinBtn.setPushed(false);
-            else if (!skin.setSkinBtn.isPushed()) pages[0].setSkinBtn.setPushed(true);
     }
 
     public CharacterPage getPage(int page) {

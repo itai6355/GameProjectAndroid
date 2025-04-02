@@ -12,15 +12,14 @@ import com.example.gameproject.entities.enemies.Enemies;
 import com.example.gameproject.entities.objects.Weapons;
 import com.example.gameproject.helpers.GameConstants;
 
-public abstract class Character extends Entity {
+public abstract class Character extends Entity{
     protected final GameCharacters gameCharType;
     protected final Enemies EnemyType;
+    private final int attackDamage;
     protected int aniTick, aniIndex;
     protected int faceDir = GameConstants.Face_Dir.DOWN;
     protected boolean attacking, attackChecked;
     private RectF attackBox = null;
-    private final int attackDamage;
-
     private int maxHealth;
     private int currentHealth;
 
@@ -56,7 +55,7 @@ public abstract class Character extends Entity {
         if (currentHealth < 0) currentHealth = 0;
     }
 
-    protected void heal(int heal){
+    protected void heal(int heal) {
         currentHealth += heal;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
     }

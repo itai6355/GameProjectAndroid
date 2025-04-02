@@ -19,50 +19,36 @@ import com.example.gameproject.ui.GameImages;
 
 public class BuyPage implements GameStateInterface {
 
-    private Items item;
-    private int amount;
-    private int price;
     private final int MAX_AMOUNT = 99;
-
+    private final CustomButton btnBack = new CustomButton(20 + ButtonImages.SETTINGS_BACK.getWidth() + GameConstants.Sprite.X_DRAW_OFFSET, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
     Paint BlackPaint;
-
     int space = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
-
     int xMiddle = GAME_WIDTH / 2;
     int yMiddle = GAME_HEIGHT / 2;
-
     float xDrawBackground = xMiddle - (float) ShopImages.SHOP_BUY_BACKGRAWND.getWidth() / 2;
-    float yDrawBackground = yMiddle - (float) ShopImages.SHOP_BUY_BACKGRAWND.getHeight() / 2;
-
-    float xDrawBlock = xMiddle - (float) ShopImages.SHOP_BUY_BLOCK.getWidth() / 2;
-    float yDrawBlock = yMiddle - (float) ShopImages.SHOP_BUY_BLOCK.getHeight() / 2;
-
-    float xDrawBar = xDrawBlock - (float) space / 3;
-    float yDrawBar = yDrawBlock + ShopImages.SHOP_BUY_BLOCK.getHeight() + (float) space / 3;
-
-    float xDrawAmount = xMiddle - (float) (String.valueOf(amount).length() * GameConstants.Sprite.SCALE_MULTIPLIER) / 2;
-    float yDrawAmount = yDrawBlock + ShopImages.SHOP_BUY_BLOCK.getHeight() - 2.5f * GameConstants.Sprite.Y_DRAW_OFFSET;
-
-    float xDrawPrice = xDrawBlock + 4 * GameConstants.Sprite.X_DRAW_OFFSET;
-    float yDrawPrice = yDrawBar + 3 * GameConstants.Sprite.Y_DRAW_OFFSET;
-
-    float xDrawADD = xDrawBlock + ShopImages.SHOP_BUY_BLOCK.getWidth() + space;
-    float yDrawADD = yMiddle - (float) ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
-
-    float xDrawReduce = xDrawBlock - ButtonImages.SHOP_REDUCE.getWidth() - space;
-    float yDrawReduce = yMiddle - (float) ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
-
     float xDrawApprove = xDrawBackground + ShopImages.SHOP_BUY_BACKGRAWND.getWidth() - 2 * ButtonImages.SHOP_APPROVE.getWidth() - (float) space / 2;
+    float yDrawBackground = yMiddle - (float) ShopImages.SHOP_BUY_BACKGRAWND.getHeight() / 2;
     float yDrawApprove = yDrawBackground + (float) ShopImages.SHOP_BUY_BACKGRAWND.getHeight() - 2 * ButtonImages.SHOP_APPROVE.getHeight() + GameConstants.Sprite.Y_DRAW_OFFSET;
-
-    private boolean isInPage = false;
-
-    private ItemShop itemShop;
-    private final CustomButton btnBack = new CustomButton(20 + ButtonImages.SETTINGS_BACK.getWidth() + GameConstants.Sprite.X_DRAW_OFFSET, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
-
-    private final CustomButton btnAdd = new CustomButton(xDrawADD, yDrawADD, ButtonImages.SHOP_ADD.getWidth(), ButtonImages.SHOP_ADD.getHeight());
-    private final CustomButton btnReduce = new CustomButton(xDrawReduce, yDrawReduce, ButtonImages.SHOP_REDUCE.getWidth(), ButtonImages.SHOP_REDUCE.getHeight());
     private final CustomButton btnApprove = new CustomButton(xDrawApprove, yDrawApprove, ButtonImages.SHOP_APPROVE.getWidth(), ButtonImages.SHOP_APPROVE.getHeight());
+    float xDrawBlock = xMiddle - (float) ShopImages.SHOP_BUY_BLOCK.getWidth() / 2;
+    float xDrawBar = xDrawBlock - (float) space / 3;
+    float xDrawPrice = xDrawBlock + 4 * GameConstants.Sprite.X_DRAW_OFFSET;
+    float xDrawADD = xDrawBlock + ShopImages.SHOP_BUY_BLOCK.getWidth() + space;
+    float xDrawReduce = xDrawBlock - ButtonImages.SHOP_REDUCE.getWidth() - space;
+    float yDrawBlock = yMiddle - (float) ShopImages.SHOP_BUY_BLOCK.getHeight() / 2;
+    float yDrawBar = yDrawBlock + ShopImages.SHOP_BUY_BLOCK.getHeight() + (float) space / 3;
+    float yDrawPrice = yDrawBar + 3 * GameConstants.Sprite.Y_DRAW_OFFSET;
+    float yDrawAmount = yDrawBlock + ShopImages.SHOP_BUY_BLOCK.getHeight() - 2.5f * GameConstants.Sprite.Y_DRAW_OFFSET;
+    float yDrawADD = yMiddle - (float) ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
+    private final CustomButton btnAdd = new CustomButton(xDrawADD, yDrawADD, ButtonImages.SHOP_ADD.getWidth(), ButtonImages.SHOP_ADD.getHeight());
+    float yDrawReduce = yMiddle - (float) ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
+    private final CustomButton btnReduce = new CustomButton(xDrawReduce, yDrawReduce, ButtonImages.SHOP_REDUCE.getWidth(), ButtonImages.SHOP_REDUCE.getHeight());
+    private Items item;
+    private int amount;
+    float xDrawAmount = xMiddle - (float) (String.valueOf(amount).length() * GameConstants.Sprite.SCALE_MULTIPLIER) / 2;
+    private int price;
+    private boolean isInPage = false;
+    private final ItemShop itemShop;
 
     public BuyPage(ItemShop itemShop) {
         this.itemShop = itemShop;
@@ -124,7 +110,7 @@ public class BuyPage implements GameStateInterface {
                 player.addToInventory(item);
             setNotBuying();
             itemShop.getGame().getInventoryState().SyncInventories(player);
-        }else {
+        } else {
             Toast.makeText(MainActivity.getGameContext(), "Not enough coins", Toast.LENGTH_SHORT).show();
         }
 

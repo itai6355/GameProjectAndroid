@@ -51,7 +51,7 @@ public class Setting extends BaseState implements GameStateInterface {
                     , btnYVolume, ButtonImages.SETTINGS_VOLUMES.getWidth(), ButtonImages.SETTINGS_VOLUMES.getHeight());
             btnVolumeButtons[i].setPushed(true);
         }
-        btnNext = new CustomButton(btnVolumeButtons[19].getHitbox().right - ButtonImages.EMPTY_SMALL.getWidth(), btnYVolume + ButtonImages.EMPTY_SMALL.getHeight() , ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
+        btnNext = new CustomButton(btnVolumeButtons[19].getHitbox().right - ButtonImages.EMPTY_SMALL.getWidth(), btnYVolume + ButtonImages.EMPTY_SMALL.getHeight(), ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
         btnPrev = new CustomButton(btnXVolume + space * GameConstants.Sprite.SCALE_MULTIPLIER, btnYVolume + ButtonImages.EMPTY_SMALL.getHeight(), ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
 
         btnSound = new CustomButton(SoundIconX, SoundIconY, GameImages.SOUND_ICON.getImage().getWidth(), GameImages.SOUND_ICON.getImage().getHeight());
@@ -151,10 +151,10 @@ public class Setting extends BaseState implements GameStateInterface {
                     for (CustomButton btn : btnVolumeButtons)
                         btn.setPushed(false);
 
-            }else if (isIn(event, btnNext)){
+            } else if (isIn(event, btnNext)) {
                 if (btnNext.isPushed())
                     GameActivity.getMpHelper().playNextSong();
-            }else if (isIn(event, btnPrev)){
+            } else if (isIn(event, btnPrev)) {
                 if (btnPrev.isPushed())
                     GameActivity.getMpHelper().playPreviousSong();
             }

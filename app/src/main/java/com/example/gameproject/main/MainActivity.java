@@ -15,9 +15,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.gameproject.Battery;
-import com.example.gameproject.database.DatabaseHelper;
+import com.example.gameproject.GeminiAPI;
 import com.example.gameproject.R;
+import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.GameImages;
 
@@ -27,12 +27,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static Context gameContext;
     private static DatabaseHelper dbHelper;
     private final boolean dev = false;
+    private final boolean isBtnPushed = false;
     private EditText userName;
     private EditText password;
     private ImageView menu;
-    private final boolean isBtnPushed = false;
     private ImageView btnStart;
-    private Battery battery = new Battery();
+    private final GeminiAPI geminiAPI = new GeminiAPI();
 
     public static Context getGameContext() {
         return gameContext;
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static DatabaseHelper getDbHelper() {
         return dbHelper;
     }
+
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -69,10 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userName = findViewById(R.id.UserNameText);
         password = findViewById(R.id.PasswordText);
 
-
         btnStart.setImageBitmap(ButtonImages.MENU_START.getBtnImg(isBtnPushed));
         btnStart.setOnClickListener(this);
-
 
         menu.setMaxWidth(GameImages.MENU.getImage().getWidth());
         menu.setMaxHeight(GameImages.MENU.getImage().getHeight());
@@ -93,8 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String usernameSt = userName.getText().toString().trim();
         String passwordSt = password.getText().toString().trim();
 
-        if (usernameSt.isEmpty() || passwordSt.isEmpty())
-            return;
+        if (usernameSt.isEmpty() || passwordSt.isEmpty()) return;
 
 
         if (dbHelper.loginUserByUsername(usernameSt, passwordSt)) {
@@ -117,9 +115,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
     @Override
     protected void onDestroy() {
         dbHelper.closeDatabase();
         super.onDestroy();
     }
+
+    public static void updateSurfaceSize(int width, int height) {
+        GAME_WIDTH = width;
+        GAME_HEIGHT = height;
+    }
+
+
+
+//    private void askGeminiQuestion(String question) {
+//        geminiApiClient.askQuestion(question, new GeminiApiClient.QuestionCallback() {
+//            @Override
+//            public void onSuccess(GeminiApiClient.AnswerResponse answerResponse) {
+//
+//                runOnUiThread(() -> {
+//                    String answer = answerResponse.getAnswer();
+//                    Toast.makeText(MainActivity.this, "Gemini's Answer: " + answer, Toast.LENGTH_LONG).show();
+//                    System.out.println("Gemini's Answer: " + answer);
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onFailure(String error) {
+//
+//                runOnUiThread(() -> {
+//                    System.out.println("Failed to get answer from Gemini: " + error);
+//                    Toast.makeText(MainActivity.this, "Failed to get answer from Gemini: " + error, Toast.LENGTH_LONG).show();
+//                });
+//
+//            }
+//        });
+//    }
 }

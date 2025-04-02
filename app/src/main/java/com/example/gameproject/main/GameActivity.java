@@ -34,6 +34,10 @@ public class GameActivity extends AppCompatActivity {
         return username.equals("admin") && password.equals("admin");
     }
 
+    public static MPHelper getMpHelper() {
+        return mpHelper;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,9 +66,5 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mpHelper.stop();
-    }
-
-    public static MPHelper getMpHelper() {
-        return mpHelper;
     }
 }

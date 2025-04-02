@@ -2,13 +2,12 @@ package com.example.gameproject.main;
 
 public class GameLoop implements Runnable {
 
-    private final Thread gameThread;
-    private final Game game;
-
     private static final int TARGET_UPDATE_FPS = 10;
     private static final int TARGET_RENDER_FPS = 120;
     private static final long OPTIMAL_UPDATE_TIME = 1000000000 / TARGET_UPDATE_FPS;
     private static final long OPTIMAL_RENDER_TIME = 1000000000 / TARGET_RENDER_FPS;
+    private final Thread gameThread;
+    private final Game game;
 
     public GameLoop(Game game) {
         this.game = game;

@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 
 import com.example.gameproject.R;
 import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.main.MainActivity;
 
@@ -30,7 +29,7 @@ public enum GameImages implements BitmapMethods {
     INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.2f),
 
     HUNGER_FULL(R.drawable.meat, 0.7f),
-    HUNGER_EMPTY(R.drawable.meat_empty,  0.7f),
+    HUNGER_EMPTY(R.drawable.meat_empty, 0.7f),
 
 
     COIN_SMALL(R.drawable.coins, 0, 0, 16, 16, 0.7f),

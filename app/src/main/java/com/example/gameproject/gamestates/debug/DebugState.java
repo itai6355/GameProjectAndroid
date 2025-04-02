@@ -18,6 +18,10 @@ public class DebugState extends BaseState implements GameStateInterface {
         super(game);
     }
 
+    public static void getBug(Exception e) {
+
+    }
+
     @Override
     public void update(double delta) {
         game.setCurrentGameState(Game.GameState.DEATH_SCREEN);
@@ -31,10 +35,6 @@ public class DebugState extends BaseState implements GameStateInterface {
 
     @Override
     public void touchEvents(MotionEvent event) {
-
-    }
-
-    public static void getBug(Exception e){
 
     }
 }

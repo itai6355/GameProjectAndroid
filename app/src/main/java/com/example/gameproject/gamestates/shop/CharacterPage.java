@@ -21,23 +21,18 @@ public class CharacterPage implements GameStateInterface {
 
     private final Icons icon;
     private final String name;
-    private boolean bought = false;
     private final PlayerShopAI playerShopAI;
     private final int PRICE;
-
     private final Game game;
-
     private final Paint textPaint = new Paint();
     private final Paint textGoldPaint = new Paint();
     private final Paint textGreenPaint = new Paint();
-
     float xStart = (float) (MainActivity.GAME_WIDTH / 2 - ShopImages.CHARACTER_SHOP_BOOK.getWidth() / 2);
     float yStart = (float) (MainActivity.GAME_HEIGHT / 2 - ShopImages.CHARACTER_SHOP_BOOK.getHeight() / 2);
-
-    private boolean settingSkin = false;
     public CustomButton setSkinBtn = new CustomButton((float) (MainActivity.GAME_WIDTH / 2 + ButtonImages.SHOP_SET_SKIN.getWidth()), yStart + ButtonImages.SHOP_SET_SKIN.getHeight() + GameConstants.Sprite.Y_DRAW_OFFSET, ButtonImages.SHOP_SET_SKIN.getWidth(), ButtonImages.SHOP_SET_SKIN.getHeight());
-
-    private CustomButton btnBuy;
+    private boolean bought = false;
+    private boolean settingSkin = false;
+    private final CustomButton btnBuy;
 
     public CharacterPage(Game game, GameCharacters skin, Icons icon, String name, int price) {
         this.icon = icon;

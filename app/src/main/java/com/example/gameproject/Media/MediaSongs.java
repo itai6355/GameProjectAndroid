@@ -27,17 +27,12 @@ public class MediaSongs {
     };
 
 
-
     public MediaSongs() {
 
     }
 
     public int getSongLength() {
         return songs.length;
-    }
-
-
-    public record song(String name, int path, int id) {
     }
 
     public song getSong(int id) {
@@ -47,6 +42,9 @@ public class MediaSongs {
             }
         }
         return songs[0];
+    }
+
+    public record song(String name, int path, int id) {
     }
 
 }

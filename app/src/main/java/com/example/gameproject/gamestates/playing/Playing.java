@@ -36,17 +36,16 @@ import java.util.Arrays;
 
 public class Playing extends BaseState implements GameStateInterface {
 
+    private static MapManager mapManager;
     private final Paint redPaint, healthBarRed, healthBarBlack;
+    private final Player player;
+    private final PlayingUI playingUI;
     private float cameraX, cameraY;
     private boolean movePlayer;
     private PointF lastTouchDiff;
-    private final Player player;
-    private final PlayingUI playingUI;
     private boolean doorwayJustPassed;
     private Entity[] listOfDrawables;
     private boolean listOfEntitiesMade;
-
-    private static MapManager mapManager;
     private InventorySloth lastItem;
 
     public Playing(Game game) {
@@ -70,6 +69,10 @@ public class Playing extends BaseState implements GameStateInterface {
         initHealthBars();
     }
 
+    public static MapManager getMapManager() {
+        return mapManager;
+    }
+
     private void initHealthBars() {
         healthBarRed.setStrokeWidth(10);
         healthBarRed.setStyle(Paint.Style.STROKE);
@@ -85,7 +88,6 @@ public class Playing extends BaseState implements GameStateInterface {
         cameraY = GAME_HEIGHT / 2f - mapManager.getMaxHeightCurrentMap() / 2f;
     }
 
-
     @Override
     public void update(double delta) {
         buildEntityList();
@@ -99,7 +101,8 @@ public class Playing extends BaseState implements GameStateInterface {
             for (Character character : mapManager.getCurrentMap().getEnemysArrayList()) {
                 if (character instanceof Enemy enemy) {
                     if (enemy instanceof Skeleton skeleton) updateSkeleton(delta, skeleton);
-                    if (enemy instanceof MaskedRaccoon maskedRaccoon) updateMaskedRakoon(delta, maskedRaccoon);
+                    if (enemy instanceof MaskedRaccoon maskedRaccoon)
+                        updateMaskedRakoon(delta, maskedRaccoon);
                 }
             }
 
@@ -121,7 +124,8 @@ public class Playing extends BaseState implements GameStateInterface {
     private void updateItems() {
         for (Item item : mapManager.getCurrentMap().getItemArrayList()) {
             item.updateAni();
-            if (isNear(player.getHitbox(), item.getHitbox()) && item.updatePickUp()) pickItem(player, item);
+            if (isNear(player.getHitbox(), item.getHitbox()) && item.updatePickUp())
+                pickItem(player, item);
         }
 
     }
@@ -146,7 +150,6 @@ public class Playing extends BaseState implements GameStateInterface {
         return Math.sqrt(distanceX * distanceX + distanceY * distanceY) < close;
     }
 
-
     private void updateMaskedRakoon(double delta, MaskedRaccoon maskedRaccoon) {
         if (maskedRaccoon.isActive()) {
             maskedRaccoon.update(delta, mapManager.getCurrentMap());
@@ -168,7 +171,6 @@ public class Playing extends BaseState implements GameStateInterface {
             }
         }
     }
-
 
     private void buildEntityList() {
         listOfDrawables = mapManager.getCurrentMap().getDrawableList();
@@ -198,7 +200,6 @@ public class Playing extends BaseState implements GameStateInterface {
     public void setDoorwayJustPassed(boolean doorwayJustPassed) {
         this.doorwayJustPassed = doorwayJustPassed;
     }
-
 
     private void checkEnemyAttack(Character character) {
         character.updateWepHitbox();
@@ -254,7 +255,6 @@ public class Playing extends BaseState implements GameStateInterface {
         player.setAttackChecked(true);
     }
 
-
     @Override
     public void render(Canvas canvas) {
         mapManager.drawTiles(canvas);
@@ -290,7 +290,6 @@ public class Playing extends BaseState implements GameStateInterface {
         if (player.isAttacking()) drawWeapon(canvas, player);
     }
 
-
     private void drawWeapon(Canvas canvas, Character character) {
         canvas.rotate(character.getWepRot(), character.getAttackBox().left, character.getAttackBox().top);
         canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + character.wepRotAdjustLeft(), character.getAttackBox().top + character.wepRotAdjustTop(), null);
@@ -308,7 +307,6 @@ public class Playing extends BaseState implements GameStateInterface {
             // not effecting the game and real hitbox IDK why.
             canvas.drawRect(character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), character.getAttackBox().right + cameraX, character.getAttackBox().bottom + cameraY, redPaint);
     }
-
 
     public void drawCharacter(Canvas canvas, Character character) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
@@ -374,7 +372,6 @@ public class Playing extends BaseState implements GameStateInterface {
         }
     }
 
-
     public void setPlayerMoveTrue(PointF lastTouchDiff) {
         movePlayer = true;
         this.lastTouchDiff = lastTouchDiff;
@@ -409,10 +406,6 @@ public class Playing extends BaseState implements GameStateInterface {
 
     public PlayingUI getPlayingUI() {
         return playingUI;
-    }
-
-    public static MapManager getMapManager() {
-        return mapManager;
     }
 
     public void setGameStateToSettings() {

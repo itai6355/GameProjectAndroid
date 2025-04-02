@@ -17,6 +17,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         holder.addCallback(this);
         game = new Game(holder);
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return game.touchEvent(event);
@@ -28,9 +29,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
-    public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
+    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+        MainActivity.updateSurfaceSize(width, height);
     }
+
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
 

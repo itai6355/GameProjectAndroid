@@ -42,10 +42,9 @@ public enum ShopImages implements BitmapMethods {
     CHARACTER_SHOP_BOOK(R.drawable.wooden_ui, 38, 1666, 249, 280, 0.6f);
 
 
+    final int width, height;
     private final Bitmap atlas;
     private final Bitmap image;
-
-    final int width, height;
 
 
     ShopImages(int resID, int x, int y, int width, int height, float multiplier) {

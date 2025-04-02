@@ -9,11 +9,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MPHelper {
-    private MediaPlayer mPlayer;
     private final MediaSongs mSongs;
-    private int currentSongId;
     private final Context context;
     private final ExecutorService executorService;
+    private MediaPlayer mPlayer;
+    private int currentSongId;
 
 
     public MPHelper(Context context) {

@@ -9,24 +9,19 @@ import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 
 public class CategoryPage implements GameStateInterface {
-    private int page;
     private final int MAX_PAGES;
-
     private final int ShopWidth = 10;
     private final int ShopHeight = 4;
-
-    private int xCurr;
-    private int yCurr;
-    private int Xspace = 13 * GameConstants.Sprite.SCALE_MULTIPLIER;
-    private int Yspace = 100;
-
+    private final ItemShop.Category thiscategory;
+    private final ShopSloth[][][] ShopItems;
+    private int page;
+    private final int xCurr;
+    private final int yCurr;
+    private final int Xspace = 13 * GameConstants.Sprite.SCALE_MULTIPLIER;
+    private final int Yspace = 100;
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;
-
     private Bitmap icon;
-    private final ItemShop.Category thiscategory;
-
-    private final ShopSloth[][][] ShopItems;
 
     public CategoryPage(ItemShop.Category category, int xCurr, int yCurr) {
         this.xCurr = xCurr;

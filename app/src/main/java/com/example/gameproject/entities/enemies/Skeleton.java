@@ -11,12 +11,12 @@ import com.example.gameproject.helpers.HelpMethods;
 import java.util.Random;
 
 public class Skeleton extends Enemy {
-    private long lastDirChange = System.currentTimeMillis();
     private final Random rand = new Random();
-    private boolean moving = true, preparingAttack;
-    private long timerBeforeAttack, timerAttackDuration;
     private final long timeToAttack = 500;
     private final long timeForAttackDuration = 250;
+    private long lastDirChange = System.currentTimeMillis();
+    private boolean moving = true, preparingAttack;
+    private long timerBeforeAttack, timerAttackDuration;
 
 
     public Skeleton(PointF pos) {

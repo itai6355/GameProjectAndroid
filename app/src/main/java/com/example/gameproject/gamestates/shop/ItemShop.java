@@ -13,38 +13,31 @@ import com.example.gameproject.ui.CustomButton;
 
 public class ItemShop extends ShopState implements GameStateInterface {
 
-    private Category category = Category.FOOD;
+    private static final Category[] Categories = new Category[7];
     private final int MAX_CATEGORIES = Category.values().length;
 
     private final int ShopWidth = 10;
     private final int ShopHeight = 4;
-
-    private ShopSloth currSS;
     private final ShopState shopState;
     private final ItemHelper itemHelper;
-
-    private int xCurrIndex = 0;
-    private int yCurrIndex = 0;
-
-    private int xStart = 375;
-    private int yStart = 200;
-
+    private final BuyPage buyPage;
+    private final CategoryPage[] CategoryPages = new CategoryPage[MAX_CATEGORIES];
+    private final CustomButton[] CategoriesButtons = new CustomButton[MAX_CATEGORIES];
     float xBtnStart, yBtnStart;
     float xBtnMiddle, yBtnMiddle;
     int xSpace = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
+    private final int xBtn = MainActivity.GAME_WIDTH / 2 - (ButtonImages.EMPTY_SUPER_SMALL.getWidth() * MAX_CATEGORIES - xSpace) / 2;
+    private Category category = Category.FOOD;
 
 
 //    private final int xBtn = xStart;
 //    private final int yBtn = yStart + (ShopSloth.SLOT_SIZE + 100) * (ShopHeight);
-
-    private final int xBtn = MainActivity.GAME_WIDTH / 2 - (ButtonImages.EMPTY_SUPER_SMALL.getWidth() * MAX_CATEGORIES - xSpace) / 2;
+    private ShopSloth currSS;
+    private int xCurrIndex = 0;
+    private int yCurrIndex = 0;
+    private final int xStart = 375;
+    private final int yStart = 200;
     private final int yBtn = yStart - ButtonImages.EMPTY_SUPER_SMALL.getHeight() - 50;
-
-
-    private final BuyPage buyPage;
-    private final CategoryPage[] CategoryPages = new CategoryPage[MAX_CATEGORIES];
-    private final CustomButton[] CategoriesButtons = new CustomButton[MAX_CATEGORIES];
-    private static final Category[] Categories = new Category[7];
 
 
     public ItemShop(Game game, ShopState shopState) {
@@ -56,6 +49,10 @@ public class ItemShop extends ShopState implements GameStateInterface {
         InitCategorys();
     }
 
+    public static void addCategory(Category category) {
+        Categories[category.value] = category;
+    }
+
     private void InitCategorys() {
         for (int i = 0; i < MAX_CATEGORIES; i++) {
             CategoryPages[i] = new CategoryPage(Categories[i], xStart, yStart);
@@ -63,7 +60,6 @@ public class ItemShop extends ShopState implements GameStateInterface {
             CategoriesButtons[i] = new CustomButton(xBtn + (i * ButtonImages.EMPTY_SUPER_SMALL.getWidth() + xSpace), yBtn, ButtonImages.EMPTY_SUPER_SMALL.getWidth(), ButtonImages.EMPTY_SUPER_SMALL.getHeight());
         }
     }
-
 
     @Override
     public void update(double delta) {
@@ -81,7 +77,6 @@ public class ItemShop extends ShopState implements GameStateInterface {
         }
 
     }
-
 
     @Override
     public void touchEvents(MotionEvent event) {
@@ -136,7 +131,6 @@ public class ItemShop extends ShopState implements GameStateInterface {
         }
     }
 
-
     public ShopSloth getCurrSS() {
         return currSS;
     }
@@ -155,10 +149,6 @@ public class ItemShop extends ShopState implements GameStateInterface {
 
     public int getMAX_PAGES() {
         return CategoryPages[category.value].getMAX_PAGES();
-    }
-
-    public static void addCategory(Category category) {
-        Categories[category.value] = category;
     }
 
     public void setCategory(Category category) {
