@@ -10,6 +10,7 @@ loggingInterceptor = "4.11.0"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
+workRuntime = "2.10.0"
 
 [libraries]
 generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
@@ -24,6 +25,7 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "loggingInterceptor" }
 gson = { module = "com.google.code.gson:gson", version = "2.10.1" }
+work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -8,7 +8,7 @@ import android.view.SurfaceHolder;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.gamestates.death.DeathScreen;
-import com.example.gameproject.gamestates.debug.DebugState;
+import com.example.gameproject.gamestates.lostConnection.LostConnectionState;
 import com.example.gameproject.gamestates.invenory.InventoryState;
 import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.gamestates.setting.Setting;
@@ -24,7 +24,7 @@ public class Game {
     private DeathScreen deathScreen;
     private InventoryState inventoryState;
     private ShopState shopState;
-    private DebugState debugState;
+    private LostConnectionState lostConnectionState;
     private GameState currentGameState = GameState.PLAYING;
 
     public Game(SurfaceHolder holder) {
@@ -42,7 +42,7 @@ public class Game {
             case SETTINGS -> setting.update(delta);
             case INVENTORY -> inventoryState.update(delta);
             case SHOP -> shopState.update(delta);
-            case DEBUG -> debugState.update(delta);
+            case LOST_CONNECTION -> lostConnectionState.update(delta);
         }
     }
 
@@ -57,7 +57,7 @@ public class Game {
             case SETTINGS -> setting.render(canvas);
             case INVENTORY -> inventoryState.render(canvas);
             case SHOP -> shopState.render(canvas);
-            case DEBUG -> debugState.render(canvas);
+            case LOST_CONNECTION -> lostConnectionState.render(canvas);
         }
 
         holder.unlockCanvasAndPost(canvas);
@@ -71,7 +71,7 @@ public class Game {
             case SETTINGS -> setting.touchEvents(event);
             case INVENTORY -> inventoryState.touchEvents(event);
             case SHOP -> shopState.touchEvents(event);
-            case DEBUG -> debugState.touchEvents(event);
+            case LOST_CONNECTION -> lostConnectionState.touchEvents(event);
         }
 
         return true;
@@ -102,15 +102,19 @@ public class Game {
         setting = new Setting(this);
         inventoryState = new InventoryState(this);
         shopState = new ShopState(this);
-        debugState = new DebugState(this);
+        lostConnectionState = new LostConnectionState(this);
         playing = new Playing(this);
+    }
+    public GameState getCurrentGameState() {
+        return currentGameState;
     }
 
     public DatabaseHelper getDbHelper() {
         return dbHelper;
     }
 
+
     public enum GameState {
-        PLAYING, DEATH_SCREEN, SETTINGS, INVENTORY, SHOP, DEBUG
+        PLAYING, DEATH_SCREEN, SETTINGS, INVENTORY, SHOP, LOST_CONNECTION
     }
 }

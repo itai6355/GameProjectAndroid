@@ -10,7 +10,7 @@ import android.util.Log;
 import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.gamestates.debug.DebugState;
+import com.example.gameproject.gamestates.lostConnection.LostConnectionState;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.main.Game;
@@ -165,9 +165,7 @@ public class Player extends Character {
     public int getCoins() {
         try {
             return Integer.parseInt(dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
-        } catch (Exception e) {
-            DebugState.getBug(e);
-        }
+        } catch (Exception ignored) {}
         return 0;
     }
 
@@ -211,9 +209,7 @@ public class Player extends Character {
             dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
             item.reduceAmount();
             inventory.remove(item.getItem());
-        } catch (Exception e) {
-            DebugState.getBug(e);
-        }
+        } catch (Exception e) {}
 
     }
 

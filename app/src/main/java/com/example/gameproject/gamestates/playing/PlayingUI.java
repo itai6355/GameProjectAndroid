@@ -32,7 +32,6 @@ public class PlayingUI {
     private final CustomButton btnSetting;
     private final CustomButton btnInventory;
     private final CustomButton btnShop;
-    private final CustomButton btnDebug;
     private final Paint BlackPaint;
     private int joystickPointerId = -1;
     private int attackBtnPointerId = -1;
@@ -58,10 +57,6 @@ public class PlayingUI {
         btnShop = new CustomButton(GAME_WIDTH - 230 - ButtonImages.PLAYING_MENU.getWidth() - 20, 50, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
 
 
-        btnDebug = new CustomButton(GAME_WIDTH - ButtonImages.PLAYING_DEBUG.getWidth() - 20,
-                GAME_HEIGHT - ButtonImages.PLAYING_DEBUG.getHeight() - 20,
-                ButtonImages.PLAYING_DEBUG.getHeight(),
-                ButtonImages.PLAYING_DEBUG.getHeight());
 
     }
 
@@ -136,10 +131,6 @@ public class PlayingUI {
         canvas.drawBitmap(GameImages.SHOP_ICON.getImage(), btnShop.getHitbox().left + 35, btnShop.getHitbox().top + 35, null);
 
 
-        if (GameActivity.isDev()) {
-            canvas.drawBitmap(ButtonImages.PLAYING_DEBUG.getBtnImg(btnDebug.isPushed(btnDebug.getPointerId())), btnDebug.getHitbox().left, btnDebug.getHitbox().top, null);
-        }
-
     }
 
 
@@ -206,7 +197,6 @@ public class PlayingUI {
                     if (isIn(eventPos, btnSetting)) btnSetting.setPushed(true, pointerId);
                     else if (isIn(eventPos, btnInventory)) btnInventory.setPushed(true, pointerId);
                     else if (isIn(eventPos, btnShop)) btnShop.setPushed(true, pointerId);
-                    else if (isIn(eventPos, btnDebug)) btnDebug.setPushed(true, pointerId);
                 }
             }
 
@@ -241,16 +231,7 @@ public class PlayingUI {
                             playing.setGameStateToShop();
                             playing.resetLastItem();
                         }
-                    } else if (isIn(eventPos, btnDebug)) {
-                        if (btnDebug.isPushed(pointerId)) {
-                            resetJoystickButton();
-                            playing.setGameStateToDebug();
-                            playing.resetLastItem();
-                        }
                     }
-
-
-                    btnDebug.unPush(pointerId);
                     btnShop.unPush(pointerId);
                     btnSetting.unPush(pointerId);
                     btnInventory.unPush(pointerId);

@@ -18,6 +18,7 @@ import com.example.gameproject.entities.enemies.MaskedRaccoon;
 import com.example.gameproject.entities.enemies.Skeleton;
 import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.entities.Player;
+import com.example.gameproject.entities.entities.Villager;
 import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
@@ -106,19 +107,47 @@ public class Playing extends BaseState implements GameStateInterface {
                 }
             }
 
+        for (Building building : mapManager.getCurrentMap().getBuildingArrayList())
+            for (Villager villager : building.getVillagers())
+                if (villager != null) updateVillager(delta, villager);
+
+
         updateItems();
         sortArray();
         generateEnemies();
 
     }
 
+
     private void generateEnemies() {
         var map = mapManager.getCurrentMap();
         var enemies = map.getEnemysArrayList();
         int max = map.getMaxEnemies();
         if (enemies.size() == max) return;
-        var temp = HelpMethods.GetEnemiesRandomized(max - enemies.size(), map.getSpritesID());
+        var temp = HelpMethods.GetEnemiesRandomized(max - enemies.size(), map.getSpritesID(), map.getBuildingArrayList(), map.getGameObjectArrayList());
         enemies.addAll(temp);
+    }
+
+    private void updateVillager(double delta, Villager villager) {
+        if (villager.isActive()){
+            villager.update(delta, mapManager.getCurrentMap());
+            if (isNearTalk(player.getHitbox(), villager.getHitbox()))
+                villager.startConversation(player);
+           else villager.endConversation();
+        }
+    }
+
+    private boolean isNearTalk(RectF player, RectF villager) {
+        RectF playerHitbox = new RectF(player.left - cameraX, player.top - cameraY, player.right - cameraX, player.bottom - cameraY);
+        float close = 65;
+
+        float closestX = Math.max(villager.left - close, Math.min(playerHitbox.centerX(), villager.right + close));
+        float closestY = Math.max(villager.top - close, Math.min(playerHitbox.centerY(), villager.bottom + close));
+
+        float distanceX = playerHitbox.centerX() - closestX;
+        float distanceY = playerHitbox.centerY() - closestY;
+
+        return Math.sqrt(distanceX * distanceX + distanceY * distanceY) > close;
     }
 
     private void updateItems() {
@@ -151,10 +180,7 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void updateMaskedRakoon(double delta, MaskedRaccoon maskedRaccoon) {
-        if (maskedRaccoon.isActive()) {
-            maskedRaccoon.update(delta, mapManager.getCurrentMap());
-        }
-
+        if (maskedRaccoon.isActive()) maskedRaccoon.update(delta, mapManager.getCurrentMap());
     }
 
     private void updateSkeleton(double delta, Skeleton skeleton) {
@@ -251,6 +277,17 @@ public class Playing extends BaseState implements GameStateInterface {
                 }
             }
         }
+        for (Building building : mapManager.getCurrentMap().getBuildingArrayList())
+            for (Villager villager : building.getVillagers()) {
+                if (villager == null) continue;
+                if (attackBoxWithoutCamera.intersects(villager.getHitbox().left, villager.getHitbox().top, villager.getHitbox().right, villager.getHitbox().bottom)) {
+                    villager.damageCharacter(player.getDamage());
+                    if (villager.getCurrentHealth() <= 0) {
+                        villager.setInactive();
+                        building.removeVillager(villager);
+                    }
+                }
+            }
 
         player.setAttackChecked(true);
     }
@@ -259,17 +296,40 @@ public class Playing extends BaseState implements GameStateInterface {
     public void render(Canvas canvas) {
         mapManager.drawTiles(canvas);
         if (listOfEntitiesMade) drawSortedEntities(canvas);
+        //TODO: need to add the vilagers to the sorted entities list.
+        //now its just drawing them on top of the everithing.
+        drawVillagers(canvas);
+
 
         playingUI.draw(canvas);
+    }
+
+    private void drawVillagers(Canvas canvas) {
+        for (Building building : mapManager.getCurrentMap().getBuildingArrayList()) {
+            for (Villager villager : building.getVillagers()) {
+                if (villager == null) continue;
+                if (villager.isActive()) {
+                    canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), villager.getHitbox().left + cameraX, villager.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
+                    canvas.drawBitmap(villager.getGameCharType().getSprite(villager.getAniIndex(), villager.getFaceDir()), villager.getHitbox().left + cameraX - X_DRAW_OFFSET, villager.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
+                    if (GameActivity.isDrawHitbox())
+                        canvas.drawRect(villager.getHitbox().left + cameraX, villager.getHitbox().top + cameraY, villager.getHitbox().right + cameraX, villager.getHitbox().bottom + cameraY, redPaint);
+
+                    if (villager.getCurrentHealth() < villager.getMaxHealth())
+                        drawHealthBar(canvas, villager);
+
+                    if (villager.isTalking()) villager.drawTalk(canvas, cameraX, cameraY);
+                }
+            }
+        }
     }
 
     private void drawSortedEntities(Canvas canvas) {
         for (Entity e : listOfDrawables) {
             if (e instanceof Enemy enemy) {
                 if (enemy instanceof Skeleton skeleton) {
-                    if (skeleton.isActive()) drawCharacter(canvas, skeleton);
+                    if (skeleton.isActive()) drawEnemy(canvas, skeleton);
                 } else if (enemy instanceof MaskedRaccoon maskedRaccoon) {
-                    if (maskedRaccoon.isActive()) drawCharacter(canvas, maskedRaccoon);
+                    if (maskedRaccoon.isActive()) drawEnemy(canvas, maskedRaccoon);
                 }
             } else if (e instanceof GameObject gameObject) {
                 mapManager.drawObject(canvas, gameObject);
@@ -281,6 +341,17 @@ public class Playing extends BaseState implements GameStateInterface {
                 drawPlayer(canvas);
             }
         }
+    }
+
+    private void drawCharacter(Canvas canvas, Character character) {
+        canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
+        canvas.drawBitmap(character.getGameCharType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
+        if (GameActivity.isDrawHitbox())
+            canvas.drawRect(character.getHitbox().left + cameraX, character.getHitbox().top + cameraY, character.getHitbox().right + cameraX, character.getHitbox().bottom + cameraY, redPaint);
+
+        if (character.getCurrentHealth() < character.getMaxHealth())
+            drawHealthBar(canvas, character);
+
     }
 
     private void drawPlayer(Canvas canvas) {
@@ -305,10 +376,12 @@ public class Playing extends BaseState implements GameStateInterface {
             //  not true ): need fix!
             // when weapon is facing left or up, the hitbox is bigger.
             // not effecting the game and real hitbox IDK why.
-            canvas.drawRect(character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), character.getAttackBox().right + cameraX, character.getAttackBox().bottom + cameraY, redPaint);
+            // I FIXED IT! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //Just didnt need to add the wep adjustment to the hitbox becose it was already applying when i create the wep hitbox..
+            canvas.drawRect(character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY, character.getAttackBox().right + cameraX, character.getAttackBox().bottom + cameraY, redPaint);
     }
 
-    public void drawCharacter(Canvas canvas, Character character) {
+    public void drawEnemy(Canvas canvas, Character character) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
         canvas.drawBitmap(character.getEnemyType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
         if (GameActivity.isDrawHitbox())
@@ -388,10 +461,8 @@ public class Playing extends BaseState implements GameStateInterface {
             var itemBar = player.getItemBar();
             for (InventorySloth inventorySloth : itemBar)
                 if (inventorySloth.isIn(event))
-                    if (lastItem == inventorySloth)
-                        player.UseItem(lastItem);
-                    else
-                        lastItem = inventorySloth;
+                    if (lastItem == inventorySloth) player.UseItem(lastItem);
+                    else lastItem = inventorySloth;
         }
         playingUI.touchEvents(event);
     }
@@ -418,9 +489,5 @@ public class Playing extends BaseState implements GameStateInterface {
 
     public void setGameStateToShop() {
         game.setCurrentGameState(Game.GameState.SHOP);
-    }
-
-    public void setGameStateToDebug() {
-        game.setCurrentGameState(Game.GameState.DEBUG);
     }
 }

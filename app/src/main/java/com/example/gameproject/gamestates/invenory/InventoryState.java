@@ -44,13 +44,9 @@ public class InventoryState extends BaseState implements GameStateInterface {
         BlackPaint.setStrokeWidth(3);
         BlackPaint.setStyle(Paint.Style.STROKE);
 
-
-        for (int i = 0; i < inventory.length; i++) {
-            for (int j = 0; j < inventory[i].length; j++) {
+        for (int i = 0; i < inventory.length; i++)
+            for (int j = 0; j < inventory[i].length; j++)
                 inventory[i][j] = new InventorySloth(i, j, xCurr + (i * (InventorySloth.SLOT_SIZE + space)), yCurr + (j * (InventorySloth.SLOT_SIZE + space)));
-            }
-        }
-
 
     }
 
@@ -139,6 +135,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
         }
     }
 
+    //TODO: Fix te buggggggggg!!!!!
     private void moveItem(InventorySloth lst, InventorySloth curr) {
         curr.setItem(lst.getItem());
         curr.setAmount(lst.getAmount());
@@ -150,15 +147,12 @@ public class InventoryState extends BaseState implements GameStateInterface {
 
     public void SyncInventories(Player player) {
         Map<Items, InventorySloth> itemSlotMap = new HashMap<>();
-
-        for (int i = inventory.length - 1; i >= 0; i--) {
-            for (int j = inventory[i].length - 1; j >= 0; j--) {
+        for (int i = inventory.length - 1; i >= 0; i--)
+            for (int j = inventory[i].length - 1; j >= 0; j--)
                 if (inventory[i][j].getItem() != null) {
                     inventory[i][j].setAmount(0);
                     itemSlotMap.put(inventory[i][j].getItem(), inventory[i][j]);
                 }
-            }
-        }
 
         for (Items item : player.getInventory()) {
             InventorySloth slot = itemSlotMap.get(item);
@@ -167,7 +161,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
             } else {
                 boolean added = false;
                 for (int i = 0; i < inventory.length - 1; i++) {
-                    for (int j = 0; j < inventory[i].length - 1; j++) {
+                    for (int j = 0; j < inventory[i].length - 1; j++)
                         if (inventory[i][j].getItem() == null) {
                             inventory[i][j].setItem(item);
                             inventory[i][j].setAmount(1);
@@ -175,7 +169,6 @@ public class InventoryState extends BaseState implements GameStateInterface {
                             added = true;
                             break;
                         }
-                    }
                     if (added) break;
                 }
             }

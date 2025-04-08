@@ -43,6 +43,8 @@ dependencies {
     implementation(libs.generativeai)
     implementation(libs.kotlinx.coroutines.android)
 
+    implementation(libs.work.runtime)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

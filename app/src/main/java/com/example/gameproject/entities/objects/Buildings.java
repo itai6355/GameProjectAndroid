@@ -7,8 +7,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 
 import com.example.gameproject.R;
+import com.example.gameproject.entities.entities.Villager;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.main.MainActivity;
+
+import java.util.Random;
 
 
 public enum Buildings implements BitmapMethods {
@@ -51,5 +54,27 @@ public enum Buildings implements BitmapMethods {
 
     public Bitmap getHouseImg() {
         return houseImg;
+    }
+
+    public Villager.VillagerType getVillagerType() {
+        int villagerType = new Random().nextInt(2);
+        switch (this) {
+            case HOUSE_ONE -> {
+                if (villagerType == 0)
+                    return Villager.VillagerType.VILLAGER_MOM;
+                else return Villager.VillagerType.VILLAGER_DAD;
+            }
+            case HOUSE_TWO -> {
+                if (villagerType == 0)
+                    return Villager.VillagerType.VILLAGER_BOY;
+                else return Villager.VillagerType.VILLAGER_GREEN;
+            }
+            case HOUSE_SIX -> {
+                if (villagerType == 0)
+                    return Villager.VillagerType.VILLAGER_BLACK;
+                else return Villager.VillagerType.VILLAGER_OLIVE;
+            }
+        }
+        return Villager.VillagerType.VILLAGER_DAD;
     }
 }

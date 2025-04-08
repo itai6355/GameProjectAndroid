@@ -24,6 +24,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class GeminiAPI {
+
+    private String response = null;
+
     private static final String API_KEY = "AIzaSyAvRr7uJNTGMp0TyPjyLOtObZW6qN3pcpw";
     private static final String BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
     private static final String TAG = "GeminiAPI";
@@ -32,33 +35,33 @@ public class GeminiAPI {
         Executors.newSingleThreadExecutor();
     }
 
-    public interface ResponseCallback {
+    private interface ResponseCallback {
         void onResponse(String response);
 
         void onFailure(String error);
     }
 
-    public static void askGemini(String prompt, Context context) {
+    public String askGemini(String prompt, Context context) {
         askGemini(prompt, new ResponseCallback() {
             @Override
             public void onResponse(String response) {
                 new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
-                    Log.d(TAG, "Gemini API Response: " + response);
-                    Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                    GeminiAPI.this.response = response;
+
                 });
             }
 
             @Override
             public void onFailure(String error) {
                 new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
-                    Log.e(TAG, "Error from Gemini API: " + error);
-                    Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                    GeminiAPI.this.response = error;
                 });
             }
         });
+        return response;
     }
 
-    public static void askGemini(String prompt, ResponseCallback callback) {
+    private static void askGemini(String prompt, ResponseCallback callback) {
         OkHttpClient client = new OkHttpClient();
 
         JsonObject requestBody = new JsonObject();
@@ -99,7 +102,6 @@ public class GeminiAPI {
                     return;
                 }
 
-                // Parse the JSON response
                 String responseBody = Objects.requireNonNull(response.body()).string();
                 JsonObject jsonResponse = JsonParser.parseString(responseBody).getAsJsonObject();
                 JsonArray candidates = jsonResponse.getAsJsonArray("candidates");

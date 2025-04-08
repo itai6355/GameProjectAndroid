@@ -8,12 +8,15 @@ import com.example.gameproject.entities.enemies.MaskedRaccoon;
 import com.example.gameproject.entities.enemies.Skeleton;
 import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.entities.Player;
+import com.example.gameproject.entities.entities.Villager;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.environments.Tiles;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class HelpMethods {
@@ -49,23 +52,51 @@ public class HelpMethods {
     }
 
 
-    public static CopyOnWriteArrayList<Character> GetEnemiesRandomized(int amount, int[][] gameMapArray) {
-
+    public static CopyOnWriteArrayList<Character> GetEnemiesRandomized(int amount, int[][] gameMapArray, ArrayList<Building> buildingArrayListFinal, ArrayList<GameObject> gameObjectArrayListFinal) {
         int width = (gameMapArray[0].length - 1) * GameConstants.Sprite.SIZE;
         int height = (gameMapArray.length - 1) * GameConstants.Sprite.SIZE;
-        CopyOnWriteArrayList<Character> enemyArrayList = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<Character> CharacterArrayList = new CopyOnWriteArrayList<>();
         for (int i = 0; i < amount / 2; i++) {
-            float x = (float) (Math.random() * width);
-            float y = (float) (Math.random() * height);
-            enemyArrayList.add(new Skeleton(new PointF(x, y)));
+            do {
+                float x1 = (float) (Math.random() * width);
+                float y1 = (float) (Math.random() * height);
+                float x2 = (float) (Math.random() * width);
+                float y2 = (float) (Math.random() * height);
+                if (isNotOnObject(x1, y1, gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal) && isNotOnObject(x2, y2, gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal)) {
+                    CharacterArrayList.add(new Skeleton(new PointF(x1, y1)));
+                    CharacterArrayList.add(new MaskedRaccoon(new PointF(x2, y2)));
+                    break;
+                }
+            }while (true);
         }
-        for (int i = 0; i < amount / 2; i++) {
-            float x = (float) (Math.random() * width);
-            float y = (float) (Math.random() * height);
+        return CharacterArrayList;
+    }
 
-            enemyArrayList.add(new MaskedRaccoon(new PointF(x, y)));
+    public static void AddVillagersToBuildings(ArrayList<Building> buildingArrayListFinal) {
+        int numberOfVillagers;
+        for (Building b : buildingArrayListFinal) {
+            numberOfVillagers = new Random().nextInt(3);
+            for (int i = 0; i < numberOfVillagers; i++) {
+                PointF point = b.getBuildingType().getDoorwayPoint();
+                Villager villager = new Villager(new PointF(point.x + b.getPos().x, point.y + b.getPos().y - b.getBuildingType().getHitboxRoof()), b.getBuildingType().getVillagerType());
+                b.addVillager(villager);
+                villager.setBuilding(b);
+            }
         }
-        return enemyArrayList;
+    }
+
+    private static boolean isNotOnObject(float x, float y, int[][] gameMapArray, ArrayList<Building> buildingArrayListFinal,
+                                         ArrayList<GameObject> gameObjectArrayListFinal) {
+        int xTile = (int) (x / GameConstants.Sprite.SIZE);
+        int yTile = (int) (y / GameConstants.Sprite.SIZE);
+
+        if (gameMapArray[yTile][xTile] == 0) return false;
+        for (Building b : buildingArrayListFinal)
+            if (b.getHitbox().contains(x, y)) return false;
+        for (GameObject go : gameObjectArrayListFinal)
+            if (go.getHitbox().contains(x, y)) return false;
+        return true;
+
     }
 
 

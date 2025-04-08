@@ -75,6 +75,5 @@ public class MaskedRaccoon extends Enemy {
     @Override
     public void AddLootTypes() {
         KilledLoot.add(Items.COIN);
-
     }
 }

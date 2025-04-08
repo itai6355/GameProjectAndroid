@@ -202,8 +202,10 @@ public class MapManager {
         GameMap outsideMap =
                 new GameMap(outsideArrayFinal, 10, Tiles.OUTSIDE, buildingArrayListFinal,
                         gameObjectArrayListFinal,
-                        HelpMethods.GetEnemiesRandomized(3, outsideArrayFinal),
+                        HelpMethods.GetEnemiesRandomized(3, outsideArrayFinal,buildingArrayListFinal, gameObjectArrayListFinal),
                         itemArrayList);
+
+        HelpMethods.AddVillagersToBuildings(buildingArrayListFinal);
 
 
         HelpMethods.ConnectTwoDoorways(
