@@ -51,9 +51,12 @@ public class MPHelper {
         try {
             if (mPlayer != null && mPlayer.isPlaying()) {
                 mPlayer.setVolume(leftVolume, rightVolume);
+
+            }
+            if (EffectPlayer != null && EffectPlayer.isPlaying()) {
                 EffectPlayer.setVolume(leftVolume, rightVolume);
             }
-        } catch (IllegalStateException e) {
+        } catch (Exception e) {
             Log.e("MPHelper", "Error setting volume: MediaPlayer is in an invalid state", e);
         }
     }

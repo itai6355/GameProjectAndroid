@@ -194,6 +194,10 @@ public class Villager extends Character {
     }
 
     public void drawTalk(Canvas canvas, float cameraX, float cameraY) {
+        if (conversation.contains("Error")) {
+            isTalking = false;
+            return;
+        }
         int width = GameImages.TALKING_BUBBLE.getImage().getWidth();
         int height = GameImages.TALKING_BUBBLE.getImage().getHeight();
         RectF BubbleHitbox = new RectF(hitbox.left + cameraX + 50, hitbox.top + cameraY - height, hitbox.right + cameraX + width, hitbox.centerY() + cameraY - 50);

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.Entity;
@@ -466,6 +467,7 @@ public class Playing extends BaseState implements GameStateInterface {
                     if (lastItem == inventorySloth) player.UseItem(lastItem);
                     else lastItem = inventorySloth;
         }
+
         playingUI.touchEvents(event);
     }
 

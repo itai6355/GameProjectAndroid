@@ -32,6 +32,17 @@ public class GameMap {
         MAX_ENEMIES = maxEnemies;
     }
 
+    public GameMap(int[][] spriteIds, Tiles tilesType) {
+        this.spriteIds = spriteIds;
+        this.tilesType = tilesType;
+        this.buildingArrayList = new ArrayList<>();
+        this.gameObjectArrayList = new ArrayList<>();
+        this.enemysArrayList = new CopyOnWriteArrayList<>();
+        this.doorwayArrayList = new ArrayList<>();
+        this.itemArrayList = new CopyOnWriteArrayList<>();
+        MAX_ENEMIES = 0;
+    }
+
 
     public Entity[] getDrawableList() {
         Entity[] list = new Entity[getDrawableAmount()];
@@ -97,6 +108,7 @@ public class GameMap {
     public int getSpriteID(int xIndex, int yIndex) {
         return spriteIds[yIndex][xIndex];
     }
+
     public int[][] getSpritesID() {
         return spriteIds;
     }
