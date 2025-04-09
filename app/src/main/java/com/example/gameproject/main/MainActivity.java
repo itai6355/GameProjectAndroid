@@ -1,14 +1,13 @@
 package com.example.gameproject.main;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
@@ -19,32 +18,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.work.WorkManager;
 
 import com.example.gameproject.GeminiAPI;
-import com.example.gameproject.NetworkReceiver;
 import com.example.gameproject.R;
 import com.example.gameproject.database.DatabaseHelper;
-import com.example.gameproject.notification.NotificationScheduler;
+
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.GameImages;
 
-import java.util.concurrent.TimeUnit;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String CHANNEL_ID = "game_notifications";
 
     public static int GAME_WIDTH, GAME_HEIGHT;
     private static Context gameContext;
     private static DatabaseHelper dbHelper;
-    private final boolean dev = false;
+    private final boolean dev = true;
     private final boolean isBtnPushed = false;
     private EditText userName;
     private EditText password;
     private ImageView menu;
     private ImageView btnStart;
     private static final GeminiAPI geminiAPI = new GeminiAPI();
+
+    private static Vibrator vibrator;
 
     public static Context getGameContext() {
         return gameContext;
@@ -58,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -68,11 +63,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        createNotificationChannel();
-        NotificationScheduler.scheduleNotification(this, 3, TimeUnit.SECONDS);
+
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(dm);
+
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         GAME_WIDTH = dm.widthPixels;
         GAME_HEIGHT = dm.heightPixels;
@@ -103,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     @Override
     public void onClick(View v) {
 
@@ -124,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("username", usernameSt);
                 intent.putExtra("password", passwordSt);
                 startActivity(intent);
-
             } else {
                 Toast.makeText(this, "Registration failed. Try again.", Toast.LENGTH_SHORT).show();
 
@@ -132,25 +128,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    //TODO: the notification isnt working!!
-    private void createNotificationChannel() {
-        CharSequence name = "Game Notifications";
-        String description = "Notifications for game events";
-        int importance = NotificationManager.IMPORTANCE_HIGH;
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-        channel.setDescription(description);
-
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
-    }
-
-
     @Override
     protected void onDestroy() {
         dbHelper.closeDatabase();
         super.onDestroy();
-    }
 
+    }
     public static void updateSurfaceSize(int width, int height) {
         GAME_WIDTH = width;
         GAME_HEIGHT = height;
@@ -158,5 +141,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static GeminiAPI getGeminiAPI() {
         return geminiAPI;
+    }
+
+    public static void Vibrate(long milliseconds) {
+        if (vibrator != null && vibrator.hasVibrator()) {
+            VibrationEffect vibrationEffect = VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE);
+            vibrator.vibrate(vibrationEffect);
+        }
     }
 }

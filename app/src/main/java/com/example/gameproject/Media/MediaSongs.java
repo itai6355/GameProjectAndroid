@@ -26,6 +26,9 @@ public class MediaSongs {
             new song("Village", R.raw.village, 18)
     };
 
+    public final song GameOver = new song("gameOver", R.raw.game_over, -1);
+    public final song Coin = new song("Coin", R.raw.coin, -1);
+
 
     public MediaSongs() {
 
@@ -42,6 +45,14 @@ public class MediaSongs {
             }
         }
         return songs[0];
+    }
+
+    public song getCoinSound() {
+        return Coin;
+    }
+
+    public song getGameOverSound() {
+        return GameOver;
     }
 
     public record song(String name, int path, int id) {

@@ -130,24 +130,6 @@ public class MapManager {
                 outsideArrayEmpty[i][j] = random.nextInt(5) + 275;
 
 
-        int[][] outsideArrayStarter = new int[15][23];
-        for (int i = 0; i < outsideArrayStarter.length; i++)
-            for (int j = 0; j < outsideArrayStarter[i].length; j++)
-                outsideArrayStarter[i][j] = random.nextInt(5) + 275;
-
-        int[][] lake = {
-                {462, 463, 463, 469},
-                {484, 515, 485, 491},
-                {484, 485, 556, 513},
-                {506, 507, 507, 535}
-        };
-
-        for (int i = 0; i < lake.length; i++) {
-            System.arraycopy(lake[i], 0, outsideArrayStarter[9 + i], 17, lake[i].length);
-
-        }
-
-
         int[][] insideArray = {
                 {374, 377, 377, 377, 377, 377, 378},
                 {396, 0, 1, 1, 1, 2, 400},
@@ -159,13 +141,16 @@ public class MapManager {
         };
 
         int[][] insideFlatHouseArray = {
-                {389, 392, 392, 392, 392, 392, 393},
-                {411, 143, 144, 144, 144, 145, 415},
-                {411, 165, 166, 166, 166, 167, 415},
-                {411, 165, 166, 166, 166, 167, 415},
-                {411, 165, 166, 166, 166, 167, 415},
-                {411, 187, 188, 188, 188, 189, 415},
-                {477, 480, 478, 394, 479, 480, 481}
+                {389, 392, 392, 392, 392, 392, 392, 392, 393},
+                {411, 143, 144, 144, 144, 144, 144, 145, 415},
+                {411, 165, 166, 166, 166, 166, 166, 167, 415},
+                {411, 165, 166, 166, 166, 166, 166, 167, 415},
+                {411, 165, 166, 166, 166, 166, 166, 167, 415},
+                {411, 165, 166, 166, 166, 166, 166, 167, 415},
+                {411, 165, 166, 166, 166, 166, 166, 167, 415},
+                {411, 165, 166, 166, 166, 166, 166, 167, 415},
+                {411, 187, 188, 188, 188, 188, 188, 189, 415},
+                {477, 480, 480, 478, 394, 479, 480, 480, 481}
         };
 
         int[][] insideGreenRoofHouseArr = {
@@ -202,7 +187,7 @@ public class MapManager {
         GameMap outsideMap =
                 new GameMap(outsideArrayFinal, 10, Tiles.OUTSIDE, buildingArrayListFinal,
                         gameObjectArrayListFinal,
-                        HelpMethods.GetEnemiesRandomized(3, outsideArrayFinal,buildingArrayListFinal, gameObjectArrayListFinal),
+                        HelpMethods.GetEnemiesRandomized(3, outsideArrayFinal, buildingArrayListFinal, gameObjectArrayListFinal),
                         itemArrayList);
 
         HelpMethods.AddVillagersToBuildings(buildingArrayListFinal);
@@ -218,7 +203,7 @@ public class MapManager {
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 1),
                 insideFlatRoofHouseMap,
-                HelpMethods.CreatePointForDoorway(3, 6));
+                HelpMethods.CreatePointForDoorway(4, 9));
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,

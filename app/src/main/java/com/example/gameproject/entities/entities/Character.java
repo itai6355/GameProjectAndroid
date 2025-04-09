@@ -10,7 +10,9 @@ import android.graphics.RectF;
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.enemies.Enemies;
 import com.example.gameproject.entities.objects.Weapons;
+import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.main.MainActivity;
 
 public abstract class Character extends Entity{
     protected final GameCharacters gameCharType;
@@ -53,6 +55,9 @@ public abstract class Character extends Entity{
     public void damageCharacter(int damage) {
         this.currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;
+        if (this instanceof Player) MainActivity.Vibrate(100);
+
+
     }
 
     protected void heal(int heal) {

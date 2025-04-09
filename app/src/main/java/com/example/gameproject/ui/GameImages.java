@@ -26,8 +26,7 @@ public enum GameImages implements BitmapMethods {
 
     HUNGER_FULL(R.drawable.meat, 0.7f), HUNGER_EMPTY(R.drawable.meat_empty, 0.7f),
 
-    //TODO: add Talking bubble to use in villager.
-    TALKING_BUBBLE(1, 1, 1, 1, 1, 1),
+    TALKING_BUBBLE(R.drawable.talk_buble, 0, 0, 108, 35, 0.7f),
 
     LOADING11(R.drawable.loading, 2, 2, 44, 44, 2), LOADING12(R.drawable.loading, 50, 2, 44, 44, 2), LOADING13(R.drawable.loading, 98, 2, 44, 44, 2), LOADING14(R.drawable.loading, 146, 2, 44, 44, 2), LOADING15(R.drawable.loading, 194, 2, 44, 44, 2),
 

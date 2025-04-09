@@ -10,7 +10,6 @@ import android.util.Log;
 import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.gamestates.lostConnection.LostConnectionState;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.main.Game;
@@ -38,6 +37,8 @@ public class Player extends Character {
 
 
     public Player(Game game) {
+        //TODO: add spacial abilities for each skin
+
         super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.BOY);
         setStartHealth(600);
 
@@ -155,6 +156,125 @@ public class Player extends Character {
                 skin = GameCharacters.RED_NINJA;
                 icon = Icons.RED_NINJA_ICON;
             }
+            case "Knight" -> {
+                skin = GameCharacters.KNIGHT;
+                icon = Icons.KNIGHT_ICON;
+            }
+            case "Master" -> {
+                skin = GameCharacters.MASTER;
+                icon = Icons.MASTER_ICON;
+            }
+            case "Monk" -> {
+                skin = GameCharacters.MONK;
+                icon = Icons.MONK_ICON;
+            }
+            case "Ninja Blue 2" -> {
+                skin = GameCharacters.NINJABLUE2;
+                icon = Icons.NINJABLUE2_ICON;
+            }
+            case "Ninja Blue" -> {
+                skin = GameCharacters.NINJABLUE;
+                icon = Icons.NINJABLUE_ICON;
+            }
+            case "Ninja Bomb" -> {
+                skin = GameCharacters.NINJABOMB;
+                icon = Icons.NINJABOMB_ICON;
+            }
+            case "Ninja Dark" -> {
+                skin = GameCharacters.NINJADARK;
+                icon = Icons.NINJADARK_ICON;
+            }
+            case "Ninja Eskimo" -> {
+                skin = GameCharacters.NINJAESKIMO;
+                icon = Icons.NINJAESKIMO_ICON;
+            }
+            case "Ninja Gray" -> {
+                skin = GameCharacters.NINJAGRAY;
+                icon = Icons.NINJAGRAY_ICON;
+            }
+            case "Ninja Green" -> {
+                skin = GameCharacters.NINJAGREEN;
+                icon = Icons.NINJAGREEN_ICON;
+            }
+            case "Ninja Masked" -> {
+                skin = GameCharacters.NINJAMASKED;
+                icon = Icons.NINJAMASKED_ICON;
+            }
+            case "Ninja Red" -> {
+                skin = GameCharacters.NINJARED;
+                icon = Icons.NINJARED_ICON;
+            }
+            case "Ninja Yellow" -> {
+                skin = GameCharacters.NINJAYELLOW;
+                icon = Icons.NINJAYELLOW_ICON;
+            }
+            case "Noble" -> {
+                skin = GameCharacters.NOBLE;
+                icon = Icons.NOBLE_ICON;
+            }
+            case "Old Man 2" -> {
+                skin = GameCharacters.OLDMAN2;
+                icon = Icons.OLDMAN2_ICON;
+            }
+            case "Old Man 3" -> {
+                skin = GameCharacters.OLDMAN3;
+                icon = Icons.OLDMAN3_ICON;
+            }
+            case "Old Man" -> {
+                skin = GameCharacters.OLDMAN;
+                icon = Icons.OLDMAN_ICON;
+            }
+            case "Princess" -> {
+                skin = GameCharacters.PRINCESS;
+                icon = Icons.PRINCESS_ICON;
+            }
+            case "Red Ninja 3" -> {
+                skin = GameCharacters.REDNINJA3;
+                icon = Icons.REDNINJA3_ICON;
+            }
+            case "Robot Green" -> {
+                skin = GameCharacters.ROBOTGREEN;
+                icon = Icons.ROBOTGREEN_ICON;
+            }
+
+            case "Robot Grey" -> {
+                skin = GameCharacters.ROBOTGREY;
+                icon = Icons.ROBOTGREY_ICON;
+            }
+
+            case "Samurai Blue" -> {
+                skin = GameCharacters.SAMURAIBLUE;
+                icon = Icons.SAMURAIBLUE_ICON;
+            }
+
+            case "Samurai" -> {
+                skin = GameCharacters.SAMURAI;
+                icon = Icons.SAMURAI_ICON;
+            }
+            case "Sorcerer Black" -> {
+                skin = GameCharacters.SORCERERBLACK;
+                icon = Icons.SORCERERBLACK_ICON;
+            }
+            case "Sorcerer Orange" -> {
+                skin = GameCharacters.SORCERERORANGE;
+                icon = Icons.SORCERERORANGE_ICON;
+            }
+            case "Statue" -> {
+                skin = GameCharacters.STATUE;
+                icon = Icons.STATUE_ICON;
+            }
+            case "Sultan 2" -> {
+                skin = GameCharacters.SULTAN2;
+                icon = Icons.SULTAN2_ICON;
+            }
+            case "Sultan" -> {
+                skin = GameCharacters.SULTAN;
+                icon = Icons.SULTAN_ICON;
+            }
+            case "Vampire" -> {
+                skin = GameCharacters.VAMPIRE;
+                icon = Icons.VAMPIRE_ICON;
+            }
             default -> {
                 skin = GameCharacters.BOY;
                 icon = Icons.BOY_ICON;
@@ -165,7 +285,8 @@ public class Player extends Character {
     public int getCoins() {
         try {
             return Integer.parseInt(dbHelper.getColumnValueById(id, DatabaseColumns.COINS));
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return 0;
     }
 
@@ -185,20 +306,18 @@ public class Player extends Character {
 
     public void UseItem(InventorySloth item) {
         if (item.getItem() == null) return;
-        if (item.getItem().isAdible())
-            if (currHunger != maxHunger) addHunger(1);
-            else return;
-        else
-            switch (item.getItem()) {
-                case MEDIPCK -> {
-                    if (this.getCurrentHealth() == this.getMaxHealth()) return;
-                    heal(50);
-                }
-
-                default -> {
-                    return;
-                }
+        if (item.getItem().isAdible()) if (currHunger != maxHunger) addHunger(1);
+        else return;
+        else switch (item.getItem()) {
+            case MEDIPCK -> {
+                if (this.getCurrentHealth() == this.getMaxHealth()) return;
+                heal(50);
             }
+
+            default -> {
+                return;
+            }
+        }
 
         useItem(item);
 
@@ -209,7 +328,8 @@ public class Player extends Character {
             dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
             item.reduceAmount();
             inventory.remove(item.getItem());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
     }
 

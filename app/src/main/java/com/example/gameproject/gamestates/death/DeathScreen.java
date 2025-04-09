@@ -10,6 +10,7 @@ import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
+import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
@@ -53,7 +54,10 @@ public class DeathScreen extends BaseState implements GameStateInterface {
             if (isIn(event, buttonReplay)) buttonReplay.setPushed(true);
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             if (isIn(event, buttonReplay))
-                if (buttonReplay.isPushed()) game.setCurrentGameState(Game.GameState.PLAYING);
+                if (buttonReplay.isPushed()) {
+                    game.setCurrentGameState(Game.GameState.PLAYING);
+                    GameActivity.getMpHelper().play();
+                }
 
 
             buttonReplay.setPushed(false);

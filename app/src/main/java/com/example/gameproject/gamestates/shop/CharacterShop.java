@@ -11,7 +11,7 @@ import com.example.gameproject.main.MainActivity;
 
 public class CharacterShop extends ShopState implements GameStateInterface {
 
-    private static final int MAX_PAGES = 8;
+    private static final int MAX_PAGES = GameCharacters.getValCharacter();
 
     private static final CharacterPage[] pages = new CharacterPage[MAX_PAGES];
 
@@ -58,7 +58,6 @@ public class CharacterShop extends ShopState implements GameStateInterface {
     }
 
     private void initPages() {
-        //TODO: Add more characters.
         pages[0] = new CharacterPage(game, GameCharacters.BOY, Icons.BOY_ICON, "Boy", 0);
         pages[1] = new CharacterPage(game, GameCharacters.EGG_BOY, Icons.EGG_BOY_ICON, "Egg Boy", 10);
         pages[2] = new CharacterPage(game, GameCharacters.EGG_GIRL, Icons.EGG_GIRL_ICON, "Egg Girl", 15);
@@ -67,6 +66,36 @@ public class CharacterShop extends ShopState implements GameStateInterface {
         pages[5] = new CharacterPage(game, GameCharacters.FIGHTER, Icons.FIGHTER_ICON, "Fighter", 60);
         pages[6] = new CharacterPage(game, GameCharacters.HUNTER, Icons.HUNTER_ICON, "Hunter", 100);
         pages[7] = new CharacterPage(game, GameCharacters.RED_NINJA, Icons.RED_NINJA_ICON, "Red Ninja", 250);
+        pages[8] = new CharacterPage(game, GameCharacters.KNIGHT, Icons.KNIGHT_ICON, "Knight", 500);
+        pages[9] = new CharacterPage(game, GameCharacters.SAMURAI, Icons.SAMURAI_ICON, "Samurai", 1000);
+        pages[10] = new CharacterPage(game, GameCharacters.MASTER, Icons.MASTER_ICON, "Master", 2000);
+        pages[11] = new CharacterPage(game, GameCharacters.MONK, Icons.MONK_ICON, "Monk", 5000);
+        pages[12] = new CharacterPage(game, GameCharacters.NINJABLUE2, Icons.NINJABLUE2_ICON, "Ninja Blue 2", 10000);
+        pages[13] = new CharacterPage(game, GameCharacters.NINJABLUE, Icons.NINJABLUE_ICON, "Ninja Blue", 15000);
+        pages[14] = new CharacterPage(game, GameCharacters.NINJABOMB, Icons.NINJABOMB_ICON, "Ninja Bomb", 20000);
+        pages[15] = new CharacterPage(game, GameCharacters.NINJADARK, Icons.NINJADARK_ICON, "Ninja Dark", 25000);
+        pages[16] = new CharacterPage(game, GameCharacters.NINJAESKIMO, Icons.NINJAESKIMO_ICON, "Ninja Eskimo", 30000);
+        pages[17] = new CharacterPage(game, GameCharacters.NINJAGRAY, Icons.NINJAGRAY_ICON, "Ninja Gray", 35000);
+        pages[18] = new CharacterPage(game, GameCharacters.NINJAGREEN, Icons.NINJAGREEN_ICON, "Ninja Green", 40000);
+        pages[19] = new CharacterPage(game, GameCharacters.NINJAMASKED, Icons.NINJAMASKED_ICON, "Ninja Masked", 45000);
+        pages[20] = new CharacterPage(game, GameCharacters.NINJARED, Icons.NINJARED_ICON, "Ninja Red", 50000);
+        pages[21] = new CharacterPage(game, GameCharacters.NINJAYELLOW, Icons.NINJAYELLOW_ICON, "Ninja Yellow", 55000);
+        pages[22] = new CharacterPage(game, GameCharacters.NOBLE, Icons.NOBLE_ICON, "Noble", 60000);
+        pages[23] = new CharacterPage(game, GameCharacters.OLDMAN2, Icons.OLDMAN2_ICON, "Old Man 2", 65000);
+        pages[24] = new CharacterPage(game, GameCharacters.OLDMAN3, Icons.OLDMAN3_ICON, "Old Man 3", 70000);
+        pages[25] = new CharacterPage(game, GameCharacters.OLDMAN, Icons.OLDMAN_ICON, "Old Man", 75000);
+        pages[26] = new CharacterPage(game, GameCharacters.PRINCESS, Icons.PRINCESS_ICON, "Princess", 85000);
+        pages[27] = new CharacterPage(game, GameCharacters.REDNINJA3, Icons.REDNINJA3_ICON, "Red Ninja 3", 90000);
+        pages[28] = new CharacterPage(game, GameCharacters.ROBOTGREEN, Icons.ROBOTGREEN_ICON, "Robot Green", 95000);
+        pages[29] = new CharacterPage(game, GameCharacters.ROBOTGREY, Icons.ROBOTGREY_ICON, "Robot Grey", 100000);
+        pages[30] = new CharacterPage(game, GameCharacters.SAMURAIBLUE, Icons.SAMURAIBLUE_ICON, "Samurai Blue", 105000);
+        pages[31] = new CharacterPage(game, GameCharacters.SORCERERBLACK, Icons.SORCERERBLACK_ICON, "Sorcerer Black", 110000);
+        pages[32] = new CharacterPage(game, GameCharacters.SORCERERORANGE, Icons.SORCERERORANGE_ICON, "Sorcerer Orange", 115000);
+        pages[33] = new CharacterPage(game, GameCharacters.STATUE, Icons.STATUE_ICON, "Statue", 120000);
+        pages[34] = new CharacterPage(game, GameCharacters.SULTAN2, Icons.SULTAN2_ICON, "Sultan 2", 125000);
+        pages[35] = new CharacterPage(game, GameCharacters.SULTAN, Icons.SULTAN_ICON, "Sultan", 130000);
+        pages[36] = new CharacterPage(game, GameCharacters.VAMPIRE, Icons.VAMPIRE_ICON, "Vampire", 135000);
+
 
         pages[0].Buy();
     }

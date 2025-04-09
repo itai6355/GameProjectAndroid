@@ -6,7 +6,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.work.OneTimeWorkRequest;
@@ -26,9 +25,8 @@ public class NotificationWorker extends Worker {
 
     @Override
     public Result doWork() {
-//        createNotificationChannel(getApplicationContext());
-        sendNotification(getApplicationContext(), "Game Reminder", "Don't forget to check out your game progress!");
-        scheduleNextNotification(getApplicationContext());
+            sendNotification(getApplicationContext(), "Android Game Reminder", "Don't forget to check out your game progress!");
+            scheduleNextNotification(getApplicationContext());
         return Result.success();
     }
 
@@ -57,16 +55,6 @@ public class NotificationWorker extends Worker {
         WorkManager.getInstance(context).enqueue(nextWorkRequest);
     }
 
-    private void createNotificationChannel(Context context) {
-        NotificationChannel channel = new NotificationChannel(
-                CHANNEL_ID, "Game Notifications", NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("Notifications to remind you about your game progress");
-
-        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-        if (notificationManager != null) {
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
 
 
 }

@@ -132,7 +132,7 @@ public class Playing extends BaseState implements GameStateInterface {
         if (villager.isActive()){
             villager.update(delta, mapManager.getCurrentMap());
             if (isNearTalk(player.getHitbox(), villager.getHitbox()))
-                villager.startConversation(player);
+                villager.startConversation();
            else villager.endConversation();
         }
     }
@@ -147,7 +147,7 @@ public class Playing extends BaseState implements GameStateInterface {
         float distanceX = playerHitbox.centerX() - closestX;
         float distanceY = playerHitbox.centerY() - closestY;
 
-        return Math.sqrt(distanceX * distanceX + distanceY * distanceY) > close;
+        return Math.sqrt(distanceX * distanceX + distanceY * distanceY) <= close;
     }
 
     private void updateItems() {
@@ -160,6 +160,7 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void pickItem(Player player, Item item) {
+        GameActivity.getMpHelper().playPickItemSound();
         player.addToSQL(item.getItemType());
         mapManager.getCurrentMap().getItemArrayList().remove(item);
 
@@ -247,6 +248,7 @@ public class Playing extends BaseState implements GameStateInterface {
         game.setCurrentGameState(Game.GameState.DEATH_SCREEN);
         player.resetCharacterHealth();
         player.resetHungerBar();
+        GameActivity.getMpHelper().playGameOverSound();
 
     }
 

@@ -13,6 +13,7 @@ public class MPHelper {
     private final Context context;
     private final ExecutorService executorService;
     private MediaPlayer mPlayer;
+    private MediaPlayer EffectPlayer;
     private int currentSongId;
 
 
@@ -48,8 +49,10 @@ public class MPHelper {
 
     public void setVolume(float leftVolume, float rightVolume) {
         try {
-            if (mPlayer != null && mPlayer.isPlaying())
+            if (mPlayer != null && mPlayer.isPlaying()) {
                 mPlayer.setVolume(leftVolume, rightVolume);
+                EffectPlayer.setVolume(leftVolume, rightVolume);
+            }
         } catch (IllegalStateException e) {
             Log.e("MPHelper", "Error setting volume: MediaPlayer is in an invalid state", e);
         }
@@ -88,6 +91,33 @@ public class MPHelper {
         play();
 
         mPlayer.setOnCompletionListener(mp -> playNextSong());
+    }
+
+        public void playPickItemSound() {
+            if (EffectPlayer != null) {
+                EffectPlayer.release();
+            }
+            EffectPlayer = MediaPlayer.create(context, mSongs.getCoinSound().path());
+            EffectPlayer.setVolume(1.0f, 1.0f);
+            EffectPlayer.setOnCompletionListener(mp -> {
+                EffectPlayer.release();
+                EffectPlayer = null;
+            });
+            EffectPlayer.start();
+        }
+
+    public void playGameOverSound() {
+        if (mPlayer != null && mPlayer.isPlaying())
+            mPlayer.pause();
+
+        if (EffectPlayer != null)
+            EffectPlayer.release();
+        EffectPlayer = MediaPlayer.create(context, mSongs.getGameOverSound().path());
+        EffectPlayer.setOnCompletionListener(mp -> {
+            EffectPlayer.release();
+            EffectPlayer = null;
+        });
+        EffectPlayer.start();
     }
 
     public MediaSongs.song getCurrSong() {
