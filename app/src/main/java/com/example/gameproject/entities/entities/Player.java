@@ -33,7 +33,7 @@ public class Player extends Character {
     private final float maxHunger = 10.0f;
     private float currHunger = maxHunger;
     private int hungerTick = 0;
-    private final int hungerTickMax = 100;
+    private final int hungerTickMax = 250;
 
 
     public Player(Game game) {
@@ -54,7 +54,6 @@ public class Player extends Character {
         setSkinAndIcon(dbHelper.getColumnValueById(id, DatabaseColumns.SKIN));
         dbHelper.setInventory(id, inventory);
         game.getInventoryState().SyncInventories(this);
-        Log.d("setInventory", inventory.toString());
         initItemBar();
     }
 

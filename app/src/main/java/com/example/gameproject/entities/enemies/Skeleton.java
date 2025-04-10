@@ -126,6 +126,7 @@ public class Skeleton extends Enemy {
 
     @Override
     public void AddLootTypes() {
-        KilledLoot.add(Items.MEDIPCK);
+        if (new Random().nextInt(3) == 0)
+            KilledLoot.add(Items.MEDIPCK);
     }
 }

@@ -24,13 +24,11 @@ public class NetworkReceiver extends BroadcastReceiver {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         if (activeNetwork != null && activeNetwork.isConnected()) {
-            Toast.makeText(context, "Internet Connected", Toast.LENGTH_SHORT).show();
             if (game.getCurrentGameState() == Game.GameState.LOST_CONNECTION)
                 game.setCurrentGameState(prev);
         } else {
             prev = game.getCurrentGameState();
             game.setCurrentGameState(Game.GameState.LOST_CONNECTION);
-            Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
 }
