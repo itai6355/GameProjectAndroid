@@ -25,7 +25,7 @@ public class MapHelper {
         buildings.add(new Building(new PointF(1375,2870), Buildings.HOUSE_TWO));
         buildings.add(new Building(new PointF(3150,3470), Buildings.HOUSE_ONE));
         buildings.add(new Building(new PointF(3250,1770), Buildings.HOUSE_SIX));
-        buildings.add(new Building(new PointF(2100,1675), Buildings.HOUSE_ONE));
+        buildings.add(new Building(new PointF(2100,1675), Buildings.HOUSE_NINE));
 
         return buildings;
 
@@ -67,57 +67,70 @@ public class MapHelper {
             GameMap insideGreenRoofHouseMap2,
             GameMap insideGreenRoofHouseMap3) {
 
-        //TODO: fix the error. the dorway is not in the right place
+
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 0),
                 inside1,
                 HelpMethods.CreatePointForDoorway(3, 6));
+        //Buildings.HOUSE_ONE
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 1),
                 insideFlatRoofHouseMap1,
-                HelpMethods.CreatePointForDoorway(3, 6));
+                HelpMethods.CreatePointForDoorway(4, 9));
+        //Buildings.HOUSE_TWO
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 2),
                 insideGreenRoofHouseMap1,
-                HelpMethods.CreatePointForDoorway(4, 9));
+                HelpMethods.CreatePointForDoorway(3, 6));
+        //Buildings.HOUSE_SIX
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 3),
                 insideFlatRoofHouseMap2,
                 HelpMethods.CreatePointForDoorway(4, 9));
+        //Buildings.HOUSE_TWO
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 4),
                 insideGreenRoofHouseMap2,
-                HelpMethods.CreatePointForDoorway(4, 9));
+                HelpMethods.CreatePointForDoorway(3, 6));
+        //Buildings.HOUSE_SIX
+
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 5),
                 insideFlatRoofHouseMap3,
-                HelpMethods.CreatePointForDoorway(3, 6));
+                HelpMethods.CreatePointForDoorway(4, 9));
+        //Buildings.HOUSE_TWO
+
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 6),
                 inside2,
                 HelpMethods.CreatePointForDoorway(3, 6));
+        //Buildings.HOUSE_ONE
+
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 7),
                 insideGreenRoofHouseMap3,
-                HelpMethods.CreatePointForDoorway(4, 9));
+                HelpMethods.CreatePointForDoorway(3, 6));
+        //Buildings.HOUSE_SIX
+
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 8),
                 inside3,
                 HelpMethods.CreatePointForDoorway(3, 6));
+        //Buildings.HOUSE_ONE
 
 
     }
