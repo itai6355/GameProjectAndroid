@@ -310,6 +310,9 @@ public enum Items implements BitmapMethods {
     POTATOCHIPS_BOWL(R.drawable.potatochips_bowl, false),
 
     MEDIPCK(R.drawable.medipack),
+    POTION_PURPLE(R.drawable.potions_items, 7, 73, 17, 17, 0.3f),
+    POTION_RED(R.drawable.potions_items, 39, 73, 17, 17, 0.3f),
+    POTION_BLUE(R.drawable.potions_items, 71, 73, 17, 17, 0.3f),
     COIN(R.drawable.coins, 16, 16, 14);
 
     final boolean isAdible;
@@ -354,6 +357,21 @@ public enum Items implements BitmapMethods {
         images[1] = regSize(atlas);
         images[2] = deSize(atlas);
         images[3] = SmalldeSize(atlas);
+        ItemHelper.getItems().add(this);
+    }
+
+    Items(int resID, int x, int y, int width, int height, float multiplier) {
+        options.inScaled = false;
+        isAni = false;
+        this.isAdible = false;
+        this.amount = 1;
+        //TODO: make the potions to look good.
+        atlas = Bitmap.createBitmap(BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options), x, y, width, height);
+        images = new Bitmap[4];
+        images[0] = getItemBiggerSize(atlas);
+        images[1] = getItemSize(atlas);
+        images[2] = getSmallItemSize(atlas);
+        images[3] = getSmallestItemSize(atlas);
         ItemHelper.getItems().add(this);
     }
 

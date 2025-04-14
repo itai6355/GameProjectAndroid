@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;
@@ -21,7 +22,7 @@ public class BuyPage implements GameStateInterface {
 
     private final int MAX_AMOUNT = 99;
     private final CustomButton btnBack = new CustomButton(20 + ButtonImages.SETTINGS_BACK.getWidth() + GameConstants.Sprite.X_DRAW_OFFSET, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
-    Paint BlackPaint;
+    private Paint BlackPaint;
     int space = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
     int xMiddle = GAME_WIDTH / 2;
     int yMiddle = GAME_HEIGHT / 2;
@@ -52,7 +53,8 @@ public class BuyPage implements GameStateInterface {
 
     public BuyPage(ItemShop itemShop) {
         this.itemShop = itemShop;
-        initPaint();
+        BlackPaint = Paints.MEDIOM_BLACK_PAINT;
+
     }
 
 
@@ -136,15 +138,7 @@ public class BuyPage implements GameStateInterface {
     }
 
 
-    private void initPaint() {
-        BlackPaint = new Paint();
-        BlackPaint.setColor(0xFF000000);
-        BlackPaint.setTextSize(10 * GameConstants.Sprite.SCALE_MULTIPLIER);
-    }
-
     private void updatePrice() {
         price = itemShop.getItemHelper().getPrice(item) * amount;
     }
-
-
 }

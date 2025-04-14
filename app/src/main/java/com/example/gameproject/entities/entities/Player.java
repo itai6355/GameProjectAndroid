@@ -27,7 +27,10 @@ public class Player extends Character {
     private final float maxHunger = 10.0f;
     private float currHunger = maxHunger;
     private int hungerTick = 0;
-    private final int hungerTickMax = 250;
+    private int hungerTickMax = 250;
+    private boolean isSpeeding = false, isStreangth = false, isSatoration = false;
+    private long SpeedingStart, StreangthStart, SatorationStart;
+    private float SPEED = 1, STRENGTH = 50;
 
 
     public Player(Game game) {
@@ -49,12 +52,39 @@ public class Player extends Character {
         dbHelper.setInventory(id, this);
     }
 
-    public void update(double delta, boolean movePlayer) {
+    public void update(boolean movePlayer) {
         if (movePlayer) {
             updateAnimation();
             updateHunger();
         }
         updateWepHitbox();
+        updatePotions();
+    }
+
+    private void updatePotions() {
+        if (isSpeeding) {
+            SPEED = 1.5f;
+            if (System.currentTimeMillis() - SpeedingStart >= 10000) {
+                isSpeeding = false;
+                SPEED = 1;
+            }
+        }
+        if (isStreangth) {
+            STRENGTH = 100;
+            if (System.currentTimeMillis() - StreangthStart >= 10000) {
+                isStreangth = false;
+                STRENGTH = 50;
+            }
+        }
+        if (isSatoration) {
+            hungerTickMax = 500;
+            if (System.currentTimeMillis() - SatorationStart >= 10000) {
+                isStreangth = isSatoration;
+                hungerTickMax = 250;
+            }
+        }
+
+        attackDamage = setAttackDamage();
     }
 
     private void updateHunger() {
@@ -318,6 +348,19 @@ public class Player extends Character {
                 if (this.getCurrentHealth() == this.getMaxHealth()) return;
                 heal(50);
             }
+            case POTION_BLUE -> {
+                this.SpeedingStart = System.currentTimeMillis();
+                this.isSpeeding = true;
+            }
+            case POTION_RED -> {
+                this.SatorationStart = System.currentTimeMillis();
+                this.isSatoration = true;
+            }
+
+            case POTION_PURPLE -> {
+                this.StreangthStart = System.currentTimeMillis();
+                this.isStreangth = true;
+            }
 
             default -> {
                 return;
@@ -333,9 +376,16 @@ public class Player extends Character {
             dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
             item.reduceAmount();
             reduceFromInventory(item);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
     }
 
+    public float getSPEED() {
+        return SPEED;
+    }
 
+    public int getStreangth() {
+        return (int) STRENGTH;
+    }
 }

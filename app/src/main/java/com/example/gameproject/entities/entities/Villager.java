@@ -1,8 +1,5 @@
 package com.example.gameproject.entities.entities;
 
-import static com.example.gameproject.entities.entities.GameCharacters.VILLAGER_DAD;
-
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -13,6 +10,7 @@ import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.GameImages;
@@ -27,28 +25,18 @@ public class Villager extends Character {
     private long lastDirChange = System.currentTimeMillis();
 
     private boolean isTalking = false;
-    private String conversation = null;
+    private String conversation;
 
-    Paint blackPaint = new Paint();
-    Paint redPaint = new Paint();
+    private final Paint blackPaint;
 
 
     public Villager(PointF pos, VillagerType villagerType) {
         super(pos, getCharacterType(villagerType));
         setStartHealth(200);
 
-        conversation = MainActivity.getGeminiAPI().askGemini("pretens you are a villager and will talk to a player," + " can you make some small talk with the player, no more then 10 words, just tell them something nice and friendly," + "do it in 2 lines, and every line no more then 12 letters..", MainActivity.getGameContext());
+        conversation = MainActivity.getGeminiAPI().askGemini("pretens you are a villager and will talk to a player," + " can you make some small talk with the player, no more then 10 words, just tell them something nice and friendly," + "do it in 2 lines, and every line no more then 12 letters..");
         splitConversation();
-
-        blackPaint.setColor(android.graphics.Color.BLACK);
-        blackPaint.setTextSize(30);
-        blackPaint.setStyle(Paint.Style.FILL);
-        blackPaint.setStrokeWidth(3);
-
-        redPaint.setColor(android.graphics.Color.RED);
-        redPaint.setTextSize(20);
-        redPaint.setStyle(Paint.Style.STROKE);
-        redPaint.setStrokeWidth(2);
+        blackPaint = Paints.BLACK_PAINT;
 
     }
 
@@ -156,16 +144,18 @@ public class Villager extends Character {
 
     public void startConversation() {
         if (!isTalking) {
-            isTalking = true;
-            faceDir = GameConstants.Face_Dir.DOWN;
-            aniIndex = 0;
-            conversation = MainActivity.getGeminiAPI().askGemini("pretens you are a villager and will talk to a player," + " can you make some small talk with the player, no more then 10 words, just tell them something nice and friendly," + "do it in 2 lines, and every line no more then 12 letters..", MainActivity.getGameContext());
+            conversation = MainActivity.getGeminiAPI().askGemini("pretens you are a villager and will talk to a player," + " can you make some small talk with the player, no more then 10 words, just tell them something nice and friendly," + "do it in 2 lines, and every line no more then 12 letters..");
+            if (conversation != null) {
+                isTalking = true;
+                faceDir = GameConstants.Face_Dir.DOWN;
+                aniIndex = 0;
 
-            splitConversation();
+                splitConversation();
 
 
-            Log.d("conversation", "Start conversation");
-            Log.d("conversation", "Conversation: " + conversation);
+                Log.d("conversation", "Start conversation");
+                Log.d("conversation", "Conversation: " + conversation);
+            }
         }
     }
 
@@ -173,8 +163,7 @@ public class Villager extends Character {
         String rawConversation = MainActivity.getGeminiAPI().askGemini(
                 "pretens you are a villager and will talk to a player," +
                         " can you make some small talk with the player, no more then 10 words, just tell them something nice and friendly," +
-                        "do it in 2 lines, and every line no more then 12 letters..",
-                MainActivity.getGameContext()
+                        "do it in 2 lines, and every line no more then 12 letters.."
         );
 
         if (rawConversation != null && rawConversation.contains("!")) {
@@ -194,7 +183,7 @@ public class Villager extends Character {
     }
 
     public void drawTalk(Canvas canvas, float cameraX, float cameraY) {
-        if (conversation.contains("Error")) {
+        if (conversation != null && conversation.contains("Error")) {
             isTalking = false;
             return;
         }
@@ -218,7 +207,6 @@ public class Villager extends Character {
             }
         }
     }
-
 
 
     public enum VillagerType {

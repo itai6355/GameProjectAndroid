@@ -15,9 +15,7 @@ import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MapManager {
 
@@ -110,9 +108,9 @@ public class MapManager {
         var items = MapHelper.getItems();
 
 
-        int MAX_ENEMIES = 20;
+        int MAX_ENEMIES = 15;
         GameMap outsideMap = new GameMap(outside, MAX_ENEMIES, Tiles.OUTSIDE, buildings, objects,
-                HelpMethods.GetEnemiesRandomized(MAX_ENEMIES, outside, buildings, objects), items);
+                HelpMethods.SpawnStartedEnemies(MAX_ENEMIES, outside, buildings, objects), items);
 
 
         int[][] insideArray = MapHelper.getInsideMapArray();

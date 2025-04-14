@@ -3,13 +3,13 @@ package com.example.gameproject.gamestates.invenory;
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.ui.ButtonImages;
@@ -37,11 +37,8 @@ public class InventoryState extends BaseState implements GameStateInterface {
 
     public InventoryState(Game game) {
         super(game);
-        BlackPaint = new Paint();
-        BlackPaint.setColor(Color.BLACK);
-        BlackPaint.setTextSize(BlackPaint.getTextSize() + 15);
-        BlackPaint.setStrokeWidth(3);
-        BlackPaint.setStyle(Paint.Style.STROKE);
+        BlackPaint = Paints.BLACK_PAINT;
+
 
         for (int i = 0; i < inventory.length; i++) {
             for (int j = 0; j < inventory[i].length; j++) {

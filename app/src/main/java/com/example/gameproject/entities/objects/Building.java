@@ -8,15 +8,18 @@ import com.example.gameproject.entities.entities.Villager;
 public class Building extends Entity {
 
     private final Buildings buildingType;
-    private Villager villager1;
-    private Villager villager2;
-    private Villager villager3;
+    private Villager[] villagers;
 
-    public Building(PointF pos, Buildings buildingType) {
+    int villagerAmount;
+
+    public Building(PointF pos, Buildings buildingType,int villagerAmount) {
         super(new PointF(pos.x, pos.y + buildingType.hitboxRoof),
                 buildingType.hitboxWidth,
                 buildingType.hitboxHeight
+
         );
+        this.villagerAmount = villagerAmount;
+        villagers = new Villager[villagerAmount];
         this.buildingType = buildingType;
     }
 
@@ -29,21 +32,27 @@ public class Building extends Entity {
     }
 
     public void addVillager(Villager villager) {
-        if (villager1 == null) villager1 = villager;
-        else if (villager2 == null) villager2 = villager;
-        else if (villager3 == null) villager3 = villager;
+        for (int i = 0; i < villagers.length; i++)
+            if (villagers[i] == null) {
+                villagers[i] = villager;
+                return;
+            }
+
     }
     public Villager[] getVillagers() {
-        return new Villager[]{villager1, villager2, villager3};
+        return villagers;
     }
 
     public void removeVillager(Villager villager) {
-        if (villager1 == villager) {
-            villager1 = null;
-        } else if (villager2 == villager) {
-            villager2 = null;
-        } else if (villager3 == villager) {
-            villager3 = null;
+        for (int i = 0; i < villagers.length; i++) {
+            if (villagers[i] == villager) {
+                villagers[i] = null;
+                return;
+            }
         }
+    }
+
+    public int getVillagerAmount() {
+        return villagerAmount;
     }
 }

@@ -5,7 +5,6 @@ import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.MotionEvent;
@@ -14,6 +13,7 @@ import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
@@ -40,15 +40,9 @@ public class PlayingUI {
     public PlayingUI(Playing playing) {
         this.playing = playing;
 
-        circlePaint = new Paint();
-        circlePaint.setColor(Color.RED);
-        circlePaint.setStrokeWidth(5);
-        circlePaint.setStyle(Paint.Style.STROKE);
-        BlackPaint = new Paint();
-        BlackPaint.setColor(Color.BLACK);
-        BlackPaint.setTextSize(BlackPaint.getTextSize() + 15);
-        BlackPaint.setStrokeWidth(3);
-        BlackPaint.setStyle(Paint.Style.STROKE);
+        circlePaint = Paints.CIRCLE_PAINT;
+
+        BlackPaint = Paints.BLACK_PAINT;
 
 
         btnSetting = new CustomButton(GAME_WIDTH - 230, 50, ButtonImages.PLAYING_SETTING.getWidth(), ButtonImages.PLAYING_SETTING.getHeight());

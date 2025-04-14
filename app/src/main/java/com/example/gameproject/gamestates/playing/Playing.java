@@ -6,13 +6,14 @@ import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.Entity;
+import com.example.gameproject.entities.enemies.AttackingEnemy;
+import com.example.gameproject.entities.enemies.DarkNinja;
 import com.example.gameproject.entities.enemies.Enemy;
 import com.example.gameproject.entities.enemies.MaskedRaccoon;
 import com.example.gameproject.entities.enemies.Skeleton;
@@ -29,9 +30,11 @@ import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
+import com.example.gameproject.main.MainActivity;
 
 import java.util.Arrays;
 
@@ -60,29 +63,12 @@ public class Playing extends BaseState implements GameStateInterface {
         playingUI = new PlayingUI(this);
 
 
-        redPaint = new Paint();
-        redPaint.setStrokeWidth(3);
-        redPaint.setStyle(Paint.Style.STROKE);
-        redPaint.setColor(Color.RED);
-
-        healthBarRed = new Paint();
-        healthBarBlack = new Paint();
-        initHealthBars();
-    }
-
-    public static MapManager getMapManager() {
-        return mapManager;
-    }
-
-    private void initHealthBars() {
-        healthBarRed.setStrokeWidth(10);
-        healthBarRed.setStyle(Paint.Style.STROKE);
-        healthBarRed.setColor(Color.RED);
-        healthBarBlack.setStrokeWidth(14);
-        healthBarBlack.setStyle(Paint.Style.STROKE);
-        healthBarBlack.setColor(Color.BLACK);
+        redPaint = Paints.HITBOX_PAINT;
+        healthBarBlack = Paints.HELTH_BAR_BLACK_PAINT;
+        healthBarRed = Paints.HELTH_BAR_RED_PAINT;
 
     }
+
 
     private void calcStartCameraValues() {
         cameraX = GAME_WIDTH / 2f - mapManager.getMaxWidthCurrentMap() / 2f;
@@ -93,7 +79,7 @@ public class Playing extends BaseState implements GameStateInterface {
     public void update(double delta) {
         buildEntityList();
         updatePlayerMove(delta);
-        player.update(delta, movePlayer);
+        player.update(movePlayer);
         mapManager.setCameraValues(cameraX, cameraY);
         checkForDoorway();
         if (player.isAttacking()) if (!player.isAttackChecked()) checkPlayerAttack();
@@ -104,6 +90,7 @@ public class Playing extends BaseState implements GameStateInterface {
                     if (enemy instanceof Skeleton skeleton) updateSkeleton(delta, skeleton);
                     if (enemy instanceof MaskedRaccoon maskedRaccoon)
                         updateMaskedRakoon(delta, maskedRaccoon);
+                    if (enemy instanceof DarkNinja darkNinja) updateDarkNinja(delta, darkNinja);
                 }
             }
 
@@ -118,20 +105,50 @@ public class Playing extends BaseState implements GameStateInterface {
 
     }
 
+    private void updateDarkNinja(double delta, DarkNinja darkNinja) {
+        if (!darkNinja.isActive()) return;
+
+        darkNinja.updtaeShuriken();
+        darkNinja.update(delta, mapManager.getCurrentMap());
+
+        if (darkNinja.isAttacking()) {
+            if (!darkNinja.isAttackChecked()) {
+                RectF playerHitbox = new RectF(player.getHitbox());
+                playerHitbox.offset(-cameraX, -cameraY);
+                if (RectF.intersects(darkNinja.getShurikenHitbox(), playerHitbox)) {
+                    player.damageCharacter(darkNinja.getDamage());
+                    checkPlayerDead();
+                    darkNinja.setAttackChecked(true);
+                }
+            }
+        } else if (!darkNinja.isPreparingAttack()) {
+            boolean playerClose = HelpMethods.IsPlayerCloseForAttack(darkNinja, player, cameraY, cameraX);
+
+            if (playerClose) {
+                darkNinja.setMoving(false);
+                darkNinja.prepareAttack(player, cameraX, cameraY);
+            } else if (!darkNinja.isShurikenInFlight()) {
+                darkNinja.setMoving(true);
+            }
+        }
+    }
+
 
     private void generateEnemies() {
         var map = mapManager.getCurrentMap();
         var enemies = map.getEnemysArrayList();
         int max = map.getMaxEnemies();
         if (enemies.size() == max) return;
-        var temp = HelpMethods.GetEnemiesRandomized(max - enemies.size(), map.getSpritesID(), map.getBuildingArrayList(), map.getGameObjectArrayList());
+        var temp = HelpMethods.SpawnEnemies(max - enemies.size(), map.getSpritesID(), map.getBuildingArrayList(), map.getGameObjectArrayList());
         enemies.addAll(temp);
     }
 
     private void updateVillager(double delta, Villager villager) {
         if (villager.isActive()) {
             villager.update(delta, mapManager.getCurrentMap());
-            if (isNearTalk(player.getHitbox(), villager.getHitbox())) villager.startConversation();
+            if (MainActivity.getGeminiAPI().isShowText())
+                if (isNearTalk(player.getHitbox(), villager.getHitbox())) villager.startConversation();
+                else villager.endConversation();
             else villager.endConversation();
         }
     }
@@ -226,17 +243,33 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void checkEnemyAttack(Character character) {
-        character.updateWepHitbox();
+        if (character instanceof Skeleton skeleton) checkSkeletonAttack(skeleton);
+        else if (character instanceof DarkNinja darkNinja) checkDarkNinjaAttack(darkNinja);
+    }
+
+    private void checkDarkNinjaAttack(DarkNinja darkNinja) {
+        darkNinja.updateWepHitbox();
+        RectF playerHitbox = new RectF(player.getHitbox());
+
+        if (RectF.intersects(darkNinja.getShurikenHitbox(), playerHitbox)) {
+            player.damageCharacter(darkNinja.getDamage());
+            checkPlayerDead();
+        }
+        darkNinja.setAttackChecked(true);
+    }
+
+    private void checkSkeletonAttack(Skeleton skeleton) {
+        skeleton.updateWepHitbox();
         RectF playerHitbox = new RectF(player.getHitbox());
         playerHitbox.left -= cameraX;
         playerHitbox.top -= cameraY;
         playerHitbox.right -= cameraX;
         playerHitbox.bottom -= cameraY;
-        if (RectF.intersects(character.getAttackBox(), playerHitbox)) {
-            player.damageCharacter(character.getDamage());
+        if (RectF.intersects(skeleton.getAttackBox(), playerHitbox)) {
+            player.damageCharacter(skeleton.getDamage());
             checkPlayerDead();
         }
-        character.setAttackChecked(true);
+        skeleton.setAttackChecked(true);
     }
 
     private void checkPlayerDead() {
@@ -329,6 +362,8 @@ public class Playing extends BaseState implements GameStateInterface {
                     if (skeleton.isActive()) drawEnemy(canvas, skeleton);
                 } else if (enemy instanceof MaskedRaccoon maskedRaccoon) {
                     if (maskedRaccoon.isActive()) drawEnemy(canvas, maskedRaccoon);
+                } else if (enemy instanceof DarkNinja darkNinja) {
+                    if (darkNinja.isActive()) drawEnemy(canvas, darkNinja);
                 }
             } else if (e instanceof GameObject gameObject) {
                 mapManager.drawObject(canvas, gameObject);
@@ -342,16 +377,6 @@ public class Playing extends BaseState implements GameStateInterface {
         }
     }
 
-    private void drawCharacter(Canvas canvas, Character character) {
-        canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
-        canvas.drawBitmap(character.getGameCharType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-        if (GameActivity.isDrawHitbox())
-            canvas.drawRect(character.getHitbox().left + cameraX, character.getHitbox().top + cameraY, character.getHitbox().right + cameraX, character.getHitbox().bottom + cameraY, redPaint);
-
-        if (character.getCurrentHealth() < character.getMaxHealth())
-            drawHealthBar(canvas, character);
-
-    }
 
     private void drawPlayer(Canvas canvas) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), player.getHitbox().left, player.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
@@ -367,28 +392,36 @@ public class Playing extends BaseState implements GameStateInterface {
         if (GameActivity.isDrawHitbox()) canvas.drawRect(character.getAttackBox(), redPaint);
     }
 
-    private void drawEnemyWeapon(Canvas canvas, Character character) {
-        canvas.rotate(character.getWepRot(), character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
-        canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), character.getAttackBox().left + cameraX + character.wepRotAdjustLeft(), character.getAttackBox().top + cameraY + character.wepRotAdjustTop(), null);
-        canvas.rotate(character.getWepRot() * -1, character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY);
-        if (GameActivity.isDrawHitbox())
-            //  not true ): need fix!
-            // when weapon is facing left or up, the hitbox is bigger.
-            // not effecting the game and real hitbox IDK why.
-            // I FIXED IT! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //Just didnt need to add the wep adjustment to the hitbox becose it was already applying when i create the wep hitbox..
-            canvas.drawRect(character.getAttackBox().left + cameraX, character.getAttackBox().top + cameraY, character.getAttackBox().right + cameraX, character.getAttackBox().bottom + cameraY, redPaint);
+    private void drawEnemyWeapon(Canvas canvas, AttackingEnemy attackingEnemy) {
+        if (attackingEnemy instanceof Skeleton) {
+            canvas.rotate(attackingEnemy.getWepRot(), attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY);
+            canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), attackingEnemy.getAttackBox().left + cameraX + attackingEnemy.wepRotAdjustLeft(), attackingEnemy.getAttackBox().top + cameraY + attackingEnemy.wepRotAdjustTop(), null);
+            canvas.rotate(attackingEnemy.getWepRot() * -1, attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY);
+            if (GameActivity.isDrawHitbox())
+                //  not true ): need fix!
+                // when weapon is facing left or up, the hitbox is bigger.
+                // not effecting the game and real hitbox IDK why.
+                // I FIXED IT! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Just didnt need to add the wep adjustment to the hitbox becose it was already applying when i create the wep hitbox..
+                canvas.drawRect(attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY, attackingEnemy.getAttackBox().right + cameraX, attackingEnemy.getAttackBox().bottom + cameraY, redPaint);
+        } else if (attackingEnemy instanceof DarkNinja darkNinja) {
+            darkNinja.drawShuriken(canvas, cameraX, cameraY);
+        }
     }
 
-    public void drawEnemy(Canvas canvas, Character character) {
-        canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), character.getHitbox().left + cameraX, character.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
-        canvas.drawBitmap(character.getEnemyType().getSprite(character.getAniIndex(), character.getFaceDir()), character.getHitbox().left + cameraX - X_DRAW_OFFSET, character.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
+    public void drawEnemy(Canvas canvas, Character enemy) {
+        canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), enemy.getHitbox().left + cameraX, enemy.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
+        canvas.drawBitmap(enemy.getEnemyType().getSprite(enemy.getAniIndex(), enemy.getFaceDir()), enemy.getHitbox().left + cameraX - X_DRAW_OFFSET, enemy.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
         if (GameActivity.isDrawHitbox())
-            canvas.drawRect(character.getHitbox().left + cameraX, character.getHitbox().top + cameraY, character.getHitbox().right + cameraX, character.getHitbox().bottom + cameraY, redPaint);
-        if (character.isAttacking()) drawEnemyWeapon(canvas, character);
+            canvas.drawRect(enemy.getHitbox().left + cameraX, enemy.getHitbox().top + cameraY, enemy.getHitbox().right + cameraX, enemy.getHitbox().bottom + cameraY, redPaint);
 
-        if (character.getCurrentHealth() < character.getMaxHealth())
-            drawHealthBar(canvas, character);
+        if (enemy instanceof AttackingEnemy attackingEnemy) {
+            if (enemy.isAttacking())
+                drawEnemyWeapon(canvas, attackingEnemy);
+        }
+
+        if (enemy.getCurrentHealth() < enemy.getMaxHealth())
+            drawHealthBar(canvas, enemy);
 
 
     }
@@ -408,7 +441,7 @@ public class Playing extends BaseState implements GameStateInterface {
     private void updatePlayerMove(double delta) {
         if (!movePlayer) return;
 
-        float baseSpeed = (float) (delta * 300);
+        float baseSpeed = (float) (delta * 300 * player.getSPEED());
         float ratio = Math.abs(lastTouchDiff.y) / Math.abs(lastTouchDiff.x);
         double angle = Math.atan(ratio);
 

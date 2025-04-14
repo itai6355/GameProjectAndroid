@@ -11,8 +11,7 @@ import com.example.gameproject.main.MainActivity;
 
 public enum Enemies implements BitmapMethods {
 
-    MASKED_RAKKON(R.drawable.maskedrakoon_spriteshhets),
-    SKELETON(R.drawable.skeleton_spritesheet);
+    DARK_NINJA(R.drawable.ninjamageblack_sprite_sheet), MASKED_RAKKON(R.drawable.maskedrakoon_spriteshhets), GOLDEN_MASKED_RAKKON(R.drawable.maskgoldracoon_sprite_sheet), SKELETON(R.drawable.skeleton_spritesheet);
 
     private final Bitmap spriteSheet;
     private final Bitmap[][] sprites = new Bitmap[7][4];
@@ -24,6 +23,18 @@ public enum Enemies implements BitmapMethods {
         for (int j = 0; j < sprites.length; j++)
             for (int i = 0; i < sprites[j].length; i++)
                 sprites[j][i] = getScaledBitmap(Bitmap.createBitmap(spriteSheet, GameConstants.Sprite.DEFAULT_SIZE * i, GameConstants.Sprite.DEFAULT_SIZE * j, GameConstants.Sprite.DEFAULT_SIZE, GameConstants.Sprite.DEFAULT_SIZE));
+    }
+
+    public static Enemies getRndMaskedRaccoon() {
+        return Math.random() < 0.2 ? GOLDEN_MASKED_RAKKON : MASKED_RAKKON;
+    }
+
+    public static Enemies getRandomEnemy() {
+        double random = Math.random();
+
+        if (random < 0.1) return DARK_NINJA;
+        else if (random < 0.6) return getRndMaskedRaccoon();
+        else return SKELETON;
     }
 
     public Bitmap getSpriteSheet() {

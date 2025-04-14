@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
@@ -17,12 +18,12 @@ import com.example.gameproject.ui.GameImages;
 public class ShopState extends BaseState implements GameStateInterface {
 
 
-    private final Paint BlackPaint = new Paint();
-    private final Paint textPaint = new Paint();
+    private final Paint textPaint;
+
     private final CustomButton btnBack = new CustomButton(20, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
     private final CustomButton door = new CustomButton(MainActivity.GAME_WIDTH - ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getWidth() - 20 * GameConstants.Sprite.SCALE_MULTIPLIER, MainActivity.GAME_HEIGHT - ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getHeight(), ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getWidth(), ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getHeight());
     private final CustomButton chest = new CustomButton(0, MainActivity.GAME_HEIGHT - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight() - (float) ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getHeight(), ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getWidth(), ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getHeight());
-    private final Paint paint = new Paint();
+    private final Paint paint;
     private final int yButtons = MainActivity.GAME_HEIGHT / 2 - ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
     private final CustomButton arrowLeft = new CustomButton(270, yButtons, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
     private final float arrowLeftX = arrowLeft.getHitbox().left;
@@ -55,12 +56,13 @@ public class ShopState extends BaseState implements GameStateInterface {
     //TODO: add un objects shop.
     public ShopState(Game game) {
         super(game);
-        initPaint();
+        textPaint = Paints.TEXT_PAINT;
+        paint = Paints.BLUE_PAINT;
+
     }
 
     @Override
     public void update(double delta) {
-
         if (!init) initStates();
         switch (state) {
             case ITEMS -> {
@@ -90,6 +92,9 @@ public class ShopState extends BaseState implements GameStateInterface {
         }
     }
 
+    public void setPage(int page) {
+        this.page = page;
+    }
 
     private void drawBackground(Canvas canvas) {
         int coinsLength = calculateCoinsLength();
@@ -168,18 +173,6 @@ public class ShopState extends BaseState implements GameStateInterface {
     }
 
 
-    private void initPaint() {
-        paint.setColor(Color.parseColor("#151328"));
-        BlackPaint.setColor(Color.BLACK);
-        BlackPaint.setTextSize(BlackPaint.getTextSize() + 15);
-        BlackPaint.setStrokeWidth(3);
-        BlackPaint.setStyle(Paint.Style.STROKE);
-
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(textPaint.getTextSize() + 50);
-        textPaint.setStrokeWidth(5);
-        textPaint.setStyle(Paint.Style.STROKE);
-    }
 
     private void initStates() {
         shopItemState = new ItemShop(game, this);

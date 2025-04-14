@@ -1,8 +1,6 @@
 package com.example.gameproject;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -26,14 +24,16 @@ import okhttp3.Response;
 public class GeminiAPI {
 
     private String response = null;
+    private static boolean ShowText = true;
 
     private static final String API_KEY = "AIzaSyAvRr7uJNTGMp0TyPjyLOtObZW6qN3pcpw";
     private static final String BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-    private static final String TAG = "GeminiAPI";
 
     static {
         Executors.newSingleThreadExecutor();
     }
+
+
 
     private interface ResponseCallback {
         void onResponse(String response);
@@ -41,7 +41,8 @@ public class GeminiAPI {
         void onFailure(String error);
     }
 
-    public String askGemini(String prompt, Context context) {
+    public String askGemini(String prompt) {
+
         askGemini(prompt, new ResponseCallback() {
             @Override
             public void onResponse(String response) {
@@ -128,5 +129,13 @@ public class GeminiAPI {
                 }
             }
         });
+    }
+
+    public void setIsShowText(boolean pushed) {
+        ShowText = pushed;
+        Log.d("GeminiAPI", "ShowText toggled to: " + pushed);
+    }
+    public boolean isShowText() {
+        return ShowText;
     }
 }

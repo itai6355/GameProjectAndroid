@@ -10,14 +10,13 @@ import android.graphics.RectF;
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.enemies.Enemies;
 import com.example.gameproject.entities.objects.Weapons;
-import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.main.MainActivity;
 
-public abstract class Character extends Entity{
+public abstract class Character extends Entity {
     protected final GameCharacters gameCharType;
     protected final Enemies EnemyType;
-    private final int attackDamage;
+    protected int attackDamage;
     protected int aniTick, aniIndex;
     protected int faceDir = GameConstants.Face_Dir.DOWN;
     protected boolean attacking, attackChecked;
@@ -31,7 +30,6 @@ public abstract class Character extends Entity{
         this.EnemyType = null;
         attackDamage = setAttackDamage();
         updateWepHitbox();
-
     }
 
     public Character(PointF pos, Enemies EnemyType) {
@@ -69,13 +67,16 @@ public abstract class Character extends Entity{
         return EnemyType != null;
     }
 
-    private int setAttackDamage() {
+    protected int setAttackDamage() {
         if (isEnemy())
             return switch (EnemyType) {
+                case DARK_NINJA -> 100;
+                case GOLDEN_MASKED_RAKKON, MASKED_RAKKON -> 0;
                 case SKELETON -> 25;
-                case MASKED_RAKKON -> 0;
             };
-        else return 50;
+        else if (this instanceof Player player)
+            return player.getStreangth();
+        else return 4242;
     }
 
     protected void updateAnimation() {
@@ -236,4 +237,3 @@ public abstract class Character extends Entity{
         if (currentHealth > maxHealth) currentHealth = maxHealth;
     }
 }
-

@@ -16,7 +16,7 @@ public class MaskedRaccoon extends Enemy {
 
 
     public MaskedRaccoon(PointF pos) {
-        super(pos, Enemies.MASKED_RAKKON);
+        super(pos, Enemies.getRndMaskedRaccoon());
         setStartHealth(50);
         AddLootTypes();
     }
@@ -75,5 +75,8 @@ public class MaskedRaccoon extends Enemy {
     @Override
     public void AddLootTypes() {
         KilledLoot.add(Items.COIN);
+        if (getEnemyType() == Enemies.GOLDEN_MASKED_RAKKON)
+            KilledLoot.add(Items.COIN);
+
     }
 }

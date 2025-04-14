@@ -6,14 +6,18 @@ import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 
+import com.example.gameproject.GeminiAPI;
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.gamestates.shop.ShopImages;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
+import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
@@ -33,6 +37,11 @@ public class Setting extends BaseState implements GameStateInterface {
     private final int SoundIconY = btnYVolume - 4 * GameConstants.Sprite.Y_DRAW_OFFSET;
     private final CustomButton btnSound;
     private final CustomButton btnBack;
+
+    private final CustomButton btnGeminiActive;
+    private final int GeminiX = (int) (btnXVolume + space * GameConstants.Sprite.SCALE_MULTIPLIER * 2.5 - GameConstants.Sprite.X_DRAW_OFFSET);
+    private final int GeminiY = btnYVolume + 5 * GameConstants.Sprite.Y_DRAW_OFFSET;
+
 
     private final CustomButton btnNext;
     private final CustomButton btnPrev;
@@ -55,11 +64,9 @@ public class Setting extends BaseState implements GameStateInterface {
         btnPrev = new CustomButton(btnXVolume + space * GameConstants.Sprite.SCALE_MULTIPLIER, btnYVolume + ButtonImages.EMPTY_SMALL.getHeight(), ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
 
         btnSound = new CustomButton(SoundIconX, SoundIconY, GameImages.SOUND_ICON.getImage().getWidth(), GameImages.SOUND_ICON.getImage().getHeight());
-        BlackPaint = new Paint();
-        BlackPaint.setColor(Color.BLACK);
-        BlackPaint.setTextSize(BlackPaint.getTextSize() + 50);
-        BlackPaint.setStrokeWidth(3);
-        BlackPaint.setStyle(Paint.Style.STROKE);
+        btnGeminiActive = new CustomButton(GeminiX, GeminiY, ButtonImages.SETTINGS_IS_GEMINI.getWidth(), ButtonImages.SETTINGS_IS_GEMINI.getWidth());
+
+        BlackPaint = Paints.BIG_TEXT_PAINT;
     }
 
     @Override
@@ -77,6 +84,7 @@ public class Setting extends BaseState implements GameStateInterface {
         drawSong(canvas);
         drawArrow(canvas, btnNext, btnNext.getHitbox().left, btnNext.getHitbox().top);
         drawArrow(canvas, btnPrev, btnPrev.getHitbox().left, btnPrev.getHitbox().top);
+        canvas.drawText("Is Villagers talking", GeminiX - 170, GeminiY + 200, BlackPaint);
 
     }
 
@@ -101,6 +109,7 @@ public class Setting extends BaseState implements GameStateInterface {
         for (CustomButton btn : btnVolumeButtons) {
             canvas.drawBitmap(ButtonImages.SETTINGS_VOLUMES.getBtnImg(btn.isPushed()), btn.getHitbox().left, btn.getHitbox().top, null);
         }
+        canvas.drawBitmap(ButtonImages.SETTINGS_IS_GEMINI.getBtnImg(btnGeminiActive.isPushed()), btnGeminiActive.getHitbox().left, btnGeminiActive.getHitbox().top, null);
     }
 
     private void drawBackground(Canvas canvas) {
@@ -150,13 +159,15 @@ public class Setting extends BaseState implements GameStateInterface {
                 if (btnSound.isPushed())
                     for (CustomButton btn : btnVolumeButtons)
                         btn.setPushed(false);
-
             } else if (isIn(event, btnNext)) {
                 if (btnNext.isPushed())
                     GameActivity.getMpHelper().playNextSong();
             } else if (isIn(event, btnPrev)) {
                 if (btnPrev.isPushed())
                     GameActivity.getMpHelper().playPreviousSong();
+            } else if (isIn(event, btnGeminiActive)) {
+                btnGeminiActive.setPushed(!btnGeminiActive.isPushed());
+                MainActivity.getGeminiAPI().setIsShowText(!btnGeminiActive.isPushed());
             }
 
             btnBack.setPushed(false);

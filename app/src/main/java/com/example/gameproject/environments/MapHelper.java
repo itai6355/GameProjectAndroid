@@ -17,34 +17,32 @@ public class MapHelper {
 
     public static ArrayList<Building> getBuildings() {
         ArrayList<Building> buildings = new ArrayList<>();
-        buildings.add(new Building(new PointF(1200,350), Buildings.HOUSE_ONE));
-        buildings.add(new Building(new PointF(1800,570), Buildings.HOUSE_TWO));
-        buildings.add(new Building(new PointF(2470,570), Buildings.HOUSE_SIX));
-        buildings.add(new Building(new PointF(1200,1150), Buildings.HOUSE_TWO));
-        buildings.add(new Building(new PointF(750,1970), Buildings.HOUSE_SIX));
-        buildings.add(new Building(new PointF(1375,2870), Buildings.HOUSE_TWO));
-        buildings.add(new Building(new PointF(3150,3470), Buildings.HOUSE_ONE));
-        buildings.add(new Building(new PointF(3250,1770), Buildings.HOUSE_SIX));
-        buildings.add(new Building(new PointF(2100,1675), Buildings.HOUSE_NINE));
+        buildings.add(new Building(new PointF(1200, 350), Buildings.HOUSE_ONE, 1));
+        buildings.add(new Building(new PointF(1800, 570), Buildings.HOUSE_TWO, 1));
+        buildings.add(new Building(new PointF(2470, 570), Buildings.HOUSE_SIX, 2));
+        buildings.add(new Building(new PointF(1200, 1150), Buildings.HOUSE_TWO, 1));
+        buildings.add(new Building(new PointF(750, 1970), Buildings.HOUSE_SIX, 2));
+        buildings.add(new Building(new PointF(1375, 2870), Buildings.HOUSE_TWO, 1));
+        buildings.add(new Building(new PointF(3150, 3470), Buildings.HOUSE_ONE, 2));
+        buildings.add(new Building(new PointF(3250, 1770), Buildings.HOUSE_SIX, 1));
+        buildings.add(new Building(new PointF(2100, 1600), Buildings.HOUSE_NINE, 1));
 
         return buildings;
-
-
     }
 
     public static ArrayList<GameObject> getGameObjects() {
         ArrayList<GameObject> gameObjects = new ArrayList<>();
 
-        gameObjects.add(new GameObject(new PointF(3370,2600), GameObjects.OVEN_SNOW_YELLOW));
-        gameObjects.add(new GameObject(new PointF(2370,770), GameObjects.BASKET_FULL_RED_FRUIT));
-        gameObjects.add(new GameObject(new PointF(370,1070), GameObjects.MONK_STATUE_BALL_GREEN));
-        gameObjects.add(new GameObject(new PointF(420,2150), GameObjects.SOLDIER_SWORD_GREEN));
-        gameObjects.add(new GameObject(new PointF(3875,975), GameObjects.PILLAR_SNOW_GREEN));
-        gameObjects.add(new GameObject(new PointF(3875,1200), GameObjects.PILLAR_SNOW_GREEN));
-        gameObjects.add(new GameObject(new PointF(1100,530), GameObjects.POT_ONE_FULL));
-        gameObjects.add(new GameObject(new PointF(1050,530), GameObjects.POT_TWO_FULL));
-        gameObjects.add(new GameObject(new PointF(1100,1300), GameObjects.BASKET_FULL_CHICKEN));
-        gameObjects.add(new GameObject(new PointF(1800,1070), GameObjects.SOLDIER_SPEAR_GREEN));
+        gameObjects.add(new GameObject(new PointF(3370, 2600), GameObjects.OVEN_SNOW_YELLOW));
+        gameObjects.add(new GameObject(new PointF(2370, 770), GameObjects.BASKET_FULL_RED_FRUIT));
+        gameObjects.add(new GameObject(new PointF(370, 1070), GameObjects.MONK_STATUE_BALL_GREEN));
+        gameObjects.add(new GameObject(new PointF(420, 2150), GameObjects.SOLDIER_SWORD_GREEN));
+        gameObjects.add(new GameObject(new PointF(3875, 975), GameObjects.PILLAR_SNOW_GREEN));
+        gameObjects.add(new GameObject(new PointF(3875, 1200), GameObjects.PILLAR_SNOW_GREEN));
+        gameObjects.add(new GameObject(new PointF(1100, 530), GameObjects.POT_ONE_FULL));
+        gameObjects.add(new GameObject(new PointF(1050, 530), GameObjects.POT_TWO_FULL));
+        gameObjects.add(new GameObject(new PointF(1100, 1300), GameObjects.BASKET_FULL_CHICKEN));
+        gameObjects.add(new GameObject(new PointF(1800, 1070), GameObjects.SOLDIER_SPEAR_GREEN));
         return gameObjects;
     }
 
@@ -52,7 +50,6 @@ public class MapHelper {
         CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
         return items;
     }
-
 
 
     public static void connectDoorways(
@@ -66,7 +63,6 @@ public class MapHelper {
             GameMap insideGreenRoofHouseMap1,
             GameMap insideGreenRoofHouseMap2,
             GameMap insideGreenRoofHouseMap3) {
-
 
 
         HelpMethods.ConnectTwoDoorways(
@@ -146,6 +142,7 @@ public class MapHelper {
                 {462, 465, 463, 394, 464, 465, 466}
         };
     }
+
     public static int[][] getInsideFlatHouseArray() {
         return new int[][]{
                 {389, 392, 392, 392, 392, 392, 392, 392, 393},

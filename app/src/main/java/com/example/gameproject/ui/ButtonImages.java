@@ -23,6 +23,7 @@ public enum ButtonImages implements BitmapMethods {
     PLAYING_INVENTORY(R.drawable.items_basic, 33, 84, 49, 81, 14, 11, 14, 14),
 
     SHOP_SET_SKIN(R.drawable.icons_ui, 610, 167, 610, 135, 28, 18, 28, 18),
+    SETTINGS_IS_GEMINI(R.drawable.icons_ui, 674, 135, 610, 167, 28, 18, 28, 18),
 
     EMPTY(R.drawable.icons_ui, 275, 178, 275, 212, 90, 27, 90, 25),
     EMPTY_SMALL(R.drawable.icons_ui, 837, 4, 869, 6, 22, 24, 22, 22),

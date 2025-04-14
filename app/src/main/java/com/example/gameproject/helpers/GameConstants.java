@@ -1,5 +1,6 @@
 package com.example.gameproject.helpers;
 
+
 public final class GameConstants {
     public static final class Face_Dir {
         public static final int DOWN = 0;

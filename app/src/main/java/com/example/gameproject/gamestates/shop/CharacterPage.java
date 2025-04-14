@@ -10,6 +10,7 @@ import com.example.gameproject.entities.entities.GameCharacters;
 import com.example.gameproject.entities.entities.Icons;
 import com.example.gameproject.entities.entities.PlayerShopAI;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
@@ -24,9 +25,9 @@ public class CharacterPage implements GameStateInterface {
     private final PlayerShopAI playerShopAI;
     private final int PRICE;
     private final Game game;
-    private final Paint textPaint = new Paint();
-    private final Paint textGoldPaint = new Paint();
-    private final Paint textGreenPaint = new Paint();
+    private final Paint textPaint;
+    private final Paint textGoldPaint;
+    private final Paint textGreenPaint;
     float xStart = (float) (MainActivity.GAME_WIDTH / 2 - ShopImages.CHARACTER_SHOP_BOOK.getWidth() / 2);
     float yStart = (float) (MainActivity.GAME_HEIGHT / 2 - ShopImages.CHARACTER_SHOP_BOOK.getHeight() / 2);
     public CustomButton setSkinBtn = new CustomButton((float) (MainActivity.GAME_WIDTH / 2 + ButtonImages.SHOP_SET_SKIN.getWidth()), yStart + ButtonImages.SHOP_SET_SKIN.getHeight() + GameConstants.Sprite.Y_DRAW_OFFSET, ButtonImages.SHOP_SET_SKIN.getWidth(), ButtonImages.SHOP_SET_SKIN.getHeight());
@@ -39,7 +40,9 @@ public class CharacterPage implements GameStateInterface {
         this.name = name;
         this.PRICE = price;
         this.game = game;
-        initPaint();
+        textGoldPaint = Paints.GOLD_PAINT;
+        textPaint = Paints.TEXT_PAINT;
+        textGreenPaint = Paints.GREEN_PAINT;
         RectF bound = new RectF(xStart, yStart, xStart + ShopImages.CHARACTER_SHOP_BOOK.getWidth() - GameConstants.Sprite.SIZE - GameConstants.Sprite.X_DRAW_OFFSET, yStart + ShopImages.CHARACTER_SHOP_BOOK.getHeight());
         playerShopAI = new PlayerShopAI(skin, bound);
         btnBuy = new CustomButton(xStart + 2 * icon.getWidth() - (float) ShopImages.SHOP_BAR_2.getWidth() / 4 * 3, yStart + 2 * icon.getHeight(), ShopImages.SHOP_BAR_2.getImage().getWidth(), ShopImages.SHOP_BAR_2.getImage().getHeight());
@@ -121,22 +124,6 @@ public class CharacterPage implements GameStateInterface {
         return name;
     }
 
-    private void initPaint() {
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(textPaint.getTextSize() + 50);
-        textPaint.setStrokeWidth(5);
-        textPaint.setStyle(Paint.Style.STROKE);
-
-        textGoldPaint.setColor(Color.YELLOW);
-        textGoldPaint.setTextSize(textPaint.getTextSize() - 10);
-        textGoldPaint.setStrokeWidth(3);
-        textGoldPaint.setStyle(Paint.Style.STROKE);
-
-        textGreenPaint.setColor(Color.GREEN);
-        textGreenPaint.setTextSize(textPaint.getTextSize() - 10);
-        textGreenPaint.setStrokeWidth(3);
-        textGreenPaint.setStyle(Paint.Style.STROKE);
-    }
 
     public boolean isIn(MotionEvent e, CustomButton b) {
         return b.getHitbox().contains(e.getX(), e.getY());

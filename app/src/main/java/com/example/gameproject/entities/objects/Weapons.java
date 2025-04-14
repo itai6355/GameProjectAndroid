@@ -10,14 +10,15 @@ import com.example.gameproject.main.MainActivity;
 
 public enum Weapons implements BitmapMethods {
 
-    BIG_SWORD(R.drawable.big_sword),
-    SHADOW(R.drawable.shadow);
+    BIG_SWORD(R.drawable.big_sword,1),
+    SHURIKEN(R.drawable.shuriken,0.7f),
+    SHADOW(R.drawable.shadow,1);
 
     final Bitmap weaponImg;
 
-    Weapons(int resId) {
+    Weapons(int resId, float multiplier) {
         options.inScaled = false;
-        weaponImg = getScaledBitmap(BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resId, options));
+        weaponImg = getMultiplierBitmap(BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resId, options), multiplier,multiplier);
     }
 
     public Bitmap getWeaponImg() {

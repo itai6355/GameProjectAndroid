@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
@@ -20,7 +21,7 @@ public class LostConnectionState extends BaseState implements GameStateInterface
     private int add = 1;
 
     private boolean isMenu = false;
-    private final Paint Paint = new Paint();
+    private final Paint Paint;
 
     private long lastUpdateTime = 0;
     private final long UPDATE_INTERVAL = 333;
@@ -37,8 +38,7 @@ public class LostConnectionState extends BaseState implements GameStateInterface
 
     public LostConnectionState(Game game) {
         super(game);
-        Paint.setTextSize(100);
-        Paint.setColor(0xFFFFFFFF);
+        this.Paint = Paints.WHITE_PAINT;
     }
 
     @Override
