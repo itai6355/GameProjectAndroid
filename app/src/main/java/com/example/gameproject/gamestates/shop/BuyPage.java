@@ -109,7 +109,6 @@ public class BuyPage implements GameStateInterface {
             for (int i = 0; i < amount; i++)
                 player.addToInventory(item);
             setNotBuying();
-            itemShop.getGame().getInventoryState().SyncInventories(player);
         } else {
             Toast.makeText(MainActivity.getGameContext(), "Not enough coins", Toast.LENGTH_SHORT).show();
         }

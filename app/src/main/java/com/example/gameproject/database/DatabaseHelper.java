@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.gamestates.invenory.InventorySloth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -266,7 +268,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         updateIntColumn(id, itemColumnByName, Integer.parseInt(getColumnValueById(id, DatabaseColumns.COINS)) - 1);
     }
 
-    public void setInventory(int id, CopyOnWriteArrayList<Items> inventory) {
+    public void setInventory(int id, Player player) {
         if (id == -1) return;
         List<Items> tempInventory = new ArrayList<>();
         for (DatabaseColumns.Column column : DatabaseColumns.getAllColumns()) {
@@ -284,8 +286,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
-        inventory.addAll(tempInventory);
-        Log("setInventory", inventory.toString());
+
+        for (Items item : tempInventory)
+            player.addToInventory(item);
+
+
+        Log("setInventory", tempInventory.toString());
     }
 
     @Override

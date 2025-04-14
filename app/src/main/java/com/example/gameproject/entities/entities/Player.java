@@ -5,31 +5,25 @@ import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
 import android.graphics.PointF;
-import android.util.Log;
 
 import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
-import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
 import java.util.Objects;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Character {
 
-    private final CopyOnWriteArrayList<Items> inventory = new CopyOnWriteArrayList<>();
-    private final InventorySloth[] itemBar = new InventorySloth[8];
+    private final InventorySloth[][] inventory;
     private final DatabaseHelper dbHelper;
     private final int id;
     private final String username, password;
     public Icons icon;
     public GameCharacters skin;
-    int space = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
-    int xCurr = 550;
     private final float maxHunger = 10.0f;
     private float currHunger = maxHunger;
     private int hungerTick = 0;
@@ -41,7 +35,7 @@ public class Player extends Character {
 
         super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.BOY);
         setStartHealth(600);
-
+        inventory = game.getInventoryState().getInventory();
 
         dbHelper = MainActivity.getDbHelper();
 
@@ -52,14 +46,7 @@ public class Player extends Character {
 
 
         setSkinAndIcon(dbHelper.getColumnValueById(id, DatabaseColumns.SKIN));
-        dbHelper.setInventory(id, inventory);
-        game.getInventoryState().SyncInventories(this);
-        initItemBar();
-    }
-
-    private void initItemBar() {
-        for (int i = 0; i < itemBar.length; i++)
-            itemBar[i] = new InventorySloth(i, 1, xCurr + (i * (InventorySloth.SLOT_SIZE + space)), GAME_HEIGHT - InventorySloth.SLOT_SIZE - GameConstants.Sprite.Y_DRAW_OFFSET - space);
+        dbHelper.setInventory(id, this);
     }
 
     public void update(double delta, boolean movePlayer) {
@@ -68,8 +55,6 @@ public class Player extends Character {
             updateHunger();
         }
         updateWepHitbox();
-
-
     }
 
     private void updateHunger() {
@@ -86,10 +71,6 @@ public class Player extends Character {
 
     public GameCharacters getSkin() {
         return skin;
-    }
-
-    public CopyOnWriteArrayList<Items> getInventory() {
-        return inventory;
     }
 
     public int getCurrHunger() {
@@ -114,16 +95,14 @@ public class Player extends Character {
         currHunger = maxHunger;
     }
 
-    public void addToSQL(Items item) {
+    private void addToSQL(Items item) {
         if (Objects.requireNonNull(item) == Items.COIN)
             dbHelper.addIntColumn(id, DatabaseColumns.COINS);
         else {
             dbHelper.addIntColumn(id, DatabaseColumns.getItemColumnByName(item));
-            inventory.add(item);
         }
-
-
     }
+
 
     public void setSkinAndIcon(String skinName) {
         switch (skinName) {
@@ -295,12 +274,39 @@ public class Player extends Character {
 
 
     public void addToInventory(Items item) {
-        inventory.add(item);
+        if (item == Items.COIN) {
+            dbHelper.addIntColumn(id, DatabaseColumns.COINS);
+            return;
+        }
+        int iEmpty = -1, jEmpty = -1;
+        boolean found = false;
+        for (int i = 0; i < inventory.length; i++) {
+            for (int j = 0; j < inventory[i].length; j++) {
+                if (inventory[i][j].getItem() == item) {
+                    inventory[i][j].addAmount();
+                    found = true;
+                    break;
+                }
+                if (inventory[i][j].getItem() == null && iEmpty == -1 && jEmpty == -1) {
+                    iEmpty = i;
+                    jEmpty = j;
+                }
+            }
+            if (found) break;
+        }
+
+        if (!found) if (iEmpty != -1 && jEmpty != -1) inventory[iEmpty][jEmpty].setItem(item);
         addToSQL(item);
     }
 
-    public InventorySloth[] getItemBar() {
-        return itemBar;
+    private void reduceFromInventory(InventorySloth item) {
+        for (InventorySloth[] inventorySloths : inventory)
+            for (InventorySloth inventorySloth : inventorySloths)
+                if (inventorySloth.equals(item)) inventorySloth.reduceAmount();
+    }
+
+    public InventorySloth[][] getInventory() {
+        return inventory;
     }
 
     public void UseItem(InventorySloth item) {
@@ -322,13 +328,12 @@ public class Player extends Character {
 
     }
 
-    public void useItem(InventorySloth item) {
+    private void useItem(InventorySloth item) {
         try {
             dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
             item.reduceAmount();
-            inventory.remove(item.getItem());
-        } catch (Exception e) {
-        }
+            reduceFromInventory(item);
+        } catch (Exception ignored) {}
 
     }
 

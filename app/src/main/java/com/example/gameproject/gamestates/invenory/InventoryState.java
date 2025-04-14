@@ -1,11 +1,12 @@
 package com.example.gameproject.gamestates.invenory;
 
+import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
-import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
@@ -15,14 +16,12 @@ import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class InventoryState extends BaseState implements GameStateInterface {
 
     private final CustomButton btnBack = new CustomButton(20, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
-    private final int inventoryWidth = 8;
-    private final int inventoryHeight = 4;
+
+    public static final int inventoryWidth = 8;
+    public static final int inventoryHeight = 4;
 
     //every time to change, change in player the itemBar too.
     int xCurr = 550;
@@ -31,7 +30,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
 
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;
-    private final InventorySloth[][] inventory = new InventorySloth[inventoryWidth][inventoryHeight];
+    private final InventorySloth[][] inventory = new InventorySloth[inventoryWidth][inventoryHeight + 1];
     private final Paint BlackPaint;
     private InventorySloth lstItem;
 
@@ -44,10 +43,15 @@ public class InventoryState extends BaseState implements GameStateInterface {
         BlackPaint.setStrokeWidth(3);
         BlackPaint.setStyle(Paint.Style.STROKE);
 
-        for (int i = 0; i < inventory.length; i++)
-            for (int j = 0; j < inventory[i].length; j++)
-                inventory[i][j] = new InventorySloth(i, j, xCurr + (i * (InventorySloth.SLOT_SIZE + space)), yCurr + (j * (InventorySloth.SLOT_SIZE + space)));
-
+        for (int i = 0; i < inventory.length; i++) {
+            for (int j = 0; j < inventory[i].length; j++) {
+                if (j == inventory[i].length - 1) {
+                    inventory[i][j] = new InventorySloth(i, j, xCurr + (i * (InventorySloth.SLOT_SIZE + space)), GAME_HEIGHT - InventorySloth.SLOT_SIZE - GameConstants.Sprite.Y_DRAW_OFFSET - space);
+                } else {
+                    inventory[i][j] = new InventorySloth(i, j, xCurr + (i * (InventorySloth.SLOT_SIZE + space)), yCurr + (j * (InventorySloth.SLOT_SIZE + space)));
+                }
+            }
+        }
     }
 
     @Override
@@ -62,8 +66,6 @@ public class InventoryState extends BaseState implements GameStateInterface {
             for (InventorySloth slot : inventorySloths)
                 canvas.drawBitmap(slot.getImage().getImage(), slot.getX(), slot.getY(), null);
 
-        var itemBar = game.getPlaying().getPlayer().getItemBar();
-        drawItemBar(canvas, itemBar);
 
         canvas.drawBitmap(ButtonImages.SETTINGS_BACK.getBtnImg(btnBack.isPushed()), btnBack.getHitbox().left, btnBack.getHitbox().top, null);
 
@@ -71,21 +73,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
             for (InventorySloth IS : ISs)
                 if (IS != null && IS.getAmount() > 0) drawItem(canvas, IS);
 
-        for (InventorySloth IS : itemBar)
-            if (IS != null && IS.getAmount() > 0) drawItem(canvas, IS);
-
-        if (yCurrIndex == -1)
-            canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), itemBar[xCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, itemBar[xCurrIndex].getY(), null);
-        else
-            canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), inventory[xCurrIndex][yCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, inventory[xCurrIndex][yCurrIndex].getY() - GameConstants.Sprite.SCALE_MULTIPLIER, null);
-    }
-
-    private void drawItemBar(Canvas canvas, InventorySloth[] itemBar) {
-        for (InventorySloth inventorySloth : itemBar) {
-            if (inventorySloth != null) {
-                canvas.drawBitmap(inventorySloth.getImage().getImage(), inventorySloth.getX(), inventorySloth.getY(), null);
-            }
-        }
+        canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), inventory[xCurrIndex][yCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, inventory[xCurrIndex][yCurrIndex].getY() - GameConstants.Sprite.SCALE_MULTIPLIER, null);
     }
 
     private void drawItem(Canvas canvas, InventorySloth IS) {
@@ -120,22 +108,8 @@ public class InventoryState extends BaseState implements GameStateInterface {
                 }
             }
         }
-
-        var itemBar = game.getPlaying().getPlayer().getItemBar();
-        for (int i = 0; i < itemBar.length; i++) {
-            if (itemBar[i].isIn(event)) {
-                xCurrIndex = i;
-                yCurrIndex = -1;
-                if (lstItem != null && itemBar[i].getItem() == null) {
-                    moveItem(lstItem, itemBar[i]);
-                } else {
-                    lstItem = itemBar[i];
-                }
-            }
-        }
     }
 
-    //TODO: Fix te buggggggggg!!!!!
     private void moveItem(InventorySloth lst, InventorySloth curr) {
         curr.setItem(lst.getItem());
         curr.setAmount(lst.getAmount());
@@ -145,35 +119,7 @@ public class InventoryState extends BaseState implements GameStateInterface {
     }
 
 
-    public void SyncInventories(Player player) {
-        Map<Items, InventorySloth> itemSlotMap = new HashMap<>();
-        for (int i = inventory.length - 1; i >= 0; i--)
-            for (int j = inventory[i].length - 1; j >= 0; j--)
-                if (inventory[i][j].getItem() != null) {
-                    inventory[i][j].setAmount(0);
-                    itemSlotMap.put(inventory[i][j].getItem(), inventory[i][j]);
-                }
-
-        for (Items item : player.getInventory()) {
-            InventorySloth slot = itemSlotMap.get(item);
-            if (slot != null) {
-                slot.addAmount();
-            } else {
-                boolean added = false;
-                for (int i = 0; i < inventory.length - 1; i++) {
-                    for (int j = 0; j < inventory[i].length - 1; j++)
-                        if (inventory[i][j].getItem() == null) {
-                            inventory[i][j].setItem(item);
-                            inventory[i][j].setAmount(1);
-                            itemSlotMap.put(item, inventory[i][j]);
-                            added = true;
-                            break;
-                        }
-                    if (added) break;
-                }
-            }
-        }
+    public InventorySloth[][] getInventory() {
+        return inventory;
     }
-
-
 }

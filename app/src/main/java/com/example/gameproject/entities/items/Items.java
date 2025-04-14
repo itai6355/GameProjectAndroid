@@ -276,7 +276,7 @@ public enum Items implements BitmapMethods {
     LIGHT_BULB(R.drawable.light_bulb, false),
     LIGHT_BULB_BOX(R.drawable.light_bulb_box, false),
     PAPER_BAG(R.drawable.paper_bag, false),
-    POWER_STRIP_TYPEA(R.drawable.power_strip_typea, false),
+    POWER_STRIP_TYPEA(R.drawable.power_strip_type_a, false),
     POWER_STRIP_TYPEF(R.drawable.power_strip_typef, false),
     RECEIPT(R.drawable.receipt, false),
     ROLLING_PIN(R.drawable.rolling_pin, false),

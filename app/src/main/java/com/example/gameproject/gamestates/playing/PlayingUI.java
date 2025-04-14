@@ -14,7 +14,6 @@ import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
@@ -57,7 +56,6 @@ public class PlayingUI {
         btnShop = new CustomButton(GAME_WIDTH - 230 - ButtonImages.PLAYING_MENU.getWidth() - 20, 50, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
 
 
-
     }
 
     public void draw(Canvas canvas) {
@@ -97,12 +95,13 @@ public class PlayingUI {
     }
 
     private void drawItemBar(Canvas canvas) {
-        var itemBar = playing.getPlayer().getItemBar();
-        for (InventorySloth inventorySloth : itemBar) {
-            if (inventorySloth != null)
+        var inventory = playing.getPlayer().getInventory();
+        for (InventorySloth[] inventorySloths : inventory) {
+            InventorySloth inventorySloth = inventorySloths[inventorySloths.length - 1];
+            if (inventorySloth != null) {
                 canvas.drawBitmap(inventorySloth.getImage().getImage(), inventorySloth.getX(), inventorySloth.getY(), null);
-            if (inventorySloth != null && inventorySloth.getAmount() > 0)
-                drawItem(canvas, inventorySloth);
+                if (inventorySloth.getAmount() > 0) drawItem(canvas, inventorySloth);
+            }
         }
     }
 

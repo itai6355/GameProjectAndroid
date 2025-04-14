@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.Entity;
@@ -130,11 +129,10 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void updateVillager(double delta, Villager villager) {
-        if (villager.isActive()){
+        if (villager.isActive()) {
             villager.update(delta, mapManager.getCurrentMap());
-            if (isNearTalk(player.getHitbox(), villager.getHitbox()))
-                villager.startConversation();
-           else villager.endConversation();
+            if (isNearTalk(player.getHitbox(), villager.getHitbox())) villager.startConversation();
+            else villager.endConversation();
         }
     }
 
@@ -162,10 +160,8 @@ public class Playing extends BaseState implements GameStateInterface {
 
     private void pickItem(Player player, Item item) {
         GameActivity.getMpHelper().playPickItemSound();
-        player.addToSQL(item.getItemType());
+        player.addToInventory(item.getItemType());
         mapManager.getCurrentMap().getItemArrayList().remove(item);
-
-        game.getInventoryState().SyncInventories(player);
     }
 
     private boolean isNear(RectF in, RectF out) {
@@ -461,11 +457,16 @@ public class Playing extends BaseState implements GameStateInterface {
     @Override
     public void touchEvents(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            var itemBar = player.getItemBar();
-            for (InventorySloth inventorySloth : itemBar)
-                if (inventorySloth.isIn(event))
-                    if (lastItem == inventorySloth) player.UseItem(lastItem);
-                    else lastItem = inventorySloth;
+            for (int i = 0; i < player.getInventory().length; i++)
+                if (player.getInventory()[i][player.getInventory()[i].length - 1].getItem() != null)
+                    if (player.getInventory()[i][player.getInventory()[i].length - 1].isIn(event))
+                        if (lastItem == null)
+                            lastItem = player.getInventory()[i][player.getInventory()[i].length - 1];
+                        else if (lastItem == player.getInventory()[i][player.getInventory()[i].length - 1])
+                            player.UseItem(lastItem);
+                        else
+                            lastItem = player.getInventory()[i][player.getInventory()[i].length - 1];
+
         }
 
         playingUI.touchEvents(event);
