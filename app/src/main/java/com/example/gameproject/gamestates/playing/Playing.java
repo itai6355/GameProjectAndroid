@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.enemies.AttackingEnemy;
 import com.example.gameproject.entities.enemies.DarkNinja;
+import com.example.gameproject.entities.enemies.DarkWizard;
 import com.example.gameproject.entities.enemies.Enemy;
 import com.example.gameproject.entities.enemies.MaskedRaccoon;
 import com.example.gameproject.entities.enemies.Skeleton;
@@ -88,9 +89,10 @@ public class Playing extends BaseState implements GameStateInterface {
             for (Character character : mapManager.getCurrentMap().getEnemysArrayList()) {
                 if (character instanceof Enemy enemy) {
                     if (enemy instanceof Skeleton skeleton) updateSkeleton(delta, skeleton);
-                    if (enemy instanceof MaskedRaccoon maskedRaccoon)
+                    else if (enemy instanceof MaskedRaccoon maskedRaccoon)
                         updateMaskedRakoon(delta, maskedRaccoon);
-                    if (enemy instanceof DarkNinja darkNinja) updateDarkNinja(delta, darkNinja);
+                    else if (enemy instanceof DarkNinja darkNinja) updateDarkNinja(delta, darkNinja);
+                    else if (enemy instanceof DarkWizard darkWizard) updateDarkWizard(delta, darkWizard);
                 }
             }
 
@@ -103,6 +105,34 @@ public class Playing extends BaseState implements GameStateInterface {
         sortArray();
         generateEnemies();
 
+    }
+
+    private void updateDarkWizard(double delta, DarkWizard darkWizard) {
+        if (!darkWizard.isActive()) return;
+
+        darkWizard.updtaeShuriken();
+        darkWizard.update(delta, mapManager.getCurrentMap());
+
+        if (darkWizard.isAttacking()) {
+            if (!darkWizard.isAttackChecked()) {
+                RectF playerHitbox = new RectF(player.getHitbox());
+                playerHitbox.offset(-cameraX, -cameraY);
+                if (RectF.intersects(darkWizard.getFireBallHitbox(), playerHitbox)) {
+                    player.damageCharacter(darkWizard.getDamage());
+                    checkPlayerDead();
+                    darkWizard.setAttackChecked(true);
+                }
+            }
+        } else if (!darkWizard.isPreparingAttack()) {
+            boolean playerClose = HelpMethods.IsPlayerCloseForAttack(darkWizard, player, cameraY, cameraX);
+
+            if (playerClose) {
+                darkWizard.setMoving(false);
+                darkWizard.prepareAttack(player, cameraX, cameraY);
+            } else if (!darkWizard.isFireBallInFlight()) {
+                darkWizard.setMoving(true);
+            }
+        }
     }
 
     private void updateDarkNinja(double delta, DarkNinja darkNinja) {
@@ -147,14 +177,15 @@ public class Playing extends BaseState implements GameStateInterface {
         if (villager.isActive()) {
             villager.update(delta, mapManager.getCurrentMap());
             if (MainActivity.getGeminiAPI().isShowText())
-                if (isNearTalk(player.getHitbox(), villager.getHitbox())) villager.startConversation();
+                if (isNearTalk(player, villager.getHitbox())) villager.startConversation();
                 else villager.endConversation();
             else villager.endConversation();
         }
     }
 
-    private boolean isNearTalk(RectF player, RectF villager) {
-        RectF playerHitbox = new RectF(player.left - cameraX, player.top - cameraY, player.right - cameraX, player.bottom - cameraY);
+    private boolean isNearTalk(Player player, RectF villager) {
+        if (player.isInvisible()) return false;
+        RectF playerHitbox = new RectF(player.getHitbox().left - cameraX, player.getHitbox().top - cameraY, player.getHitbox().right - cameraX, player.getHitbox().bottom - cameraY);
         float close = 65;
 
         float closestX = Math.max(villager.left - close, Math.min(playerHitbox.centerX(), villager.right + close));
@@ -289,7 +320,7 @@ public class Playing extends BaseState implements GameStateInterface {
         attackBoxWithoutCamera.right -= cameraX;
         attackBoxWithoutCamera.bottom -= cameraY;
 
-        float attackBoxPadding = 20.0f;
+        float attackBoxPadding = 13.0f;
         attackBoxWithoutCamera.inset(-attackBoxPadding, -attackBoxPadding);
 
         if (mapManager.getCurrentMap().getEnemysArrayList() != null) {
@@ -364,6 +395,8 @@ public class Playing extends BaseState implements GameStateInterface {
                     if (maskedRaccoon.isActive()) drawEnemy(canvas, maskedRaccoon);
                 } else if (enemy instanceof DarkNinja darkNinja) {
                     if (darkNinja.isActive()) drawEnemy(canvas, darkNinja);
+                }else if (enemy instanceof DarkWizard darkWizard) {
+                    if (darkWizard.isActive()) drawEnemy(canvas, darkWizard);
                 }
             } else if (e instanceof GameObject gameObject) {
                 mapManager.drawObject(canvas, gameObject);
@@ -406,6 +439,8 @@ public class Playing extends BaseState implements GameStateInterface {
                 canvas.drawRect(attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY, attackingEnemy.getAttackBox().right + cameraX, attackingEnemy.getAttackBox().bottom + cameraY, redPaint);
         } else if (attackingEnemy instanceof DarkNinja darkNinja) {
             darkNinja.drawShuriken(canvas, cameraX, cameraY);
+        }else if (attackingEnemy instanceof DarkWizard darkWizard) {
+            darkWizard.drawFireBall(canvas, cameraX, cameraY);
         }
     }
 

@@ -24,8 +24,6 @@ public class MapManager {
     private final Playing playing;
 
 
-    private final Random random = new Random();
-
     public MapManager(Playing playing) {
         this.playing = playing;
         initTestMaps();
@@ -100,6 +98,7 @@ public class MapManager {
     }
 
     private void initTestMaps() {
+        //TODO: add paricals
 
         int[][] outside = MapHelper.getMapArrayFinal();
         var buildings = MapHelper.getBuildings();

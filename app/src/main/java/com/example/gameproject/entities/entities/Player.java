@@ -28,8 +28,8 @@ public class Player extends Character {
     private float currHunger = maxHunger;
     private int hungerTick = 0;
     private int hungerTickMax = 250;
-    private boolean isSpeeding = false, isStreangth = false, isSatoration = false;
-    private long SpeedingStart, StreangthStart, SatorationStart;
+    private boolean isSpeeding = false, isStreangth = false, isSatoration = false, isInvisible = false;
+    private long SpeedingStart, StreangthStart, SatorationStart, InvisibleStart;
     private float SPEED = 1, STRENGTH = 50;
 
 
@@ -62,25 +62,31 @@ public class Player extends Character {
     }
 
     private void updatePotions() {
+        //TODO: add potions effects.
         if (isSpeeding) {
             SPEED = 1.5f;
-            if (System.currentTimeMillis() - SpeedingStart >= 10000) {
+            if (System.currentTimeMillis() - SpeedingStart >= 30000) {
                 isSpeeding = false;
                 SPEED = 1;
             }
         }
         if (isStreangth) {
             STRENGTH = 100;
-            if (System.currentTimeMillis() - StreangthStart >= 10000) {
+            if (System.currentTimeMillis() - StreangthStart >= 30000) {
                 isStreangth = false;
                 STRENGTH = 50;
             }
         }
         if (isSatoration) {
             hungerTickMax = 500;
-            if (System.currentTimeMillis() - SatorationStart >= 10000) {
-                isStreangth = isSatoration;
+            if (System.currentTimeMillis() - SatorationStart >= 30000) {
+                isSatoration = false;
                 hungerTickMax = 250;
+            }
+        }
+        if (isInvisible) {
+            if (System.currentTimeMillis() - InvisibleStart >= 30000) {
+                isInvisible = false;
             }
         }
 
@@ -361,6 +367,10 @@ public class Player extends Character {
                 this.StreangthStart = System.currentTimeMillis();
                 this.isStreangth = true;
             }
+            case POTION_WHITE -> {
+                this.InvisibleStart = System.currentTimeMillis();
+                this.isInvisible = true;
+            }
 
             default -> {
                 return;
@@ -379,6 +389,10 @@ public class Player extends Character {
         } catch (Exception ignored) {
         }
 
+    }
+
+    public boolean isInvisible() {
+        return isInvisible;
     }
 
     public float getSPEED() {

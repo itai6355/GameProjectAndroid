@@ -26,7 +26,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "GAME_DB2.db";
+    private static final String DATABASE_NAME = "GAME_DB3.db";
     private static final int DATABASE_VERSION = 5;
     private static final String TABLE_NAME = "ANDROID_GAME_DB";
     private final Context context;

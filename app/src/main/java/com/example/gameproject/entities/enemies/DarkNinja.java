@@ -22,6 +22,7 @@ public class DarkNinja extends AttackingEnemy {
     private boolean shurikenInFlight;
 
     private int ShurikenFaceDir;
+    private boolean isSHorikenTilted = false;
 
     Paint redPaint;
 
@@ -51,7 +52,7 @@ public class DarkNinja extends AttackingEnemy {
         float screenX = xShuriken + xCamera;
         float screenY = yShuriken + yCamera;
 
-        canvas.drawBitmap(Weapons.SHURIKEN.getWeaponImg(), screenX, screenY, null);
+        canvas.drawBitmap(Weapons.getSuriken(isSHorikenTilted), screenX, screenY, null);
 
         if (GameActivity.isDrawHitbox()) {
             RectF screenHitbox = new RectF(
@@ -67,6 +68,7 @@ public class DarkNinja extends AttackingEnemy {
     public void updtaeShuriken() {
         if (isAttacking()) {
             shurikenInFlight = true;
+            isSHorikenTilted = !isSHorikenTilted;
             switch (ShurikenFaceDir) {
                 case GameConstants.Face_Dir.UP -> yShuriken -= 10;
                 case GameConstants.Face_Dir.DOWN -> yShuriken += 10;
@@ -103,9 +105,30 @@ public class DarkNinja extends AttackingEnemy {
 
 
     private void resetShuriken() {
-        xShuriken = (int) getHitbox().centerX();
-        yShuriken = (int) getHitbox().centerY();
-        ShurikenFaceDir = -1;
+        switch (ShurikenFaceDir) {
+            case GameConstants.Face_Dir.UP -> {
+                xShuriken = (int) getHitbox().centerX();
+                yShuriken = (int) (getHitbox().top - getHitbox().height());
+                ShurikenFaceDir = -1;
+            }
+            case GameConstants.Face_Dir.DOWN -> {
+                xShuriken = (int) getHitbox().centerX();
+                yShuriken = (int) getHitbox().bottom;
+                ShurikenFaceDir = -1;
+            }
+            case GameConstants.Face_Dir.LEFT -> {
+                xShuriken = (int) (getHitbox().left - getHitbox().width());
+                yShuriken = (int) getHitbox().centerY();
+                ShurikenFaceDir = -1;
+            }
+            case GameConstants.Face_Dir.RIGHT -> {
+                xShuriken = (int) getHitbox().right;
+                yShuriken = (int) getHitbox().centerY();
+                ShurikenFaceDir = -1;
+            }
+            default -> {
+            }
+        }
 
     }
 
@@ -116,10 +139,8 @@ public class DarkNinja extends AttackingEnemy {
     @Override
     protected void AddLootTypes() {
         if (new Random().nextBoolean())
-            KilledLoot.add(Items.POTION_PURPLE);
-        else
-            KilledLoot.add(Items.POTION_BLUE);
-
+            KilledLoot.add(Items.POTION_RED);
+        else KilledLoot.add(Items.POTION_WHITE);
     }
 
     public void setMoving(boolean moving) {

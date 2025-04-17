@@ -5,11 +5,12 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.entities.entities.GameCharacters;
 import com.example.gameproject.entities.entities.Icons;
+import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
 
-public class CharacterShop extends ShopState implements GameStateInterface {
+public class CharacterShop extends BaseState implements GameStateInterface {
 
     private static final int MAX_PAGES = GameCharacters.getValCharacter();
 

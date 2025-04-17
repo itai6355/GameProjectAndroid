@@ -5,6 +5,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 
 import com.example.gameproject.entities.enemies.DarkNinja;
+import com.example.gameproject.entities.enemies.DarkWizard;
 import com.example.gameproject.entities.enemies.Enemies;
 import com.example.gameproject.entities.enemies.MaskedRaccoon;
 import com.example.gameproject.entities.enemies.Skeleton;
@@ -55,10 +56,9 @@ public class HelpMethods {
 
     public static CopyOnWriteArrayList<Character> SpawnStartedEnemies(int amount, int[][] gameMapArray, ArrayList<Building> buildingArrayListFinal, ArrayList<GameObject> gameObjectArrayListFinal) {
         CopyOnWriteArrayList<Character> CharacterArrayList = new CopyOnWriteArrayList<>();
-        for (int i = 0; i < amount ; i++) {
-//            spawnNotOnObject(gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal, CharacterArrayList, Enemies.getRandomEnemy());
-            spawnNotOnObject(gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal, CharacterArrayList, Enemies.DARK_NINJA);
-        }
+        for (int i = 0; i < amount ; i++)
+            spawnNotOnObject(gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal, CharacterArrayList, Enemies.getRandomEnemy());
+//            spawnNotOnObject(gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal, CharacterArrayList, Enemies.DARK_WIZARD);
         return CharacterArrayList;
     }
 
@@ -87,6 +87,7 @@ public class HelpMethods {
             case SKELETON -> new Skeleton(pointF);
             case MASKED_RAKKON, GOLDEN_MASKED_RAKKON -> new MaskedRaccoon(pointF);
             case DARK_NINJA -> new DarkNinja(pointF);
+            case DARK_WIZARD -> new DarkWizard(pointF);
         };
     }
 
@@ -229,12 +230,14 @@ public class HelpMethods {
     }
 
     public static boolean IsPlayerCloseForAttack(Character character, Player player, float cameraY, float cameraX) {
+        if (player.isInvisible()) return false;
+
         float xDelta = character.getHitbox().left - (player.getHitbox().left - cameraX);
         float yDelta = character.getHitbox().top - (player.getHitbox().top - cameraY);
 
         float distance = (float) Math.hypot(xDelta, yDelta);
 
-        if (character instanceof DarkNinja) return distance < GameConstants.Sprite.SIZE * 3f;
+        if (character instanceof DarkNinja || character instanceof DarkWizard) return distance < GameConstants.Sprite.SIZE * 3f;
 
         return distance < GameConstants.Sprite.SIZE * 1.5f;
 

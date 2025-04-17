@@ -3,6 +3,7 @@ package com.example.gameproject.gamestates.shop;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.ItemHelper;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
@@ -11,7 +12,7 @@ import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 
-public class ItemShop extends ShopState implements GameStateInterface {
+public class ItemShop extends BaseState implements GameStateInterface {
 
     private static final Category[] Categories = new Category[7];
     private final int MAX_CATEGORIES = Category.values().length;
@@ -152,8 +153,8 @@ public class ItemShop extends ShopState implements GameStateInterface {
     }
 
     public void setCategory(Category category) {
+        shopState.setPage(0);
         this.category = category;
-        //TODO: fix this, the page is not being reset.
         CategoryPages[category.value].setPage(0);
     }
 

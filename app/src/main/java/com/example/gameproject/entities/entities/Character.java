@@ -70,7 +70,7 @@ public abstract class Character extends Entity {
     protected int setAttackDamage() {
         if (isEnemy())
             return switch (EnemyType) {
-                case DARK_NINJA -> 100;
+                case DARK_NINJA, DARK_WIZARD -> 100;
                 case GOLDEN_MASKED_RAKKON, MASKED_RAKKON -> 0;
                 case SKELETON -> 25;
             };

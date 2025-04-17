@@ -171,7 +171,6 @@ public class PlayingUI {
 
 
     public void touchEvents(MotionEvent event) {
-        //TODO: need fix, somtimes you cant move the item to the first itemBar
         final int action = event.getActionMasked();
         final int actionIndex = event.getActionIndex();
         final int pointerId = event.getPointerId(actionIndex);

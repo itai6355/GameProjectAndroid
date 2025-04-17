@@ -12,7 +12,7 @@ import com.example.gameproject.helpers.HelpMethods;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MapHelper {
+public class MapHelper{
 
 
     public static ArrayList<Building> getBuildings() {
