@@ -9,6 +9,7 @@ import android.graphics.PointF;
 import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
@@ -62,7 +63,6 @@ public class Player extends Character {
     }
 
     private void updatePotions() {
-        //TODO: add potions effects.
         if (isSpeeding) {
             SPEED = 1.5f;
             if (System.currentTimeMillis() - SpeedingStart >= 30000) {
@@ -92,6 +92,8 @@ public class Player extends Character {
 
         attackDamage = setAttackDamage();
     }
+
+
 
     private void updateHunger() {
         hungerTick++;
@@ -401,5 +403,9 @@ public class Player extends Character {
 
     public int getStreangth() {
         return (int) STRENGTH;
+    }
+
+    public boolean isEffect() {
+        return isSpeeding || isStreangth || isSatoration || isInvisible;
     }
 }

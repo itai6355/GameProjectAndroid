@@ -5,6 +5,7 @@ import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
+import com.example.gameproject.entities.particals.Particle;
 import com.example.gameproject.helpers.GameConstants;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class GameMap {
 
     private final ArrayList<Building> buildingArrayList;
     private final ArrayList<GameObject> gameObjectArrayList;
+    private final ArrayList<Particle> particlesArrayList;
     private final CopyOnWriteArrayList<Character> enemysArrayList;
     private final CopyOnWriteArrayList<Item> itemArrayList;
     private final int[][] spriteIds;
@@ -21,7 +23,7 @@ public class GameMap {
     private final ArrayList<Doorway> doorwayArrayList;
     private final int MAX_ENEMIES;
 
-    public GameMap(int[][] spriteIds, int maxEnemies, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, CopyOnWriteArrayList<Character> enemysArrayList, CopyOnWriteArrayList<Item> itemArrayList) {
+    public GameMap(int[][] spriteIds, int maxEnemies, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, CopyOnWriteArrayList<Character> enemysArrayList, CopyOnWriteArrayList<Item> itemArrayList, ArrayList<Particle> ParticlesArrayList) {
         this.spriteIds = spriteIds;
         this.tilesType = tilesType;
         this.buildingArrayList = buildingArrayList != null ? buildingArrayList : new ArrayList<>();
@@ -29,6 +31,7 @@ public class GameMap {
         this.enemysArrayList = enemysArrayList != null ? enemysArrayList : new CopyOnWriteArrayList<>();
         this.doorwayArrayList = new ArrayList<>();
         this.itemArrayList = itemArrayList != null ? itemArrayList : new CopyOnWriteArrayList<>();
+        this.particlesArrayList = ParticlesArrayList != null ? ParticlesArrayList : new ArrayList<>();
         MAX_ENEMIES = maxEnemies;
     }
 
@@ -40,6 +43,7 @@ public class GameMap {
         this.enemysArrayList = new CopyOnWriteArrayList<>();
         this.doorwayArrayList = new ArrayList<>();
         this.itemArrayList = new CopyOnWriteArrayList<>();
+        this.particlesArrayList = new ArrayList<>();
         MAX_ENEMIES = 0;
     }
 
@@ -57,9 +61,12 @@ public class GameMap {
         for (GameObject go : gameObjectArrayList)
             list[i++] = go;
 
-        for (Item item : itemArrayList) {
+        for (Item item : itemArrayList)
             list[i++] = item;
-        }
+
+        for (Particle p : particlesArrayList)
+            list[i++] = p;
+
 
 
         return list;
@@ -71,6 +78,7 @@ public class GameMap {
         amount += gameObjectArrayList.size();
         amount += enemysArrayList.size();
         amount += itemArrayList.size();
+        amount += particlesArrayList.size();
         amount++;
 
         return amount;
@@ -96,6 +104,9 @@ public class GameMap {
         return enemysArrayList;
     }
 
+    public ArrayList<Particle> getParticlesArrayList() {
+        return particlesArrayList;
+    }
 
     public CopyOnWriteArrayList<Item> getItemArrayList() {
         return itemArrayList;

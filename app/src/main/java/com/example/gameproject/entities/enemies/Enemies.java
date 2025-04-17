@@ -37,7 +37,7 @@ public enum Enemies implements BitmapMethods {
         double random = Math.random();
 
         if (random <= 0.03) return DARK_NINJA;
-        else if (random <= 0.5) return DARK_WIZARD;
+        else if (random <= 0.05) return DARK_WIZARD;
         else if (random < 0.6) return getRndMaskedRaccoon();
         else return SKELETON;
     }

@@ -105,11 +105,12 @@ public class MapManager {
         var objects = MapHelper.getGameObjects();
 
         var items = MapHelper.getItems();
+        var particles = MapHelper.getParticles();
 
 
         int MAX_ENEMIES = 15;
         GameMap outsideMap = new GameMap(outside, MAX_ENEMIES, Tiles.OUTSIDE, buildings, objects,
-                HelpMethods.SpawnStartedEnemies(MAX_ENEMIES, outside, buildings, objects), items);
+                HelpMethods.SpawnStartedEnemies(MAX_ENEMIES, outside, buildings, objects), items,particles);
 
 
         int[][] insideArray = MapHelper.getInsideMapArray();

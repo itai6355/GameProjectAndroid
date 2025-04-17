@@ -25,6 +25,7 @@ import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.Weapons;
+import com.example.gameproject.entities.particals.Particle;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.MapManager;
 import com.example.gameproject.gamestates.BaseState;
@@ -91,14 +92,19 @@ public class Playing extends BaseState implements GameStateInterface {
                     if (enemy instanceof Skeleton skeleton) updateSkeleton(delta, skeleton);
                     else if (enemy instanceof MaskedRaccoon maskedRaccoon)
                         updateMaskedRakoon(delta, maskedRaccoon);
-                    else if (enemy instanceof DarkNinja darkNinja) updateDarkNinja(delta, darkNinja);
-                    else if (enemy instanceof DarkWizard darkWizard) updateDarkWizard(delta, darkWizard);
+                    else if (enemy instanceof DarkNinja darkNinja)
+                        updateDarkNinja(delta, darkNinja);
+                    else if (enemy instanceof DarkWizard darkWizard)
+                        updateDarkWizard(delta, darkWizard);
                 }
             }
 
         for (Building building : mapManager.getCurrentMap().getBuildingArrayList())
             for (Villager villager : building.getVillagers())
                 if (villager != null) updateVillager(delta, villager);
+
+        for (var effect : mapManager.getCurrentMap().getParticlesArrayList())
+            effect.update(player);
 
 
         updateItems();
@@ -171,6 +177,9 @@ public class Playing extends BaseState implements GameStateInterface {
         if (enemies.size() == max) return;
         var temp = HelpMethods.SpawnEnemies(max - enemies.size(), map.getSpritesID(), map.getBuildingArrayList(), map.getGameObjectArrayList());
         enemies.addAll(temp);
+        buildEntityList();
+
+
     }
 
     private void updateVillager(double delta, Villager villager) {
@@ -252,7 +261,7 @@ public class Playing extends BaseState implements GameStateInterface {
 
     private void sortArray() {
         player.setLastCameraYValue(cameraY);
-        Arrays.sort(listOfDrawables);
+//        Arrays.sort(listOfDrawables);
     }
 
     public void setCameraValues(PointF cameraPos) {
@@ -395,7 +404,7 @@ public class Playing extends BaseState implements GameStateInterface {
                     if (maskedRaccoon.isActive()) drawEnemy(canvas, maskedRaccoon);
                 } else if (enemy instanceof DarkNinja darkNinja) {
                     if (darkNinja.isActive()) drawEnemy(canvas, darkNinja);
-                }else if (enemy instanceof DarkWizard darkWizard) {
+                } else if (enemy instanceof DarkWizard darkWizard) {
                     if (darkWizard.isActive()) drawEnemy(canvas, darkWizard);
                 }
             } else if (e instanceof GameObject gameObject) {
@@ -404,6 +413,8 @@ public class Playing extends BaseState implements GameStateInterface {
                 mapManager.drawBuilding(canvas, building);
             } else if (e instanceof Item item) {
                 mapManager.drawItem(canvas, item);
+            } else if (e instanceof Particle particle) {
+                particle.draw(canvas);
             } else if (e instanceof Player) {
                 drawPlayer(canvas);
             }
@@ -439,7 +450,7 @@ public class Playing extends BaseState implements GameStateInterface {
                 canvas.drawRect(attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY, attackingEnemy.getAttackBox().right + cameraX, attackingEnemy.getAttackBox().bottom + cameraY, redPaint);
         } else if (attackingEnemy instanceof DarkNinja darkNinja) {
             darkNinja.drawShuriken(canvas, cameraX, cameraY);
-        }else if (attackingEnemy instanceof DarkWizard darkWizard) {
+        } else if (attackingEnemy instanceof DarkWizard darkWizard) {
             darkWizard.drawFireBall(canvas, cameraX, cameraY);
         }
     }

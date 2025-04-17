@@ -3,16 +3,19 @@ package com.example.gameproject.environments;
 import android.graphics.PointF;
 
 import com.example.gameproject.entities.items.Item;
+import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.Buildings;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.GameObjects;
+import com.example.gameproject.entities.particals.Particle;
+import com.example.gameproject.entities.particals.Particles;
 import com.example.gameproject.helpers.HelpMethods;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MapHelper{
+public class MapHelper {
 
 
     public static ArrayList<Building> getBuildings() {
@@ -48,7 +51,15 @@ public class MapHelper{
 
     public static CopyOnWriteArrayList<Item> getItems() {
         CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
+        //add started items?
         return items;
+    }
+
+    public static ArrayList<Particle> getParticles() {
+        ArrayList<Particle> particles = new ArrayList<>();
+        particles.add(new Particle(Particles.POTION_EFFECT));
+
+        return particles;
     }
 
 
@@ -224,5 +235,6 @@ public class MapHelper{
                 {188, 188, 188, 188, 188, 188, 188, 188, 188, 188, 188, 167, 276, 279, 278, 277, 279, 276, 275, 275, 276, 276, 279, 279, 278, 275, 278, 278, 209, 211, 278, 279, 279, 277, 275, 279, 279, 276, 275, 279, 275, 279, 276, 277, 278, 279, 275, 277, 278, 276},
         };
     }
+
 
 }

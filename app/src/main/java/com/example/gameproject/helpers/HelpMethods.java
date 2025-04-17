@@ -58,7 +58,6 @@ public class HelpMethods {
         CopyOnWriteArrayList<Character> CharacterArrayList = new CopyOnWriteArrayList<>();
         for (int i = 0; i < amount ; i++)
             spawnNotOnObject(gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal, CharacterArrayList, Enemies.getRandomEnemy());
-//            spawnNotOnObject(gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal, CharacterArrayList, Enemies.DARK_WIZARD);
         return CharacterArrayList;
     }
 
