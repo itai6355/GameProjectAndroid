@@ -3,7 +3,6 @@ package com.example.gameproject.environments;
 import android.graphics.PointF;
 
 import com.example.gameproject.entities.items.Item;
-import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.Buildings;
 import com.example.gameproject.entities.objects.GameObject;
@@ -87,35 +86,35 @@ public class MapHelper {
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 1),
                 insideFlatRoofHouseMap1,
-                HelpMethods.CreatePointForDoorway(4, 9));
+                HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_TWO
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 2),
                 insideGreenRoofHouseMap1,
-                HelpMethods.CreatePointForDoorway(3, 6));
+                HelpMethods.CreatePointForDoorway(4, 9));
         //Buildings.HOUSE_SIX
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 3),
                 insideFlatRoofHouseMap2,
-                HelpMethods.CreatePointForDoorway(4, 9));
+                HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_TWO
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 4),
                 insideGreenRoofHouseMap2,
-                HelpMethods.CreatePointForDoorway(3, 6));
+                HelpMethods.CreatePointForDoorway(4, 9));
         //Buildings.HOUSE_SIX
 
         HelpMethods.ConnectTwoDoorways(
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 5),
                 insideFlatRoofHouseMap3,
-                HelpMethods.CreatePointForDoorway(4, 9));
+                HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_TWO
 
         HelpMethods.ConnectTwoDoorways(
@@ -129,7 +128,7 @@ public class MapHelper {
                 outsideMap,
                 HelpMethods.CreatePointForDoorway(outsideMap, 7),
                 insideGreenRoofHouseMap3,
-                HelpMethods.CreatePointForDoorway(3, 6));
+                HelpMethods.CreatePointForDoorway(4, 9));
         //Buildings.HOUSE_SIX
 
         HelpMethods.ConnectTwoDoorways(
@@ -137,12 +136,47 @@ public class MapHelper {
                 HelpMethods.CreatePointForDoorway(outsideMap, 8),
                 inside3,
                 HelpMethods.CreatePointForDoorway(3, 6));
-        //Buildings.HOUSE_ONE
+        //Buildings.HOUSE_NINE
+    }
+    public static ArrayList<GameObject> getObjectsReg1() {
+        ArrayList<GameObject> objects = new ArrayList<>();
 
-
+        return objects;
+    }
+    public static ArrayList<GameObject> getObjectsReg2() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        return objects;
+    }
+    public static ArrayList<GameObject> getObjectsMail() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        return objects;
+    }
+    public static ArrayList<GameObject> getObjectsFlat1() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        return objects;
+    }
+    public static ArrayList<GameObject> getObjectsFlat2() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        return objects;
+    }
+    public static ArrayList<GameObject> getObjectsFlat3() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        return objects;
+    }
+    public static ArrayList<GameObject> getObjectsGreen1() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        return objects;
+    }
+    public static ArrayList<GameObject> getObjectsGreen2() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        return objects;
+    }
+    public static ArrayList<GameObject> getObjectsGreen3() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        return objects;
     }
 
-    public static int[][] getInsideMapArray() {
+    public static int[][] getInsideFlatHouseArray() {
         return new int[][]{
                 {374, 377, 377, 377, 377, 377, 378},
                 {396, 0, 1, 1, 1, 2, 400},
@@ -154,7 +188,7 @@ public class MapHelper {
         };
     }
 
-    public static int[][] getInsideFlatHouseArray() {
+    public static int[][] getInsideBlacksmithHouseArray() {
         return new int[][]{
                 {389, 392, 392, 392, 392, 392, 392, 392, 393},
                 {411, 143, 144, 144, 144, 144, 144, 145, 415},
@@ -169,7 +203,7 @@ public class MapHelper {
         };
     }
 
-    public static int[][] getInsideGreenRoofHouseArr() {
+    public static int[][] getInsideRegHouseArr() {
         return new int[][]{
                 {384, 387, 387, 387, 387, 387, 388},
                 {406, 298, 298, 298, 298, 298, 410},
@@ -237,4 +271,15 @@ public class MapHelper {
     }
 
 
+    public static int[][] getInsideMailHouseArray() {
+        return new int[][]{
+                {379, 382, 382, 382, 382, 382, 383},
+                {401, 155, 155, 155, 155, 155, 405},
+                {401, 155, 155, 155, 155, 155, 405},
+                {401, 155, 155, 155, 155, 155, 405},
+                {401, 155, 155, 155, 155, 155, 405},
+                {401, 155, 155, 155, 155, 155, 405},
+                {467, 470, 468, 394, 470, 470, 471}
+        };
+    }
 }

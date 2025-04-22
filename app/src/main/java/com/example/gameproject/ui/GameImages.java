@@ -19,9 +19,7 @@ public enum GameImages implements BitmapMethods {
 
     SOUND_ICON(R.drawable.button_ui, 99, 162, 11, 11, 1), SILENT_ICON(R.drawable.button_ui, 115, 162, 11, 11, 1), SHOP_ICON(R.drawable.button_ui, 130, 163, 12, 10, 1),
 
-    //TODO: add backgrounds to each one that using this and remove this.
-    BACKGRAWND(R.drawable.backgrawnd, GAME_WIDTH, GAME_HEIGHT),
-
+    BACKGRAWND(R.drawable.backgrawnd2, GAME_WIDTH, GAME_HEIGHT),
 
     INVENTORY_SLOTH(R.drawable.icons_ui, 59, 107, 26, 26, 1), INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.2f),
 

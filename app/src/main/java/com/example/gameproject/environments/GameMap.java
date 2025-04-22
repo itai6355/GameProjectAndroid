@@ -2,6 +2,7 @@ package com.example.gameproject.environments;
 
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.entities.Character;
+import com.example.gameproject.entities.entities.Villager;
 import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
@@ -46,6 +47,17 @@ public class GameMap {
         this.particlesArrayList = new ArrayList<>();
         MAX_ENEMIES = 0;
     }
+    public GameMap(int[][] spriteIds, Tiles tilesType,ArrayList<GameObject> gameObjectArrayList) {
+        this.spriteIds = spriteIds;
+        this.tilesType = tilesType;
+        this.gameObjectArrayList = gameObjectArrayList;
+        this.buildingArrayList = new ArrayList<>();
+        this.enemysArrayList = new CopyOnWriteArrayList<>();
+        this.doorwayArrayList = new ArrayList<>();
+        this.itemArrayList = new CopyOnWriteArrayList<>();
+        this.particlesArrayList = new ArrayList<>();
+        MAX_ENEMIES = 0;
+    }
 
 
     public Entity[] getDrawableList() {
@@ -66,7 +78,9 @@ public class GameMap {
 
         for (Particle p : particlesArrayList)
             list[i++] = p;
-
+        for (Building b : buildingArrayList)
+            for (Villager v : b.getVillagers())
+                list[i++] = v;
 
 
         return list;
@@ -79,6 +93,8 @@ public class GameMap {
         amount += enemysArrayList.size();
         amount += itemArrayList.size();
         amount += particlesArrayList.size();
+        for (var b : buildingArrayList)
+            amount += b.getVillagerAmount();
         amount++;
 
         return amount;

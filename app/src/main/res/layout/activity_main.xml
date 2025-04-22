@@ -12,10 +12,11 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:adjustViewBounds="true"
         android:importantForAccessibility="no"
-        android:src="@drawable/backgrawnd"
-        tools:layout_editor_absoluteX="-42dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/backgrawnd3" />
+
 
     <ImageView
         android:id="@+id/menu"
@@ -32,9 +33,9 @@
         android:id="@+id/UserNameText"
         android:layout_width="136dp"
         android:layout_height="48dp"
-        android:importantForAccessibility="yes"
         android:autofillHints="name"
         android:hint="@string/enter_username"
+        android:importantForAccessibility="yes"
         android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/UserName"
@@ -62,9 +63,9 @@
         android:layout_height="48dp"
         android:autofillHints="password"
         android:hint="@string/enter_password"
+        android:importantForAccessibility="yes"
         android:inputType="textPassword"
         android:textSize="16sp"
-        android:importantForAccessibility="yes"
         app:layout_constraintBottom_toBottomOf="@+id/Password"
         app:layout_constraintEnd_toEndOf="@+id/Password"
         app:layout_constraintStart_toStartOf="@+id/Password"
@@ -82,19 +83,19 @@
         app:layout_constraintTop_toTopOf="@+id/menu"
         app:layout_constraintVertical_bias="0.841" />
 
+
     <ImageView
         android:id="@+id/startBtn"
         android:layout_width="86dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:contentDescription="@string/start_button"
         android:focusable="true"
-        android:importantForAccessibility="no"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.956"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.956" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

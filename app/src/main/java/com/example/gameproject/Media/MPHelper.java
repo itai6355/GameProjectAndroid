@@ -3,6 +3,8 @@ package com.example.gameproject.Media;
 import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import java.util.concurrent.ExecutorService;
@@ -15,6 +17,8 @@ public class MPHelper {
     private MediaPlayer mPlayer;
     private MediaPlayer EffectPlayer;
     private int currentSongId;
+    private float leftVolume = 1.0f;
+    private float rightVolume = 1.0f;
 
 
     public MPHelper(Context context) {
@@ -23,14 +27,14 @@ public class MPHelper {
         currentSongId = 0;
         mPlayer = MediaPlayer.create(context, mSongs.getSong(currentSongId).path());
         this.executorService = Executors.newSingleThreadExecutor();
-
-
     }
 
     public void initializeMediaPlayerAsync(final MediaPlayerReadyCallback callback) {
         executorService.execute(() -> {
             try {
                 mPlayer = MediaPlayer.create(context, mSongs.getSong(currentSongId).path());
+                mPlayer.setVolume(leftVolume, rightVolume);
+
                 if (context instanceof Activity) {
                     ((Activity) context).runOnUiThread(() -> {
                         if (mPlayer != null) {
@@ -47,19 +51,52 @@ public class MPHelper {
         });
     }
 
-    public void setVolume(float leftVolume, float rightVolume) {
-        try {
-            if (mPlayer != null && mPlayer.isPlaying()) {
-                mPlayer.setVolume(leftVolume, rightVolume);
+    private void fadeIn(final MediaPlayer player, final float targetVolume, int durationMs) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        final int steps = 20;
+        final long delay = durationMs / steps;
+        final float delta = targetVolume / steps;
 
-            }
-            if (EffectPlayer != null && EffectPlayer.isPlaying()) {
-                EffectPlayer.setVolume(leftVolume, rightVolume);
-            }
-        } catch (Exception e) {
-            Log.e("MPHelper", "Error setting volume: MediaPlayer is in an invalid state", e);
+        player.setVolume(0f, 0f);
+
+        for (int i = 1; i <= steps; i++) {
+            final float volume = delta * i;
+            handler.postDelayed(() -> player.setVolume(volume, volume), delay * i);
         }
     }
+
+    private void fadeOut(final MediaPlayer player, int durationMs, Runnable onComplete) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        final int steps = 20;
+        final long delay = durationMs / steps;
+        final float[] currentVolume = {leftVolume};
+
+        for (int i = 0; i <= steps; i++) {
+            final float volume = currentVolume[0] - (currentVolume[0] / steps) * i;
+            handler.postDelayed(() -> {
+                player.setVolume(volume, volume);
+                if (volume <= 0.01f) {
+                    player.stop();
+                    player.release();
+                    if (onComplete != null) onComplete.run();
+                }
+            }, delay * i);
+        }
+    }
+
+
+
+    public void setVolume(float left, float right) {
+        leftVolume = left;
+        rightVolume = right;
+        try {
+            if (mPlayer != null) mPlayer.setVolume(left, right);
+            if (EffectPlayer != null) EffectPlayer.setVolume(left, right);
+        } catch (Exception e) {
+            Log.e("MPHelper", "Error setting volume", e);
+        }
+    }
+
 
     public void play() {
         if (mPlayer != null) {
@@ -68,13 +105,10 @@ public class MPHelper {
     }
 
     public void stop() {
-        if (mPlayer != null) {
-            if (mPlayer.isPlaying())
-                mPlayer.stop();
-            mPlayer.release();
-            mPlayer = null;
-        }
+        if (mPlayer != null)
+                fadeOut(mPlayer, 500, () -> mPlayer = null);
     }
+
 
     public void playNextSong() {
         playSong(context, (currentSongId + 1) % mSongs.getSongLength());
@@ -85,36 +119,37 @@ public class MPHelper {
     }
 
     private void playSong(Context context, int idSong) {
-        stop();
-        Log.d("MPHelper", "playNextSong: " + currentSongId + " name: " + mSongs.getSong(currentSongId).name());
-
-        currentSongId = idSong;
-
-        mPlayer = MediaPlayer.create(context, mSongs.getSong(currentSongId).path());
-        play();
-
-        mPlayer.setOnCompletionListener(mp -> playNextSong());
+        fadeOut(mPlayer, 500, () -> {
+            currentSongId = idSong;
+            mPlayer = MediaPlayer.create(context, mSongs.getSong(currentSongId).path());
+            if (mPlayer != null) {
+                mPlayer.setOnCompletionListener(mp -> playNextSong());
+                mPlayer.start();
+                fadeIn(mPlayer, leftVolume, 500);
+            } else {
+                Log.e("MPHelper", "Failed to create MediaPlayer for song: " + idSong);
+            }
+        });
     }
 
-        public void playPickItemSound() {
-            if (EffectPlayer != null) {
-                EffectPlayer.release();
-            }
-            EffectPlayer = MediaPlayer.create(context, mSongs.getCoinSound().path());
-            EffectPlayer.setVolume(1.0f, 1.0f);
-            EffectPlayer.setOnCompletionListener(mp -> {
-                EffectPlayer.release();
-                EffectPlayer = null;
-            });
-            EffectPlayer.start();
+
+    public void playPickItemSound() {
+        if (EffectPlayer != null) {
+            EffectPlayer.release();
         }
+        EffectPlayer = MediaPlayer.create(context, mSongs.getCoinSound().path());
+        EffectPlayer.setVolume(1.0f, 1.0f);
+        EffectPlayer.setOnCompletionListener(mp -> {
+            EffectPlayer.release();
+            EffectPlayer = null;
+        });
+        EffectPlayer.start();
+    }
 
     public void playGameOverSound() {
-        if (mPlayer != null && mPlayer.isPlaying())
-            mPlayer.pause();
+        if (mPlayer != null && mPlayer.isPlaying()) mPlayer.pause();
 
-        if (EffectPlayer != null)
-            EffectPlayer.release();
+        if (EffectPlayer != null) EffectPlayer.release();
         EffectPlayer = MediaPlayer.create(context, mSongs.getGameOverSound().path());
         EffectPlayer.setOnCompletionListener(mp -> {
             EffectPlayer.release();

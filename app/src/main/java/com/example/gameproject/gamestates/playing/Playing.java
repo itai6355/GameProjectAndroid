@@ -261,7 +261,7 @@ public class Playing extends BaseState implements GameStateInterface {
 
     private void sortArray() {
         player.setLastCameraYValue(cameraY);
-//        Arrays.sort(listOfDrawables);
+        Arrays.sort(listOfDrawables);
     }
 
     public void setCameraValues(PointF cameraPos) {
@@ -368,30 +368,21 @@ public class Playing extends BaseState implements GameStateInterface {
     public void render(Canvas canvas) {
         mapManager.drawTiles(canvas);
         if (listOfEntitiesMade) drawSortedEntities(canvas);
-        //TODO: need to add the vilagers to the sorted entities list.
-        //now its just drawing them on top of the everithing.
-        drawVillagers(canvas);
-
 
         playingUI.draw(canvas);
     }
 
-    private void drawVillagers(Canvas canvas) {
-        for (Building building : mapManager.getCurrentMap().getBuildingArrayList()) {
-            for (Villager villager : building.getVillagers()) {
-                if (villager == null) continue;
-                if (villager.isActive()) {
-                    canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), villager.getHitbox().left + cameraX, villager.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
-                    canvas.drawBitmap(villager.getGameCharType().getSprite(villager.getAniIndex(), villager.getFaceDir()), villager.getHitbox().left + cameraX - X_DRAW_OFFSET, villager.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
-                    if (GameActivity.isDrawHitbox())
-                        canvas.drawRect(villager.getHitbox().left + cameraX, villager.getHitbox().top + cameraY, villager.getHitbox().right + cameraX, villager.getHitbox().bottom + cameraY, redPaint);
+    private void drawVillager(Canvas canvas, Villager villager) {
+        if (villager.isActive()) {
+            canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), villager.getHitbox().left + cameraX, villager.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER + cameraY, null);
+            canvas.drawBitmap(villager.getGameCharType().getSprite(villager.getAniIndex(), villager.getFaceDir()), villager.getHitbox().left + cameraX - X_DRAW_OFFSET, villager.getHitbox().top + cameraY - GameConstants.Sprite.Y_DRAW_OFFSET, null);
+            if (GameActivity.isDrawHitbox())
+                canvas.drawRect(villager.getHitbox().left + cameraX, villager.getHitbox().top + cameraY, villager.getHitbox().right + cameraX, villager.getHitbox().bottom + cameraY, redPaint);
 
-                    if (villager.getCurrentHealth() < villager.getMaxHealth())
-                        drawHealthBar(canvas, villager);
+            if (villager.getCurrentHealth() < villager.getMaxHealth())
+                drawHealthBar(canvas, villager);
 
-                    if (villager.isTalking()) villager.drawTalk(canvas, cameraX, cameraY);
-                }
-            }
+            if (villager.isTalking()) villager.drawTalk(canvas, cameraX, cameraY);
         }
     }
 
@@ -415,6 +406,8 @@ public class Playing extends BaseState implements GameStateInterface {
                 mapManager.drawItem(canvas, item);
             } else if (e instanceof Particle particle) {
                 particle.draw(canvas);
+            } else if (e instanceof Villager villager) {
+                drawVillager(canvas, villager);
             } else if (e instanceof Player) {
                 drawPlayer(canvas);
             }

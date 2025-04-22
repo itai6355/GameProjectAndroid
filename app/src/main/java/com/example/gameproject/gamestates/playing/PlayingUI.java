@@ -70,7 +70,6 @@ public class PlayingUI {
         drawHealth(canvas);
         drawHungerBar(canvas);
         drawItemBar(canvas);
-
     }
 
     private void drawHungerBar(Canvas canvas) {

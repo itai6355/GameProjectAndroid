@@ -15,8 +15,6 @@ import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 
-import java.util.Random;
-
 public class MapManager {
 
     private GameMap currentMap;
@@ -98,8 +96,6 @@ public class MapManager {
     }
 
     private void initTestMaps() {
-        //TODO: add paricals
-
         int[][] outside = MapHelper.getMapArrayFinal();
         var buildings = MapHelper.getBuildings();
         var objects = MapHelper.getGameObjects();
@@ -110,24 +106,27 @@ public class MapManager {
 
         int MAX_ENEMIES = 15;
         GameMap outsideMap = new GameMap(outside, MAX_ENEMIES, Tiles.OUTSIDE, buildings, objects,
-                HelpMethods.SpawnStartedEnemies(MAX_ENEMIES, outside, buildings, objects), items,particles);
+                HelpMethods.SpawnStartedEnemies(MAX_ENEMIES, outside, buildings, objects), items, particles);
 
 
-        int[][] insideArray = MapHelper.getInsideMapArray();
+        int[][] insideRegHouseArray = MapHelper.getInsideRegHouseArr();
+
+        int[][] insideMailHouseArray = MapHelper.getInsideMailHouseArray();
 
         int[][] insideFlatHouseArray = MapHelper.getInsideFlatHouseArray();
 
-        int[][] insideGreenRoofHouseArr = MapHelper.getInsideGreenRoofHouseArr();
+        int[][] insideBlacksmithHouseArr = MapHelper.getInsideBlacksmithHouseArray();
 
-        GameMap insideMap1 = new GameMap(insideArray, Tiles.INSIDE);
-        GameMap insideMap2 = new GameMap(insideArray, Tiles.INSIDE);
-        GameMap insideMap3 = new GameMap(insideArray, Tiles.INSIDE);
-        GameMap insideFlatRoofHouseMap1 = new GameMap(insideFlatHouseArray, Tiles.INSIDE);
-        GameMap insideFlatRoofHouseMap2 = new GameMap(insideFlatHouseArray, Tiles.INSIDE);
-        GameMap insideFlatRoofHouseMap3 = new GameMap(insideFlatHouseArray, Tiles.INSIDE);
-        GameMap insideGreenRoofHouseMap1 = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE);
-        GameMap insideGreenRoofHouseMap2 = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE);
-        GameMap insideGreenRoofHouseMap3 = new GameMap(insideGreenRoofHouseArr, Tiles.INSIDE);
+        //TODO: add interior for the houses
+        GameMap insideMap1 = new GameMap(insideRegHouseArray, Tiles.INSIDE, MapHelper.getObjectsReg1());
+        GameMap insideMap2 = new GameMap(insideRegHouseArray, Tiles.INSIDE, MapHelper.getObjectsReg2());
+        GameMap insideMap3 = new GameMap(insideMailHouseArray, Tiles.INSIDE, MapHelper.getObjectsMail());
+        GameMap insideFlatRoofHouseMap1 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat1());
+        GameMap insideFlatRoofHouseMap2 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat2());
+        GameMap insideFlatRoofHouseMap3 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat3());
+        GameMap insideGreenRoofHouseMap1 = new GameMap(insideBlacksmithHouseArr, Tiles.INSIDE, MapHelper.getObjectsGreen1());
+        GameMap insideGreenRoofHouseMap2 = new GameMap(insideBlacksmithHouseArr, Tiles.INSIDE, MapHelper.getObjectsGreen2());
+        GameMap insideGreenRoofHouseMap3 = new GameMap(insideBlacksmithHouseArr, Tiles.INSIDE, MapHelper.getObjectsGreen3());
 
         MapHelper.connectDoorways(outsideMap,
                 insideMap1,

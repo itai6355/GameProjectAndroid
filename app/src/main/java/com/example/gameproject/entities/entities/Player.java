@@ -35,8 +35,6 @@ public class Player extends Character {
 
 
     public Player(Game game) {
-        //TODO: add spacial abilities for each skin
-
         super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.BOY);
         setStartHealth(600);
         inventory = game.getInventoryState().getInventory();

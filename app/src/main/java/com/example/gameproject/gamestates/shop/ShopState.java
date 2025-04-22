@@ -53,7 +53,6 @@ public class ShopState extends BaseState implements GameStateInterface {
     private int page = 0;
     private int maxPagesInThis;
 
-    //TODO: add un objects shop.
     public ShopState(Game game) {
         super(game);
         textPaint = Paints.TEXT_PAINT;
