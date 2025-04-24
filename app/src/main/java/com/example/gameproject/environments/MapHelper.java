@@ -9,12 +9,28 @@ import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.GameObjects;
 import com.example.gameproject.entities.particals.Particle;
 import com.example.gameproject.entities.particals.Particles;
+import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MapHelper {
+
+    private static final int HOUSE_REG_WIDTH = 400;
+    private static final int HOUSE_REG_HEIGHT = 400;
+    private static final int HOUSE_BIG_WIDTH = 640;
+    private static final int HOUSE_BIG_HEIGHT = 640;
+
+    private static final int HOUSE_X_START = GameConstants.Sprite.SIZE;
+    private static final int HOUSE_Y_START = GameConstants.Sprite.SIZE;
+
+    private static final int HOUSE_REG_WIDTH_POS = HOUSE_REG_WIDTH + HOUSE_X_START;
+    private static final int HOUSE_REG_HEIGHT_POS = HOUSE_REG_HEIGHT + HOUSE_Y_START;
+    private static final int HOUSE_BIG_WIDTH_POS = HOUSE_BIG_WIDTH + HOUSE_X_START;
+    private static final int HOUSE_BIG_HEIGHT_POS = HOUSE_BIG_HEIGHT + HOUSE_Y_START;
 
 
     public static ArrayList<Building> getBuildings() {
@@ -51,6 +67,8 @@ public class MapHelper {
     public static CopyOnWriteArrayList<Item> getItems() {
         CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
         //add started items?
+        // maybe to add a chest with starter items..
+        //to-do sometime, not urgent.
         return items;
     }
 
@@ -62,224 +80,176 @@ public class MapHelper {
     }
 
 
-    public static void connectDoorways(
-            GameMap outsideMap,
-            GameMap inside1,
-            GameMap inside2,
-            GameMap inside3,
-            GameMap insideFlatRoofHouseMap1,
-            GameMap insideFlatRoofHouseMap2,
-            GameMap insideFlatRoofHouseMap3,
-            GameMap insideGreenRoofHouseMap1,
-            GameMap insideGreenRoofHouseMap2,
-            GameMap insideGreenRoofHouseMap3) {
+    public static void connectDoorways(GameMap outsideMap, GameMap inside1, GameMap inside2, GameMap inside3, GameMap insideFlatRoofHouseMap1, GameMap insideFlatRoofHouseMap2, GameMap insideFlatRoofHouseMap3, GameMap insideGreenRoofHouseMap1, GameMap insideGreenRoofHouseMap2, GameMap insideGreenRoofHouseMap3) {
 
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 0),
-                inside1,
-                HelpMethods.CreatePointForDoorway(3, 6));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 0), inside1, HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_ONE
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 1),
-                insideFlatRoofHouseMap1,
-                HelpMethods.CreatePointForDoorway(3, 6));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 1), insideFlatRoofHouseMap1, HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_TWO
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 2),
-                insideGreenRoofHouseMap1,
-                HelpMethods.CreatePointForDoorway(4, 9));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 2), insideGreenRoofHouseMap1, HelpMethods.CreatePointForDoorway(4, 9));
         //Buildings.HOUSE_SIX
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 3),
-                insideFlatRoofHouseMap2,
-                HelpMethods.CreatePointForDoorway(3, 6));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 3), insideFlatRoofHouseMap2, HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_TWO
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 4),
-                insideGreenRoofHouseMap2,
-                HelpMethods.CreatePointForDoorway(4, 9));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 4), insideGreenRoofHouseMap2, HelpMethods.CreatePointForDoorway(4, 9));
         //Buildings.HOUSE_SIX
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 5),
-                insideFlatRoofHouseMap3,
-                HelpMethods.CreatePointForDoorway(3, 6));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 5), insideFlatRoofHouseMap3, HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_TWO
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 6),
-                inside2,
-                HelpMethods.CreatePointForDoorway(3, 6));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 6), inside2, HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_ONE
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 7),
-                insideGreenRoofHouseMap3,
-                HelpMethods.CreatePointForDoorway(4, 9));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 7), insideGreenRoofHouseMap3, HelpMethods.CreatePointForDoorway(4, 9));
         //Buildings.HOUSE_SIX
 
-        HelpMethods.ConnectTwoDoorways(
-                outsideMap,
-                HelpMethods.CreatePointForDoorway(outsideMap, 8),
-                inside3,
-                HelpMethods.CreatePointForDoorway(3, 6));
+        HelpMethods.ConnectTwoDoorways(outsideMap, HelpMethods.CreatePointForDoorway(outsideMap, 8), inside3, HelpMethods.CreatePointForDoorway(3, 6));
         //Buildings.HOUSE_NINE
     }
-    public static ArrayList<GameObject> getObjectsReg1() {
-        ArrayList<GameObject> objects = new ArrayList<>();
 
-        return objects;
+
+    private static List<GameObject> createRoom(boolean isBig) {
+        if (!isBig) {
+            return switch (new Random().nextInt(3)) {
+                default -> createRoom1();
+                case 1 -> createRoom2();
+                case 2 -> createRoom3();
+            };
+        } else {
+            return switch (new Random().nextInt(2)) {
+                case 1 -> createRoomBig1();
+                default -> createRoomBig2();
+            };
+        }
+
+
     }
+
+    private static List<GameObject> createRoomBig2() {
+        var list = new ArrayList<GameObject>();
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_Y_START + (float) GameObjects.REFRIGERATOR.getHeight() / 2), GameObjects.REFRIGERATOR));
+        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.REFRIGERATOR.getWidth() - 15, HOUSE_Y_START + (float) GameObjects.CABINET.getHeight() / 2), GameObjects.CABINET));
+        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.REFRIGERATOR.getWidth() + GameObjects.CABINET.getWidth() - 70, HOUSE_Y_START + (float) GameObjects.OVEN.getHeight() / 2), GameObjects.OVEN));
+
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_BIG_HEIGHT_POS - GameObjects.SOFA_RIGHT.getHeight()), GameObjects.PLANT));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_BIG_HEIGHT_POS), GameObjects.SOFA_RIGHT));
+
+        list.add(new GameObject(new PointF((float) (HOUSE_BIG_WIDTH / 2 - GameObjects.CARPET.getWidth() / 2), (float) (HOUSE_BIG_HEIGHT_POS / 2 - GameObjects.CARPET.getHeight() / 2)), GameObjects.CARPET));
+
+        list.add(new GameObject(new PointF(HOUSE_BIG_WIDTH_POS - GameObjects.TABLE_BIG.getWidth(), HOUSE_BIG_HEIGHT_POS - GameObjects.TABLE_BIG.getHeight()+ 40), GameObjects.CHAIR_BIRCH_DOWN));
+        list.add(new GameObject(new PointF(HOUSE_BIG_WIDTH_POS - GameObjects.TABLE_BIG.getWidth() - 50, HOUSE_BIG_HEIGHT_POS - 50), GameObjects.TABLE_BIG));
+        return list;
+    }
+
+    private static List<GameObject> createRoomBig1() {
+        var list = new ArrayList<GameObject>();
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_Y_START + (float) GameObjects.BOOK_SHELF.getHeight() / 2), GameObjects.BOOK_SHELF));
+        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.BOOK_SHELF.getWidth(), HOUSE_Y_START), GameObjects.PLANT));
+        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.BOOK_SHELF.getWidth() + GameObjects.PLANT.getWidth(), HOUSE_Y_START + (float) GameObjects.BOOK_SHELF.getHeight() / 2), GameObjects.BOOK_SHELF));
+        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.BOOK_SHELF.getWidth() * 2 + GameObjects.PLANT.getWidth(), HOUSE_Y_START), GameObjects.PLANT));
+        list.add(new GameObject(new PointF(HOUSE_X_START + (GameObjects.BOOK_SHELF.getWidth() + GameObjects.PLANT.getWidth()) * 2, HOUSE_Y_START + (float) GameObjects.BOOK_SHELF.getHeight() / 2), GameObjects.BOOK_SHELF));
+
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_BIG_HEIGHT_POS - GameObjects.TABLE.getHeight()), GameObjects.TABLE));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_BIG_HEIGHT_POS - GameObjects.TABLE.getHeight() - 200), GameObjects.TABLE2));
+        list.add(new GameObject(new PointF(HOUSE_BIG_WIDTH_POS - GameObjects.TABLE.getWidth(), HOUSE_BIG_HEIGHT_POS - GameObjects.TABLE.getHeight()), GameObjects.TABLE2));
+        list.add(new GameObject(new PointF(HOUSE_BIG_WIDTH_POS - GameObjects.TABLE.getWidth(), HOUSE_BIG_HEIGHT_POS - GameObjects.TABLE.getHeight() - 200), GameObjects.TABLE));
+        return list;
+    }
+
+    private static List<GameObject> createRoom3() {
+        var list = new ArrayList<GameObject>();
+        list.add(new GameObject(new PointF(HOUSE_REG_WIDTH_POS - GameObjects.BOOK_SHELF_EMPTY.getWidth() - GameObjects.PLANT.getWidth(), HOUSE_Y_START), GameObjects.PLANT));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_REG_HEIGHT_POS), GameObjects.TABLE));
+        list.add(new GameObject(new PointF(HOUSE_REG_WIDTH_POS - GameObjects.BOOK_SHELF_EMPTY.getWidth(), HOUSE_Y_START + (float) GameObjects.BOOK_SHELF_EMPTY.getHeight() / 2), GameObjects.BOOK_SHELF_EMPTY));
+        return list;
+    }
+
+    private static List<GameObject> createRoom2() {
+        var list = new ArrayList<GameObject>();
+        list.add(new GameObject(new PointF(HOUSE_REG_WIDTH_POS - GameObjects.BLUE_POT.getWidth(), HOUSE_REG_HEIGHT_POS - 20), GameObjects.BLUE_POT));
+        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.DRAWERS_BIG.getWidth(), (float) GameObjects.PLANT.getHeight() / 4 * 3), GameObjects.PLANT));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_Y_START + (float) GameObjects.DRAWERS_BIG.getHeight() / 2), GameObjects.DRAWERS_BIG));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_REG_HEIGHT_POS - 20), GameObjects.TABLE3));
+
+        return list;
+    }
+
+    private static List<GameObject> createRoom1() {
+        var list = new ArrayList<GameObject>();
+        list.add(new GameObject(new PointF(HOUSE_REG_WIDTH_POS - GameObjects.PLANT.getWidth(), HOUSE_Y_START), GameObjects.PLANT));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_REG_HEIGHT_POS), GameObjects.TABLE2));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_REG_HEIGHT_POS - GameObjects.CHAIR.getHeight()), GameObjects.CHAIR));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_Y_START + (float) GameObjects.BOOK_SHELF.getHeight() / 2), GameObjects.BOOK_SHELF));
+        return list;
+    }
+
+    //reg:
+    //HOUSE WIDTH: 400, HEIGHT: 400
+    //big:
+    //HOUSE WIDTH: 640, HEIGHT: 640
+
+    //WITH PUDDING OF 80 FOR EVERY SIDE!! (walls)
+
+    public static ArrayList<GameObject> getObjectsReg1() {
+        return new ArrayList<>(createRoom(false));
+    }
+
     public static ArrayList<GameObject> getObjectsReg2() {
-        ArrayList<GameObject> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>(createRoom(false));
     }
+
     public static ArrayList<GameObject> getObjectsMail() {
-        ArrayList<GameObject> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>(createRoom(false));
     }
+
     public static ArrayList<GameObject> getObjectsFlat1() {
-        ArrayList<GameObject> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>(createRoom(false));
     }
+
     public static ArrayList<GameObject> getObjectsFlat2() {
-        ArrayList<GameObject> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>(createRoom(false));
     }
+
     public static ArrayList<GameObject> getObjectsFlat3() {
-        ArrayList<GameObject> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>(createRoom(false));
     }
+
     public static ArrayList<GameObject> getObjectsGreen1() {
-        ArrayList<GameObject> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>(createRoom(true));
     }
+
     public static ArrayList<GameObject> getObjectsGreen2() {
-        ArrayList<GameObject> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>(createRoom(true));
     }
+
     public static ArrayList<GameObject> getObjectsGreen3() {
-        ArrayList<GameObject> objects = new ArrayList<>();
-        return objects;
+        return new ArrayList<>(createRoom(true));
     }
+
 
     public static int[][] getInsideFlatHouseArray() {
-        return new int[][]{
-                {374, 377, 377, 377, 377, 377, 378},
-                {396, 0, 1, 1, 1, 2, 400},
-                {396, 22, 23, 23, 23, 24, 400},
-                {396, 22, 23, 23, 23, 24, 400},
-                {396, 22, 23, 23, 23, 24, 400},
-                {396, 44, 45, 45, 45, 46, 400},
-                {462, 465, 463, 394, 464, 465, 466}
-        };
+        return new int[][]{{374, 377, 377, 377, 377, 377, 378}, {396, 0, 1, 1, 1, 2, 400}, {396, 22, 23, 23, 23, 24, 400}, {396, 22, 23, 23, 23, 24, 400}, {396, 22, 23, 23, 23, 24, 400}, {396, 44, 45, 45, 45, 46, 400}, {462, 465, 463, 394, 464, 465, 466}};
     }
 
     public static int[][] getInsideBlacksmithHouseArray() {
-        return new int[][]{
-                {389, 392, 392, 392, 392, 392, 392, 392, 393},
-                {411, 143, 144, 144, 144, 144, 144, 145, 415},
-                {411, 165, 166, 166, 166, 166, 166, 167, 415},
-                {411, 165, 166, 166, 166, 166, 166, 167, 415},
-                {411, 165, 166, 166, 166, 166, 166, 167, 415},
-                {411, 165, 166, 166, 166, 166, 166, 167, 415},
-                {411, 165, 166, 166, 166, 166, 166, 167, 415},
-                {411, 165, 166, 166, 166, 166, 166, 167, 415},
-                {411, 187, 188, 188, 188, 188, 188, 189, 415},
-                {477, 480, 480, 478, 394, 479, 480, 480, 481}
-        };
+        return new int[][]{{389, 392, 392, 392, 392, 392, 392, 392, 392, 393}, {411, 143, 144, 144, 144, 144, 144, 144, 145, 415}, {411, 165, 166, 166, 166, 166, 166, 166, 167, 415}, {411, 165, 166, 166, 166, 166, 166, 166, 167, 415}, {411, 165, 166, 166, 166, 166, 166, 166, 167, 415}, {411, 165, 166, 166, 166, 166, 166, 166, 167, 415}, {411, 165, 166, 166, 166, 166, 166, 166, 167, 415}, {411, 165, 166, 166, 166, 166, 166, 166, 167, 415}, {411, 187, 188, 188, 188, 188, 188, 188, 189, 415}, {477, 480, 480, 478, 394, 479, 480, 480, 480, 481}};
     }
 
     public static int[][] getInsideRegHouseArr() {
-        return new int[][]{
-                {384, 387, 387, 387, 387, 387, 388},
-                {406, 298, 298, 298, 298, 298, 410},
-                {406, 298, 298, 298, 298, 298, 410},
-                {406, 298, 298, 298, 298, 298, 410},
-                {406, 298, 298, 298, 298, 298, 410},
-                {406, 298, 298, 298, 298, 298, 410},
-                {472, 475, 473, 394, 474, 475, 476}
-        };
+        return new int[][]{{384, 387, 387, 387, 387, 387, 388}, {406, 298, 298, 298, 298, 298, 410}, {406, 298, 298, 298, 298, 298, 410}, {406, 298, 298, 298, 298, 298, 410}, {406, 298, 298, 298, 298, 298, 410}, {406, 298, 298, 298, 298, 298, 410}, {472, 475, 473, 394, 474, 475, 476}};
+    }
+
+    public static int[][] getInsideMailHouseArray() {
+        return new int[][]{{379, 382, 382, 382, 382, 382, 383}, {401, 155, 155, 155, 155, 155, 405}, {401, 155, 155, 155, 155, 155, 405}, {401, 155, 155, 155, 155, 155, 405}, {401, 155, 155, 155, 155, 155, 405}, {401, 155, 155, 155, 155, 155, 405}, {467, 470, 468, 394, 470, 470, 471}};
     }
 
     public static int[][] getMapArrayFinal() {
-        return new int[][]{
-                {188, 167, 279, 278, 277, 279, 279, 276, 278, 277, 278, 275, 278, 276, 278, 277, 276, 276, 278, 277, 275, 278, 278, 276, 275, 275, 279, 276, 277, 278, 279, 278, 279, 275, 276, 165, 167, 277, 279, 276, 278, 277, 278, 275, 277, 276, 277, 278, 276, 279},
-                {188, 189, 275, 279, 277, 275, 278, 275, 276, 275, 276, 277, 275, 275, 278, 277, 275, 275, 276, 278, 277, 276, 279, 276, 276, 278, 276, 279, 275, 275, 275, 278, 278, 278, 275, 187, 189, 277, 278, 277, 277, 276, 279, 275, 277, 278, 278, 278, 278, 278},
-                {188, 189, 275, 277, 279, 276, 277, 275, 277, 279, 278, 279, 279, 276, 277, 278, 275, 275, 276, 276, 277, 275, 277, 277, 279, 276, 276, 275, 279, 276, 278, 277, 278, 278, 276, 187, 189, 278, 276, 276, 275, 276, 278, 279, 278, 278, 276, 276, 279, 276},
-                {188, 189, 276, 278, 278, 277, 277, 278, 277, 279, 276, 277, 276, 277, 279, 278, 276, 277, 278, 275, 276, 278, 279, 276, 278, 277, 275, 277, 278, 275, 277, 277, 279, 278, 279, 187, 189, 277, 276, 277, 277, 277, 275, 279, 277, 275, 279, 278, 277, 277},
-                {188, 189, 278, 279, 277, 277, 278, 276, 278, 275, 279, 275, 276, 276, 277, 275, 275, 278, 275, 278, 277, 278, 279, 278, 278, 275, 277, 276, 278, 278, 278, 277, 276, 277, 275, 187, 189, 279, 275, 275, 278, 276, 276, 279, 279, 277, 275, 276, 278, 277},
-                {188, 189, 276, 278, 279, 275, 277, 276, 275, 275, 276, 279, 275, 278, 277, 275, 277, 279, 275, 277, 279, 275, 277, 276, 278, 278, 276, 279, 279, 279, 275, 279, 277, 279, 275, 187, 189, 277, 277, 276, 276, 275, 279, 278, 277, 276, 278, 279, 277, 275},
-                {188, 188, 167, 275, 277, 278, 275, 276, 276, 275, 275, 275, 277, 278, 277, 278, 275, 277, 276, 277, 276, 276, 276, 275, 275, 278, 275, 168, 275, 275, 275, 279, 278, 276, 279, 187, 189, 277, 277, 277, 275, 275, 278, 279, 278, 275, 279, 278, 277, 277},
-                {188, 188, 189, 276, 275, 276, 275, 276, 278, 279, 275, 165, 166, 166, 166, 166, 166, 166, 166, 166, 166, 167, 275, 279, 275, 275, 277, 190, 277, 279, 279, 279, 278, 275, 278, 187, 189, 275, 276, 278, 278, 275, 279, 279, 279, 277, 275, 278, 276, 276},
-                {188, 188, 189, 279, 278, 277, 277, 275, 275, 279, 279, 187, 210, 210, 210, 210, 210, 210, 210, 210, 188, 189, 279, 279, 277, 276, 278, 190, 279, 279, 279, 276, 275, 276, 278, 187, 189, 279, 276, 278, 277, 278, 275, 278, 276, 275, 278, 275, 277, 277},
-                {188, 188, 188, 167, 278, 279, 278, 279, 276, 279, 277, 190, 277, 277, 276, 275, 275, 277, 279, 279, 187, 189, 276, 276, 275, 276, 275, 190, 277, 278, 276, 279, 276, 275, 275, 187, 189, 277, 277, 278, 276, 279, 275, 276, 278, 277, 279, 278, 276, 278},
-                {188, 188, 188, 189, 275, 276, 279, 277, 276, 279, 277, 212, 277, 276, 275, 276, 279, 278, 275, 277, 187, 188, 166, 166, 166, 166, 166, 188, 166, 166, 166, 166, 166, 166, 166, 188, 189, 277, 278, 276, 276, 276, 278, 276, 275, 276, 277, 277, 278, 278},
-                {188, 188, 188, 188, 166, 166, 166, 166, 167, 278, 278, 275, 277, 277, 276, 277, 278, 279, 277, 277, 187, 188, 210, 210, 188, 188, 210, 210, 210, 210, 210, 210, 210, 210, 210, 188, 189, 276, 277, 275, 279, 275, 278, 277, 278, 277, 278, 276, 275, 275},
-                {188, 188, 188, 188, 210, 210, 210, 188, 189, 276, 277, 275, 276, 275, 279, 279, 277, 278, 275, 275, 187, 189, 277, 275, 187, 189, 275, 276, 279, 278, 279, 277, 277, 279, 277, 187, 188, 166, 166, 166, 167, 279, 278, 277, 278, 276, 275, 279, 278, 279},
-                {188, 188, 188, 189, 277, 278, 276, 187, 189, 278, 277, 278, 277, 278, 277, 278, 277, 276, 276, 276, 187, 189, 279, 275, 187, 189, 275, 276, 278, 279, 278, 279, 276, 276, 276, 209, 210, 210, 188, 188, 188, 166, 166, 166, 166, 166, 166, 166, 166, 167},
-                {188, 188, 188, 189, 279, 278, 279, 187, 189, 278, 277, 275, 278, 275, 278, 279, 277, 275, 278, 278, 187, 189, 277, 275, 187, 189, 276, 275, 275, 275, 277, 275, 276, 275, 277, 279, 276, 277, 187, 188, 210, 210, 210, 210, 210, 210, 210, 210, 210, 211},
-                {188, 188, 188, 211, 277, 276, 275, 187, 189, 275, 277, 277, 279, 277, 279, 275, 278, 277, 276, 279, 187, 189, 276, 278, 187, 189, 277, 275, 279, 278, 278, 278, 278, 278, 279, 279, 278, 278, 187, 189, 279, 278, 278, 279, 279, 276, 275, 275, 277, 277},
-                {188, 188, 211, 279, 275, 277, 279, 187, 189, 277, 276, 277, 277, 275, 277, 278, 275, 277, 279, 275, 187, 189, 278, 278, 187, 189, 278, 278, 278, 278, 276, 278, 275, 277, 279, 279, 276, 279, 187, 189, 279, 279, 276, 279, 275, 277, 277, 277, 279, 279},
-                {188, 189, 277, 275, 276, 275, 279, 187, 188, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 188, 189, 276, 276, 187, 189, 277, 277, 276, 275, 279, 279, 279, 275, 279, 275, 277, 277, 187, 189, 279, 278, 278, 279, 277, 275, 279, 276, 277, 277},
-                {188, 189, 277, 276, 276, 276, 277, 187, 188, 210, 210, 210, 210, 210, 210, 210, 210, 210, 188, 188, 210, 211, 278, 275, 187, 189, 279, 277, 276, 278, 278, 279, 275, 277, 276, 277, 275, 279, 187, 189, 277, 275, 276, 277, 277, 276, 276, 276, 275, 275},
-                {188, 189, 278, 276, 275, 277, 278, 187, 189, 275, 275, 276, 275, 276, 278, 279, 278, 279, 187, 189, 275, 276, 277, 279, 187, 189, 276, 279, 278, 275, 277, 278, 276, 277, 275, 279, 276, 278, 187, 189, 277, 275, 279, 276, 276, 278, 279, 277, 279, 279},
-                {188, 189, 279, 276, 276, 279, 278, 187, 189, 279, 277, 279, 277, 279, 278, 276, 279, 275, 187, 189, 278, 278, 277, 279, 187, 189, 275, 277, 279, 276, 275, 275, 279, 277, 278, 279, 279, 279, 187, 189, 275, 276, 279, 277, 278, 276, 278, 279, 277, 279},
-                {188, 189, 277, 277, 276, 277, 277, 187, 189, 275, 278, 277, 277, 279, 277, 277, 275, 278, 187, 189, 275, 276, 275, 278, 187, 189, 276, 277, 275, 275, 278, 165, 166, 166, 166, 166, 166, 166, 188, 189, 275, 277, 276, 277, 277, 275, 277, 276, 279, 279},
-                {188, 189, 277, 276, 275, 275, 278, 187, 189, 275, 275, 276, 279, 279, 275, 276, 278, 278, 187, 189, 278, 278, 278, 275, 187, 189, 276, 278, 275, 275, 276, 187, 188, 210, 210, 210, 210, 210, 188, 189, 277, 279, 278, 276, 277, 278, 277, 276, 278, 275},
-                {188, 189, 279, 277, 275, 278, 278, 187, 189, 278, 275, 277, 275, 276, 278, 279, 278, 278, 187, 189, 279, 275, 279, 275, 187, 189, 277, 278, 277, 276, 278, 187, 189, 276, 275, 279, 275, 279, 187, 189, 279, 277, 277, 275, 276, 277, 278, 278, 277, 279},
-                {188, 189, 275, 279, 278, 276, 275, 187, 189, 275, 277, 276, 276, 277, 275, 276, 275, 276, 187, 189, 279, 165, 166, 166, 188, 188, 166, 166, 166, 166, 166, 188, 189, 278, 275, 278, 277, 279, 187, 189, 279, 277, 278, 276, 276, 278, 275, 276, 275, 278},
-                {188, 189, 278, 276, 277, 277, 275, 187, 189, 276, 276, 276, 275, 275, 276, 275, 279, 277, 209, 211, 277, 187, 188, 210, 210, 210, 210, 210, 210, 210, 210, 210, 211, 279, 277, 277, 277, 279, 187, 188, 166, 166, 166, 166, 166, 166, 166, 166, 166, 167},
-                {188, 189, 279, 277, 168, 279, 277, 187, 189, 278, 276, 277, 276, 278, 277, 277, 276, 275, 279, 278, 279, 187, 189, 276, 278, 275, 279, 278, 275, 278, 279, 275, 276, 279, 275, 276, 276, 275, 209, 210, 210, 210, 210, 210, 188, 188, 210, 210, 210, 211},
-                {188, 189, 275, 276, 190, 278, 279, 187, 189, 275, 277, 278, 277, 278, 277, 279, 279, 277, 276, 277, 279, 187, 189, 277, 279, 275, 277, 275, 279, 277, 278, 277, 278, 277, 276, 277, 278, 275, 278, 278, 276, 279, 275, 279, 187, 189, 277, 275, 279, 278},
-                {188, 189, 275, 279, 209, 232, 232, 188, 188, 232, 232, 232, 232, 233, 279, 277, 277, 278, 278, 276, 275, 187, 189, 279, 279, 275, 279, 277, 278, 278, 276, 279, 275, 278, 275, 276, 276, 279, 278, 276, 277, 278, 276, 277, 187, 189, 278, 278, 276, 275},
-                {188, 189, 275, 277, 277, 276, 279, 187, 189, 277, 276, 279, 276, 275, 278, 275, 275, 276, 275, 277, 275, 187, 189, 275, 277, 275, 276, 279, 277, 275, 275, 277, 277, 277, 275, 275, 279, 275, 279, 278, 277, 277, 275, 279, 187, 189, 275, 275, 279, 276},
-                {188, 189, 276, 278, 277, 276, 277, 187, 189, 276, 275, 275, 278, 278, 277, 279, 277, 276, 276, 277, 276, 187, 189, 278, 277, 279, 278, 275, 276, 276, 279, 277, 277, 277, 275, 277, 276, 279, 279, 278, 275, 279, 276, 277, 187, 189, 275, 276, 278, 278},
-                {188, 189, 278, 275, 279, 276, 277, 187, 189, 275, 277, 275, 276, 275, 278, 276, 278, 276, 275, 276, 278, 187, 189, 278, 279, 276, 275, 276, 278, 278, 277, 278, 275, 276, 278, 278, 276, 279, 276, 277, 275, 276, 275, 279, 187, 189, 276, 275, 277, 275},
-                {188, 189, 277, 278, 277, 278, 277, 187, 189, 279, 278, 275, 275, 275, 279, 275, 278, 278, 278, 276, 279, 187, 189, 277, 277, 277, 278, 275, 279, 275, 276, 276, 275, 278, 278, 275, 275, 278, 279, 275, 279, 168, 275, 277, 187, 189, 278, 279, 276, 279},
-                {188, 189, 279, 275, 278, 275, 278, 187, 189, 277, 277, 275, 275, 276, 277, 277, 279, 278, 279, 277, 279, 187, 189, 278, 277, 277, 279, 278, 278, 277, 279, 276, 279, 278, 279, 275, 278, 279, 278, 278, 275, 190, 279, 277, 187, 189, 276, 278, 275, 275},
-                {188, 188, 167, 278, 276, 275, 275, 187, 189, 279, 279, 275, 276, 277, 275, 277, 279, 278, 276, 279, 277, 187, 189, 275, 279, 275, 275, 276, 279, 276, 275, 278, 277, 277, 276, 279, 276, 277, 275, 276, 279, 209, 232, 232, 188, 189, 279, 278, 275, 275},
-                {188, 188, 189, 275, 276, 279, 278, 187, 189, 277, 277, 276, 279, 278, 275, 279, 275, 277, 275, 276, 279, 187, 189, 279, 275, 275, 276, 275, 277, 279, 277, 275, 279, 275, 275, 279, 277, 275, 277, 279, 278, 279, 278, 278, 187, 189, 275, 276, 276, 275},
-                {188, 188, 188, 167, 278, 278, 275, 187, 189, 275, 278, 276, 276, 275, 278, 277, 276, 278, 278, 275, 279, 187, 189, 275, 277, 278, 278, 277, 279, 276, 276, 277, 277, 277, 276, 276, 277, 278, 279, 275, 275, 277, 277, 275, 187, 189, 276, 279, 276, 278},
-                {188, 188, 188, 189, 275, 276, 275, 187, 188, 166, 166, 166, 166, 166, 166, 166, 167, 276, 278, 276, 276, 187, 189, 276, 275, 275, 275, 277, 276, 275, 277, 278, 277, 277, 279, 275, 277, 277, 275, 278, 275, 278, 277, 278, 187, 189, 275, 275, 276, 277},
-                {188, 188, 188, 188, 167, 276, 275, 209, 210, 210, 210, 210, 210, 210, 210, 188, 189, 278, 278, 277, 276, 187, 189, 275, 277, 275, 277, 279, 276, 277, 277, 276, 277, 275, 276, 275, 275, 275, 275, 276, 277, 276, 279, 276, 187, 189, 279, 276, 276, 275},
-                {188, 188, 188, 188, 189, 275, 276, 279, 279, 278, 277, 277, 278, 278, 277, 187, 210, 232, 232, 232, 232, 188, 188, 166, 166, 166, 166, 166, 166, 167, 278, 275, 278, 276, 277, 278, 278, 278, 279, 275, 278, 278, 277, 276, 187, 189, 275, 279, 277, 279},
-                {188, 188, 188, 188, 188, 167, 276, 277, 279, 279, 277, 275, 279, 275, 276, 190, 276, 279, 277, 277, 278, 209, 210, 210, 210, 210, 210, 210, 188, 189, 275, 275, 275, 276, 276, 278, 277, 278, 277, 277, 279, 278, 275, 279, 187, 189, 279, 276, 279, 275},
-                {188, 188, 188, 188, 188, 189, 278, 279, 276, 277, 279, 279, 275, 276, 275, 190, 275, 275, 277, 278, 278, 279, 278, 277, 276, 279, 277, 276, 187, 189, 277, 277, 278, 277, 275, 276, 279, 276, 279, 276, 276, 279, 279, 276, 187, 189, 276, 275, 278, 278},
-                {188, 188, 188, 188, 188, 188, 167, 278, 278, 276, 279, 277, 276, 276, 277, 190, 277, 276, 278, 278, 276, 279, 277, 277, 277, 278, 276, 277, 187, 189, 279, 278, 276, 279, 279, 276, 275, 278, 277, 278, 279, 278, 277, 275, 187, 189, 279, 278, 279, 278},
-                {188, 188, 188, 188, 188, 188, 189, 278, 278, 277, 277, 278, 279, 275, 278, 190, 279, 279, 276, 275, 275, 277, 279, 276, 277, 279, 276, 277, 187, 189, 278, 277, 275, 278, 278, 276, 275, 279, 277, 279, 275, 279, 277, 275, 187, 189, 278, 275, 279, 279},
-                {188, 188, 188, 188, 188, 188, 189, 278, 279, 279, 276, 278, 278, 275, 277, 212, 279, 278, 277, 277, 278, 279, 276, 275, 275, 279, 276, 278, 187, 189, 279, 277, 279, 275, 275, 277, 275, 275, 277, 279, 278, 275, 275, 277, 187, 189, 276, 278, 278, 279},
-                {188, 188, 188, 188, 188, 188, 188, 167, 277, 276, 277, 278, 278, 276, 277, 275, 276, 279, 279, 275, 276, 277, 275, 276, 275, 279, 276, 275, 187, 189, 277, 279, 275, 278, 275, 277, 278, 275, 277, 279, 275, 276, 275, 277, 187, 189, 278, 276, 278, 276},
-                {188, 188, 188, 188, 188, 188, 188, 188, 167, 275, 278, 276, 276, 277, 275, 277, 277, 276, 277, 278, 279, 279, 276, 278, 275, 276, 277, 276, 187, 189, 277, 278, 278, 277, 279, 278, 277, 276, 277, 276, 165, 166, 166, 166, 188, 189, 279, 275, 276, 277},
-                {188, 188, 188, 188, 188, 188, 188, 188, 188, 167, 278, 277, 279, 275, 277, 276, 278, 278, 279, 277, 275, 279, 277, 278, 275, 279, 278, 279, 187, 189, 276, 276, 279, 276, 279, 276, 278, 278, 277, 279, 209, 210, 210, 210, 210, 211, 276, 276, 278, 278},
-                {188, 188, 188, 188, 188, 188, 188, 188, 188, 188, 167, 278, 279, 277, 278, 277, 279, 277, 275, 278, 279, 277, 277, 279, 276, 277, 279, 279, 187, 189, 275, 275, 278, 276, 277, 277, 275, 278, 279, 275, 278, 277, 279, 276, 275, 275, 276, 275, 276, 277},
-                {188, 188, 188, 188, 188, 188, 188, 188, 188, 188, 188, 167, 276, 279, 278, 277, 279, 276, 275, 275, 276, 276, 279, 279, 278, 275, 278, 278, 209, 211, 278, 279, 279, 277, 275, 279, 279, 276, 275, 279, 275, 279, 276, 277, 278, 279, 275, 277, 278, 276},
-        };
+        return new int[][]{{188, 167, 279, 278, 277, 279, 279, 276, 278, 277, 278, 275, 278, 276, 278, 277, 276, 276, 278, 277, 275, 278, 278, 276, 275, 275, 279, 276, 277, 278, 279, 278, 279, 275, 276, 165, 167, 277, 279, 276, 278, 277, 278, 275, 277, 276, 277, 278, 276, 279}, {188, 189, 275, 279, 277, 275, 278, 275, 276, 275, 276, 277, 275, 275, 278, 277, 275, 275, 276, 278, 277, 276, 279, 276, 276, 278, 276, 279, 275, 275, 275, 278, 278, 278, 275, 187, 189, 277, 278, 277, 277, 276, 279, 275, 277, 278, 278, 278, 278, 278}, {188, 189, 275, 277, 279, 276, 277, 275, 277, 279, 278, 279, 279, 276, 277, 278, 275, 275, 276, 276, 277, 275, 277, 277, 279, 276, 276, 275, 279, 276, 278, 277, 278, 278, 276, 187, 189, 278, 276, 276, 275, 276, 278, 279, 278, 278, 276, 276, 279, 276}, {188, 189, 276, 278, 278, 277, 277, 278, 277, 279, 276, 277, 276, 277, 279, 278, 276, 277, 278, 275, 276, 278, 279, 276, 278, 277, 275, 277, 278, 275, 277, 277, 279, 278, 279, 187, 189, 277, 276, 277, 277, 277, 275, 279, 277, 275, 279, 278, 277, 277}, {188, 189, 278, 279, 277, 277, 278, 276, 278, 275, 279, 275, 276, 276, 277, 275, 275, 278, 275, 278, 277, 278, 279, 278, 278, 275, 277, 276, 278, 278, 278, 277, 276, 277, 275, 187, 189, 279, 275, 275, 278, 276, 276, 279, 279, 277, 275, 276, 278, 277}, {188, 189, 276, 278, 279, 275, 277, 276, 275, 275, 276, 279, 275, 278, 277, 275, 277, 279, 275, 277, 279, 275, 277, 276, 278, 278, 276, 279, 279, 279, 275, 279, 277, 279, 275, 187, 189, 277, 277, 276, 276, 275, 279, 278, 277, 276, 278, 279, 277, 275}, {188, 188, 167, 275, 277, 278, 275, 276, 276, 275, 275, 275, 277, 278, 277, 278, 275, 277, 276, 277, 276, 276, 276, 275, 275, 278, 275, 168, 275, 275, 275, 279, 278, 276, 279, 187, 189, 277, 277, 277, 275, 275, 278, 279, 278, 275, 279, 278, 277, 277}, {188, 188, 189, 276, 275, 276, 275, 276, 278, 279, 275, 165, 166, 166, 166, 166, 166, 166, 166, 166, 166, 167, 275, 279, 275, 275, 277, 190, 277, 279, 279, 279, 278, 275, 278, 187, 189, 275, 276, 278, 278, 275, 279, 279, 279, 277, 275, 278, 276, 276}, {188, 188, 189, 279, 278, 277, 277, 275, 275, 279, 279, 187, 210, 210, 210, 210, 210, 210, 210, 210, 188, 189, 279, 279, 277, 276, 278, 190, 279, 279, 279, 276, 275, 276, 278, 187, 189, 279, 276, 278, 277, 278, 275, 278, 276, 275, 278, 275, 277, 277}, {188, 188, 188, 167, 278, 279, 278, 279, 276, 279, 277, 190, 277, 277, 276, 275, 275, 277, 279, 279, 187, 189, 276, 276, 275, 276, 275, 190, 277, 278, 276, 279, 276, 275, 275, 187, 189, 277, 277, 278, 276, 279, 275, 276, 278, 277, 279, 278, 276, 278}, {188, 188, 188, 189, 275, 276, 279, 277, 276, 279, 277, 212, 277, 276, 275, 276, 279, 278, 275, 277, 187, 188, 166, 166, 166, 166, 166, 188, 166, 166, 166, 166, 166, 166, 166, 188, 189, 277, 278, 276, 276, 276, 278, 276, 275, 276, 277, 277, 278, 278}, {188, 188, 188, 188, 166, 166, 166, 166, 167, 278, 278, 275, 277, 277, 276, 277, 278, 279, 277, 277, 187, 188, 210, 210, 188, 188, 210, 210, 210, 210, 210, 210, 210, 210, 210, 188, 189, 276, 277, 275, 279, 275, 278, 277, 278, 277, 278, 276, 275, 275}, {188, 188, 188, 188, 210, 210, 210, 188, 189, 276, 277, 275, 276, 275, 279, 279, 277, 278, 275, 275, 187, 189, 277, 275, 187, 189, 275, 276, 279, 278, 279, 277, 277, 279, 277, 187, 188, 166, 166, 166, 167, 279, 278, 277, 278, 276, 275, 279, 278, 279}, {188, 188, 188, 189, 277, 278, 276, 187, 189, 278, 277, 278, 277, 278, 277, 278, 277, 276, 276, 276, 187, 189, 279, 275, 187, 189, 275, 276, 278, 279, 278, 279, 276, 276, 276, 209, 210, 210, 188, 188, 188, 166, 166, 166, 166, 166, 166, 166, 166, 167}, {188, 188, 188, 189, 279, 278, 279, 187, 189, 278, 277, 275, 278, 275, 278, 279, 277, 275, 278, 278, 187, 189, 277, 275, 187, 189, 276, 275, 275, 275, 277, 275, 276, 275, 277, 279, 276, 277, 187, 188, 210, 210, 210, 210, 210, 210, 210, 210, 210, 211}, {188, 188, 188, 211, 277, 276, 275, 187, 189, 275, 277, 277, 279, 277, 279, 275, 278, 277, 276, 279, 187, 189, 276, 278, 187, 189, 277, 275, 279, 278, 278, 278, 278, 278, 279, 279, 278, 278, 187, 189, 279, 278, 278, 279, 279, 276, 275, 275, 277, 277}, {188, 188, 211, 279, 275, 277, 279, 187, 189, 277, 276, 277, 277, 275, 277, 278, 275, 277, 279, 275, 187, 189, 278, 278, 187, 189, 278, 278, 278, 278, 276, 278, 275, 277, 279, 279, 276, 279, 187, 189, 279, 279, 276, 279, 275, 277, 277, 277, 279, 279}, {188, 189, 277, 275, 276, 275, 279, 187, 188, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 166, 188, 189, 276, 276, 187, 189, 277, 277, 276, 275, 279, 279, 279, 275, 279, 275, 277, 277, 187, 189, 279, 278, 278, 279, 277, 275, 279, 276, 277, 277}, {188, 189, 277, 276, 276, 276, 277, 187, 188, 210, 210, 210, 210, 210, 210, 210, 210, 210, 188, 188, 210, 211, 278, 275, 187, 189, 279, 277, 276, 278, 278, 279, 275, 277, 276, 277, 275, 279, 187, 189, 277, 275, 276, 277, 277, 276, 276, 276, 275, 275}, {188, 189, 278, 276, 275, 277, 278, 187, 189, 275, 275, 276, 275, 276, 278, 279, 278, 279, 187, 189, 275, 276, 277, 279, 187, 189, 276, 279, 278, 275, 277, 278, 276, 277, 275, 279, 276, 278, 187, 189, 277, 275, 279, 276, 276, 278, 279, 277, 279, 279}, {188, 189, 279, 276, 276, 279, 278, 187, 189, 279, 277, 279, 277, 279, 278, 276, 279, 275, 187, 189, 278, 278, 277, 279, 187, 189, 275, 277, 279, 276, 275, 275, 279, 277, 278, 279, 279, 279, 187, 189, 275, 276, 279, 277, 278, 276, 278, 279, 277, 279}, {188, 189, 277, 277, 276, 277, 277, 187, 189, 275, 278, 277, 277, 279, 277, 277, 275, 278, 187, 189, 275, 276, 275, 278, 187, 189, 276, 277, 275, 275, 278, 165, 166, 166, 166, 166, 166, 166, 188, 189, 275, 277, 276, 277, 277, 275, 277, 276, 279, 279}, {188, 189, 277, 276, 275, 275, 278, 187, 189, 275, 275, 276, 279, 279, 275, 276, 278, 278, 187, 189, 278, 278, 278, 275, 187, 189, 276, 278, 275, 275, 276, 187, 188, 210, 210, 210, 210, 210, 188, 189, 277, 279, 278, 276, 277, 278, 277, 276, 278, 275}, {188, 189, 279, 277, 275, 278, 278, 187, 189, 278, 275, 277, 275, 276, 278, 279, 278, 278, 187, 189, 279, 275, 279, 275, 187, 189, 277, 278, 277, 276, 278, 187, 189, 276, 275, 279, 275, 279, 187, 189, 279, 277, 277, 275, 276, 277, 278, 278, 277, 279}, {188, 189, 275, 279, 278, 276, 275, 187, 189, 275, 277, 276, 276, 277, 275, 276, 275, 276, 187, 189, 279, 165, 166, 166, 188, 188, 166, 166, 166, 166, 166, 188, 189, 278, 275, 278, 277, 279, 187, 189, 279, 277, 278, 276, 276, 278, 275, 276, 275, 278}, {188, 189, 278, 276, 277, 277, 275, 187, 189, 276, 276, 276, 275, 275, 276, 275, 279, 277, 209, 211, 277, 187, 188, 210, 210, 210, 210, 210, 210, 210, 210, 210, 211, 279, 277, 277, 277, 279, 187, 188, 166, 166, 166, 166, 166, 166, 166, 166, 166, 167}, {188, 189, 279, 277, 168, 279, 277, 187, 189, 278, 276, 277, 276, 278, 277, 277, 276, 275, 279, 278, 279, 187, 189, 276, 278, 275, 279, 278, 275, 278, 279, 275, 276, 279, 275, 276, 276, 275, 209, 210, 210, 210, 210, 210, 188, 188, 210, 210, 210, 211}, {188, 189, 275, 276, 190, 278, 279, 187, 189, 275, 277, 278, 277, 278, 277, 279, 279, 277, 276, 277, 279, 187, 189, 277, 279, 275, 277, 275, 279, 277, 278, 277, 278, 277, 276, 277, 278, 275, 278, 278, 276, 279, 275, 279, 187, 189, 277, 275, 279, 278}, {188, 189, 275, 279, 209, 232, 232, 188, 188, 232, 232, 232, 232, 233, 279, 277, 277, 278, 278, 276, 275, 187, 189, 279, 279, 275, 279, 277, 278, 278, 276, 279, 275, 278, 275, 276, 276, 279, 278, 276, 277, 278, 276, 277, 187, 189, 278, 278, 276, 275}, {188, 189, 275, 277, 277, 276, 279, 187, 189, 277, 276, 279, 276, 275, 278, 275, 275, 276, 275, 277, 275, 187, 189, 275, 277, 275, 276, 279, 277, 275, 275, 277, 277, 277, 275, 275, 279, 275, 279, 278, 277, 277, 275, 279, 187, 189, 275, 275, 279, 276}, {188, 189, 276, 278, 277, 276, 277, 187, 189, 276, 275, 275, 278, 278, 277, 279, 277, 276, 276, 277, 276, 187, 189, 278, 277, 279, 278, 275, 276, 276, 279, 277, 277, 277, 275, 277, 276, 279, 279, 278, 275, 279, 276, 277, 187, 189, 275, 276, 278, 278}, {188, 189, 278, 275, 279, 276, 277, 187, 189, 275, 277, 275, 276, 275, 278, 276, 278, 276, 275, 276, 278, 187, 189, 278, 279, 276, 275, 276, 278, 278, 277, 278, 275, 276, 278, 278, 276, 279, 276, 277, 275, 276, 275, 279, 187, 189, 276, 275, 277, 275}, {188, 189, 277, 278, 277, 278, 277, 187, 189, 279, 278, 275, 275, 275, 279, 275, 278, 278, 278, 276, 279, 187, 189, 277, 277, 277, 278, 275, 279, 275, 276, 276, 275, 278, 278, 275, 275, 278, 279, 275, 279, 168, 275, 277, 187, 189, 278, 279, 276, 279}, {188, 189, 279, 275, 278, 275, 278, 187, 189, 277, 277, 275, 275, 276, 277, 277, 279, 278, 279, 277, 279, 187, 189, 278, 277, 277, 279, 278, 278, 277, 279, 276, 279, 278, 279, 275, 278, 279, 278, 278, 275, 190, 279, 277, 187, 189, 276, 278, 275, 275}, {188, 188, 167, 278, 276, 275, 275, 187, 189, 279, 279, 275, 276, 277, 275, 277, 279, 278, 276, 279, 277, 187, 189, 275, 279, 275, 275, 276, 279, 276, 275, 278, 277, 277, 276, 279, 276, 277, 275, 276, 279, 209, 232, 232, 188, 189, 279, 278, 275, 275}, {188, 188, 189, 275, 276, 279, 278, 187, 189, 277, 277, 276, 279, 278, 275, 279, 275, 277, 275, 276, 279, 187, 189, 279, 275, 275, 276, 275, 277, 279, 277, 275, 279, 275, 275, 279, 277, 275, 277, 279, 278, 279, 278, 278, 187, 189, 275, 276, 276, 275}, {188, 188, 188, 167, 278, 278, 275, 187, 189, 275, 278, 276, 276, 275, 278, 277, 276, 278, 278, 275, 279, 187, 189, 275, 277, 278, 278, 277, 279, 276, 276, 277, 277, 277, 276, 276, 277, 278, 279, 275, 275, 277, 277, 275, 187, 189, 276, 279, 276, 278}, {188, 188, 188, 189, 275, 276, 275, 187, 188, 166, 166, 166, 166, 166, 166, 166, 167, 276, 278, 276, 276, 187, 189, 276, 275, 275, 275, 277, 276, 275, 277, 278, 277, 277, 279, 275, 277, 277, 275, 278, 275, 278, 277, 278, 187, 189, 275, 275, 276, 277}, {188, 188, 188, 188, 167, 276, 275, 209, 210, 210, 210, 210, 210, 210, 210, 188, 189, 278, 278, 277, 276, 187, 189, 275, 277, 275, 277, 279, 276, 277, 277, 276, 277, 275, 276, 275, 275, 275, 275, 276, 277, 276, 279, 276, 187, 189, 279, 276, 276, 275}, {188, 188, 188, 188, 189, 275, 276, 279, 279, 278, 277, 277, 278, 278, 277, 187, 210, 232, 232, 232, 232, 188, 188, 166, 166, 166, 166, 166, 166, 167, 278, 275, 278, 276, 277, 278, 278, 278, 279, 275, 278, 278, 277, 276, 187, 189, 275, 279, 277, 279}, {188, 188, 188, 188, 188, 167, 276, 277, 279, 279, 277, 275, 279, 275, 276, 190, 276, 279, 277, 277, 278, 209, 210, 210, 210, 210, 210, 210, 188, 189, 275, 275, 275, 276, 276, 278, 277, 278, 277, 277, 279, 278, 275, 279, 187, 189, 279, 276, 279, 275}, {188, 188, 188, 188, 188, 189, 278, 279, 276, 277, 279, 279, 275, 276, 275, 190, 275, 275, 277, 278, 278, 279, 278, 277, 276, 279, 277, 276, 187, 189, 277, 277, 278, 277, 275, 276, 279, 276, 279, 276, 276, 279, 279, 276, 187, 189, 276, 275, 278, 278}, {188, 188, 188, 188, 188, 188, 167, 278, 278, 276, 279, 277, 276, 276, 277, 190, 277, 276, 278, 278, 276, 279, 277, 277, 277, 278, 276, 277, 187, 189, 279, 278, 276, 279, 279, 276, 275, 278, 277, 278, 279, 278, 277, 275, 187, 189, 279, 278, 279, 278}, {188, 188, 188, 188, 188, 188, 189, 278, 278, 277, 277, 278, 279, 275, 278, 190, 279, 279, 276, 275, 275, 277, 279, 276, 277, 279, 276, 277, 187, 189, 278, 277, 275, 278, 278, 276, 275, 279, 277, 279, 275, 279, 277, 275, 187, 189, 278, 275, 279, 279}, {188, 188, 188, 188, 188, 188, 189, 278, 279, 279, 276, 278, 278, 275, 277, 212, 279, 278, 277, 277, 278, 279, 276, 275, 275, 279, 276, 278, 187, 189, 279, 277, 279, 275, 275, 277, 275, 275, 277, 279, 278, 275, 275, 277, 187, 189, 276, 278, 278, 279}, {188, 188, 188, 188, 188, 188, 188, 167, 277, 276, 277, 278, 278, 276, 277, 275, 276, 279, 279, 275, 276, 277, 275, 276, 275, 279, 276, 275, 187, 189, 277, 279, 275, 278, 275, 277, 278, 275, 277, 279, 275, 276, 275, 277, 187, 189, 278, 276, 278, 276}, {188, 188, 188, 188, 188, 188, 188, 188, 167, 275, 278, 276, 276, 277, 275, 277, 277, 276, 277, 278, 279, 279, 276, 278, 275, 276, 277, 276, 187, 189, 277, 278, 278, 277, 279, 278, 277, 276, 277, 276, 165, 166, 166, 166, 188, 189, 279, 275, 276, 277}, {188, 188, 188, 188, 188, 188, 188, 188, 188, 167, 278, 277, 279, 275, 277, 276, 278, 278, 279, 277, 275, 279, 277, 278, 275, 279, 278, 279, 187, 189, 276, 276, 279, 276, 279, 276, 278, 278, 277, 279, 209, 210, 210, 210, 210, 211, 276, 276, 278, 278}, {188, 188, 188, 188, 188, 188, 188, 188, 188, 188, 167, 278, 279, 277, 278, 277, 279, 277, 275, 278, 279, 277, 277, 279, 276, 277, 279, 279, 187, 189, 275, 275, 278, 276, 277, 277, 275, 278, 279, 275, 278, 277, 279, 276, 275, 275, 276, 275, 276, 277}, {188, 188, 188, 188, 188, 188, 188, 188, 188, 188, 188, 167, 276, 279, 278, 277, 279, 276, 275, 275, 276, 276, 279, 279, 278, 275, 278, 278, 209, 211, 278, 279, 279, 277, 275, 279, 279, 276, 275, 279, 275, 279, 276, 277, 278, 279, 275, 277, 278, 276},};
     }
 
 
-    public static int[][] getInsideMailHouseArray() {
-        return new int[][]{
-                {379, 382, 382, 382, 382, 382, 383},
-                {401, 155, 155, 155, 155, 155, 405},
-                {401, 155, 155, 155, 155, 155, 405},
-                {401, 155, 155, 155, 155, 155, 405},
-                {401, 155, 155, 155, 155, 155, 405},
-                {401, 155, 155, 155, 155, 155, 405},
-                {467, 470, 468, 394, 470, 470, 471}
-        };
-    }
 }

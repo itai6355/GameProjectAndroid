@@ -50,30 +50,44 @@ public enum GameObjects implements BitmapMethods {
     SMALL_POT_EMPTY(16, 12, 16, 13, 4, 10),
 
 
+    PLANT(R.drawable.tileset_element, 0, 120, 15, 24, 14, 23),
+    DRAWERS(R.drawable.tileset_element, 32, 120, 16, 24, 24, 23),
+    BOOK_SHELF_SMALL(R.drawable.tileset_element, 48, 113, 16, 29, 29, 29),
+    BOOK_SHELF_SMALL_EMPTY(R.drawable.tileset_element, 64, 113, 16, 29, 29, 29),
+    DRAWERS_BIG(R.drawable.tileset_element, 96, 121, 32, 23, 22, 23),
+    BOOK_SHELF(R.drawable.tileset_element, 128, 112, 32, 30, 28, 30),
+    BOOK_SHELF_EMPTY(R.drawable.tileset_element, 160, 113, 32, 29, 29, 29),
+    CHAIR(R.drawable.tileset_element, 7, 147, 8, 11, 11, 11),
+    BLUE_POT(R.drawable.tileset_element, 1, 160, 14, 15, 15, 15),
+    PAINTING(R.drawable.tileset_element, 97, 168, 14, 6, 5, 6),
+    BASEMENT_OAK(R.drawable.tileset_element, 97, 178, 14, 13, 11, 13),
+    BASEMENT_BIRCH(R.drawable.tileset_element, 113, 178, 14, 13, 11, 13),
+    BASEMENT_ACACIA(R.drawable.tileset_element, 129, 178, 14, 13, 11, 13),
+    BASEMENT_PRISMARIN(R.drawable.tileset_element, 145, 178, 14, 13, 11, 13),
+    POT_EMPTY(R.drawable.tileset_element, 33, 146, 14, 14, 14, 14),
+    TABLE(R.drawable.tileset_element, 48, 145, 16, 15, 14, 15),
+    TABLE2(R.drawable.tileset_element, 224, 2, 16, 14, 13, 12),
+    TABLE3(R.drawable.tileset_element, 80, 119, 16, 12, 12, 12),
+    WELL(R.drawable.tileset_element, 112, 27, 17, 21, 20, 20),
+    PIGENS(R.drawable.tileset_element, 97, 48, 14, 29, 29, 29),
 
-    PLANT(R.drawable.tileset_element,0,120,15,24,14,23),
-    DRAWERS(R.drawable.tileset_element,32,120,16,24,24,23),
-    BOOK_SHELF_SMALL(R.drawable.tileset_element,48,113,16,29,29,29),
-    BOOK_SHELF_SMALL_EMPTY(R.drawable.tileset_element,64,113,16,29,29,29),
-    DRAWERS_BIG(R.drawable.tileset_element,96,121,32,23,22,23),
-    BOOK_SHELF(R.drawable.tileset_element,128,112,32,30,28,30),
-    BOOK_SHELF_EMPTY(R.drawable.tileset_element,160,113,32,29,29,29),
-    CHAIR(R.drawable.tileset_element,7,147,8,11,11,11),
-    BLUE_POT(R.drawable.tileset_element,1,160,14,15,15,15),
-    PAINTING(R.drawable.tileset_element,97,168,14,6,5,6),
-    BASEMENT_OAK(R.drawable.tileset_element,97,178,14,13,11,13),
-    BASEMENT_BIRCH(R.drawable.tileset_element,113,178,14,13,11,13),
-    BASEMENT_ACACIA(R.drawable.tileset_element,129,178,14,13,11,13),
-    BASEMENT_PRISMARIN(R.drawable.tileset_element,145,178,14,13,11,13),
-    POT_EMPTY(R.drawable.tileset_element,33,146,14,14,14,14),
-    TABLE(R.drawable.tileset_element,48,145,16,15,14,15),
-    WELL(R.drawable.tileset_element,112,27,17,21,20,20),
-    PIGENS(R.drawable.tileset_element,97,48,14,29,29,29);
+    CABINET(R.drawable.furniture, 96, 192, 80, 43, 43, 43, 0.85f),
+    OVEN(R.drawable.furniture, 65, 192, 30, 43, 43, 43, 0.85f),
+    REFRIGERATOR(R.drawable.furniture, 35, 196, 26, 55, 55, 5, 0.85f),
+    SOFA_RIGHT(R.drawable.furniture, 0, 197, 22, 55, 55, 55, 0.85f),
+    SOFA_DOWN(R.drawable.furniture, 88, 161, 49, 31, 31, 31, 0.85f),
+    SMALL_SOFA_DOWN(R.drawable.furniture, 144, 160, 32, 30, 30, 30, 0.85f),
+    SMALL_SOFA_UP(R.drawable.furniture, 176, 164, 32, 28, 28, 28, 0.85f),
+    OAK_BOOKSHELF(R.drawable.furniture, 97, 66, 46, 44, 44, 44, 0.85f),
+    BIRCH_BOOKSHELF(R.drawable.furniture, 33, 64, 46, 47, 47, 47, 0.85f),
+    CHAIR_BIRCH_DOWN(R.drawable.furniture, 81, 5, 14, 26, 26, 26, 0.85f),
+    CHAIR_BIRCH_RIGHT(R.drawable.furniture, 96, 4, 15, 27, 27, 27, 0.85f),
+    TABLE_BIG(R.drawable.furniture, 0, 64, 31, 46, 46, 46, 0.85f),
+    CARPET(R.drawable.furniture, 160, 32, 48, 33, 0, 0,1.5f),
+    DRAWERS_OAK(R.drawable.furniture, 4, 117, 25, 35, 35, 35, 0.85f);
 
 
-
-
-
+    //TODO: fix the hitboxes..
     Bitmap objectImg;
     int width, height;
     int hitboxRoof, hitboxFloor, hitboxHeight;
@@ -89,7 +103,7 @@ public enum GameObjects implements BitmapMethods {
         objectImg = getScaledBitmap(Bitmap.createBitmap(atlas, x, y, width, height));
     }
 
-    GameObjects(int resID,int x, int y, int width, int height, int hitboxRoof, int hitboxFloor) {
+    GameObjects(int resID, int x, int y, int width, int height, int hitboxRoof, int hitboxFloor) {
         options.inScaled = false;
         this.width = width;
         this.height = height;
@@ -98,6 +112,17 @@ public enum GameObjects implements BitmapMethods {
         this.hitboxHeight = (hitboxFloor - hitboxRoof) * GameConstants.Sprite.SCALE_MULTIPLIER;
         Bitmap atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
         objectImg = getScaledBitmap(Bitmap.createBitmap(atlas, x, y, width, height));
+    }
+
+    GameObjects(int resID, int x, int y, int width, int height, int hitboxRoof, int hitboxFloor, float scale) {
+        options.inScaled = false;
+        this.width = width;
+        this.height = height;
+        this.hitboxRoof = hitboxRoof;
+        this.hitboxFloor = hitboxFloor;
+        this.hitboxHeight = (hitboxFloor - hitboxRoof) * GameConstants.Sprite.SCALE_MULTIPLIER;
+        Bitmap atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
+        objectImg = getMultiplierBitmap(Bitmap.createBitmap(atlas, x, y, width, height), scale, scale);
     }
 
     public int getHitboxHeight() {
@@ -110,6 +135,14 @@ public enum GameObjects implements BitmapMethods {
 
     public Bitmap getObjectImg() {
         return objectImg;
+    }
+
+    public int getWidth() {
+        return width * GameConstants.Sprite.SCALE_MULTIPLIER;
+    }
+
+    public int getHeight() {
+        return height * GameConstants.Sprite.SCALE_MULTIPLIER;
     }
 
     public int getHitboxRoof() {

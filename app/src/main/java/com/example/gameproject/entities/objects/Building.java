@@ -12,11 +12,10 @@ public class Building extends Entity {
 
     int villagerAmount;
 
-    public Building(PointF pos, Buildings buildingType,int villagerAmount) {
+    public Building(PointF pos, Buildings buildingType, int villagerAmount) {
         super(new PointF(pos.x, pos.y + buildingType.hitboxRoof),
                 buildingType.hitboxWidth,
                 buildingType.hitboxHeight
-
         );
         this.villagerAmount = villagerAmount;
         villagers = new Villager[villagerAmount];
@@ -39,6 +38,7 @@ public class Building extends Entity {
             }
 
     }
+
     public Villager[] getVillagers() {
         return villagers;
     }

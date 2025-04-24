@@ -117,7 +117,7 @@ public class MapManager {
 
         int[][] insideBlacksmithHouseArr = MapHelper.getInsideBlacksmithHouseArray();
 
-        //TODO: add interior for the houses
+
         GameMap insideMap1 = new GameMap(insideRegHouseArray, Tiles.INSIDE, MapHelper.getObjectsReg1());
         GameMap insideMap2 = new GameMap(insideRegHouseArray, Tiles.INSIDE, MapHelper.getObjectsReg2());
         GameMap insideMap3 = new GameMap(insideMailHouseArray, Tiles.INSIDE, MapHelper.getObjectsMail());
@@ -141,7 +141,8 @@ public class MapManager {
 
         HelpMethods.AddVillagersToBuildings(buildings);
 
-        currentMap = outsideMap;
+//        currentMap = outsideMap;
+        currentMap = insideGreenRoofHouseMap3;
     }
 
 }
