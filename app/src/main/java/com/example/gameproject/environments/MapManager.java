@@ -141,8 +141,7 @@ public class MapManager {
 
         HelpMethods.AddVillagersToBuildings(buildings);
 
-//        currentMap = outsideMap;
-        currentMap = insideGreenRoofHouseMap3;
+        currentMap = outsideMap;
     }
 
 }

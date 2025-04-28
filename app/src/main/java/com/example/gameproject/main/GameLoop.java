@@ -9,6 +9,7 @@ public class GameLoop implements Runnable {
     private final Thread gameThread;
     private final Game game;
 
+
     public GameLoop(Game game) {
         this.game = game;
         gameThread = new Thread(this);
@@ -27,16 +28,20 @@ public class GameLoop implements Runnable {
             long now = System.nanoTime();
 
             if (now - lastUpdateTime >= OPTIMAL_UPDATE_TIME) {
-                double delta = (now - lastUpdateTime) / 1000000000.0;  // Delta for update
+                double delta = (now - lastUpdateTime) / 1000000000.0;
 
-                game.update(delta);
+                    game.update(delta);
+
+
                 lastUpdateTime = now;
+
 
                 fps++;
             }
 
             if (now - lastRenderTime >= OPTIMAL_RENDER_TIME) {
-                game.render();
+                    game.render();
+
                 lastRenderTime = now;
             }
 
@@ -50,5 +55,13 @@ public class GameLoop implements Runnable {
 
     public void startGameLoop() {
         gameThread.start();
+    }
+
+    public void stop() {
+        try {
+            gameThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

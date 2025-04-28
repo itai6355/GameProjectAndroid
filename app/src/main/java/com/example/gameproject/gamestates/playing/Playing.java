@@ -557,7 +557,7 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     public void setGameStateToSettings() {
-        game.setCurrentGameState(Game.GameState.SETTINGS);
+        game.setCurrentGameState(Game.GameState.SETTING);
     }
 
     public void setGameStateToInventory() {

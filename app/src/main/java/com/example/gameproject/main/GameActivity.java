@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.WorkManager;
 
-import com.example.gameproject.Media.MPHelper;
+import com.example.gameproject.Media.MediaPlayerHelper;
 import com.example.gameproject.notification.NotificationScheduler;
 import com.example.gameproject.notification.NotificationWorker;
 
@@ -22,7 +22,7 @@ public class GameActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "game_notifications";
 
     private static final boolean DrawHitbox = false;
-    private static MPHelper mpHelper;
+    private static MediaPlayerHelper mediaPlayerHelper;
 
     private static String username;
     private static String password;
@@ -43,8 +43,8 @@ public class GameActivity extends AppCompatActivity {
         return username.equals("admin") && password.equals("admin");
     }
 
-    public static MPHelper getMpHelper() {
-        return mpHelper;
+    public static MediaPlayerHelper getMpHelper() {
+        return mediaPlayerHelper;
     }
 
     @Override
@@ -73,8 +73,8 @@ public class GameActivity extends AppCompatActivity {
         password = getIntent().getStringExtra("password");
 
         setContentView(new GamePanel(this));
-        mpHelper = new MPHelper(this);
-        mpHelper.initializeMediaPlayerAsync(() -> mpHelper.play());
+        mediaPlayerHelper = new MediaPlayerHelper(this);
+        mediaPlayerHelper.initializeMediaPlayerAsync(() -> mediaPlayerHelper.play());
     }
 
     private void cancelScheduledNotifications() {
@@ -114,6 +114,6 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mpHelper.stop();
+        mediaPlayerHelper.stop();
     }
 }

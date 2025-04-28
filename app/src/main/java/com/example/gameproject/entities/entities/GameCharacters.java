@@ -79,6 +79,8 @@ public enum GameCharacters implements BitmapMethods {
                 sprites[j][i] = getScaledBitmap(Bitmap.createBitmap(spriteSheet, GameConstants.Sprite.DEFAULT_SIZE * i, GameConstants.Sprite.DEFAULT_SIZE * j, GameConstants.Sprite.DEFAULT_SIZE, GameConstants.Sprite.DEFAULT_SIZE));
     }
 
+
+
     public Bitmap getSpriteSheet() {
         return spriteSheet;
     }

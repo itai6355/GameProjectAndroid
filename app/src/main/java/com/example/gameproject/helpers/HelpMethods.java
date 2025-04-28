@@ -17,6 +17,7 @@ import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.environments.Tiles;
+import com.example.gameproject.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -98,7 +99,7 @@ public class HelpMethods {
 
     private static void ConnectVillagerToBuilding(Building building) {
         PointF point = building.getBuildingType().getDoorwayPoint();
-        Villager villager = new Villager(new PointF(point.x + building.getPos().x, point.y + building.getPos().y - building.getBuildingType().getHitboxRoof()), building.getBuildingType().getVillagerType());
+        Villager villager = new Villager( MainActivity.getGameContext(),new PointF(point.x + building.getPos().x, point.y + building.getPos().y - building.getBuildingType().getHitboxRoof()), building.getBuildingType().getVillagerType());
         building.addVillager(villager);
         villager.setBuilding(building);
     }

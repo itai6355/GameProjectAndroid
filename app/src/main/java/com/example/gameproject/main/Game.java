@@ -11,7 +11,7 @@ import com.example.gameproject.gamestates.death.DeathScreen;
 import com.example.gameproject.gamestates.lostConnection.LostConnectionState;
 import com.example.gameproject.gamestates.invenory.InventoryState;
 import com.example.gameproject.gamestates.playing.Playing;
-import com.example.gameproject.gamestates.setting.Setting;
+import com.example.gameproject.gamestates.setting.SettingState;
 import com.example.gameproject.gamestates.shop.ShopState;
 
 public class Game {
@@ -20,12 +20,12 @@ public class Game {
     private final DatabaseHelper dbHelper;
     private final GameLoop gameLoop;
     private Playing playing;
-    private Setting setting;
     private DeathScreen deathScreen;
     private InventoryState inventoryState;
     private ShopState shopState;
-    private LostConnectionState lostConnectionState;
     private GameState currentGameState = GameState.PLAYING;
+    private LostConnectionState lostConnectionState;
+    private SettingState settingState;
 
     public Game(SurfaceHolder holder) {
         this.holder = holder;
@@ -39,10 +39,10 @@ public class Game {
         switch (currentGameState) {
             case PLAYING -> playing.update(delta);
             case DEATH_SCREEN -> deathScreen.update(delta);
-            case SETTINGS -> setting.update(delta);
             case INVENTORY -> inventoryState.update(delta);
             case SHOP -> shopState.update(delta);
             case LOST_CONNECTION -> lostConnectionState.update(delta);
+            case SETTING -> settingState.update(delta);
         }
     }
 
@@ -54,10 +54,10 @@ public class Game {
         switch (currentGameState) {
             case PLAYING -> playing.render(canvas);
             case DEATH_SCREEN -> deathScreen.render(canvas);
-            case SETTINGS -> setting.render(canvas);
             case INVENTORY -> inventoryState.render(canvas);
             case SHOP -> shopState.render(canvas);
             case LOST_CONNECTION -> lostConnectionState.render(canvas);
+            case SETTING -> settingState.render(canvas);
         }
 
         holder.unlockCanvasAndPost(canvas);
@@ -68,10 +68,10 @@ public class Game {
         switch (currentGameState) {
             case PLAYING -> playing.touchEvents(event);
             case DEATH_SCREEN -> deathScreen.touchEvents(event);
-            case SETTINGS -> setting.touchEvents(event);
             case INVENTORY -> inventoryState.touchEvents(event);
             case SHOP -> shopState.touchEvents(event);
             case LOST_CONNECTION -> lostConnectionState.touchEvents(event);
+            case SETTING -> settingState.touchEvents(event);
         }
 
         return true;
@@ -99,11 +99,11 @@ public class Game {
 
     private void initGameStates() {
         deathScreen = new DeathScreen(this);
-        setting = new Setting(this);
         inventoryState = new InventoryState(this);
         shopState = new ShopState(this);
-        lostConnectionState = new LostConnectionState(this);
         playing = new Playing(this);
+        lostConnectionState = new LostConnectionState(this);
+        settingState = new SettingState(this);
     }
     public GameState getCurrentGameState() {
         return currentGameState;
@@ -114,7 +114,8 @@ public class Game {
     }
 
 
+
     public enum GameState {
-        PLAYING, DEATH_SCREEN, SETTINGS, INVENTORY, SHOP, LOST_CONNECTION
+        PLAYING, DEATH_SCREEN, INVENTORY, SHOP, LOST_CONNECTION, SETTING
     }
 }

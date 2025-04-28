@@ -1,10 +1,14 @@
 package com.example.gameproject.entities.entities;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import android.util.Log;
+
 
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.environments.GameMap;
@@ -15,6 +19,7 @@ import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.GameImages;
 
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -23,6 +28,11 @@ public class Villager extends Character {
     private Building building;
     private final Random rand = new Random();
     private long lastDirChange = System.currentTimeMillis();
+    private final VillagerType villagerType;
+
+    private TextToSpeech tts;
+    private Context context;
+    private boolean isTtsInitialized = false;
 
     private boolean isTalking = false;
     private String conversation;
@@ -30,15 +40,35 @@ public class Villager extends Character {
     private final Paint blackPaint;
 
 
-    public Villager(PointF pos, VillagerType villagerType) {
+    public Villager(Context context, PointF pos, VillagerType villagerType) {
         super(pos, getCharacterType(villagerType));
+        this.villagerType = villagerType;
         setStartHealth(200);
 
-        conversation = MainActivity.getGeminiAPI().askGemini("pretens you are a villager and will talk to a player," + " can you make some small talk with the player, no more then 10 words, just tell them something nice and friendly," + "do it in 2 lines, and every line no more then 12 letters..");
-        splitConversation();
+        this.context = context;
         blackPaint = Paints.BLACK_PAINT;
 
+        conversation = MainActivity.getGeminiAPI().askGemini("pretend you are a villager and will talk to a player," +
+                " make some small talk, no more than 10 words, 2 lines, each max 12 letters.");
+        splitConversation();
+
+        initTTS();
     }
+
+    private void changeVoice(String targetVoiceNameContains) {
+        if (tts == null || !isTtsInitialized) return;
+
+        for (Voice voice : tts.getVoices()) {
+            if (voice.getName().toLowerCase().contains(targetVoiceNameContains.toLowerCase())) {
+                tts.setVoice(voice);
+                Log.d("VillagerTTS", "Voice changed to: " + voice.getName());
+                return;
+            }
+        }
+
+        Log.d("VillagerTTS", "Voice not found matching: " + targetVoiceNameContains);
+    }
+
 
     private static GameCharacters getCharacterType(VillagerType villagerType) {
         return switch (villagerType) {
@@ -138,23 +168,38 @@ public class Villager extends Character {
 
     }
 
+    private void initTTS() {
+        tts = new TextToSpeech(context, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                int result = tts.setLanguage(Locale.US);
+                isTtsInitialized = result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED;
+
+                if (isTtsInitialized) {
+                    tts.setSpeechRate(0.7f);
+                    tts.setPitch(1.0f);
+                    changeVoice(villagerType.getRecommendedVoice());
+                }
+            } else {
+                isTtsInitialized = false;
+            }
+        });
+    }
+
+
+
     public void setBuilding(Building building) {
         this.building = building;
     }
 
     public void startConversation() {
         if (!isTalking) {
-            conversation = MainActivity.getGeminiAPI().askGemini("pretens you are a villager and will talk to a player," + " can you make some small talk with the player, no more then 10 words, just tell them something nice and friendly," + "do it in 2 lines, and every line no more then 12 letters..");
-            if (conversation != null) {
+            conversation = MainActivity.getGeminiAPI().askGemini("pretend you are a villager and will talk to a player," +
+                    "make some small talk, no more than 10 words, 2 lines, each max 12 letters.");
+            if (conversation != null && !conversation.contains("Error") && !conversation.contains("error")) {
                 isTalking = true;
-                faceDir = GameConstants.Face_Dir.DOWN;
                 aniIndex = 0;
-
                 splitConversation();
-
-
-                Log.d("conversation", "Start conversation");
-                Log.d("conversation", "Conversation: " + conversation);
+                speakConversation();
             }
         }
     }
@@ -173,9 +218,16 @@ public class Villager extends Character {
             conversation = rawConversation;
     }
 
+    private void speakConversation() {
+        if (isTtsInitialized && tts != null && conversation != null) {
+            tts.speak(conversation.replace("\n", " "), TextToSpeech.QUEUE_FLUSH, null, "VillagerSpeech");
+        }
+    }
+
     public void endConversation() {
         isTalking = false;
         conversation = null;
+        stopSpeaking();
     }
 
     public boolean isTalking() {
@@ -208,13 +260,25 @@ public class Villager extends Character {
         }
     }
 
+    private void stopSpeaking() {
+        if (tts != null && tts.isSpeaking()) {
+            tts.stop();
+        }
+    }
+
 
     public enum VillagerType {
         VILLAGER_DAD, VILLAGER_MOM, VILLAGER_BOY, VILLAGER_GREEN, VILLAGER_BLACK, VILLAGER_OLIVE;
 
-        public static VillagerType getRandomVillagerType() {
-            VillagerType[] types = VillagerType.values();
-            return types[new Random().nextInt(types.length)];
+
+        public String getRecommendedVoice() {
+            return switch (this) {
+                case VILLAGER_DAD, VILLAGER_GREEN -> "male";
+                case VILLAGER_MOM -> "female";
+                case VILLAGER_BOY -> "child";
+                case VILLAGER_BLACK -> "deep";
+                case VILLAGER_OLIVE -> "older";
+            };
         }
     }
 }

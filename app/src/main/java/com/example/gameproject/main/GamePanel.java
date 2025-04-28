@@ -1,7 +1,5 @@
 package com.example.gameproject.main;
 
-import static androidx.core.content.ContextCompat.registerReceiver;
-
 import android.content.Context;
 import android.content.IntentFilter;
 import android.view.MotionEvent;
@@ -9,7 +7,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
 import com.example.gameproject.NetworkReceiver;
 
@@ -24,7 +21,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         holder.addCallback(this);
         game = new Game(holder);
 
-        networkReceiver = new NetworkReceiver(game);
+        networkReceiver = new NetworkReceiver( game, context);
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         context.registerReceiver(networkReceiver, filter);

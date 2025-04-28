@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MPHelper {
+public class MediaPlayerHelper {
     private final MediaSongs mSongs;
     private final Context context;
     private final ExecutorService executorService;
@@ -21,7 +21,7 @@ public class MPHelper {
     private float rightVolume = 1.0f;
 
 
-    public MPHelper(Context context) {
+    public MediaPlayerHelper(Context context) {
         this.context = context;
         mSongs = new MediaSongs();
         currentSongId = 0;
@@ -52,46 +52,82 @@ public class MPHelper {
     }
 
     private void fadeIn(final MediaPlayer player, final float targetVolume, int durationMs) {
+        if (player == null) {
+            Log.e("MPHelper", "MediaPlayer is null during fadeIn");
+            return;
+        }
+
         final Handler handler = new Handler(Looper.getMainLooper());
         final int steps = 20;
         final long delay = durationMs / steps;
         final float delta = targetVolume / steps;
 
-        player.setVolume(0f, 0f);
-
-        for (int i = 1; i <= steps; i++) {
-            final float volume = delta * i;
-            handler.postDelayed(() -> player.setVolume(volume, volume), delay * i);
+        try {
+            player.setVolume(0f, 0f);
+        } catch (IllegalStateException e) {
+            Log.e("MPHelper", "MediaPlayer is in an invalid state during fadeIn", e);
+            return;
         }
+
+        try {
+            for (int i = 1; i <= steps; i++) {
+                final float volume = delta * i;
+                handler.postDelayed(() -> {
+                    try {
+                        if (player.isPlaying()) {
+                            player.setVolume(volume, volume);
+                        }
+                    } catch (IllegalStateException e) {
+                        Log.e("MPHelper", "MediaPlayer is in an invalid state during fadeIn", e);
+                    }
+                }, delay * i);
+            }
+        }catch (Exception e){}
     }
 
     private void fadeOut(final MediaPlayer player, int durationMs, Runnable onComplete) {
+        if (player == null) {
+            Log.e("MPHelper", "MediaPlayer is null during fadeOut");
+            return;
+        }
+
         final Handler handler = new Handler(Looper.getMainLooper());
         final int steps = 20;
         final long delay = durationMs / steps;
         final float[] currentVolume = {leftVolume};
 
+        try{
         for (int i = 0; i <= steps; i++) {
             final float volume = currentVolume[0] - (currentVolume[0] / steps) * i;
             handler.postDelayed(() -> {
-                player.setVolume(volume, volume);
+                try {
+                    if (player.isPlaying()) {
+                        player.setVolume(volume, volume);
+                    }
+                } catch (IllegalStateException e) {
+                    Log.e("MPHelper", "MediaPlayer is in an invalid state during fadeOut", e);
+                }
                 if (volume <= 0.01f) {
-                    player.stop();
-                    player.release();
-                    if (onComplete != null) onComplete.run();
+                    try {
+                        player.stop();
+                        player.release();
+                        if (onComplete != null) onComplete.run();
+                    } catch (IllegalStateException e) {
+                        Log.e("MPHelper", "Error stopping or releasing MediaPlayer during fadeOut", e);
+                    }
                 }
             }, delay * i);
         }
+        }catch (Exception ignored){}
     }
-
 
 
     public void setVolume(float left, float right) {
         leftVolume = left;
         rightVolume = right;
         try {
-            if (mPlayer != null) mPlayer.setVolume(left, right);
-            if (EffectPlayer != null) EffectPlayer.setVolume(left, right);
+            if (mPlayer != null && mPlayer.isPlaying()) mPlayer.setVolume(left, right);
+            if (EffectPlayer != null && EffectPlayer.isPlaying()) EffectPlayer.setVolume(left, right);
         } catch (Exception e) {
             Log.e("MPHelper", "Error setting volume", e);
         }
@@ -106,7 +142,7 @@ public class MPHelper {
 
     public void stop() {
         if (mPlayer != null)
-                fadeOut(mPlayer, 500, () -> mPlayer = null);
+            fadeOut(mPlayer, 500, () -> mPlayer = null);
     }
 
 

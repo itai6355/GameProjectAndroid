@@ -41,6 +41,7 @@ public class LostConnectionState extends BaseState implements GameStateInterface
         this.Paint = Paints.WHITE_PAINT;
     }
 
+
     @Override
     public void update(double delta) {
         long currentTime = System.currentTimeMillis();
@@ -124,5 +125,9 @@ public class LostConnectionState extends BaseState implements GameStateInterface
             else Menu.setPushed(false);
 
         }
+    }
+
+    public boolean isIn(MotionEvent e, CustomButton b) {
+        return b.getHitbox().contains(e.getX(), e.getY());
     }
 }

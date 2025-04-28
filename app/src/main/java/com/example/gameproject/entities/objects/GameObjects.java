@@ -58,7 +58,7 @@ public enum GameObjects implements BitmapMethods {
     BOOK_SHELF(R.drawable.tileset_element, 128, 112, 32, 30, 28, 30),
     BOOK_SHELF_EMPTY(R.drawable.tileset_element, 160, 113, 32, 29, 29, 29),
     CHAIR(R.drawable.tileset_element, 7, 147, 8, 11, 11, 11),
-    BLUE_POT(R.drawable.tileset_element, 1, 160, 14, 15, 15, 15),
+    BLUE_POT(R.drawable.tileset_element, 1, 160, 14, 15, 15, 15),//TODO: fix the hitbox
     PAINTING(R.drawable.tileset_element, 97, 168, 14, 6, 5, 6),
     BASEMENT_OAK(R.drawable.tileset_element, 97, 178, 14, 13, 11, 13),
     BASEMENT_BIRCH(R.drawable.tileset_element, 113, 178, 14, 13, 11, 13),
@@ -67,7 +67,7 @@ public enum GameObjects implements BitmapMethods {
     POT_EMPTY(R.drawable.tileset_element, 33, 146, 14, 14, 14, 14),
     TABLE(R.drawable.tileset_element, 48, 145, 16, 15, 14, 15),
     TABLE2(R.drawable.tileset_element, 224, 2, 16, 14, 13, 12),
-    TABLE3(R.drawable.tileset_element, 80, 119, 16, 12, 12, 12),
+    TABLE3(R.drawable.tileset_element, 80, 119, 16, 12, 12, 12),//TODO: fix the hitbox
     WELL(R.drawable.tileset_element, 112, 27, 17, 21, 20, 20),
     PIGENS(R.drawable.tileset_element, 97, 48, 14, 29, 29, 29),
 

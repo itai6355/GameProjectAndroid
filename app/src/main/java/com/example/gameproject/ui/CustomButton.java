@@ -1,6 +1,7 @@
 package com.example.gameproject.ui;
 
 import android.graphics.RectF;
+import android.view.MotionEvent;
 
 public class CustomButton {
 
@@ -47,5 +48,15 @@ public class CustomButton {
 
     public int getPointerId() {
         return pointerId;
+    }
+
+    public boolean isIn(MotionEvent event) {
+        if (event.getAction() != MotionEvent.ACTION_DOWN)
+            return false;
+        if (event.getPointerCount() > 1)
+            return false;
+        if (event.getPointerId(0) != pointerId)
+            return false;
+        return hitbox.contains(event.getX(0), event.getY(0));
     }
 }

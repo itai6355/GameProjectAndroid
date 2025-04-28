@@ -3,13 +3,12 @@ package com.example.gameproject.gamestates.setting;
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import com.example.gameproject.GeminiAPI;
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.gamestates.shop.ShopImages;
 import com.example.gameproject.helpers.GameConstants;
@@ -17,12 +16,13 @@ import com.example.gameproject.helpers.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
+import com.example.gameproject.main.GameLoop;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
-public class Setting extends BaseState implements GameStateInterface {
+public class SettingState extends BaseState implements GameStateInterface {
 
     final int space = 20;
     private final int menuX = GAME_WIDTH / 2 - GameImages.SETTING_MENU.getImage().getWidth() / 2;
@@ -51,7 +51,7 @@ public class Setting extends BaseState implements GameStateInterface {
     private float volume = 0.5f;
 
 
-    public Setting(Game game) {
+    public SettingState(Game game) {
         super(game);
         btnBack = new CustomButton(btnXBack, btnYBack, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
         btnVolumeButtons = new CustomButton[20];
@@ -68,15 +68,13 @@ public class Setting extends BaseState implements GameStateInterface {
 
         BlackPaint = Paints.BIG_TEXT_PAINT;
     }
-
     @Override
-    public void update(double delta) {
+    public void update( double delta) {
         volume = 0.0f;
         for (CustomButton btn : btnVolumeButtons)
             if (btn.isPushed()) volume += 0.05f;
         GameActivity.getMpHelper().setVolume(volume, volume);
     }
-
     @Override
     public void render(Canvas canvas) {
         drawBackground(canvas);
@@ -154,7 +152,7 @@ public class Setting extends BaseState implements GameStateInterface {
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             if (isIn(event, btnBack)) {
                 if (btnBack.isPushed())
-                    game.setCurrentGameState(Game.GameState.PLAYING);
+                   game.setCurrentGameState(Game.GameState.PLAYING);
             } else if (isIn(event, btnSound)) {
                 if (btnSound.isPushed())
                     for (CustomButton btn : btnVolumeButtons)
@@ -171,8 +169,16 @@ public class Setting extends BaseState implements GameStateInterface {
             }
 
             btnBack.setPushed(false);
+            btnNext.setPushed(false);
+            btnPrev.setPushed(false);
+
         }
 
+    }
+
+
+    public boolean isGeminiActive() {
+        return btnGeminiActive.isPushed();
     }
 
 }

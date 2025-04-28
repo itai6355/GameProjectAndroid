@@ -16,7 +16,6 @@ public final class GameConstants {
         public static final int HITBOX_SIZE = 12 * SCALE_MULTIPLIER;
         public static final int X_DRAW_OFFSET = 2 * SCALE_MULTIPLIER;
         public static final int Y_DRAW_OFFSET = 4 * SCALE_MULTIPLIER;
-
     }
 
     public static final class Animation {

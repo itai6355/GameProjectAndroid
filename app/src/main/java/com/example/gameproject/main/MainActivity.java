@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int GAME_WIDTH, GAME_HEIGHT;
     private static Context gameContext;
     private static DatabaseHelper dbHelper;
-    private final boolean dev = true;
+    private final boolean dev = false;
     private final boolean isBtnPushed = false;
     private EditText userName;
     private EditText password;
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String usernameSt = userName.getText().toString().trim();
         String passwordSt = password.getText().toString().trim();
 
-        if (usernameSt.isEmpty() || passwordSt.isEmpty()) return;
+        if (usernameSt.isEmpty() || passwordSt.isEmpty() || usernameSt.length() < 4 || passwordSt.length() < 4) return;
 
 
         if (dbHelper.loginUserByUsername(usernameSt, passwordSt)) {
