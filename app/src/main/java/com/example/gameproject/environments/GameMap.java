@@ -46,6 +46,17 @@ public class GameMap {
         this.particlesArrayList = new ArrayList<>();
         MAX_ENEMIES = 0;
     }
+    public GameMap(int[][] spriteIds, Tiles tilesType) {
+        this.spriteIds = spriteIds;
+        this.tilesType = tilesType;
+        this.buildingArrayList = new ArrayList<>();
+        this.gameObjectArrayList = new ArrayList<>();
+        this.enemysArrayList = new CopyOnWriteArrayList<>();
+        this.doorwayArrayList = new ArrayList<>();
+        this.itemArrayList = new CopyOnWriteArrayList<>();
+        this.particlesArrayList = new ArrayList<>();
+        MAX_ENEMIES = 0;
+    }
 
 
     public Entity[] getDrawableList() {

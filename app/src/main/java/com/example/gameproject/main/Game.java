@@ -11,7 +11,6 @@ import com.example.gameproject.gamestates.death.DeathScreen;
 import com.example.gameproject.gamestates.lostConnection.LostConnectionState;
 import com.example.gameproject.gamestates.invenory.InventoryState;
 import com.example.gameproject.gamestates.playing.Playing;
-import com.example.gameproject.gamestates.setting.SettingState;
 import com.example.gameproject.gamestates.shop.ShopState;
 
 public class Game {
@@ -25,7 +24,6 @@ public class Game {
     private ShopState shopState;
     private GameState currentGameState = GameState.PLAYING;
     private LostConnectionState lostConnectionState;
-    private SettingState settingState;
 
     public Game(SurfaceHolder holder) {
         this.holder = holder;
@@ -42,7 +40,6 @@ public class Game {
             case INVENTORY -> inventoryState.update(delta);
             case SHOP -> shopState.update(delta);
             case LOST_CONNECTION -> lostConnectionState.update(delta);
-            case SETTING -> settingState.update(delta);
         }
     }
 
@@ -57,7 +54,6 @@ public class Game {
             case INVENTORY -> inventoryState.render(canvas);
             case SHOP -> shopState.render(canvas);
             case LOST_CONNECTION -> lostConnectionState.render(canvas);
-            case SETTING -> settingState.render(canvas);
         }
 
         holder.unlockCanvasAndPost(canvas);
@@ -71,19 +67,20 @@ public class Game {
             case INVENTORY -> inventoryState.touchEvents(event);
             case SHOP -> shopState.touchEvents(event);
             case LOST_CONNECTION -> lostConnectionState.touchEvents(event);
-            case SETTING -> settingState.touchEvents(event);
         }
 
         return true;
     }
 
+    public void setCurrentGameState(GameState newGameState) {
+        this.currentGameState = newGameState;
+    }
+
+
     public void startGameLoop() {
         gameLoop.startGameLoop();
     }
 
-    public void setCurrentGameState(GameState gameState) {
-        this.currentGameState = gameState;
-    }
 
     public InventoryState getInventoryState() {
         return inventoryState;
@@ -103,7 +100,6 @@ public class Game {
         shopState = new ShopState(this);
         playing = new Playing(this);
         lostConnectionState = new LostConnectionState(this);
-        settingState = new SettingState(this);
     }
     public GameState getCurrentGameState() {
         return currentGameState;
@@ -113,9 +109,11 @@ public class Game {
         return dbHelper;
     }
 
-
+    public GameLoop getGameLoop() {
+        return gameLoop;
+    }
 
     public enum GameState {
-        PLAYING, DEATH_SCREEN, INVENTORY, SHOP, LOST_CONNECTION, SETTING
+        PLAYING, DEATH_SCREEN, INVENTORY, SHOP, LOST_CONNECTION
     }
 }

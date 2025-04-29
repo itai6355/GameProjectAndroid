@@ -5,6 +5,7 @@ import static com.example.gameproject.helpers.GameConstants.Sprite.X_DRAW_OFFSET
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -30,6 +31,7 @@ import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.MapManager;
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
+import com.example.gameproject.gamestates.setting.SettingActivity;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
 import com.example.gameproject.helpers.Paints;
@@ -37,6 +39,7 @@ import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
+import com.example.gameproject.tutorial.TutorialActivity;
 
 import java.util.Arrays;
 
@@ -415,6 +418,8 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
 
+
+
     private void drawPlayer(Canvas canvas) {
         canvas.drawBitmap(Weapons.SHADOW.getWeaponImg(), player.getHitbox().left, player.getHitbox().bottom - 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
         canvas.drawBitmap(player.getSkin().getSprite(player.getAniIndex(), player.getFaceDir()), player.getHitbox().left - X_DRAW_OFFSET, player.getHitbox().top - GameConstants.Sprite.Y_DRAW_OFFSET, null);
@@ -552,12 +557,10 @@ public class Playing extends BaseState implements GameStateInterface {
         return player;
     }
 
-    public PlayingUI getPlayingUI() {
-        return playingUI;
-    }
-
     public void setGameStateToSettings() {
-        game.setCurrentGameState(Game.GameState.SETTING);
+        Intent intent = new Intent(MainActivity.getGameContext(), SettingActivity.class);
+        game.getGameLoop().pauseGameLoop();
+        MainActivity.getGameContext().startActivity(intent);
     }
 
     public void setGameStateToInventory() {
@@ -566,5 +569,11 @@ public class Playing extends BaseState implements GameStateInterface {
 
     public void setGameStateToShop() {
         game.setCurrentGameState(Game.GameState.SHOP);
+    }
+
+    public void setToTutorial() {
+        Intent intent = new Intent(MainActivity.getGameContext(), TutorialActivity.class);
+        game.getGameLoop().pauseGameLoop();
+        MainActivity.getGameContext().startActivity(intent);
     }
 }

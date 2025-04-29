@@ -9,20 +9,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
-import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.gamestates.shop.ShopImages;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.Paints;
-import com.example.gameproject.helpers.interfaces.GameStateInterface;
-import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
-import com.example.gameproject.main.GameLoop;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
-public class SettingState extends BaseState implements GameStateInterface {
+public class SettingState{
 
     final int space = 20;
     private final int menuX = GAME_WIDTH / 2 - GameImages.SETTING_MENU.getImage().getWidth() / 2;
@@ -49,10 +45,14 @@ public class SettingState extends BaseState implements GameStateInterface {
     private final Paint BlackPaint;
 
     private float volume = 0.5f;
+    private Context context;
+    private SettingActivity.Settingloop settingloop;
 
 
-    public SettingState(Game game) {
-        super(game);
+
+    public SettingState(Context context,SettingActivity.Settingloop settingloop) {
+        this.context = context;
+        this.settingloop = settingloop;
         btnBack = new CustomButton(btnXBack, btnYBack, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
         btnVolumeButtons = new CustomButton[20];
         for (int i = 0; i < btnVolumeButtons.length; i++) {
@@ -68,14 +68,14 @@ public class SettingState extends BaseState implements GameStateInterface {
 
         BlackPaint = Paints.BIG_TEXT_PAINT;
     }
-    @Override
-    public void update( double delta) {
+
+    public void update() {
         volume = 0.0f;
         for (CustomButton btn : btnVolumeButtons)
             if (btn.isPushed()) volume += 0.05f;
         GameActivity.getMpHelper().setVolume(volume, volume);
     }
-    @Override
+
     public void render(Canvas canvas) {
         drawBackground(canvas);
         drawButtons(canvas);
@@ -119,10 +119,9 @@ public class SettingState extends BaseState implements GameStateInterface {
 
     }
 
-    @Override
+
     public void touchEvents(MotionEvent event) {
         boolean isActive = true;
-
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (isIn(event, btnBack))
@@ -150,35 +149,44 @@ public class SettingState extends BaseState implements GameStateInterface {
                     }
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (isIn(event, btnBack)) {
-                if (btnBack.isPushed())
-                   game.setCurrentGameState(Game.GameState.PLAYING);
-            } else if (isIn(event, btnSound)) {
-                if (btnSound.isPushed())
-                    for (CustomButton btn : btnVolumeButtons)
-                        btn.setPushed(false);
-            } else if (isIn(event, btnNext)) {
-                if (btnNext.isPushed())
-                    GameActivity.getMpHelper().playNextSong();
-            } else if (isIn(event, btnPrev)) {
-                if (btnPrev.isPushed())
-                    GameActivity.getMpHelper().playPreviousSong();
+            if (isIn(event, btnBack) && btnBack.isPushed()) {
+                setPlaying();
+            } else if (isIn(event, btnSound) && btnSound.isPushed()) {
+                for (CustomButton btn : btnVolumeButtons)
+                    btn.setPushed(false);
+            } else if (isIn(event, btnNext) && btnNext.isPushed()) {
+                GameActivity.getMpHelper().playNextSong();
+            } else if (isIn(event, btnPrev) && btnPrev.isPushed()) {
+                GameActivity.getMpHelper().playPreviousSong();
             } else if (isIn(event, btnGeminiActive)) {
                 btnGeminiActive.setPushed(!btnGeminiActive.isPushed());
                 MainActivity.getGeminiAPI().setIsShowText(!btnGeminiActive.isPushed());
             }
 
             btnBack.setPushed(false);
+            btnSound.setPushed(false);
             btnNext.setPushed(false);
             btnPrev.setPushed(false);
-
         }
-
     }
 
+    private boolean isIn(MotionEvent event, CustomButton btnBack) {
+        return event.getX() > btnBack.getHitbox().left && event.getX() < btnBack.getHitbox().right
+                && event.getY() > btnBack.getHitbox().top && event.getY() < btnBack.getHitbox().bottom;
+    }
 
+    private void setPlaying() {
+        Intent game = new Intent(context, GameActivity.class);
+        game.putExtra("username", GameActivity.getUsername());
+        game.putExtra("password", GameActivity.getPassword());
+        settingloop.stopSettingLoop();
+        context.startActivity(game);
+    }
     public boolean isGeminiActive() {
         return btnGeminiActive.isPushed();
     }
 
+    public void setSettingloop(SettingActivity.Settingloop settingloop) {
+        this.settingloop = settingloop;
+    }
 }

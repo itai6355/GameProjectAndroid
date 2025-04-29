@@ -21,12 +21,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         holder.addCallback(this);
         game = new Game(holder);
 
-        networkReceiver = new NetworkReceiver( game, context);
+        networkReceiver = new NetworkReceiver(game);
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         context.registerReceiver(networkReceiver, filter);
     }
 
+    public Game getGame() {
+        return game;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

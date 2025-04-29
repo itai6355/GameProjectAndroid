@@ -7,15 +7,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.example.gameproject.main.Game;
+import com.example.gameproject.main.GameActivity;
 
 public class NetworkReceiver extends BroadcastReceiver {
     private final Game game;
     private Game.GameState prev;
-    private final Context context;
 
-    public NetworkReceiver(Game game, Context context) {
+    public NetworkReceiver(Game game) {
         this.game = game;
-        this.context = context;
     }
 
     @Override
@@ -27,9 +26,8 @@ public class NetworkReceiver extends BroadcastReceiver {
             if (game.getCurrentGameState() == Game.GameState.LOST_CONNECTION)
                 game.setCurrentGameState(prev);
         } else {
-                prev = game.getCurrentGameState();
-                game.setCurrentGameState(Game.GameState.LOST_CONNECTION);
-
+            prev = game.getCurrentGameState();
+            game.setCurrentGameState(Game.GameState.LOST_CONNECTION);
         }
     }
 }

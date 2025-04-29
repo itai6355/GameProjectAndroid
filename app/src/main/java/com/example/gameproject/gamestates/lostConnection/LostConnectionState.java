@@ -1,5 +1,6 @@
 package com.example.gameproject.gamestates.lostConnection;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.MotionEvent;
@@ -14,6 +15,8 @@ import com.example.gameproject.ui.ButtonImages;
 import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
+import java.util.ConcurrentModificationException;
+
 public class LostConnectionState extends BaseState implements GameStateInterface {
 
     private int index = 0;
@@ -26,6 +29,7 @@ public class LostConnectionState extends BaseState implements GameStateInterface
     private long lastUpdateTime = 0;
     private final long UPDATE_INTERVAL = 333;
 
+    private Context context;
 
     int width = (ButtonImages.EMPTY_SMALL.getWidth());
     int height = (ButtonImages.EMPTY_SMALL.getHeight());
@@ -125,6 +129,10 @@ public class LostConnectionState extends BaseState implements GameStateInterface
             else Menu.setPushed(false);
 
         }
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public boolean isIn(MotionEvent e, CustomButton b) {

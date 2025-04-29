@@ -26,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
 
     private static String username;
     private static String password;
+    private static GamePanel panel;
 
     public static boolean isDrawHitbox() {
         return DrawHitbox;
@@ -72,7 +73,8 @@ public class GameActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("username");
         password = getIntent().getStringExtra("password");
 
-        setContentView(new GamePanel(this));
+        panel = new GamePanel(this);
+        setContentView(panel);
         mediaPlayerHelper = new MediaPlayerHelper(this);
         mediaPlayerHelper.initializeMediaPlayerAsync(() -> mediaPlayerHelper.play());
     }
@@ -115,5 +117,9 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mediaPlayerHelper.stop();
+    }
+
+    public static GamePanel getPanel() {
+        return panel;
     }
 }

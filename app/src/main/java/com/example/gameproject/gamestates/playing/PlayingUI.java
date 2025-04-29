@@ -31,6 +31,7 @@ public class PlayingUI {
     private final CustomButton btnSetting;
     private final CustomButton btnInventory;
     private final CustomButton btnShop;
+    private final CustomButton btnTutorial;
     private final Paint BlackPaint;
     private int joystickPointerId = -1;
     private int attackBtnPointerId = -1;
@@ -48,7 +49,7 @@ public class PlayingUI {
         btnSetting = new CustomButton(GAME_WIDTH - 230, 50, ButtonImages.PLAYING_SETTING.getWidth(), ButtonImages.PLAYING_SETTING.getHeight());
         btnInventory = new CustomButton(GAME_WIDTH - 230, 70 + ButtonImages.PLAYING_MENU.getHeight(), ButtonImages.PLAYING_MENU.getWidth(), ButtonImages.PLAYING_MENU.getHeight());
         btnShop = new CustomButton(GAME_WIDTH - 230 - ButtonImages.PLAYING_MENU.getWidth() - 20, 50, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
-
+        btnTutorial = new CustomButton(GAME_WIDTH - ButtonImages.PLAYING_DEBUG.getWidth() -20 ,GAME_HEIGHT- ButtonImages.PLAYING_DEBUG.getHeight() -20, ButtonImages.PLAYING_DEBUG.getWidth(), ButtonImages.PLAYING_DEBUG.getHeight());
 
     }
 
@@ -110,7 +111,7 @@ public class PlayingUI {
     private void drawButtons(Canvas canvas) {
         canvas.drawBitmap(ButtonImages.PLAYING_SETTING.getBtnImg(btnSetting.isPushed(btnSetting.getPointerId())), btnSetting.getHitbox().left, btnSetting.getHitbox().top, null);
 
-
+        canvas.drawBitmap(ButtonImages.PLAYING_DEBUG.getBtnImg(btnTutorial.isPushed(btnTutorial.getPointerId())), btnTutorial.getHitbox().left, btnTutorial.getHitbox().top, null);
         canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(btnInventory.isPushed(btnInventory.getPointerId())), btnInventory.getHitbox().left, btnInventory.getHitbox().top, null);
 
         if (btnInventory.isPushed(btnInventory.getPointerId())) {
@@ -188,6 +189,7 @@ public class PlayingUI {
                     if (isIn(eventPos, btnSetting)) btnSetting.setPushed(true, pointerId);
                     else if (isIn(eventPos, btnInventory)) btnInventory.setPushed(true, pointerId);
                     else if (isIn(eventPos, btnShop)) btnShop.setPushed(true, pointerId);
+                    else if (isIn(eventPos, btnTutorial)) btnTutorial.setPushed(true, pointerId);
                 }
             }
 
@@ -222,10 +224,17 @@ public class PlayingUI {
                             playing.setGameStateToShop();
                             playing.resetLastItem();
                         }
+                    }else if (isIn(eventPos, btnTutorial)) {
+                        if (btnTutorial.isPushed(pointerId)) {
+                            resetJoystickButton();
+                            playing.setToTutorial();
+                            playing.resetLastItem();
+                        }
                     }
                     btnShop.unPush(pointerId);
                     btnSetting.unPush(pointerId);
                     btnInventory.unPush(pointerId);
+                    btnTutorial.unPush(pointerId);
 
                     if (pointerId == attackBtnPointerId) {
                         playing.getPlayer().setAttacking(false);

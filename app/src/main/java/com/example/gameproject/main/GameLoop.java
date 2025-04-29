@@ -9,6 +9,8 @@ public class GameLoop implements Runnable {
     private final Thread gameThread;
     private final Game game;
 
+    private boolean running = false;
+
 
     public GameLoop(Game game) {
         this.game = game;
@@ -25,43 +27,42 @@ public class GameLoop implements Runnable {
         int fps = 0;
 
         while (true) {
-            long now = System.nanoTime();
+            if (running) {
 
-            if (now - lastUpdateTime >= OPTIMAL_UPDATE_TIME) {
-                double delta = (now - lastUpdateTime) / 1000000000.0;
+                long now = System.nanoTime();
+
+                if (now - lastUpdateTime >= OPTIMAL_UPDATE_TIME) {
+                    double delta = (now - lastUpdateTime) / 1000000000.0;
 
                     game.update(delta);
+                    lastUpdateTime = now;
 
+                    fps++;
+                }
 
-                lastUpdateTime = now;
-
-
-                fps++;
-            }
-
-            if (now - lastRenderTime >= OPTIMAL_RENDER_TIME) {
+                if (now - lastRenderTime >= OPTIMAL_RENDER_TIME) {
                     game.render();
 
-                lastRenderTime = now;
-            }
+                    lastRenderTime = now;
+                }
 
-            if (System.currentTimeMillis() - lastFPScheck >= 1000) {
-                System.out.println("FPS: " + fps);
-                fps = 0;
-                lastFPScheck += 1000;
+                if (System.currentTimeMillis() - lastFPScheck >= 1000) {
+                    System.out.println("FPS: " + fps);
+                    fps = 0;
+                    lastFPScheck += 1000;
+                }
+
             }
         }
     }
 
     public void startGameLoop() {
-        gameThread.start();
+        if (!gameThread.isAlive()) gameThread.start();
+        running = true;
     }
 
-    public void stop() {
-        try {
-            gameThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void pauseGameLoop() {
+        running = false;
     }
+
 }

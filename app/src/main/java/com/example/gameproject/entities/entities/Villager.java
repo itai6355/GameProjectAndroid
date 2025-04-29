@@ -58,15 +58,12 @@ public class Villager extends Character {
     private void changeVoice(String targetVoiceNameContains) {
         if (tts == null || !isTtsInitialized) return;
 
-        for (Voice voice : tts.getVoices()) {
-            if (voice.getName().toLowerCase().contains(targetVoiceNameContains.toLowerCase())) {
-                tts.setVoice(voice);
-                Log.d("VillagerTTS", "Voice changed to: " + voice.getName());
-                return;
-            }
+        var voice = villagerType.getVoiceFromCategory(tts, targetVoiceNameContains);
+        if (voice != null) {
+            tts.setVoice(voice);
+        } else {
+            Log.d("Villager", "No voice found for category: " + targetVoiceNameContains);
         }
-
-        Log.d("VillagerTTS", "Voice not found matching: " + targetVoiceNameContains);
     }
 
 
@@ -235,7 +232,7 @@ public class Villager extends Character {
     }
 
     public void drawTalk(Canvas canvas, float cameraX, float cameraY) {
-        if (conversation != null && conversation.contains("Error")) {
+        if (conversation != null && (conversation.contains("Error") ||conversation.contains("failure") )) {
             isTalking = false;
             return;
         }
@@ -280,5 +277,44 @@ public class Villager extends Character {
                 case VILLAGER_OLIVE -> "older";
             };
         }
+
+        public Voice getVoiceFromCategory(TextToSpeech tts, String category) {
+            for (Voice voice : tts.getVoices()) {
+                String voiceName = voice.getName().toLowerCase();
+
+                switch (category.toLowerCase()) {
+                    case "male":
+                        if (voiceName.contains("male") || voiceName.contains("x-") || voiceName.contains("en-us")) {
+                            return voice;
+                        }
+                        break;
+                    case "female":
+                        if (voiceName.contains("female") || voiceName.contains("en-us")) {
+                            return voice;
+                        }
+                        break;
+                    case "child":
+                        if (voiceName.contains("child") || voiceName.contains("yue")) {
+                            return voice;
+                        }
+                        break;
+                    case "deep":
+                        if (voiceName.contains("deep") || voiceName.contains("x-dma")) {
+                            return voice;
+                        }
+                        break;
+                    case "older":
+                        if (voiceName.contains("older") || voiceName.contains("x-imr")) {
+                            return voice;
+                        }
+                        break;
+                    default:
+                        Log.d("VoiceSelection", "Unknown category: " + category);
+                        return null;
+                }
+            }
+            return null;
+        }
+
     }
 }
