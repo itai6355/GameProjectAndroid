@@ -179,6 +179,8 @@ public class SettingState{
         Intent game = new Intent(context, GameActivity.class);
         game.putExtra("username", GameActivity.getUsername());
         game.putExtra("password", GameActivity.getPassword());
+        game.putExtra("left", volume);
+        game.putExtra("right", volume);
         settingloop.stopSettingLoop();
         context.startActivity(game);
     }

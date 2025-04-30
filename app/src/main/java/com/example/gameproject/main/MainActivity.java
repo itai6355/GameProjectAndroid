@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, GameActivity.class);
             intent.putExtra("username", "admin");
             intent.putExtra("password", "admin");
+            intent.putExtra("left", 1);
+            intent.putExtra("right", 1);
             startActivity(intent);
         }
 

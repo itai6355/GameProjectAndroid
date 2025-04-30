@@ -335,11 +335,6 @@ public class Player extends Character {
         addToSQL(item);
     }
 
-    private void reduceFromInventory(InventorySloth item) {
-        for (InventorySloth[] inventorySloths : inventory)
-            for (InventorySloth inventorySloth : inventorySloths)
-                if (inventorySloth.equals(item)) inventorySloth.reduceAmount();
-    }
 
     public InventorySloth[][] getInventory() {
         return inventory;
@@ -371,10 +366,6 @@ public class Player extends Character {
                 this.InvisibleStart = System.currentTimeMillis();
                 this.isInvisible = true;
             }
-
-            default -> {
-                return;
-            }
         }
 
         useItem(item);
@@ -385,9 +376,7 @@ public class Player extends Character {
         try {
             dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
             item.reduceAmount();
-            reduceFromInventory(item);
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
 
     }
 

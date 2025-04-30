@@ -77,6 +77,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(panel);
         mediaPlayerHelper = new MediaPlayerHelper(this);
         mediaPlayerHelper.initializeMediaPlayerAsync(() -> mediaPlayerHelper.play());
+        mediaPlayerHelper.setVolume(getIntent().getIntExtra("left",0), getIntent().getIntExtra("right",0));
     }
 
     private void cancelScheduledNotifications() {
