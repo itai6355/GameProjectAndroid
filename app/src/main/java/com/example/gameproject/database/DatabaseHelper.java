@@ -26,7 +26,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "GAME_DB3.db";
+    private static final String DATABASE_NAME = "GAME_DataBase.db";
     private static final int DATABASE_VERSION = 5;
     private static final String TABLE_NAME = "ANDROID_GAME_DB";
     private final Context context;
@@ -100,6 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return columnValue;
     }
+
+
 
     private boolean isValidColumn(String columnName) {
         for (DatabaseColumns.Column column : DatabaseColumns.getAllColumns()) {
@@ -310,4 +312,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (db != null && db.isOpen()) db.close();
     }
 
+    public List<String> getAllUsernames() {
+        List<String> usernames = new ArrayList<>();
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_USERNAME + " FROM " + TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") String username = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+                usernames.add(username);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return usernames;
+    }
 }

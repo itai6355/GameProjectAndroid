@@ -110,6 +110,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        mediaPlayerHelper.stop();
         createNotificationChannel();
         NotificationScheduler.scheduleNotification(this, 1, TimeUnit.HOURS);
     }

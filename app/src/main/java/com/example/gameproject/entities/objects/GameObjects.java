@@ -71,6 +71,7 @@ public enum GameObjects implements BitmapMethods {
     WELL(R.drawable.tileset_element, 112, 27, 17, 21, 20, 20),
     PIGENS(R.drawable.tileset_element, 97, 48, 14, 29, 29, 29),
 
+    //TODO: fix the hitbox
     CABINET(R.drawable.furniture, 96, 192, 80, 43, 43, 43, 0.85f),
     OVEN(R.drawable.furniture, 65, 192, 30, 43, 43, 43, 0.85f),
     REFRIGERATOR(R.drawable.furniture, 35, 196, 26, 55, 55, 5, 0.85f),
@@ -87,7 +88,6 @@ public enum GameObjects implements BitmapMethods {
     DRAWERS_OAK(R.drawable.furniture, 4, 117, 25, 35, 35, 35, 0.85f);
 
 
-    //TODO: fix the hitboxes..
     Bitmap objectImg;
     int width, height;
     int hitboxRoof, hitboxFloor, hitboxHeight;

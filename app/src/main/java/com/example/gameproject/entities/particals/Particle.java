@@ -15,10 +15,9 @@ public class Particle extends Entity {
     private boolean isActive = false;
     private final Particles particlesType;
     private final Random random = new Random();
-    private int randomY1, randomY2, randomY3;
+    private int randomY1, randomY2;
     private int randomX1;
     private Player player;
-    private boolean isExtra;
 
 
     public Particle(Particles particlesType) {
@@ -27,6 +26,7 @@ public class Particle extends Entity {
         this.particlesType = particlesType;
         this.amount = particlesType.getAmount();
     }
+    //TODO: fix that the parctical isnt showing in the houses.
 
     public void update(Player player) {
         this.player = player;
@@ -39,7 +39,6 @@ public class Particle extends Entity {
                 index = 0;
                 randomY1 = random.nextInt((int) player.getHitbox().height());
                 randomY2 = random.nextInt((int) player.getHitbox().height());
-                randomY3 = random.nextInt((int) player.getHitbox().height());
                 randomX1 = random.nextInt((int) player.getHitbox().width());
             }
         }
