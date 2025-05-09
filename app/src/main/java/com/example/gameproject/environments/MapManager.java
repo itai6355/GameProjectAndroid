@@ -14,6 +14,9 @@ import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.helpers.GameConstants;
 import com.example.gameproject.helpers.HelpMethods;
+import com.example.gameproject.helpers.Paints;
+import com.example.gameproject.main.GameActivity;
+import com.example.gameproject.main.MainActivity;
 
 public class MapManager {
 
@@ -56,6 +59,8 @@ public class MapManager {
     }
 
     public void drawObject(Canvas canvas, GameObject gameObject) {
+        if (GameActivity.isDrawHitbox())
+            canvas.drawRect(gameObject.getHitbox().left + cameraX, gameObject.getHitbox().top + cameraY, gameObject.getHitbox().right + cameraX, gameObject.getHitbox().bottom + cameraY, Paints.HITBOX_PAINT);
         canvas.drawBitmap(gameObject.getObjectType().getObjectImg(), gameObject.getHitbox().left + cameraX, gameObject.getHitbox().top - gameObject.getObjectType().getHitboxRoof() + cameraY, null);
     }
 
@@ -141,7 +146,7 @@ public class MapManager {
 
         HelpMethods.AddVillagersToBuildings(buildings);
 
-        currentMap = outsideMap;
+        currentMap = insideGreenRoofHouseMap1;
     }
 
 }

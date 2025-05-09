@@ -14,7 +14,6 @@ import com.example.gameproject.helpers.HelpMethods;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MapHelper {
@@ -113,35 +112,35 @@ public class MapHelper {
 
 
     private static List<GameObject> createRoom(boolean isBig) {
-        if (!isBig) {
-            return switch (new Random().nextInt(3)) {
-                default -> createRoom1();
-                case 1 -> createRoom2();
-                case 2 -> createRoom3();
-            };
-        } else {
-            return switch (new Random().nextInt(2)) {
-                case 1 -> createRoomBig1();
-                default -> createRoomBig2();
-            };
-        }
-
+//        if (!isBig) {
+//            return switch (new Random().nextInt(3)) {
+//                default -> createRoom1();
+//                case 1 -> createRoom2();
+//                case 2 -> createRoom3();
+//            };
+//        } else {
+//            return switch (new Random().nextInt(2)) {
+//                case 1 -> createRoomBig1();
+//                default -> createRoomBig2();
+//            };
+//        }
+        return createRoomBig2();
 
     }
 
     private static List<GameObject> createRoomBig2() {
         var list = new ArrayList<GameObject>();
-        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_Y_START + (float) GameObjects.REFRIGERATOR.getHeight() / 2), GameObjects.REFRIGERATOR));
-        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.REFRIGERATOR.getWidth() - 15, HOUSE_Y_START + (float) GameObjects.CABINET.getHeight() / 2), GameObjects.CABINET));
-        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.REFRIGERATOR.getWidth() + GameObjects.CABINET.getWidth() - 70, HOUSE_Y_START + (float) GameObjects.OVEN.getHeight() / 2), GameObjects.OVEN));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_Y_START - 40), GameObjects.REFRIGERATOR));
+        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.REFRIGERATOR.getWidth() - 15, HOUSE_Y_START- 40), GameObjects.CABINET));
+        list.add(new GameObject(new PointF(HOUSE_X_START + GameObjects.REFRIGERATOR.getWidth() + GameObjects.CABINET.getWidth() - 70, HOUSE_Y_START- 40), GameObjects.OVEN));
 
-        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_BIG_HEIGHT_POS - GameObjects.SOFA_RIGHT.getHeight()), GameObjects.PLANT));
-        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_BIG_HEIGHT_POS), GameObjects.SOFA_RIGHT));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_BIG_HEIGHT_POS - GameObjects.SOFA_RIGHT.getHeight() - GameObjects.PLANT.getHitboxHeight() + 30), GameObjects.PLANT));
+        list.add(new GameObject(new PointF(HOUSE_X_START, HOUSE_BIG_HEIGHT_POS - GameObjects.SOFA_RIGHT.getHeight() + 30), GameObjects.SOFA_RIGHT));
 
         list.add(new GameObject(new PointF((float) (HOUSE_BIG_WIDTH / 2 - GameObjects.CARPET.getWidth() / 2), (float) (HOUSE_BIG_HEIGHT_POS / 2 - GameObjects.CARPET.getHeight() / 2)), GameObjects.CARPET));
 
-        list.add(new GameObject(new PointF(HOUSE_BIG_WIDTH_POS - GameObjects.TABLE_BIG.getWidth(), HOUSE_BIG_HEIGHT_POS - GameObjects.TABLE_BIG.getHeight()+ 40), GameObjects.CHAIR_BIRCH_DOWN));
-        list.add(new GameObject(new PointF(HOUSE_BIG_WIDTH_POS - GameObjects.TABLE_BIG.getWidth() - 50, HOUSE_BIG_HEIGHT_POS - 50), GameObjects.TABLE_BIG));
+        list.add(new GameObject(new PointF(HOUSE_BIG_WIDTH_POS - GameObjects.TABLE_BIG.getWidth(), HOUSE_BIG_HEIGHT_POS - GameObjects.TABLE_BIG.getHeight() + 20 - GameObjects.CHAIR_BIRCH_DOWN.getHeight()), GameObjects.CHAIR_BIRCH_DOWN));
+        list.add(new GameObject(new PointF(HOUSE_BIG_WIDTH_POS - GameObjects.TABLE_BIG.getWidth() - 50, HOUSE_BIG_HEIGHT_POS - 50 - GameObjects.TABLE_BIG.getHeight()), GameObjects.TABLE_BIG));
         return list;
     }
 

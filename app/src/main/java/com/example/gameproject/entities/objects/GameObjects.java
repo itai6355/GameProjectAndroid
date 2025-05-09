@@ -49,6 +49,7 @@ public enum GameObjects implements BitmapMethods {
     SMALL_POT_FULL(0, 112, 16, 13, 4, 10),
     SMALL_POT_EMPTY(16, 12, 16, 13, 4, 10),
 
+    //TODO: fix hotbox width.
 
     PLANT(R.drawable.tileset_element, 0, 120, 15, 24, 14, 23),
     DRAWERS(R.drawable.tileset_element, 32, 120, 16, 24, 24, 23),
@@ -58,7 +59,7 @@ public enum GameObjects implements BitmapMethods {
     BOOK_SHELF(R.drawable.tileset_element, 128, 112, 32, 30, 28, 30),
     BOOK_SHELF_EMPTY(R.drawable.tileset_element, 160, 113, 32, 29, 29, 29),
     CHAIR(R.drawable.tileset_element, 7, 147, 8, 11, 11, 11),
-    BLUE_POT(R.drawable.tileset_element, 1, 160, 14, 15, 15, 15),//TODO: fix the hitbox
+    BLUE_POT(R.drawable.tileset_element, 1, 160, 14, 15, 10, 14),
     PAINTING(R.drawable.tileset_element, 97, 168, 14, 6, 5, 6),
     BASEMENT_OAK(R.drawable.tileset_element, 97, 178, 14, 13, 11, 13),
     BASEMENT_BIRCH(R.drawable.tileset_element, 113, 178, 14, 13, 11, 13),
@@ -66,25 +67,24 @@ public enum GameObjects implements BitmapMethods {
     BASEMENT_PRISMARIN(R.drawable.tileset_element, 145, 178, 14, 13, 11, 13),
     POT_EMPTY(R.drawable.tileset_element, 33, 146, 14, 14, 14, 14),
     TABLE(R.drawable.tileset_element, 48, 145, 16, 15, 14, 15),
-    TABLE2(R.drawable.tileset_element, 224, 2, 16, 14, 13, 12),
-    TABLE3(R.drawable.tileset_element, 80, 119, 16, 12, 12, 12),//TODO: fix the hitbox
+    TABLE2(R.drawable.tileset_element, 224, 2, 16, 14, 10, 14),
+    TABLE3(R.drawable.tileset_element, 80, 119, 16, 12, 9, 12),
     WELL(R.drawable.tileset_element, 112, 27, 17, 21, 20, 20),
     PIGENS(R.drawable.tileset_element, 97, 48, 14, 29, 29, 29),
 
-    //TODO: fix the hitbox
-    CABINET(R.drawable.furniture, 96, 192, 80, 43, 43, 43, 0.85f),
-    OVEN(R.drawable.furniture, 65, 192, 30, 43, 43, 43, 0.85f),
-    REFRIGERATOR(R.drawable.furniture, 35, 196, 26, 55, 55, 5, 0.85f),
-    SOFA_RIGHT(R.drawable.furniture, 0, 197, 22, 55, 55, 55, 0.85f),
+    CABINET(R.drawable.furniture, 96, 192, 80, 43, 0, 43, 0.85f),
+    OVEN(R.drawable.furniture, 65, 192, 30, 43, 0, 43, 0.85f),
+    REFRIGERATOR(R.drawable.furniture, 35, 196, 26, 55, 0, 55, 0.85f),
+    SOFA_RIGHT(R.drawable.furniture, 0, 197, 22, 55, 0, 55, 0.85f),
     SOFA_DOWN(R.drawable.furniture, 88, 161, 49, 31, 31, 31, 0.85f),
     SMALL_SOFA_DOWN(R.drawable.furniture, 144, 160, 32, 30, 30, 30, 0.85f),
     SMALL_SOFA_UP(R.drawable.furniture, 176, 164, 32, 28, 28, 28, 0.85f),
     OAK_BOOKSHELF(R.drawable.furniture, 97, 66, 46, 44, 44, 44, 0.85f),
     BIRCH_BOOKSHELF(R.drawable.furniture, 33, 64, 46, 47, 47, 47, 0.85f),
-    CHAIR_BIRCH_DOWN(R.drawable.furniture, 81, 5, 14, 26, 26, 26, 0.85f),
+    CHAIR_BIRCH_DOWN(R.drawable.furniture, 81, 5, 14, 26, 0, 26, 0.85f),
     CHAIR_BIRCH_RIGHT(R.drawable.furniture, 96, 4, 15, 27, 27, 27, 0.85f),
-    TABLE_BIG(R.drawable.furniture, 0, 64, 31, 46, 46, 46, 0.85f),
-    CARPET(R.drawable.furniture, 160, 32, 48, 33, 0, 0,1.5f),
+    TABLE_BIG(R.drawable.furniture, 0, 64, 31, 46, 0, 46, 0.85f),
+    CARPET(R.drawable.furniture, 160, 32, 48, 33, 0, 0, 1.5f),//TODO: fix the hitbox
     DRAWERS_OAK(R.drawable.furniture, 4, 117, 25, 35, 35, 35, 0.85f);
 
 

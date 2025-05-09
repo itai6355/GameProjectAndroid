@@ -112,4 +112,7 @@ public class CharacterShop extends BaseState implements GameStateInterface {
     public void buyPage(int page) {
         pages[page].Buy();
     }
+    public static CharacterPage[] getPages() {
+        return pages;
+    }
 }

@@ -21,7 +21,7 @@ public class GameActivity extends AppCompatActivity {
 
     private static final String CHANNEL_ID = "game_notifications";
 
-    private static final boolean DrawHitbox = false;
+    private static final boolean DrawHitbox = MainActivity.isDev();
     private static MediaPlayerHelper mediaPlayerHelper;
 
     private static String username;

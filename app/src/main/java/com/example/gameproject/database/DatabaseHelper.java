@@ -22,6 +22,7 @@ import com.example.gameproject.gamestates.invenory.InventorySloth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
