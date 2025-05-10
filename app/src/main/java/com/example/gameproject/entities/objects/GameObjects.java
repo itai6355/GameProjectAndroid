@@ -11,91 +11,87 @@ import com.example.gameproject.main.MainActivity;
 
 public enum GameObjects implements BitmapMethods {
 
-    PILLAR_YELLOW(0, 6, 16, 42, 32, 38),
-    STATUE_ANGRY_YELLOW(16, 1, 32, 47, 24, 35),
-    MONK_STATUE_BALL_YELLOW(49, 2, 30, 30, 16, 26),
-    MONK_STATUE_YELLOW(81, 2, 30, 30, 16, 26),
-    SOLDIER_SPEAR_YELLOW(112, 1, 16, 31, 23, 28),
-    PLANTER_STICKS_YELLOW(128, 11, 16, 20, 12, 17),
-    CUBE_YELLOW(32, 48, 16, 16, 3, 13),
-    FROG_YELLOW(48, 38, 32, 26, 16, 24),
-    SOLDIER_SWORD_YELLOW(81, 32, 31, 32, 20, 29),
-    PILLAR_SHORT_YELLOW(112, 32, 16, 32, 21, 30),
-    PILLAR_SNOW_YELLOW(128, 32, 16, 32, 21, 30),
-    PILLAR_GREEN(0, 70, 16, 42, 32, 38),
-    STATUE_ANGRY_GREEN(16, 65, 32, 47, 24, 35),
-    MONK_STATUE_BALL_GREEN(49, 66, 30, 30, 16, 26),
-    MONK_STATUE_GREEN(81, 66, 30, 30, 16, 26),
-    SOLDIER_SPEAR_GREEN(112, 65, 16, 31, 23, 28),
-    PLANTER_STICKS_GREEN(128, 75, 16, 20, 12, 17),
-    CUBE_GREEN(32, 112, 16, 16, 3, 13),
-    FROG_GREEN(48, 102, 32, 26, 16, 24),
-    SOLDIER_SWORD_GREEN(81, 96, 31, 32, 20, 29),
-    PILLAR_SHORT_GREEN(112, 96, 16, 32, 21, 30),
-    PILLAR_SNOW_GREEN(128, 96, 16, 32, 21, 30),
-    POT_ONE_FULL(144, 0, 16, 19, 10, 17),
-
-    POT_ONE_EMPTY(160, 0, 16, 19, 10, 17),
-    POT_TWO_FULL(144, 19, 16, 21, 12, 19),
-    POT_TWO_EMPTY(160, 20, 16, 20, 12, 19),
-    BASKET_FULL_RED_FRUIT(144, 40, 16, 16, 5, 14),
-    BASKET_FULL_CHICKEN(160, 40, 16, 16, 5, 14),
-    BASKET_EMPTY(144, 56, 16, 16, 5, 14),
-    BASKET_FULL_BREAD(160, 56, 16, 16, 5, 14),
-    OVEN_SNOW_YELLOW(144, 73, 28, 39, 20, 35),
-    OVEN_YELLOW(0, 129, 28, 28, 10, 24),
-    OVEN_GREEN(28, 128, 30, 29, 10, 24),
-    STOMP(58, 128, 16, 22, 10, 18),
-    SMALL_POT_FULL(0, 112, 16, 13, 4, 10),
-    SMALL_POT_EMPTY(16, 12, 16, 13, 4, 10),
-
-    //TODO: fix hotbox width.
-
-    PLANT(R.drawable.tileset_element, 0, 120, 15, 24, 14, 23),
-    DRAWERS(R.drawable.tileset_element, 32, 120, 16, 24, 24, 23),
-    BOOK_SHELF_SMALL(R.drawable.tileset_element, 48, 113, 16, 29, 29, 29),
-    BOOK_SHELF_SMALL_EMPTY(R.drawable.tileset_element, 64, 113, 16, 29, 29, 29),
-    DRAWERS_BIG(R.drawable.tileset_element, 96, 121, 32, 23, 22, 23),
-    BOOK_SHELF(R.drawable.tileset_element, 128, 112, 32, 30, 28, 30),
-    BOOK_SHELF_EMPTY(R.drawable.tileset_element, 160, 113, 32, 29, 29, 29),
-    CHAIR(R.drawable.tileset_element, 7, 147, 8, 11, 11, 11),
-    BLUE_POT(R.drawable.tileset_element, 1, 160, 14, 15, 10, 14),
-    PAINTING(R.drawable.tileset_element, 97, 168, 14, 6, 5, 6),
-    BASEMENT_OAK(R.drawable.tileset_element, 97, 178, 14, 13, 11, 13),
-    BASEMENT_BIRCH(R.drawable.tileset_element, 113, 178, 14, 13, 11, 13),
-    BASEMENT_ACACIA(R.drawable.tileset_element, 129, 178, 14, 13, 11, 13),
-    BASEMENT_PRISMARIN(R.drawable.tileset_element, 145, 178, 14, 13, 11, 13),
-    POT_EMPTY(R.drawable.tileset_element, 33, 146, 14, 14, 14, 14),
-    TABLE(R.drawable.tileset_element, 48, 145, 16, 15, 14, 15),
-    TABLE2(R.drawable.tileset_element, 224, 2, 16, 14, 10, 14),
-    TABLE3(R.drawable.tileset_element, 80, 119, 16, 12, 9, 12),
-    WELL(R.drawable.tileset_element, 112, 27, 17, 21, 20, 20),
-    PIGENS(R.drawable.tileset_element, 97, 48, 14, 29, 29, 29),
-
-    CABINET(R.drawable.furniture, 96, 192, 80, 43, 0, 43, 0.85f),
-    OVEN(R.drawable.furniture, 65, 192, 30, 43, 0, 43, 0.85f),
-    REFRIGERATOR(R.drawable.furniture, 35, 196, 26, 55, 0, 55, 0.85f),
-    SOFA_RIGHT(R.drawable.furniture, 0, 197, 22, 55, 0, 55, 0.85f),
-    SOFA_DOWN(R.drawable.furniture, 88, 161, 49, 31, 31, 31, 0.85f),
-    SMALL_SOFA_DOWN(R.drawable.furniture, 144, 160, 32, 30, 30, 30, 0.85f),
-    SMALL_SOFA_UP(R.drawable.furniture, 176, 164, 32, 28, 28, 28, 0.85f),
-    OAK_BOOKSHELF(R.drawable.furniture, 97, 66, 46, 44, 44, 44, 0.85f),
-    BIRCH_BOOKSHELF(R.drawable.furniture, 33, 64, 46, 47, 47, 47, 0.85f),
-    CHAIR_BIRCH_DOWN(R.drawable.furniture, 81, 5, 14, 26, 0, 26, 0.85f),
-    CHAIR_BIRCH_RIGHT(R.drawable.furniture, 96, 4, 15, 27, 27, 27, 0.85f),
-    TABLE_BIG(R.drawable.furniture, 0, 64, 31, 46, 0, 46, 0.85f),
-    CARPET(R.drawable.furniture, 160, 32, 48, 33, 0, 0, 1.5f),//TODO: fix the hitbox
-    DRAWERS_OAK(R.drawable.furniture, 4, 117, 25, 35, 35, 35, 0.85f);
-
+    PILLAR_YELLOW(0, 6, 16, 42, 32, 38, false),
+    STATUE_ANGRY_YELLOW(16, 1, 32, 47, 24, 35, false),
+    MONK_STATUE_BALL_YELLOW(49, 2, 30, 30, 16, 26, false),
+    MONK_STATUE_YELLOW(81, 2, 30, 30, 16, 26, false),
+    SOLDIER_SPEAR_YELLOW(112, 1, 16, 31, 23, 28, false),
+    PLANTER_STICKS_YELLOW(128, 11, 16, 20, 12, 17, false),
+    CUBE_YELLOW(32, 48, 16, 16, 3, 13, false),
+    FROG_YELLOW(48, 38, 32, 26, 16, 24, false),
+    SOLDIER_SWORD_YELLOW(81, 32, 31, 32, 20, 29, false),
+    PILLAR_SHORT_YELLOW(112, 32, 16, 32, 21, 30, false),
+    PILLAR_SNOW_YELLOW(128, 32, 16, 32, 21, 30, false),
+    PILLAR_GREEN(0, 70, 16, 42, 32, 38, false),
+    STATUE_ANGRY_GREEN(16, 65, 32, 47, 24, 35, false),
+    MONK_STATUE_BALL_GREEN(49, 66, 30, 30, 16, 26, false),
+    MONK_STATUE_GREEN(81, 66, 30, 30, 16, 26, false),
+    SOLDIER_SPEAR_GREEN(112, 65, 16, 31, 23, 28, false),
+    PLANTER_STICKS_GREEN(128, 75, 16, 20, 12, 17, false),
+    CUBE_GREEN(32, 112, 16, 16, 3, 13, false),
+    FROG_GREEN(48, 102, 32, 26, 16, 24, false),
+    SOLDIER_SWORD_GREEN(81, 96, 31, 32, 20, 29, false),
+    PILLAR_SHORT_GREEN(112, 96, 16, 32, 21, 30, false),
+    PILLAR_SNOW_GREEN(128, 96, 16, 32, 21, 30, false),
+    POT_ONE_FULL(144, 0, 16, 19, 10, 17, false),
+    POT_ONE_EMPTY(160, 0, 16, 19, 10, 17, false),
+    POT_TWO_FULL(144, 19, 16, 21, 12, 19, false),
+    POT_TWO_EMPTY(160, 20, 16, 20, 12, 19, false),
+    BASKET_FULL_RED_FRUIT(144, 40, 16, 16, 5, 14, false),
+    BASKET_FULL_CHICKEN(160, 40, 16, 16, 5, 14, false),
+    BASKET_EMPTY(144, 56, 16, 16, 5, 14, false),
+    BASKET_FULL_BREAD(160, 56, 16, 16, 5, 14, false),
+    OVEN_SNOW_YELLOW(144, 73, 28, 39, 20, 35, false),
+    OVEN_YELLOW(0, 129, 28, 28, 10, 24, false),
+    OVEN_GREEN(28, 128, 30, 29, 10, 24, false),
+    STOMP(58, 128, 16, 22, 10, 18, false),
+    SMALL_POT_FULL(0, 112, 16, 13, 4, 10, false),
+    SMALL_POT_EMPTY(16, 12, 16, 13, 4, 10, false),
+    PLANT(R.drawable.tileset_element, 0, 120, 15, 24, 14, 23, false),
+    DRAWERS(R.drawable.tileset_element, 32, 120, 16, 24, 24, 23, false),
+    BOOK_SHELF_SMALL(R.drawable.tileset_element, 48, 113, 16, 29, 29, 29, false),
+    BOOK_SHELF_SMALL_EMPTY(R.drawable.tileset_element, 64, 113, 16, 29, 29, 29, false),
+    DRAWERS_BIG(R.drawable.tileset_element, 96, 121, 32, 23, 22, 23, false),
+    BOOK_SHELF(R.drawable.tileset_element, 128, 112, 32, 30, 28, 30, false),
+    BOOK_SHELF_EMPTY(R.drawable.tileset_element, 160, 113, 32, 29, 29, 29, false),
+    CHAIR(R.drawable.tileset_element, 7, 147, 8, 11, 11, 11, false),
+    BLUE_POT(R.drawable.tileset_element, 1, 160, 14, 15, 10, 14, false),
+    PAINTING(R.drawable.tileset_element, 97, 168, 14, 6, 5, 6, false),
+    BASEMENT_OAK(R.drawable.tileset_element, 97, 178, 14, 13, 11, 13, false),
+    BASEMENT_BIRCH(R.drawable.tileset_element, 113, 178, 14, 13, 11, 13, false),
+    BASEMENT_ACACIA(R.drawable.tileset_element, 129, 178, 14, 13, 11, 13, false),
+    BASEMENT_PRISMARIN(R.drawable.tileset_element, 145, 178, 14, 13, 11, 13, false),
+    POT_EMPTY(R.drawable.tileset_element, 33, 146, 14, 14, 14, 14, false),
+    TABLE(R.drawable.tileset_element, 48, 145, 16, 15, 14, 15, false),
+    TABLE2(R.drawable.tileset_element, 224, 2, 16, 14, 10, 14, false),
+    TABLE3(R.drawable.tileset_element, 80, 119, 16, 12, 9, 12, false),
+    WELL(R.drawable.tileset_element, 112, 27, 17, 21, 20, 20, false),
+    PIGENS(R.drawable.tileset_element, 97, 48, 14, 29, 29, 29, false),
+    CABINET(R.drawable.furniture, 96, 192, 80, 43, 0, 43, 0.85f, false),
+    OVEN(R.drawable.furniture, 65, 192, 30, 43, 0, 43, 0.85f, false),
+    REFRIGERATOR(R.drawable.furniture, 35, 196, 26, 55, 0, 55, 0.85f, false),
+    SOFA_RIGHT(R.drawable.furniture, 0, 197, 22, 55, 0, 55, 0.85f, false),
+    SOFA_DOWN(R.drawable.furniture, 88, 161, 49, 31, 31, 31, 0.85f, false),
+    SMALL_SOFA_DOWN(R.drawable.furniture, 144, 160, 32, 30, 30, 30, 0.85f, false),
+    SMALL_SOFA_UP(R.drawable.furniture, 176, 164, 32, 28, 28, 28, 0.85f, false),
+    OAK_BOOKSHELF(R.drawable.furniture, 97, 66, 46, 44, 44, 44, 0.85f, false),
+    BIRCH_BOOKSHELF(R.drawable.furniture, 33, 64, 46, 47, 47, 47, 0.85f, false),
+    CHAIR_BIRCH_DOWN(R.drawable.furniture, 81, 5, 14, 26, 0, 26, 0.85f, false),
+    CHAIR_BIRCH_RIGHT(R.drawable.furniture, 96, 4, 15, 27, 27, 27, 0.85f, false),
+    TABLE_BIG(R.drawable.furniture, 0, 64, 31, 46, 0, 46, 0.85f, true),
+    CARPET(R.drawable.furniture, 160, 32, 48, 33, 0, 0, 1.5f, false),
+    DRAWERS_OAK(R.drawable.furniture, 4, 117, 25, 35, 35, 35, 0.85f, false);
 
     Bitmap objectImg;
     int width, height;
     int hitboxRoof, hitboxFloor, hitboxHeight;
+    private boolean walkable;
 
-    GameObjects(int x, int y, int width, int height, int hitboxRoof, int hitboxFloor) {
+    GameObjects(int x, int y, int width, int height, int hitboxRoof, int hitboxFloor, boolean walkable) {
         options.inScaled = false;
         this.width = width;
         this.height = height;
+        this.walkable = walkable;
         this.hitboxRoof = hitboxRoof;
         this.hitboxFloor = hitboxFloor;
         this.hitboxHeight = (hitboxFloor - hitboxRoof) * GameConstants.Sprite.SCALE_MULTIPLIER;
@@ -103,10 +99,11 @@ public enum GameObjects implements BitmapMethods {
         objectImg = getScaledBitmap(Bitmap.createBitmap(atlas, x, y, width, height));
     }
 
-    GameObjects(int resID, int x, int y, int width, int height, int hitboxRoof, int hitboxFloor) {
+    GameObjects(int resID, int x, int y, int width, int height, int hitboxRoof, int hitboxFloor, boolean walkable) {
         options.inScaled = false;
         this.width = width;
         this.height = height;
+        this.walkable = walkable;
         this.hitboxRoof = hitboxRoof;
         this.hitboxFloor = hitboxFloor;
         this.hitboxHeight = (hitboxFloor - hitboxRoof) * GameConstants.Sprite.SCALE_MULTIPLIER;
@@ -114,10 +111,11 @@ public enum GameObjects implements BitmapMethods {
         objectImg = getScaledBitmap(Bitmap.createBitmap(atlas, x, y, width, height));
     }
 
-    GameObjects(int resID, int x, int y, int width, int height, int hitboxRoof, int hitboxFloor, float scale) {
+    GameObjects(int resID, int x, int y, int width, int height, int hitboxRoof, int hitboxFloor, float scale, boolean walkable) {
         options.inScaled = false;
         this.width = width;
         this.height = height;
+        this.walkable = walkable;
         this.hitboxRoof = hitboxRoof;
         this.hitboxFloor = hitboxFloor;
         this.hitboxHeight = (hitboxFloor - hitboxRoof) * GameConstants.Sprite.SCALE_MULTIPLIER;
@@ -147,5 +145,9 @@ public enum GameObjects implements BitmapMethods {
 
     public int getHitboxRoof() {
         return hitboxRoof * GameConstants.Sprite.SCALE_MULTIPLIER;
+    }
+
+    public boolean isWalkable() {
+        return walkable;
     }
 }

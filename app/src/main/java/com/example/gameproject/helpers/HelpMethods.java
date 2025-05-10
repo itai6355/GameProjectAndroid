@@ -76,13 +76,13 @@ public class HelpMethods {
             float x1 = (float) (Math.random() * width);
             float y1 = (float) (Math.random() * height);
             if (isNotOnObject(x1, y1, gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal)) {
-                CharacterArrayList.add(getEnemy(enemy, new PointF(x1, y1)));
+                CharacterArrayList.add(createEnemy(enemy, new PointF(x1, y1)));
                 break;
             }
         } while (true);
     }
 
-    private static Character getEnemy(Enemies enemy, PointF pointF) {
+    private static Character createEnemy(Enemies enemy, PointF pointF) {
         return switch (enemy) {
             case SKELETON -> new Skeleton(pointF);
             case MASKED_RAKKON, GOLDEN_MASKED_RAKKON -> new MaskedRaccoon(pointF);
@@ -119,74 +119,54 @@ public class HelpMethods {
 
 
     public static boolean CanWalkHereUpDown(RectF hitbox, float deltaY, float currentCameraX, GameMap gameMap) {
-        if (hitbox.top + deltaY < 0) return false;
-        else if (hitbox.bottom + deltaY >= gameMap.getMapHeight()) return false;
+        if (hitbox.top + deltaY < 0 || hitbox.bottom + deltaY >= gameMap.getMapHeight()) return false;
 
-        if (gameMap.getGameObjectArrayList() != null) {
-            RectF tempHitbox = new RectF(hitbox.left + currentCameraX, hitbox.top + deltaY, hitbox.right + currentCameraX, hitbox.bottom + deltaY);
-            for (GameObject go : gameMap.getGameObjectArrayList()) {
-                if (RectF.intersects(go.getHitbox(), tempHitbox)) return false;
-            }
-        }
+        RectF tempHitbox = new RectF(hitbox.left + currentCameraX, hitbox.top + deltaY, hitbox.right + currentCameraX, hitbox.bottom + deltaY);
 
-        if (gameMap.getBuildingArrayList() != null) {
-            RectF tempHitbox = new RectF(hitbox.left + currentCameraX, hitbox.top + deltaY, hitbox.right + currentCameraX, hitbox.bottom + deltaY);
-            for (Building b : gameMap.getBuildingArrayList())
-                if (RectF.intersects(b.getHitbox(), tempHitbox)) return false;
-        }
 
         Point[] tileCords = GetTileCords(hitbox, currentCameraX, deltaY);
         int[] tileIds = GetTileIds(tileCords, gameMap);
 
-        return IsTilesWalkable(tileIds, gameMap.getFloorType());
+        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && !isInsideGameObject(tempHitbox, gameMap) && !isInsideBuilding(tempHitbox, gameMap);
     }
 
     public static boolean CanWalkHereLeftRight(RectF hitbox, float deltaX, float currentCameraY, GameMap gameMap) {
-        if (hitbox.left + deltaX < 0) return false;
-        else if (hitbox.right + deltaX >= gameMap.getMapWidth()) return false;
+        if (hitbox.left + deltaX < 0 || hitbox.right + deltaX >= gameMap.getMapWidth()) return false;
 
-        if (gameMap.getGameObjectArrayList() != null) {
-            RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + currentCameraY, hitbox.right + deltaX, hitbox.bottom + currentCameraY);
-            for (GameObject go : gameMap.getGameObjectArrayList()) {
-                if (RectF.intersects(go.getHitbox(), tempHitbox)) return false;
-            }
-        }
+        RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + currentCameraY, hitbox.right + deltaX, hitbox.bottom + currentCameraY);
 
-        if (gameMap.getBuildingArrayList() != null) {
-            RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + currentCameraY, hitbox.right + deltaX, hitbox.bottom + currentCameraY);
-            for (Building b : gameMap.getBuildingArrayList())
-                if (RectF.intersects(b.getHitbox(), tempHitbox)) return false;
-        }
 
         Point[] tileCords = GetTileCords(hitbox, deltaX, currentCameraY);
         int[] tileIds = GetTileIds(tileCords, gameMap);
 
-        return IsTilesWalkable(tileIds, gameMap.getFloorType());
+        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && !isInsideGameObject(tempHitbox, gameMap) && !isInsideBuilding(tempHitbox, gameMap);
     }
 
-
     public static boolean CanWalkHere(RectF hitbox, float deltaX, float deltaY, GameMap gameMap) {
-        if (hitbox.left + deltaX < 0 || hitbox.top + deltaY < 0) return false;
-        else if (hitbox.right + deltaX >= gameMap.getMapWidth()) return false;
-        else if (hitbox.bottom + deltaY >= gameMap.getMapHeight()) return false;
+        if (hitbox.left + deltaX < 0 || hitbox.top + deltaY < 0 || hitbox.right + deltaX >= gameMap.getMapWidth() || hitbox.bottom + deltaY >= gameMap.getMapHeight()) return false;
 
-        if (gameMap.getGameObjectArrayList() != null) {
-            RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + deltaY, hitbox.right + deltaX, hitbox.bottom + deltaY);
-            for (GameObject go : gameMap.getGameObjectArrayList()) {
-                if (RectF.intersects(go.getHitbox(), tempHitbox)) return false;
-            }
-        }
-
-        if (gameMap.getBuildingArrayList() != null) {
-            RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + deltaY, hitbox.right + deltaX, hitbox.bottom + deltaY);
-            for (Building b : gameMap.getBuildingArrayList())
-                if (RectF.intersects(b.getHitbox(), tempHitbox)) return false;
-        }
+        RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + deltaY, hitbox.right + deltaX, hitbox.bottom + deltaY);
 
         Point[] tileCords = GetTileCords(hitbox, deltaX, deltaY);
         int[] tileIds = GetTileIds(tileCords, gameMap);
 
-        return IsTilesWalkable(tileIds, gameMap.getFloorType());
+        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && !isInsideGameObject(tempHitbox, gameMap) && !isInsideBuilding(tempHitbox, gameMap);
+    }
+
+    public static boolean isInsideBuilding(RectF hitbox, GameMap gameMap) {
+        if (gameMap.getBuildingArrayList() != null) {
+            for (Building b : gameMap.getBuildingArrayList())
+                if (RectF.intersects(b.getHitbox(), hitbox)) return true;
+        }
+        return false;
+    }
+
+    public static boolean isInsideGameObject(RectF hitbox, GameMap gameMap) {
+        if (gameMap.getGameObjectArrayList() != null) {
+            for (GameObject go : gameMap.getGameObjectArrayList())
+                if (RectF.intersects(go.getHitbox(), hitbox)) return true;
+        }
+        return false;
     }
 
 
