@@ -49,7 +49,7 @@ public class PlayingUI {
         btnSetting = new CustomButton(GAME_WIDTH - 230, 50, ButtonImages.PLAYING_SETTING.getWidth(), ButtonImages.PLAYING_SETTING.getHeight());
         btnInventory = new CustomButton(GAME_WIDTH - 230, 70 + ButtonImages.PLAYING_MENU.getHeight(), ButtonImages.PLAYING_MENU.getWidth(), ButtonImages.PLAYING_MENU.getHeight());
         btnShop = new CustomButton(GAME_WIDTH - 230 - ButtonImages.PLAYING_MENU.getWidth() - 20, 50, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
-        btnTutorial = new CustomButton(GAME_WIDTH - ButtonImages.PLAYING_DEBUG.getWidth() -20 ,GAME_HEIGHT- ButtonImages.PLAYING_DEBUG.getHeight() -20, ButtonImages.PLAYING_DEBUG.getWidth(), ButtonImages.PLAYING_DEBUG.getHeight());
+        btnTutorial = new CustomButton(GAME_WIDTH - ButtonImages.PLAYING_DEBUG.getWidth() - 20, GAME_HEIGHT - ButtonImages.PLAYING_DEBUG.getHeight() - 20, ButtonImages.PLAYING_DEBUG.getWidth(), ButtonImages.PLAYING_DEBUG.getHeight());
 
     }
 
@@ -71,7 +71,9 @@ public class PlayingUI {
         drawHealth(canvas);
         drawHungerBar(canvas);
         drawItemBar(canvas);
+        drawPotionBar(canvas);
     }
+
 
     private void drawHungerBar(Canvas canvas) {
         int hunger = playing.getPlayer().getCurrHunger();
@@ -86,6 +88,32 @@ public class PlayingUI {
         }
 
 
+    }
+
+    private void drawPotionBar(Canvas canvas) {
+        var height = GameImages.POTION_BOX.getImage().getHeight();
+        var width = GameImages.POTION_BOX.getImage().getWidth();
+
+        var potionHeight = Items.POTION_BLUE.getImage().getHeight();
+        var potionWidth = Items.POTION_BLUE.getImage().getWidth();
+
+        if (!playing.getPlayer().isEffect()) return;
+
+        for (int i = 0; i < playing.getPlayer().getEffects().length; i++) {
+            int y = GameImages.PLAYER_BOX.getImage().getHeight();
+            int x = (GameImages.POTION_BOX.getImage().getWidth() + GameConstants.Sprite.X_DRAW_OFFSET) * i;
+
+            canvas.drawBitmap(GameImages.POTION_BOX.getImage(), x, y, null);
+
+            int remainingTime = playing.getPlayer().getTimeForEffect((playing.getPlayer().getEffects()[i]));
+            if (remainingTime <= 5000) {
+                if ((remainingTime / 500) % 2 == 0) {
+                    canvas.drawBitmap(playing.getPlayer().getEffects()[i].getImage(), (float) (x + width / 2 - potionWidth / 2), (float) (y + height / 2 - potionHeight / 2), null);
+                }
+            } else {
+                canvas.drawBitmap(playing.getPlayer().getEffects()[i].getImage(), (float) (x + width / 2 - potionWidth / 2), (float) (y + height / 2 - potionHeight / 2), null);
+            }
+        }
     }
 
     private void drawItemBar(Canvas canvas) {
@@ -224,7 +252,7 @@ public class PlayingUI {
                             playing.setGameStateToShop();
                             playing.resetLastItem();
                         }
-                    }else if (isIn(eventPos, btnTutorial)) {
+                    } else if (isIn(eventPos, btnTutorial)) {
                         if (btnTutorial.isPushed(pointerId)) {
                             resetJoystickButton();
                             playing.setToTutorial();

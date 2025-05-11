@@ -264,7 +264,17 @@ public class Playing extends BaseState implements GameStateInterface {
 
     private void sortArray() {
         player.setLastCameraYValue(cameraY);
-        Arrays.sort(listOfDrawables);
+        Arrays.sort(listOfDrawables, (a, b) -> {
+
+            boolean aIsWalkableGameObject = a instanceof GameObject && ((GameObject) a).getObjectType().isWalkable();
+            boolean bIsWalkableGameObject = b instanceof GameObject && ((GameObject) b).getObjectType().isWalkable();
+
+            if (aIsWalkableGameObject && bIsWalkableGameObject || !aIsWalkableGameObject && !bIsWalkableGameObject) {
+                return a.compareTo(b);
+            }
+
+            return aIsWalkableGameObject ? -1 : 1;
+        });
     }
 
     public void setCameraValues(PointF cameraPos) {

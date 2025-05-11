@@ -26,7 +26,6 @@ public class Particle extends Entity {
         this.particlesType = particlesType;
         this.amount = particlesType.getAmount();
     }
-    //TODO: fix that the parctical isnt showing in the houses.
 
     public void update(Player player) {
         this.player = player;

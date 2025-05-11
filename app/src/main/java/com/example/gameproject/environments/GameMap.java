@@ -35,15 +35,15 @@ public class GameMap {
         this.particlesArrayList = ParticlesArrayList != null ? ParticlesArrayList : new ArrayList<>();
         MAX_ENEMIES = maxEnemies;
     }
-    public GameMap(int[][] spriteIds, Tiles tilesType,ArrayList<GameObject> gameObjectArrayList) {
+    public GameMap(int[][] spriteIds, Tiles tilesType,ArrayList<GameObject> gameObjectArrayList, ArrayList<Particle> ParticlesArrayList) {
         this.spriteIds = spriteIds;
         this.tilesType = tilesType;
+        this.particlesArrayList = ParticlesArrayList != null ? ParticlesArrayList : new ArrayList<>();
         this.gameObjectArrayList = gameObjectArrayList;
         this.buildingArrayList = new ArrayList<>();
         this.enemysArrayList = new CopyOnWriteArrayList<>();
         this.doorwayArrayList = new ArrayList<>();
         this.itemArrayList = new CopyOnWriteArrayList<>();
-        this.particlesArrayList = new ArrayList<>();
         MAX_ENEMIES = 0;
     }
     public GameMap(int[][] spriteIds, Tiles tilesType) {

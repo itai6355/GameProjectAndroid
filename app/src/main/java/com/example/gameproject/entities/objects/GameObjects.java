@@ -67,6 +67,7 @@ public enum GameObjects implements BitmapMethods {
     TABLE3(R.drawable.tileset_element, 80, 119, 16, 12, 9, 12, false),
     WELL(R.drawable.tileset_element, 112, 27, 17, 21, 20, 20, false),
     PIGENS(R.drawable.tileset_element, 97, 48, 14, 29, 29, 29, false),
+
     CABINET(R.drawable.furniture, 96, 192, 80, 43, 0, 43, 0.85f, false),
     OVEN(R.drawable.furniture, 65, 192, 30, 43, 0, 43, 0.85f, false),
     REFRIGERATOR(R.drawable.furniture, 35, 196, 26, 55, 0, 55, 0.85f, false),
@@ -78,14 +79,14 @@ public enum GameObjects implements BitmapMethods {
     BIRCH_BOOKSHELF(R.drawable.furniture, 33, 64, 46, 47, 47, 47, 0.85f, false),
     CHAIR_BIRCH_DOWN(R.drawable.furniture, 81, 5, 14, 26, 0, 26, 0.85f, false),
     CHAIR_BIRCH_RIGHT(R.drawable.furniture, 96, 4, 15, 27, 27, 27, 0.85f, false),
-    TABLE_BIG(R.drawable.furniture, 0, 64, 31, 46, 0, 46, 0.85f, true),
-    CARPET(R.drawable.furniture, 160, 32, 48, 33, 0, 0, 1.5f, false),
+    TABLE_BIG(R.drawable.furniture, 0, 64, 31, 46, 0, 46, 0.85f, false),
+    CARPET(R.drawable.furniture, 160, 32, 48, 33, 0, 33, 1.5f, true),
     DRAWERS_OAK(R.drawable.furniture, 4, 117, 25, 35, 35, 35, 0.85f, false);
 
-    Bitmap objectImg;
-    int width, height;
+    private final Bitmap objectImg;
+    private final int width, height;
     int hitboxRoof, hitboxFloor, hitboxHeight;
-    private boolean walkable;
+    private final boolean walkable;
 
     GameObjects(int x, int y, int width, int height, int hitboxRoof, int hitboxFloor, boolean walkable) {
         options.inScaled = false;
@@ -113,12 +114,12 @@ public enum GameObjects implements BitmapMethods {
 
     GameObjects(int resID, int x, int y, int width, int height, int hitboxRoof, int hitboxFloor, float scale, boolean walkable) {
         options.inScaled = false;
-        this.width = width;
-        this.height = height;
+        this.width = (int) (width * scale);
+        this.height = (int) (height * scale);
         this.walkable = walkable;
-        this.hitboxRoof = hitboxRoof;
-        this.hitboxFloor = hitboxFloor;
-        this.hitboxHeight = (hitboxFloor - hitboxRoof) * GameConstants.Sprite.SCALE_MULTIPLIER;
+        this.hitboxRoof = (int) (hitboxRoof * scale);
+        this.hitboxFloor = (int) (hitboxFloor * scale);
+        this.hitboxHeight = (int) ((hitboxFloor - hitboxRoof) * GameConstants.Sprite.SCALE_MULTIPLIER * scale);
         Bitmap atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
         objectImg = getMultiplierBitmap(Bitmap.createBitmap(atlas, x, y, width, height), scale, scale);
     }

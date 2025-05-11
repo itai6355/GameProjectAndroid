@@ -39,7 +39,7 @@ public class ItemHelper {
     public int getPrice(Items item) {
         int price;
         switch (item) {
-            case APPLE -> price = 9;
+            case APPLE, BURRITO_DISH -> price = 9;
             case APPLE_PIE_DISH -> price = 19;
             case APRICOT -> price = 6;
             case BACON -> price = 7;
@@ -65,7 +65,6 @@ public class ItemHelper {
             case BUN -> price = 11;
             case BURGER -> price = 11;
             case BURRITO -> price = 14;
-            case BURRITO_DISH -> price = 9;
             case BUTTER -> price = 12;
             case BUTTER2 -> price = 10;
             case CABBAGE -> price = 7;

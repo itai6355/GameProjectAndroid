@@ -38,7 +38,6 @@ public class HelpMethods {
 
     public static PointF CreatePointForDoorway(int xTile, int yTile) {
 
-
         float x = xTile * GameConstants.Sprite.SIZE + GameConstants.Sprite.SIZE / 2f;
         float y = yTile * GameConstants.Sprite.SIZE + GameConstants.Sprite.SIZE / 2f;
 
@@ -57,7 +56,7 @@ public class HelpMethods {
 
     public static CopyOnWriteArrayList<Character> SpawnStartedEnemies(int amount, int[][] gameMapArray, ArrayList<Building> buildingArrayListFinal, ArrayList<GameObject> gameObjectArrayListFinal) {
         CopyOnWriteArrayList<Character> CharacterArrayList = new CopyOnWriteArrayList<>();
-        for (int i = 0; i < amount ; i++)
+        for (int i = 0; i < amount; i++)
             spawnNotOnObject(gameMapArray, buildingArrayListFinal, gameObjectArrayListFinal, CharacterArrayList, Enemies.getRandomEnemy());
         return CharacterArrayList;
     }
@@ -99,7 +98,7 @@ public class HelpMethods {
 
     private static void ConnectVillagerToBuilding(Building building) {
         PointF point = building.getBuildingType().getDoorwayPoint();
-        Villager villager = new Villager( MainActivity.getGameContext(),new PointF(point.x + building.getPos().x, point.y + building.getPos().y - building.getBuildingType().getHitboxRoof()), building.getBuildingType().getVillagerType());
+        Villager villager = new Villager(MainActivity.getGameContext(), new PointF(point.x + building.getPos().x, point.y + building.getPos().y - building.getBuildingType().getHitboxRoof()), building.getBuildingType().getVillagerType());
         building.addVillager(villager);
         villager.setBuilding(building);
     }
@@ -119,7 +118,8 @@ public class HelpMethods {
 
 
     public static boolean CanWalkHereUpDown(RectF hitbox, float deltaY, float currentCameraX, GameMap gameMap) {
-        if (hitbox.top + deltaY < 0 || hitbox.bottom + deltaY >= gameMap.getMapHeight()) return false;
+        if (hitbox.top + deltaY < 0 || hitbox.bottom + deltaY >= gameMap.getMapHeight())
+            return false;
 
         RectF tempHitbox = new RectF(hitbox.left + currentCameraX, hitbox.top + deltaY, hitbox.right + currentCameraX, hitbox.bottom + deltaY);
 
@@ -127,11 +127,12 @@ public class HelpMethods {
         Point[] tileCords = GetTileCords(hitbox, currentCameraX, deltaY);
         int[] tileIds = GetTileIds(tileCords, gameMap);
 
-        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && !isInsideGameObject(tempHitbox, gameMap) && !isInsideBuilding(tempHitbox, gameMap);
+        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && isOutsideGameObject(tempHitbox, gameMap) && isOutsideBuilding(tempHitbox, gameMap);
     }
 
     public static boolean CanWalkHereLeftRight(RectF hitbox, float deltaX, float currentCameraY, GameMap gameMap) {
-        if (hitbox.left + deltaX < 0 || hitbox.right + deltaX >= gameMap.getMapWidth()) return false;
+        if (hitbox.left + deltaX < 0 || hitbox.right + deltaX >= gameMap.getMapWidth())
+            return false;
 
         RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + currentCameraY, hitbox.right + deltaX, hitbox.bottom + currentCameraY);
 
@@ -139,34 +140,34 @@ public class HelpMethods {
         Point[] tileCords = GetTileCords(hitbox, deltaX, currentCameraY);
         int[] tileIds = GetTileIds(tileCords, gameMap);
 
-        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && !isInsideGameObject(tempHitbox, gameMap) && !isInsideBuilding(tempHitbox, gameMap);
+        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && isOutsideGameObject(tempHitbox, gameMap) && isOutsideBuilding(tempHitbox, gameMap);
     }
 
     public static boolean CanWalkHere(RectF hitbox, float deltaX, float deltaY, GameMap gameMap) {
-        if (hitbox.left + deltaX < 0 || hitbox.top + deltaY < 0 || hitbox.right + deltaX >= gameMap.getMapWidth() || hitbox.bottom + deltaY >= gameMap.getMapHeight()) return false;
+        if (hitbox.left + deltaX < 0 || hitbox.top + deltaY < 0 || hitbox.right + deltaX >= gameMap.getMapWidth() || hitbox.bottom + deltaY >= gameMap.getMapHeight())
+            return false;
 
         RectF tempHitbox = new RectF(hitbox.left + deltaX, hitbox.top + deltaY, hitbox.right + deltaX, hitbox.bottom + deltaY);
 
         Point[] tileCords = GetTileCords(hitbox, deltaX, deltaY);
         int[] tileIds = GetTileIds(tileCords, gameMap);
 
-        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && !isInsideGameObject(tempHitbox, gameMap) && !isInsideBuilding(tempHitbox, gameMap);
+        return IsTilesWalkable(tileIds, gameMap.getFloorType()) && isOutsideGameObject(tempHitbox, gameMap) && isOutsideBuilding(tempHitbox, gameMap);
     }
 
-    public static boolean isInsideBuilding(RectF hitbox, GameMap gameMap) {
-        if (gameMap.getBuildingArrayList() != null) {
+    public static boolean isOutsideBuilding(RectF hitbox, GameMap gameMap) {
+        if (gameMap.getBuildingArrayList() != null)
             for (Building b : gameMap.getBuildingArrayList())
-                if (RectF.intersects(b.getHitbox(), hitbox)) return true;
-        }
-        return false;
+                if (RectF.intersects(b.getHitbox(), hitbox)) return false;
+
+        return true;
     }
 
-    public static boolean isInsideGameObject(RectF hitbox, GameMap gameMap) {
-        if (gameMap.getGameObjectArrayList() != null) {
+    public static boolean isOutsideGameObject(RectF hitbox, GameMap gameMap) {
+        if (gameMap.getGameObjectArrayList() != null)
             for (GameObject go : gameMap.getGameObjectArrayList())
-                if (RectF.intersects(go.getHitbox(), hitbox)) return true;
-        }
-        return false;
+                if (RectF.intersects(go.getHitbox(), hitbox) && !go.getObjectType().isWalkable()) return false;
+        return true;
     }
 
 
@@ -217,7 +218,8 @@ public class HelpMethods {
 
         float distance = (float) Math.hypot(xDelta, yDelta);
 
-        if (character instanceof DarkNinja || character instanceof DarkWizard) return distance < GameConstants.Sprite.SIZE * 3f;
+        if (character instanceof DarkNinja || character instanceof DarkWizard)
+            return distance < GameConstants.Sprite.SIZE * 3f;
 
         return distance < GameConstants.Sprite.SIZE * 1.5f;
 

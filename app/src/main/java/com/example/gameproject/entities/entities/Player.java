@@ -9,13 +9,13 @@ import android.graphics.PointF;
 import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.environments.GameMap;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Player extends Character {
 
@@ -28,7 +28,7 @@ public class Player extends Character {
     private final float maxHunger = 10.0f;
     private float currHunger = maxHunger;
     private int hungerTick = 0;
-    private int hungerTickMax = 250;
+    private final int hungerTickMax = 250;
     private boolean isSpeeding = false, isStreangth = false, isSatoration = false, isInvisible = false;
     private long SpeedingStart, StreangthStart, SatorationStart, InvisibleStart;
     private float SPEED = 1, STRENGTH = 50;
@@ -76,10 +76,8 @@ public class Player extends Character {
             }
         }
         if (isSatoration) {
-            hungerTickMax = 500;
             if (System.currentTimeMillis() - SatorationStart >= 30000) {
                 isSatoration = false;
-                hungerTickMax = 250;
             }
         }
         if (isInvisible) {
@@ -92,9 +90,9 @@ public class Player extends Character {
     }
 
 
-
     private void updateHunger() {
-        hungerTick++;
+        if (isSatoration) if (new Random().nextBoolean()) hungerTick++;
+        else hungerTick++;
         if (hungerTick >= hungerTickMax) {
             reduceHunger(1f);
             hungerTick = 0;
@@ -376,7 +374,8 @@ public class Player extends Character {
         try {
             dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
             item.reduceAmount();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
     }
 
@@ -394,5 +393,32 @@ public class Player extends Character {
 
     public boolean isEffect() {
         return isSpeeding || isStreangth || isSatoration || isInvisible;
+    }
+
+    public Items[] getEffects() {
+        int count = 0;
+        if (isSpeeding) count++;
+        if (isStreangth) count++;
+        if (isSatoration) count++;
+        if (isInvisible) count++;
+
+        Items[] effects = new Items[count];
+        int i = 0;
+        if (isSpeeding) effects[i++] = Items.POTION_BLUE;
+        if (isStreangth) effects[i++] = Items.POTION_PURPLE;
+        if (isSatoration) effects[i++] = Items.POTION_RED;
+        if (isInvisible) effects[i] = Items.POTION_WHITE;
+
+        return effects;
+    }
+
+    public int getTimeForEffect(Items effect) {
+        return switch (effect) {
+            case POTION_BLUE -> 30000 - (int) (System.currentTimeMillis() - SpeedingStart);
+            case POTION_PURPLE -> 30000 - (int) (System.currentTimeMillis() - StreangthStart);
+            case POTION_RED -> 30000 - (int) (System.currentTimeMillis() - SatorationStart);
+            case POTION_WHITE -> 30000 - (int) (System.currentTimeMillis() - InvisibleStart);
+            default -> 0;
+        };
     }
 }

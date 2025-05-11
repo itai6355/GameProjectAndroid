@@ -29,11 +29,6 @@ public class GeminiAPI {
     private static final String API_KEY = "AIzaSyAvRr7uJNTGMp0TyPjyLOtObZW6qN3pcpw";
     private static final String BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
-    static {
-        Executors.newSingleThreadExecutor();
-    }
-
-
 
     private interface ResponseCallback {
         void onResponse(String response);
@@ -46,17 +41,12 @@ public class GeminiAPI {
         askGemini(prompt, new ResponseCallback() {
             @Override
             public void onResponse(String response) {
-                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
-                    GeminiAPI.this.response = response;
-
-                });
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> GeminiAPI.this.response = response);
             }
 
             @Override
             public void onFailure(String error) {
-                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
-                    GeminiAPI.this.response = error;
-                });
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> GeminiAPI.this.response = error);
             }
         });
         return response;
@@ -131,10 +121,15 @@ public class GeminiAPI {
         });
     }
 
+    static {
+        Executors.newSingleThreadExecutor();
+    }
+
     public void setIsShowText(boolean pushed) {
         ShowText = pushed;
         Log.d("GeminiAPI", "ShowText toggled to: " + pushed);
     }
+
     public boolean isShowText() {
         return ShowText;
     }

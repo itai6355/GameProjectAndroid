@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.example.gameproject.main.Game;
-import com.example.gameproject.main.GameActivity;
 
 public class NetworkReceiver extends BroadcastReceiver {
     private final Game game;

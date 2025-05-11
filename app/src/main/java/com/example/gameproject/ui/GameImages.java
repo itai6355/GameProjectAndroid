@@ -8,35 +8,51 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.gameproject.R;
-import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.main.MainActivity;
 
 
 public enum GameImages implements BitmapMethods {
 
-    SETTING_MENU(R.drawable.setting_menu, 0, 0, 118, 144, 1), MENU(R.drawable.setting_menu, 138, 0, 118, 144, 1),
+    SETTING_MENU(R.drawable.setting_menu, 0, 0, 118, 144, 1),
+    MENU(R.drawable.setting_menu, 138, 0, 118, 144, 1),
 
-    SOUND_ICON(R.drawable.button_ui, 99, 162, 11, 11, 1), SILENT_ICON(R.drawable.button_ui, 115, 162, 11, 11, 1), SHOP_ICON(R.drawable.button_ui, 130, 163, 12, 10, 1),
+    SOUND_ICON(R.drawable.button_ui, 99, 162, 11, 11, 1),
+    SILENT_ICON(R.drawable.button_ui, 115, 162, 11, 11, 1), SHOP_ICON(R.drawable.button_ui, 130, 163, 12, 10, 1),
 
     BACKGRAWND(R.drawable.backgrawnd2, GAME_WIDTH, GAME_HEIGHT),
 
-    INVENTORY_SLOTH(R.drawable.icons_ui, 59, 107, 26, 26, 1), INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.2f),
+    INVENTORY_SLOTH(R.drawable.icons_ui, 59, 107, 26, 26, 1),
+    INVENTORY_MOUSE(R.drawable.icons_ui, 388, 4, 24, 25, 1.2f),
 
     HUNGER_FULL(R.drawable.meat, 0.7f), HUNGER_EMPTY(R.drawable.meat_empty, 0.7f),
 
     TALKING_BUBBLE(R.drawable.talk_buble, 0, 0, 108, 35, 0.7f),
 
-    LOADING11(R.drawable.loading, 2, 2, 44, 44, 2), LOADING12(R.drawable.loading, 50, 2, 44, 44, 2), LOADING13(R.drawable.loading, 98, 2, 44, 44, 2), LOADING14(R.drawable.loading, 146, 2, 44, 44, 2), LOADING15(R.drawable.loading, 194, 2, 44, 44, 2),
+    LOADING11(R.drawable.loading, 2, 2, 44, 44, 2),
+    LOADING12(R.drawable.loading, 50, 2, 44, 44, 2),
+    LOADING13(R.drawable.loading, 98, 2, 44, 44, 2),
+    LOADING14(R.drawable.loading, 146, 2, 44, 44, 2),
+    LOADING15(R.drawable.loading, 194, 2, 44, 44, 2),
 
-    LOADING21(R.drawable.loading, 3, 51, 42, 42, 2), LOADING22(R.drawable.loading, 51, 51, 42, 42, 2), LOADING23(R.drawable.loading, 99, 51, 42, 42, 2), LOADING24(R.drawable.loading, 147, 51, 42, 42, 2), LOADING25(R.drawable.loading, 195, 51, 42, 42, 2),
+    LOADING21(R.drawable.loading, 3, 51, 42, 42, 2),
+    LOADING22(R.drawable.loading, 51, 51, 42, 42, 2),
+    LOADING23(R.drawable.loading, 99, 51, 42, 42, 2),
+    LOADING24(R.drawable.loading, 147, 51, 42, 42, 2),
+    LOADING25(R.drawable.loading, 195, 51, 42, 42, 2),
 
-    LOADING31(R.drawable.loading, 193, 97, 46, 46, 2), LOADING32(R.drawable.loading, 145, 97, 46, 46, 2), LOADING33(R.drawable.loading, 97, 97, 46, 46, 2), LOADING34(R.drawable.loading, 49, 97, 46, 46, 2), LOADING35(R.drawable.loading, 1, 97, 46, 46, 2),
+    LOADING31(R.drawable.loading, 193, 97, 46, 46, 2),
+    LOADING32(R.drawable.loading, 145, 97, 46, 46, 2),
+    LOADING33(R.drawable.loading, 97, 97, 46, 46, 2),
+    LOADING34(R.drawable.loading, 49, 97, 46, 46, 2),
+    LOADING35(R.drawable.loading, 1, 97, 46, 46, 2),
 
 
     COIN_SMALL(R.drawable.coins, 0, 0, 16, 16, 0.7f),
 
-    ICON_BOX(R.drawable.icons_ui, 245, 101, 38, 38, 1), PLAYER_BOX(R.drawable.icons_ui, 275, 212, 90, 25, 2);
+    ICON_BOX(R.drawable.icons_ui, 245, 101, 38, 38, 1),
+    POTION_BOX(R.drawable.icons_ui, 153, 57, 30, 30, 1),
+    PLAYER_BOX(R.drawable.icons_ui, 275, 212, 90, 25, 2);
 
 
     private final Bitmap atlas;
@@ -93,6 +109,7 @@ public enum GameImages implements BitmapMethods {
     public Bitmap getImage() {
         return image;
     }
+
     public Bitmap getSmallImage() {
         return Bitmap.createScaledBitmap(image, (int) (image.getWidth() * 0.2), (int) (image.getHeight() * 0.2), false);
     }

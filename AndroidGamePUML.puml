@@ -1,0 +1,2348 @@
+@startuml
+class com.example.gameproject.helpers.GameConstants {
+}
+class com.example.gameproject.helpers.GameConstants$Face_Dir {
++ {static} int DOWN
++ {static} int UP
++ {static} int LEFT
++ {static} int RIGHT
+}
+
+class com.example.gameproject.helpers.GameConstants$Sprite {
++ {static} int DEFAULT_SIZE
++ {static} int SCALE_MULTIPLIER
++ {static} int SIZE
++ {static} int HITBOX_SIZE
++ {static} int X_DRAW_OFFSET
++ {static} int Y_DRAW_OFFSET
+}
+
+class com.example.gameproject.helpers.GameConstants$Animation {
++ {static} int SPEED
++ {static} int AMOUNT
+}
+
+enum com.example.gameproject.entities.objects.Buildings {
++  HOUSE_ONE
++  HOUSE_TWO
++  HOUSE_SIX
++  HOUSE_NINE
+~ Bitmap houseImg
+~ PointF doorwayPoint
+~ int hitboxRoof
++ PointF getDoorwayPoint()
++ int getHitboxRoof()
++ Bitmap getHouseImg()
++ Villager.VillagerType getVillagerType()
+}
+
+
+class com.example.gameproject.helpers.ItemHelper {
+~ {static} ArrayList<Items> items
+- HashMap<Items,Integer> itemPrices
++ {static} ArrayList<Items> getItems()
++ {static} void PrintAll()
+- void initItemPrices()
++ int getPrice(Items)
++ HashMap<Items,Integer> getItemPrices()
+}
+
+
+enum com.example.gameproject.helpers.basicProduct {
++  SLICED_BREAD_P
++  PLAIN_YOGURT
++  POTATO_P
++  HONEY
++  HOT_COCOA_MIX
++  FRUIT_COCKTAIL_CAN
++  BUTTER
++  CHEESE
++  BUTTER2
++  BARBEQUE_SAUCE
++  BAGUETTE_DISH
++  BREAD_DISH
++  BREAD_SLICE
++  BREAD2
++  BAGUETTE
++  BAGEL
++  BAGEL_DISH
++  EGG_WHITE
++  EGG_BROWN_P
++  EGG_BROWN
++  EGG_WHITE_P
++  EGG_BOX
++  FLOUR
++  COOKIES
++  COFFEE_BAG
++  COOKING_OIL
++  BUN
++  OLIVE_OIL
++  MILK_PACK
++  MILK_PLASTIC
++  MILK_BOTTLE
++  MILK_GALLON
++  SALT
++  WATER
++  WHITE_CHEESE
++  WHITE_CHEESE_PIECE_P
++  TUNA_CAN
++  VANILLA_OR_LEMON_ICE_CREAM
++  SUGAR
++ {static} boolean contains(Items)
+}
+
+
+enum com.example.gameproject.helpers.fruit {
++  FRUITCAKE
++  APPLE
++  APRICOT
++  BANANA
++  CABBAGE
++  BELL_PEPPER
++  BELL_PEPPER2
++  CUSTARDAPPLE
++  CUCUMBER
++  DRAGONFRUIT
++  CHILI_PEPPER
++  CHERRY_BLACK
++  CRANBERRY
++  GRAPEFRUIT
++  DURIAN
++  GRAPES_BLACK
++  GUAVA
++  GRAPES_GREEN
++  I_ROOT
++  FIG
++  I_STRAWBERRY
++  I_TOMATO
++  KIWI
++  MELON
++  ORANGE
++  LEMON
++  PEACH
++  RED_APPLE
++  PEAR
++  PASSION_FRUIT
++  WATERMELON
++  STRAWBERRY
++  STRAWBERRY_P
++ {static} boolean contains(Items)
+}
+
+
+enum com.example.gameproject.helpers.food {
++  CHOCOLATE_DISH
++  EGGTART_DISH
++  GARLICBREAD_DISH
++  GIANTGUMMYBEAR_DISH
++  HOTDOG_DISH
++  ICECREAM_BOWL
++  LOAFBREAD_DISH
++  MEATBALL_DISH
++  NACHO_DISH
++  POTATOCHIPS_BOWL
++  SUSHI_DISH
++  CROISSANTSANDWICH
++  CROISSANTAVOCADOSANDWICH
++  BACON_DISH
++  BURGER
++  BURRITO
++  BOWL_OF_RICE
++  BURRITO_DISH
++  DUMPLINGS
++  CURRY_DISH
++  CURRY
++  DUMPLINGS_DISH
++  FRIED_EGG
++  GARLICBREAD
++  HOTDOG
++  HOTDOG_SAUCE
++  FRENCHFRIES_DISH
++  ENERGY_BAR
++  EGGSALAD_BOWL
++  HAMBURGER
++  HOT_DOG
++  FRIEDEGG_DISH
++  EGGTART
++  OMELET
++  OMELET_DISH
++  MEATBALL
++  SANDWICH
++  SANDWICH_DISH
++  ROASTED_CHICKEN_DISH
++  PIZZA_DISH
++  PIZZA
++  TACO
++  TACO_DISH
++  SPAGHETTI
++  STEAK_DISH
++ {static} boolean contains(Items)
+}
+
+
+enum com.example.gameproject.helpers.meat {
++  BACON
++  CHICKEN
++  FISH_SALOMON
++  MEAT1
++  MEAT1_P
++  MEAT2
++  MUSTARD
++  KETCHUP
++  SAUSAGE_P
++  SALMON_P
++  SALMON
++ {static} boolean contains(Items)
+}
+
+
+enum com.example.gameproject.helpers.snacks {
++  STRAWBERRY_ICE_CREAM
++  ORANGE_JUICE
++  I_ROOT_BEER
++  ICE_CREAM
++  BUBBLE_GUM
++  CEREAL1
++  CEREAL2
++  CANDY_BAR
++  CANDY_CANES
++  CHEESEPUFF_BOWL
++  CHOCOLATE
++  COOKIES2
++  DRY_DOG_FOOD
++  GUMMYBEAR
++  GINGERBREAD_MAN_DISH
++  GRAPE_SODA
++  BEER
++  MACRONS
++  JELLY
++  LOLLIPOP
++  MILK_CHOCOLATE
++  MARSHMALLOWS
++  GREEN_JELLY
++  BLUEJELLY
++  SNACK1
++  SODA_CAN
++  SOFT_DRINK_BLUE
++  SOFT_DRINK_GREEN
++  RED_JELLY
++  PURPLE_JELLY
++  PUDDING
++  POPCORN_BOWL
++  POTATOCHIP_BLUE
++  POTATOCHIP_GREEN
++  POTATOCHIP_YELLOW
++  PINK_JELLY
++  PEANUT_BUTTER
++  WINE_WHITE2
++  WINE_WHITE3
++  YELLOW_JELLY
++  WINE_WHITE
++  WINE_RED
++  STRAWBERRY_JAM
++  SOFT_DRINK_YELLOW
++  SOFT_DRINK_RED
++ {static} boolean contains(Items)
+}
+
+
+enum com.example.gameproject.helpers.cakes {
++  COOKIENCREAMPOT
++  CHEESECAKE
++  CARROTCAKE
++  CHEESECAKE2
++  TART
++  APPLE_PIE_DISH
++  CHEESECAKEPOT
++  CHEESECAKE_DISH
++  BANOFFEEPOT
++  CHERRY_PIE
++  CHOCOLATEDONUT
++  CINNAMONROLL
++  DONUT
++  DANISHGLAZED
++  CUPCAKE
++  CROISSANT
++  CHOCOLATEPOT
++  CHOCOLATEBERRYSHORTCAKE
++  CHERRYCHOCOLATEPOT
++  CHERRYSHORTCAKE
++  CHOCOLATECAKE
++  CHOCOLATESWISSROLL
++  COOKIECHEESECAKE
++  DANISHGLAZED2
++  DONU2
++  CHOCOLATETWIST
++  CHOCOLATECAKE2
++  GLAZED_CINNAMONROLL
++  FUNFETTIDONUT
++  LEMON_CAKE
++  PANCAKES_CHOCOLATE
++  PANCAKES_COOKIES_N_CREAM
++  PANCAKES
++  PANCAKES_BANOFFEE
++  PANCAKES_CREAM
++  PANCAKES_DISH
++  PANCAKES_BERRY
++  LEMON_BLUEBERRY_POT
++  LEMON_PIE
++  MINT_CHOCOLATE_POT
++  LEMON_DONUT
++  PANCAKES_MINT_CHOCOLATE
++  RAINBOW_CAKE
++  RED_VELVET_CAKE
++  PANCAKES_RAINBOW
++  PANNACOTTA
++  RASPBERRY_CHEESECAKE_POT
++  STRAWBERRY_SHORTCAKE
++  WAFFLE_DISH
++  STRAWBERRY_WAFFLES
++  STRAWBERRY_CAKE
++  STRAWBERRY_CAKE_DISH
++  TIRAMISU
++  WAFFLE
++  WAFFLES
++  SWISSROLL
++  STRAWBERRY_DONUT
++ {static} boolean contains(Items)
+}
+
+
+enum com.example.gameproject.helpers.bakeryTools {
++  ALUMINUM_FOIL
++  BAKING_POWDER
++  BALL_PEN
++  BANDAGE_BOX
++  BASKET_METAL
++  BASKET_YELLOW
++  BATHROOM_CLEANER
++  BATTERIES
++  BODY_LOTION
++  BOWL
++  CHOPPING_BOARD
++  CLEANING_BRUSH
++  CLEANING_GLOVES
++  COFFEE_MUG
++  CREDIT_CARD_1
++  CREDIT_CARD_2
++  CREDIT_CARD_3
++  DETERGENT
++  ERASER
++  FRYING_PAN
++  GLUE
++  GLUE_STICK
++  HAND_SANITISER
++  I_WOOL_CLOTH
++  KITCHEN_KNIFE_SET
++  KITCHEN_KNIFE_SET_P
++  KITCHEN_SOAP
++  LIGHT_BULB
++  LIGHT_BULB_BOX
++  PAPER_BAG
++  POWER_STRIP_TYPEA
++  POWER_STRIP_TYPEF
++  RECEIPT
++  ROLLING_PIN
++  SCISSORS
++  SCISSORS_P
++  SCRUB_BRUSH
++  SCRUB_SPONGE
++  SHAMPOO
++  SOAP
++  SOAP_BOX
++  SPATULA
++  SUN_CREAM_TUBE
++  TEAKETTLE
++  TOILET_PAPER
++  TOOTHBRUSH
++  TOOTHBRUSH_SET
++  TOOTHPASTE
++  TOOTHPASTE_BOX
++  WAX
++  WET_WIPE
++  WHISK
++ {static} boolean contains(Items)
+}
+
+
+class com.example.gameproject.gamestates.shop.ItemShop {
+- {static} Category[] Categories
+- int MAX_CATEGORIES
+- int ShopWidth
+- int ShopHeight
+- ShopState shopState
+- ItemHelper itemHelper
+- BuyPage buyPage
+- CategoryPage[] CategoryPages
+- CustomButton[] CategoriesButtons
+~ float xBtnStart
+~ float xBtnMiddle
+~ int xSpace
+- int xBtn
+- Category category
+- ShopSloth currSS
+- int xCurrIndex
+- int yCurrIndex
+- int xStart
+- int yStart
+- int yBtn
++ {static} void addCategory(Category)
+- void InitCategorys()
++ void update(double)
++ void render(Canvas)
++ void touchEvents(MotionEvent)
+- void drawButtons(Canvas)
++ ShopSloth getCurrSS()
++ ItemHelper getItemHelper()
++ ShopState getShopState()
++ void setPage(int)
++ int getMAX_PAGES()
++ void setCategory(Category)
+}
+
+
+enum com.example.gameproject.gamestates.shop.Category {
++  BASIC
++  FRUIT
++  FOOD
++  MEAT
++  SNACKS
++  CAKE
++  BAKERY_TOOLS
+~ int value
++ Enum[] getItems()
+}
+
+
+class com.example.gameproject.environments.GameMap {
+- ArrayList<Building> buildingArrayList
+- ArrayList<GameObject> gameObjectArrayList
+- ArrayList<Particle> particlesArrayList
+- CopyOnWriteArrayList<Character> enemysArrayList
+- CopyOnWriteArrayList<Item> itemArrayList
+- int[][] spriteIds
+- Tiles tilesType
+- ArrayList<Doorway> doorwayArrayList
+- int MAX_ENEMIES
++ Entity[] getDrawableList()
+- int getDrawableAmount()
++ void addDoorway(Doorway)
++ ArrayList<Doorway> getDoorwayArrayList()
++ ArrayList<Building> getBuildingArrayList()
++ ArrayList<GameObject> getGameObjectArrayList()
++ CopyOnWriteArrayList<Character> getEnemysArrayList()
++ ArrayList<Particle> getParticlesArrayList()
++ CopyOnWriteArrayList<Item> getItemArrayList()
++ Tiles getFloorType()
++ int getSpriteID(int,int)
++ int[][] getSpritesID()
++ int getArrayWidth()
++ int getArrayHeight()
++ int getMapWidth()
++ int getMapHeight()
++ int getMaxEnemies()
+}
+
+
+class com.example.gameproject.tutorial.Simulation {
+- float radius
+- Paint circlePaint
+~ GameMap currentMap
+~ PlayerHolder player
+- float cameraX
+- boolean movePlayer
+- PointF lastTouchDiff
+- PointF joystickCenterPos
+- PointF attackBtnCenterPos
+- int joystickPointerId
+- int attackBtnPointerId
+- boolean touchDown
+- CustomButton backBtn
+- Context context
+- TutorialActivity.Tutorialloop tutorialloop
++ void update(double)
+- void updatePlayerMove(double)
+- void drawCharacter(Canvas,Character)
+- void drawWeapon(Canvas,Character)
++ void render(Canvas)
+- boolean isInsideRadius(PointF,PointF)
+- boolean checkInsideAttackBtn(PointF)
+- boolean checkInsideJoyStick(PointF,int)
++ void touchEvents(MotionEvent)
+- void setPlaying()
+- boolean isIn(MotionEvent,CustomButton)
+- void resetJoystickButton()
++ void setPlayerMoveTrue(PointF)
++ void setPlayerMoveFalse()
++ void drawTiles(Canvas)
+- void calcStartCameraValues()
+- int[][] getMap()
++ void setLoop(TutorialActivity.Tutorialloop)
+}
+
+
+class com.example.gameproject.entities.particals.Particle {
+- int amount
+- int index
+- boolean isActive
+- Particles particlesType
+- Random random
+- int randomY1
+- int randomX1
+- Player player
+- boolean isExtra
++ void update(Player)
++ void draw(Canvas)
++ void setPos(Player)
++ Particles getParticlesType()
+}
+
+
+class com.example.gameproject.NetworkReceiver {
+- Game game
+- Game.GameState prev
++ void onReceive(Context,Intent)
+}
+
+
+class com.example.gameproject.entities.enemies.DarkWizard {
+- int xFireBall
+- int yFireBall
+- RectF FireBallHitbox
+- boolean FireBallInFlight
+- int FireBallFaceDir
+~ Paint redPaint
++ void setFireBallFaceDir(int)
++ void updateFireBallHitbox()
++ void drawFireBall(Canvas,float,float)
++ void updtaeShuriken()
+- boolean isFireBallOffScreen()
++ boolean isFireBallInFlight()
+- void resetFireBall()
++ RectF getFireBallHitbox()
+# void AddLootTypes()
++ void setMoving(boolean)
+}
+
+
+class com.example.gameproject.entities.enemies.DarkNinja {
+- int xShuriken
+- int yShuriken
+- RectF shurikenHitbox
+- boolean shurikenInFlight
+- int ShurikenFaceDir
+- boolean isSHorikenTilted
+~ Paint redPaint
++ void setShurikenFaceDir(int)
++ void updateShurikenHitbox()
++ void drawShuriken(Canvas,float,float)
++ void updtaeShuriken()
+- boolean isShurikenOffScreen()
++ boolean isShurikenInFlight()
+- void resetShuriken()
++ RectF getShurikenHitbox()
+# void AddLootTypes()
++ void setMoving(boolean)
+}
+
+
+class com.example.gameproject.entities.objects.Building {
+- Buildings buildingType
+- Villager[] villagers
+~ int villagerAmount
++ Buildings getBuildingType()
++ PointF getPos()
++ void addVillager(Villager)
++ Villager[] getVillagers()
++ void removeVillager(Villager)
++ int getVillagerAmount()
+}
+
+
+class com.example.gameproject.Media.MediaSongs {
+- song[] songs
++ song GameOver
++ song Coin
++ int getSongLength()
++ song getSong(int)
++ song getCoinSound()
++ song getGameOverSound()
+}
+
+
+class com.example.gameproject.Media.MediaSongs$song {
+- String name
+- int path
+- int id
++ int path()
++ String name()
++ int id()
+}
+
+
+class com.example.gameproject.tutorial.TutorialView {
+~ SurfaceHolder holder
+- Simulation simulation
++ void update(double)
++ void render()
++ boolean onTouchEvent(MotionEvent)
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
++ void setLoop(TutorialActivity.Tutorialloop)
+}
+
+
+class com.example.gameproject.main.MainActivity {
++ {static} int GAME_WIDTH
+- {static} Context gameContext
+- {static} DatabaseHelper dbHelper
+- boolean dev
+- boolean isBtnPushed
+- EditText userName
+- EditText password
+- ImageView menu
+- ImageView btnStart
+- {static} GeminiAPI geminiAPI
+- {static} Vibrator vibrator
++ {static} Context getGameContext()
++ {static} DatabaseHelper getDbHelper()
+# void onCreate(Bundle)
++ void onClick(View)
+# void onDestroy()
++ {static} void updateSurfaceSize(int,int)
++ {static} GeminiAPI getGeminiAPI()
++ {static} void Vibrate(long)
+}
+
+
+class com.example.gameproject.gamestates.playing.PlayingUI {
+- PointF joystickCenterPos
+- PointF attackBtnCenterPos
+- float radius
+- Paint circlePaint
+- Playing playing
+- int healthIconX
+- CustomButton btnSetting
+- CustomButton btnInventory
+- CustomButton btnShop
+- CustomButton btnTutorial
+- Paint BlackPaint
+- int joystickPointerId
+- int attackBtnPointerId
+- boolean touchDown
++ void draw(Canvas)
+- void drawUI(Canvas)
+- void drawHungerBar(Canvas)
+- void drawItemBar(Canvas)
+- void drawItem(Canvas,InventorySloth)
+- void drawButtons(Canvas)
+- void drawHealth(Canvas)
+- boolean isInsideRadius(PointF,PointF)
+- boolean checkInsideAttackBtn(PointF)
+- boolean checkInsideJoyStick(PointF,int)
++ void touchEvents(MotionEvent)
+- void resetJoystickButton()
+- boolean isIn(PointF,CustomButton)
+}
+
+
+enum com.example.gameproject.ui.ButtonImages {
++  MENU_START
++  PLAYING_MENU
++  PLAYING_SETTING
++  SETTINGS_BACK
++  SHOP_APPROVE
++  SHOP_ADD
++  SHOP_REDUCE
++  SETTINGS_VOLUMES
++  PLAYING_INVENTORY
++  SHOP_SET_SKIN
++  SETTINGS_IS_GEMINI
++  EMPTY
++  EMPTY_SMALL
++  EMPTY_SUPER_SMALL
++  PLAYING_DEBUG
++  DOOR_IMAGE
++  CHEST
+- int width
+- int height
+- Bitmap normal
+- Bitmap pushed
++ int getWidth()
++ int getHeight()
++ Bitmap getBtnImg(boolean)
+}
+
+
+class com.example.gameproject.gamestates.invenory.InventoryState {
+- CustomButton btnBack
++ {static} int inventoryWidth
++ {static} int inventoryHeight
+~ int xCurr
+~ int yCurr
+~ int space
+- int xCurrIndex
+- int yCurrIndex
+- InventorySloth[][] inventory
+- Paint BlackPaint
+- InventorySloth lstItem
++ void update(double)
++ void render(Canvas)
+- void drawItem(Canvas,InventorySloth)
++ void touchEvents(MotionEvent)
+- void moveItem(InventorySloth,InventorySloth)
++ InventorySloth[][] getInventory()
+}
+
+
+enum com.example.gameproject.ui.HealthIcons {
++  HEART_FULL
++  HEART_3Q
++  HEART_HALF
++  HEART_1Q
++  HEART_EMPTY
+- Bitmap icon
+- int widthHeight
++ Bitmap getIcon()
+}
+
+
+class com.example.gameproject.gamestates.setting.SettingView {
+- SettingState settingState
+~ SurfaceHolder holder
++ void update(double)
++ void render()
++ boolean onTouchEvent(MotionEvent)
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
++ void setSettingloop(SettingActivity.Settingloop)
+}
+
+
+class com.example.gameproject.entities.items.Item {
+- int MAX_TICK_HOLD
+- Items itemType
+~ int aniIndex
+- int tickHold
++ boolean updatePickUp()
++ Items getItemType()
++ RectF getHitbox()
++ void updateAni()
++ int getAniIndex()
+}
+
+
+class com.example.gameproject.database.DatabaseHelper {
+- {static} String DATABASE_NAME
+- {static} int DATABASE_VERSION
+- {static} String TABLE_NAME
+- Context context
+- SQLiteDatabase db
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
++ int getUserId(String,String)
++ String getColumnValueById(int,DatabaseColumns.Column)
+- boolean isValidColumn(String)
++ boolean updateIntColumn(int,DatabaseColumns.Column,int)
++ boolean updateStringColumn(int,DatabaseColumns.Column,String)
+- boolean isStringrColumn(DatabaseColumns.Column)
+- boolean isIntegerColumn(DatabaseColumns.Column)
+~ Cursor readAllData()
+~ void deletePlayer(String)
+~ void deleteAllData()
++ void deleteTable()
++ boolean registerUser(String,String)
++ boolean loginUserByUsername(String,String)
+- void showToast(String)
++ void Log(String,String)
++ void addIntColumn(int,DatabaseColumns.Column)
++ void reduceIntColumn(int,DatabaseColumns.Column)
++ void setInventory(int,Player)
++ SQLiteDatabase getReadableDatabase()
++ SQLiteDatabase getWritableDatabase()
++ void closeDatabase()
+}
+
+
+class com.example.gameproject.gamestates.shop.CategoryPage {
+- int MAX_PAGES
+- int ShopWidth
+- int ShopHeight
+- ItemShop.Category thiscategory
+- ShopSloth[][][] ShopItems
+- int page
+- int xCurr
+- int yCurr
+- int Xspace
+- int Yspace
+- int xCurrIndex
+- int yCurrIndex
+- Bitmap icon
++ void initPages()
++ void update(double)
++ void render(Canvas)
++ void touchEvents(MotionEvent)
+- void drawItem(Canvas,ShopSloth)
++ ShopSloth[][][] getShopItems()
++ int getCurrPage()
++ void setPage(int)
++ int getMAX_PAGES()
++ Bitmap getIcon()
++ void setIcon()
++ void setXCurr(int)
++ void setYCurr(int)
+}
+
+
+class com.example.gameproject.entities.entities.Villager {
+- Building building
+- Random rand
+- long lastDirChange
+- VillagerType villagerType
+- TextToSpeech tts
+- Context context
+- boolean isTtsInitialized
+- boolean isTalking
+- String conversation
+- Paint blackPaint
+- void changeVoice(String)
+- {static} GameCharacters getCharacterType(VillagerType)
++ void update(double,GameMap)
+- void updateMove(double,GameMap)
++ void MovePlayer(float,GameMap)
++ void changeDirection()
+- void initTTS()
++ void setBuilding(Building)
++ void startConversation()
+- void splitConversation()
+- void speakConversation()
++ void endConversation()
++ boolean isTalking()
++ void drawTalk(Canvas,float,float)
+- void stopSpeaking()
+}
+
+
+enum com.example.gameproject.entities.entities.VillagerType {
++  VILLAGER_DAD
++  VILLAGER_MOM
++  VILLAGER_BOY
++  VILLAGER_GREEN
++  VILLAGER_BLACK
++  VILLAGER_OLIVE
++ String getRecommendedVoice()
++ Voice getVoiceFromCategory(TextToSpeech,String)
+}
+
+
+class com.example.gameproject.database.DatabaseColumns {
++ {static} List<Column> ALL_COLUMNS
++ {static} String COLUMN_ID
++ {static} String COLUMN_USERNAME
++ {static} String COLUMN_PASSWORD
++ {static} String COLUMN_COINS
++ {static} String COLUMN_ITEM_PREFIX
++ {static} Column ID
++ {static} Column USERNAME
++ {static} Column PASSWORD
++ {static} Column SKIN
++ {static} Column COINS
++ {static} Column getItemColumnByName(Items)
++ {static} List<Column> getAllColumns()
+}
+
+
+class com.example.gameproject.database.DatabaseColumns$Column {
+- String name
+- String type
++ String type()
++ String name()
+}
+
+
+class com.example.gameproject.ui.CustomButton {
+- RectF hitbox
+- boolean pushed
+- int pointerId
++ RectF getHitbox()
++ boolean isPushed(int)
++ boolean isPushed()
++ void setPushed(boolean)
++ void unPush(int)
++ void setPushed(boolean,int)
++ int getPointerId()
++ boolean isIn(MotionEvent)
+}
+
+
+class com.example.gameproject.main.GameLoop {
+- {static} int TARGET_UPDATE_FPS
+- {static} int TARGET_RENDER_FPS
+- {static} long OPTIMAL_UPDATE_TIME
+- {static} long OPTIMAL_RENDER_TIME
+- Thread gameThread
+- Game game
+- boolean running
++ void run()
++ void startGameLoop()
++ void pauseGameLoop()
+}
+
+
+class com.example.gameproject.gamestates.setting.SettingActivity {
+- SettingView settingView
+- Settingloop settingloop
+# void onCreate(Bundle)
++ boolean onTouchEvent(MotionEvent)
+}
+
+
+class com.example.gameproject.gamestates.setting.SettingActivity$Settingloop {
+- {static} int TARGET_UPDATE_FPS
+- {static} int TARGET_RENDER_FPS
+- {static} long OPTIMAL_UPDATE_TIME
+- {static} long OPTIMAL_RENDER_TIME
+- Thread gameThread
+- SettingView settingView
+- boolean running
++ void run()
++ void startSettingLoop()
++ void stopSettingLoop()
+}
+
+
+class com.example.gameproject.helpers.HelpMethods {
++ {static} PointF CreatePointForDoorway(GameMap,int)
++ {static} PointF CreatePointForDoorway(int,int)
++ {static} void ConnectTwoDoorways(GameMap,PointF,GameMap,PointF)
++ {static} CopyOnWriteArrayList<Character> SpawnStartedEnemies(int,int[][],ArrayList<Building>,ArrayList<GameObject>)
++ {static} CopyOnWriteArrayList<Character> SpawnEnemies(int,int[][],ArrayList<Building>,ArrayList<GameObject>)
+- {static} void spawnNotOnObject(int[][],ArrayList<Building>,ArrayList<GameObject>,CopyOnWriteArrayList<Character>,Enemies)
+- {static} Character getEnemy(Enemies,PointF)
++ {static} void AddVillagersToBuildings(ArrayList<Building>)
+- {static} void ConnectVillagerToBuilding(Building)
+- {static} boolean isNotOnObject(float,float,int[][],ArrayList<Building>,ArrayList<GameObject>)
++ {static} boolean CanWalkHereUpDown(RectF,float,float,GameMap)
++ {static} boolean CanWalkHereLeftRight(RectF,float,float,GameMap)
++ {static} boolean CanWalkHere(RectF,float,float,GameMap)
+- {static} int[] GetTileIds(Point[],GameMap)
+- {static} Point[] GetTileCords(RectF,float,float)
++ {static} boolean IsTilesWalkable(int[],Tiles)
++ {static} boolean IsTileWalkable(int,Tiles)
++ {static} boolean IsPlayerCloseForAttack(Character,Player,float,float)
+}
+
+class com.example.gameproject.environments.MapManager {
+- GameMap currentMap
+- float cameraX
+- Playing playing
++ void setCameraValues(float,float)
++ boolean canMoveHere(float,float)
++ int getMaxWidthCurrentMap()
++ int getMaxHeightCurrentMap()
++ void drawItem(Canvas,Item)
++ void drawObject(Canvas,GameObject)
++ void drawBuilding(Canvas,Building)
++ void drawTiles(Canvas)
++ Doorway isPlayerOnDoorway(RectF)
++ void changeMap(Doorway)
++ GameMap getCurrentMap()
+- void initTestMaps()
+}
+
+
+class com.example.gameproject.gamestates.lostConnection.LostConnectionState {
+- int index
+- int sprite
+- int add
+- boolean isMenu
+- Paint Paint
+- long lastUpdateTime
+- long UPDATE_INTERVAL
+- Context context
+~ int width
+~ int height
+- CustomButton btn1
+- CustomButton btn2
+- CustomButton btn3
+- CustomButton Menu
+- CustomButton Back
++ void update(double)
++ void render(Canvas)
++ void touchEvents(MotionEvent)
++ void setContext(Context)
++ boolean isIn(MotionEvent,CustomButton)
+}
+
+
+class com.example.gameproject.entities.enemies.Skeleton {
++ void AddLootTypes()
+}
+
+class com.example.gameproject.gamestates.shop.ShopSloth {
+- boolean bought
+- int slothType
++ ShopImages getSlothImage()
++ int getSlothType()
++ boolean hasItem()
+}
+
+
+interface com.example.gameproject.helpers.interfaces.GameStateInterface {
+~ void update(double)
+~ void render(Canvas)
+~ void touchEvents(MotionEvent)
+~ boolean isIn(MotionEvent,CustomButton)
+}
+
+class com.example.gameproject.entities.enemies.MaskedRaccoon {
+- Random rand
+- long lastDirChange
++ void update(double,GameMap)
+- void updateMove(double,GameMap)
++ void AddLootTypes()
+}
+
+
+class com.example.gameproject.gamestates.death.DeathScreen {
+- CustomButton buttonReplay
+- int menuX
+- int menuY
+- int buttonsX
+- int buttonReplayY
++ void render(Canvas)
+- void drawButtons(Canvas)
+- void drawBackground(Canvas)
++ void touchEvents(MotionEvent)
++ void update(double)
+}
+
+
+class com.example.gameproject.gamestates.shop.CharacterShop {
+- {static} int MAX_PAGES
+- {static} CharacterPage[] pages
+- int page
+~ {static} void setSkin(CharacterPage)
++ void update(double)
++ void render(Canvas)
++ void touchEvents(MotionEvent)
++ int getMAX_PAGES()
++ void setPage(int)
+- void initPages()
++ CharacterPage getPage(int)
++ boolean isPageBought(int)
++ void buyPage(int)
+}
+
+
+abstract class com.example.gameproject.gamestates.BaseState {
+# Game game
++ Game getGame()
++ boolean isIn(MotionEvent,CustomButton)
+}
+
+
+class com.example.gameproject.gamestates.setting.SettingState {
+~ int space
+- int menuX
+- int menuY
+- int btnXBack
+- int btnYBack
+- CustomButton[] btnVolumeButtons
+- int btnXVolume
+- int SoundIconX
+- int btnYVolume
+- int SoundIconY
+- CustomButton btnSound
+- CustomButton btnBack
+- CustomButton btnGeminiActive
+- int GeminiX
+- int GeminiY
+- CustomButton btnNext
+- CustomButton btnPrev
+- Paint BlackPaint
+- float volume
+- Context context
+- SettingActivity.Settingloop settingloop
++ void update()
++ void render(Canvas)
+- void drawArrow(Canvas,CustomButton,float,float)
+- void drawSong(Canvas)
+- void drawButtons(Canvas)
+- void drawBackground(Canvas)
++ void touchEvents(MotionEvent)
+- boolean isIn(MotionEvent,CustomButton)
+- void setPlaying()
++ boolean isGeminiActive()
++ void setSettingloop(SettingActivity.Settingloop)
+}
+
+
+class com.example.gameproject.environments.MapHelper {
+- {static} int HOUSE_REG_WIDTH
+- {static} int HOUSE_REG_HEIGHT
+- {static} int HOUSE_BIG_WIDTH
+- {static} int HOUSE_BIG_HEIGHT
+- {static} int HOUSE_X_START
+- {static} int HOUSE_Y_START
+- {static} int HOUSE_REG_WIDTH_POS
+- {static} int HOUSE_REG_HEIGHT_POS
+- {static} int HOUSE_BIG_WIDTH_POS
+- {static} int HOUSE_BIG_HEIGHT_POS
++ {static} ArrayList<Building> getBuildings()
++ {static} ArrayList<GameObject> getGameObjects()
++ {static} CopyOnWriteArrayList<Item> getItems()
++ {static} ArrayList<Particle> getParticles()
++ {static} void connectDoorways(GameMap,GameMap,GameMap,GameMap,GameMap,GameMap,GameMap,GameMap,GameMap,GameMap)
+- {static} List<GameObject> createRoom(boolean)
+- {static} List<GameObject> createRoomBig2()
+- {static} List<GameObject> createRoomBig1()
+- {static} List<GameObject> createRoom3()
+- {static} List<GameObject> createRoom2()
+- {static} List<GameObject> createRoom1()
++ {static} ArrayList<GameObject> getObjectsReg1()
++ {static} ArrayList<GameObject> getObjectsReg2()
++ {static} ArrayList<GameObject> getObjectsMail()
++ {static} ArrayList<GameObject> getObjectsFlat1()
++ {static} ArrayList<GameObject> getObjectsFlat2()
++ {static} ArrayList<GameObject> getObjectsFlat3()
++ {static} ArrayList<GameObject> getObjectsGreen1()
++ {static} ArrayList<GameObject> getObjectsGreen2()
++ {static} ArrayList<GameObject> getObjectsGreen3()
++ {static} int[][] getInsideFlatHouseArray()
++ {static} int[][] getInsideBlacksmithHouseArray()
++ {static} int[][] getInsideRegHouseArr()
++ {static} int[][] getInsideMailHouseArray()
++ {static} int[][] getMapArrayFinal()
+}
+
+
+class com.example.gameproject.notification.NotificationWorker {
+- {static} String CHANNEL_ID
++ Result doWork()
+- void sendNotification(Context,String,String)
+- void scheduleNextNotification(Context)
+}
+
+
+class com.example.gameproject.Media.MediaPlayerHelper {
+- MediaSongs mSongs
+- Context context
+- ExecutorService executorService
+- MediaPlayer mPlayer
+- MediaPlayer EffectPlayer
+- int currentSongId
+- float leftVolume
+- float rightVolume
++ void initializeMediaPlayerAsync(MediaPlayerReadyCallback)
+- void fadeIn(MediaPlayer,float,int)
+- void fadeOut(MediaPlayer,int,Runnable)
++ void setVolume(float,float)
++ void play()
++ void stop()
++ void playNextSong()
++ void playPreviousSong()
+- void playSong(Context,int)
++ void playPickItemSound()
++ void playGameOverSound()
++ MediaSongs.song getCurrSong()
+}
+
+
+interface com.example.gameproject.Media.MediaPlayerHelper$MediaPlayerReadyCallback {
+~ void onMediaPlayerReady()
+}
+
+class com.example.gameproject.entities.objects.GameObject {
+- GameObjects objectType
++ GameObjects getObjectType()
+}
+
+
+interface com.example.gameproject.helpers.interfaces.BitmapMethods {
+~ {static} BitmapFactory.Options options
+~ Bitmap getScaledBitmap(Bitmap)
+~ Bitmap getMultiplierBitmap(Bitmap,float,float)
+~ Bitmap deScaledBitmap(Bitmap,float)
+~ Bitmap getSmallItemSize(Bitmap)
+~ Bitmap deSize(Bitmap)
+~ Bitmap SmalldeSize(Bitmap)
+~ Bitmap regSize(Bitmap)
+~ Bitmap getSmallestItemSize(Bitmap)
+~ Bitmap getItemBiggerSize(Bitmap)
+~ Bitmap getItemSize(Bitmap)
+}
+
+
+class com.example.gameproject.main.GamePanel {
+- Game game
+- NetworkReceiver networkReceiver
++ Game getGame()
++ boolean onTouchEvent(MotionEvent)
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
+}
+
+
+abstract class com.example.gameproject.entities.Entity {
+# RectF hitbox
+# boolean active
+# float lastCameraYValue
++ boolean isActive()
++ void setActive(boolean)
++ RectF getHitbox()
++ void setLastCameraYValue(float)
++ int compareTo(Entity)
+}
+
+
+class com.example.gameproject.gamestates.playing.Playing {
+- {static} MapManager mapManager
+- Paint redPaint
+- Player player
+- PlayingUI playingUI
+- float cameraX
+- boolean movePlayer
+- PointF lastTouchDiff
+- boolean doorwayJustPassed
+- Entity[] listOfDrawables
+- boolean listOfEntitiesMade
+- InventorySloth lastItem
+- void calcStartCameraValues()
++ void update(double)
+- void updateDarkWizard(double,DarkWizard)
+- void updateDarkNinja(double,DarkNinja)
+- void generateEnemies()
+- void updateVillager(double,Villager)
+- boolean isNearTalk(Player,RectF)
+- void updateItems()
+- void pickItem(Player,Item)
+- boolean isNear(RectF,RectF)
+- void updateMaskedRakoon(double,MaskedRaccoon)
+- void updateSkeleton(double,Skeleton)
+- void buildEntityList()
+- void sortArray()
++ void setCameraValues(PointF)
+- void checkForDoorway()
++ void setDoorwayJustPassed(boolean)
+- void checkEnemyAttack(Character)
+- void checkDarkNinjaAttack(DarkNinja)
+- void checkSkeletonAttack(Skeleton)
+- void checkPlayerDead()
+- void checkPlayerAttack()
++ void render(Canvas)
+- void drawVillager(Canvas,Villager)
+- void drawSortedEntities(Canvas)
+- void drawPlayer(Canvas)
+- void drawWeapon(Canvas,Character)
+- void drawEnemyWeapon(Canvas,AttackingEnemy)
++ void drawEnemy(Canvas,Character)
+- void drawHealthBar(Canvas,Character)
+- void updatePlayerMove(double)
++ void setPlayerMoveTrue(PointF)
++ void setPlayerMoveFalse()
++ void touchEvents(MotionEvent)
++ void resetLastItem()
++ Player getPlayer()
++ void setGameStateToSettings()
++ void setGameStateToInventory()
++ void setGameStateToShop()
++ void setToTutorial()
+}
+
+
+abstract class com.example.gameproject.entities.enemies.AttackingEnemy {
+- Random rand
+- long timeToAttack
+# long timeForAttackDuration
+- long lastDirChange
+# boolean moving
+- long timerBeforeAttack
+- Weapons weapon
++ void update(double,GameMap)
++ void prepareAttack(Player,float,float)
+- void turnTowardsPlayer(Player,float,float)
+- void updateAttackTimer()
+- void checkTimeToAttackTimer()
+- void updateMove(double,GameMap)
++ Weapons getWeapon()
++ boolean isPreparingAttack()
+}
+
+
+class com.example.gameproject.tutorial.TutorialActivity {
+- TutorialView tutorialView
+- Tutorialloop tutorialloop
+# void onCreate(Bundle)
++ boolean onTouchEvent(MotionEvent)
+}
+
+
+class com.example.gameproject.tutorial.TutorialActivity$Tutorialloop {
+- {static} int TARGET_UPDATE_FPS
+- {static} int TARGET_RENDER_FPS
+- {static} long OPTIMAL_UPDATE_TIME
+- {static} long OPTIMAL_RENDER_TIME
+- Thread gameThread
+- TutorialView tutorialView
+- boolean running
++ void run()
++ void startSettingLoop()
++ void stopSettingLoop()
+}
+
+
+enum com.example.gameproject.entities.entities.GameCharacters {
++  VILLAGER_DAD
++  VILLAGER_MOM
++  VILLAGER_BOY
++  VILLAGER_GREEN
++  VILLAGER_BLACK
++  VILLAGER_OLIVE
++  BOY
++  EGG_BOY
++  EGG_GIRL
++  ESKIMOS
++  INSPECTOR
++  FIGHTER
++  HUNTER
++  RED_NINJA
++  KNIGHT
++  MASTER
++  MONK
++  NINJABLUE2
++  NINJABLUE
++  NINJABOMB
++  NINJADARK
++  NINJAESKIMO
++  NINJAGRAY
++  NINJAGREEN
++  NINJAMASKED
++  NINJARED
++  NINJAYELLOW
++  NOBLE
++  OLDMAN2
++  OLDMAN3
++  OLDMAN
++  PRINCESS
++  REDNINJA3
++  ROBOTGREEN
++  ROBOTGREY
++  SAMURAIBLUE
++  SAMURAI
++  SORCERERBLACK
++  SORCERERORANGE
++  STATUE
++  SULTAN2
++  SULTAN
++  VAMPIRE
+- Bitmap spriteSheet
+- Bitmap[][] sprites
++ {static} int getValCharacter()
++ Bitmap getSpriteSheet()
++ Bitmap getSprite(int,int)
+}
+
+
+enum com.example.gameproject.entities.objects.GameObjects {
++  PILLAR_YELLOW
++  STATUE_ANGRY_YELLOW
++  MONK_STATUE_BALL_YELLOW
++  MONK_STATUE_YELLOW
++  SOLDIER_SPEAR_YELLOW
++  PLANTER_STICKS_YELLOW
++  CUBE_YELLOW
++  FROG_YELLOW
++  SOLDIER_SWORD_YELLOW
++  PILLAR_SHORT_YELLOW
++  PILLAR_SNOW_YELLOW
++  PILLAR_GREEN
++  STATUE_ANGRY_GREEN
++  MONK_STATUE_BALL_GREEN
++  MONK_STATUE_GREEN
++  SOLDIER_SPEAR_GREEN
++  PLANTER_STICKS_GREEN
++  CUBE_GREEN
++  FROG_GREEN
++  SOLDIER_SWORD_GREEN
++  PILLAR_SHORT_GREEN
++  PILLAR_SNOW_GREEN
++  POT_ONE_FULL
++  POT_ONE_EMPTY
++  POT_TWO_FULL
++  POT_TWO_EMPTY
++  BASKET_FULL_RED_FRUIT
++  BASKET_FULL_CHICKEN
++  BASKET_EMPTY
++  BASKET_FULL_BREAD
++  OVEN_SNOW_YELLOW
++  OVEN_YELLOW
++  OVEN_GREEN
++  STOMP
++  SMALL_POT_FULL
++  SMALL_POT_EMPTY
++  PLANT
++  DRAWERS
++  BOOK_SHELF_SMALL
++  BOOK_SHELF_SMALL_EMPTY
++  DRAWERS_BIG
++  BOOK_SHELF
++  BOOK_SHELF_EMPTY
++  CHAIR
++  BLUE_POT
++  PAINTING
++  BASEMENT_OAK
++  BASEMENT_BIRCH
++  BASEMENT_ACACIA
++  BASEMENT_PRISMARIN
++  POT_EMPTY
++  TABLE
++  TABLE2
++  TABLE3
++  WELL
++  PIGENS
++  CABINET
++  OVEN
++  REFRIGERATOR
++  SOFA_RIGHT
++  SOFA_DOWN
++  SMALL_SOFA_DOWN
++  SMALL_SOFA_UP
++  OAK_BOOKSHELF
++  BIRCH_BOOKSHELF
++  CHAIR_BIRCH_DOWN
++  CHAIR_BIRCH_RIGHT
++  TABLE_BIG
++  CARPET
++  DRAWERS_OAK
+~ Bitmap objectImg
+~ int width
+~ int hitboxRoof
++ int getHitboxHeight()
++ int getHitboxWidth()
++ Bitmap getObjectImg()
++ int getWidth()
++ int getHeight()
++ int getHitboxRoof()
+}
+
+
+abstract class com.example.gameproject.entities.enemies.Enemy {
+# ArrayList<Items> KilledLoot
+# ArrayList<Item> Loot
+# boolean addedLoot
+# {abstract}void AddLootTypes()
++ ArrayList<Item> getLoot(PointF)
++ boolean isAddedLoot()
++ void setAddedLoot(boolean)
+}
+
+
+class com.example.gameproject.main.Game {
+- SurfaceHolder holder
+- DatabaseHelper dbHelper
+- GameLoop gameLoop
+- Playing playing
+- DeathScreen deathScreen
+- InventoryState inventoryState
+- ShopState shopState
+- GameState currentGameState
+- LostConnectionState lostConnectionState
++ void update(double)
++ void render()
++ boolean touchEvent(MotionEvent)
++ void setCurrentGameState(GameState)
++ void startGameLoop()
++ InventoryState getInventoryState()
++ Playing getPlaying()
++ Player getPlayer()
+- void initGameStates()
++ GameState getCurrentGameState()
++ DatabaseHelper getDbHelper()
++ GameLoop getGameLoop()
+}
+
+
+enum com.example.gameproject.main.GameState {
++  PLAYING
++  DEATH_SCREEN
++  INVENTORY
++  SHOP
++  LOST_CONNECTION
+}
+
+class com.example.gameproject.gamestates.invenory.InventorySloth {
++ {static} int SLOT_SIZE
+~ int xSpot
+~ int x
+- Items item
+- int amount
++ Items getItem()
++ void setItem(Items)
++ int getAmount()
++ void setAmount(int)
++ GameImages getImage()
++ int getX()
++ int getY()
++ boolean isIn(MotionEvent)
++ void addAmount()
++ void reduceAmount()
+}
+
+
+class com.example.gameproject.helpers.Paints {
++ {static} Paint BLACK_PAINT
++ {static} Paint WHITE_PAINT
++ {static} Paint HITBOX_PAINT
++ {static} Paint GREEN_PAINT
++ {static} Paint GOLD_PAINT
++ {static} Paint BLUE_PAINT
++ {static} Paint TEXT_PAINT
++ {static} Paint BIG_TEXT_PAINT
++ {static} Paint HELTH_BAR_RED_PAINT
++ {static} Paint HELTH_BAR_BLACK_PAINT
++ {static} Paint CIRCLE_PAINT
++ {static} Paint MEDIOM_BLACK_PAINT
+- {static} void initPaint()
+}
+
+
+enum com.example.gameproject.ui.GameImages {
++  SETTING_MENU
++  MENU
++  SOUND_ICON
++  SILENT_ICON
++  SHOP_ICON
++  BACKGRAWND
++  INVENTORY_SLOTH
++  INVENTORY_MOUSE
++  HUNGER_FULL
++  HUNGER_EMPTY
++  TALKING_BUBBLE
++  LOADING11
++  LOADING12
++  LOADING13
++  LOADING14
++  LOADING15
++  LOADING21
++  LOADING22
++  LOADING23
++  LOADING24
++  LOADING25
++  LOADING31
++  LOADING32
++  LOADING33
++  LOADING34
++  LOADING35
++  COIN_SMALL
++  ICON_BOX
++  PLAYER_BOX
+- Bitmap atlas
+- Bitmap image
++ {static} Bitmap getLoadingImage(int,int)
++ Bitmap getImage()
++ Bitmap getSmallImage()
+}
+
+
+enum com.example.gameproject.entities.particals.Particles {
++  POTION_EFFECT
+~ Bitmap atlas
+~ Bitmap[] images
+~ int amount
++ Bitmap getImages(int)
++ int getAmount()
++ float getMaxWidth()
++ float getMaxHeight()
+- {static} Rect fromWH(int,int,int,int)
++ float getCurrWidth(int)
++ float getCurrHeight(int)
+}
+
+
+class com.example.gameproject.main.GameActivity {
+- {static} String CHANNEL_ID
+- {static} boolean DrawHitbox
+- {static} MediaPlayerHelper mediaPlayerHelper
+- {static} String username
+- {static} String password
+- {static} GamePanel panel
++ {static} boolean isDrawHitbox()
++ {static} String getPassword()
++ {static} String getUsername()
++ {static} boolean isDev()
++ {static} MediaPlayerHelper getMpHelper()
+# void onCreate(Bundle)
+- void cancelScheduledNotifications()
+- void cancelNotificationChannel()
+- void createNotificationChannel()
+# void onStart()
+# void onStop()
+# void onDestroy()
++ {static} GamePanel getPanel()
+}
+
+
+enum com.example.gameproject.entities.objects.Weapons {
++  BIG_SWORD
++  SHURIKEN
++  SHURIKEN_SPIN
++  SHADOW
++  FIREBALL
++  FIREBALL1
++  FIREBALL2
++  FIREBALL3
+~ Bitmap weaponImg
++ {static} Bitmap getSuriken(boolean)
++ {static} Bitmap getFireball()
++ Bitmap getWeaponImg()
++ int getWidth()
++ int getHeight()
+}
+
+
+class com.example.gameproject.environments.Doorway {
+- GameMap gameMapLocatedIn
+- boolean active
+- Doorway doorwayConnectedTo
+- PointF doorwayPoint
++ void connectDoorway(Doorway)
++ Doorway getDoorwayConnectedTo()
++ boolean isPlayerInsideDoorway(RectF,float,float)
++ boolean isDoorwayActive()
++ void setDoorwayActive(boolean)
++ PointF getPosOfDoorway()
++ GameMap getGameMapLocatedIn()
+}
+
+
+class com.example.gameproject.GeminiAPI {
+- String response
+- {static} boolean ShowText
+- {static} String API_KEY
+- {static} String BASE_URL
++ String askGemini(String)
+- {static} void askGemini(String,ResponseCallback)
++ void setIsShowText(boolean)
++ boolean isShowText()
+}
+
+
+interface com.example.gameproject.GeminiAPI$ResponseCallback {
+~ void onResponse(String)
+~ void onFailure(String)
+}
+
+class com.example.gameproject.gamestates.shop.CharacterPage {
+- Icons icon
+- String name
+- PlayerShopAI playerShopAI
+- int PRICE
+- Game game
+- Paint textPaint
+- Paint textGoldPaint
+- Paint textGreenPaint
+~ float xStart
+~ float yStart
++ CustomButton setSkinBtn
+- boolean bought
+- boolean settingSkin
+- CustomButton btnBuy
++ void update(double)
++ void render(Canvas)
++ void touchEvents(MotionEvent)
+- void startBuying()
++ void setSkin()
++ void Buy()
++ boolean isBought()
++ String getName()
++ boolean isIn(MotionEvent,CustomButton)
+}
+
+
+class com.example.gameproject.entities.entities.Player {
+- InventorySloth[][] inventory
+- DatabaseHelper dbHelper
+- int id
+- String username
++ Icons icon
++ GameCharacters skin
+- float maxHunger
+- float currHunger
+- int hungerTick
+- int hungerTickMax
+- boolean isSpeeding
+- long SpeedingStart
+- float SPEED
++ void update(boolean)
+- void updatePotions()
+- void updateHunger()
++ Icons getIcon()
++ GameCharacters getSkin()
++ int getCurrHunger()
++ int getMaxHunger()
++ void reduceHunger(float)
++ void addHunger(float)
++ void resetHungerBar()
+- void addToSQL(Items)
++ void setSkinAndIcon(String)
++ int getCoins()
++ void setCoins(int)
++ void addToInventory(Items)
++ InventorySloth[][] getInventory()
++ void UseItem(InventorySloth)
+- void useItem(InventorySloth)
++ boolean isInvisible()
++ float getSPEED()
++ int getStreangth()
++ boolean isEffect()
+}
+
+
+abstract class com.example.gameproject.entities.entities.Character {
+# GameCharacters gameCharType
+# Enemies EnemyType
+# int attackDamage
+# int aniTick
+# int faceDir
+# boolean attacking
+- RectF attackBox
+- int maxHealth
+- int currentHealth
+# void setStartHealth(int)
++ void resetCharacterHealth()
++ void damageCharacter(int)
+# void heal(int)
++ boolean isEnemy()
+# int setAttackDamage()
+# void updateAnimation()
++ void resetAnimation()
++ int getAniIndex()
++ int getFaceDir()
++ void setFaceDir(int)
++ GameCharacters getGameCharType()
++ Enemies getEnemyType()
++ void updateWepHitbox()
++ float getWepWidth()
++ float getWepHeight()
++ PointF getWepPos()
++ float wepRotAdjustTop()
++ float wepRotAdjustLeft()
++ float getWepRot()
++ RectF getAttackBox()
++ boolean isAttacking()
++ void setAttacking(boolean)
++ boolean isAttackChecked()
++ void setAttackChecked(boolean)
++ int getDamage()
++ int getMaxHealth()
++ int getCurrentHealth()
++ void setInactive()
++ void addHealth(int)
+}
+
+
+enum com.example.gameproject.entities.enemies.Enemies {
++  DARK_NINJA
++  DARK_WIZARD
++  MASKED_RAKKON
++  GOLDEN_MASKED_RAKKON
++  SKELETON
+- Bitmap spriteSheet
+- Bitmap[][] sprites
++ {static} Enemies getRndMaskedRaccoon()
++ {static} Enemies getRandomEnemy()
++ Bitmap getSpriteSheet()
++ Bitmap getSprite(int,int)
+}
+
+
+enum com.example.gameproject.entities.entities.Icons {
++  BOY_ICON
++  EGG_BOY_ICON
++  EGG_GIRL_ICON
++  ESKIMOS_ICON
++  INSPECTOR_ICON
++  FIGHTER_ICON
++  HUNTER_ICON
++  RED_NINJA_ICON
++  MASTER_ICON
++  MONK_ICON
++  NINJABLUE2_ICON
++  NINJABLUE_ICON
++  NINJABOMB_ICON
++  NINJADARK_ICON
++  NINJAESKIMO_ICON
++  NINJAGRAY_ICON
++  NINJAGREEN_ICON
++  NINJAMASKED_ICON
++  NINJARED_ICON
++  NINJAYELLOW_ICON
++  NOBLE_ICON
++  OLDMAN2_ICON
++  OLDMAN3_ICON
++  OLDMAN_ICON
++  PRINCESS_ICON
++  REDNINJA3_ICON
++  KNIGHT_ICON
++  ROBOTGREEN_ICON
++  ROBOTGREY_ICON
++  SAMURAIBLUE_ICON
++  SAMURAIRED_ICON
++  SAMURAI_ICON
++  SORCERERBLACK_ICON
++  SORCERERORANGE_ICON
++  STATUE_ICON
++  SULTAN2_ICON
++  SULTAN_ICON
++  VAMPIRE_ICON
+- Bitmap image
++ Bitmap getImage()
++ int getWidth()
++ int getHeight()
+}
+
+
+enum com.example.gameproject.entities.items.Items {
++  APPLE
++  APPLE_PIE_DISH
++  APRICOT
++  BACON
++  BACON_DISH
++  BAGEL
++  BAGEL_DISH
++  BAGUETTE
++  BAGUETTE_DISH
++  TART
++  BANANA
++  BANOFFEEPOT
++  BARBEQUE_SAUCE
++  BEER
++  BELL_PEPPER
++  BELL_PEPPER2
++  BLUEJELLY
++  BOWL_OF_RICE
++  BREAD
++  BREAD2
++  BREAD_DISH
++  BREAD_SLICE
++  BUBBLE_GUM
++  BUN
++  BURGER
++  BURRITO
++  BURRITO_DISH
++  BUTTER
++  BUTTER2
++  CABBAGE
++  CANDY_BAR
++  CANDY_CANES
++  CARROTCAKE
++  CEREAL1
++  CEREAL2
++  CHEESE
++  CHEESECAKE
++  CHEESECAKE2
++  CHEESECAKEPOT
++  CHEESECAKE_DISH
++  CHEESEPUFF_BOWL
++  CHERRYCHOCOLATEPOT
++  CHERRYSHORTCAKE
++  CHERRY_BLACK
++  CHERRY_PIE
++  CHERRY_RED
++  CHICKEN
++  CHILI_PEPPER
++  CHOCOLATE
++  CHOCOLATEBERRYSHORTCAKE
++  CHOCOLATECAKE
++  CHOCOLATECAKE2
++  CHOCOLATEDONUT
++  CHOCOLATEPOT
++  CHOCOLATESWISSROLL
++  CHOCOLATETWIST
++  CINNAMONROLL
++  COFFEE_BAG
++  COOKIECHEESECAKE
++  COOKIENCREAMPOT
++  COOKIES
++  COOKIES2
++  COOKING_OIL
++  CRANBERRY
++  CREMECARAMEL
++  CROISSANT
++  CROISSANTAVOCADOSANDWICH
++  CROISSANTSANDWICH
++  CUCUMBER
++  CUPCAKE
++  CURRY
++  CURRY_DISH
++  CUSTARDAPPLE
++  DANISHGLAZED
++  DANISHGLAZED2
++  DONU2
++  DONUT
++  DRAGONFRUIT
++  DRY_DOG_FOOD
++  DUMPLINGS
++  DUMPLINGS_DISH
++  DURIAN
++  EGGSALAD_BOWL
++  EGGTART
++  EGG_BOX
++  EGG_BROWN
++  EGG_BROWN_P
++  EGG_WHITE
++  EGG_WHITE_P
++  ENERGY_BAR
++  FIG
++  FISH_SALOMON
++  FLOUR
++  FRENCHFRIES_DISH
++  FRIEDEGG
++  FRIEDEGG_DISH
++  FRIED_EGG
++  FRUITCAKE
++  FRUIT_COCKTAIL_CAN
++  FUNFETTIDONUT
++  GARLICBREAD
++  GUMMYBEAR
++  GINGERBREAD_MAN_DISH
++  GLAZED_CINNAMONROLL
++  GRAPEFRUIT
++  GRAPES_BLACK
++  GRAPES_GREEN
++  GRAPE_SODA
++  GREEN_JELLY
++  GUAVA
++  HAMBURGER
++  HONEY
++  HOTDOG
++  HOTDOG_SAUCE
++  HOT_COCOA_MIX
++  HOT_DOG
++  ICE_CREAM
++  I_MUSHROOM
++  I_ROOT
++  I_ROOT_BEER
++  I_STRAWBERRY
++  I_TOMATO
++  JAM
++  JELLY
++  KETCHUP
++  KIWI
++  LEMON
++  LEMON_BLUEBERRY_POT
++  LEMON_CAKE
++  LEMON_DONUT
++  LEMON_PIE
++  LOAF_BREAD
++  LOLLIPOP
++  MACRONS
++  MARSHMALLOWS
++  MEAT1
++  MEAT1_P
++  MEAT2
++  MEATBALL
++  MELON
++  MILK_BOTTLE
++  MILK_CHOCOLATE
++  MILK_GALLON
++  MILK_PACK
++  MILK_PLASTIC
++  MINT_CHOCOLATE_POT
++  MUSTARD
++  OLIVE_OIL
++  OMELET
++  OMELET_DISH
++  ORANGE
++  ORANGE_JUICE
++  PANCAKES
++  PANCAKES_BANOFFEE
++  PANCAKES_BERRY
++  PANCAKES_CHOCOLATE
++  PANCAKES_COOKIES_N_CREAM
++  PANCAKES_CREAM
++  PANCAKES_DISH
++  PANCAKES_MINT_CHOCOLATE
++  PANCAKES_RAINBOW
++  PANNACOTTA
++  PASSION_FRUIT
++  PEACH
++  PEANUT_BUTTER
++  PEAR
++  PINK_JELLY
++  PIZZA
++  PIZZA_DISH
++  PLAIN_YOGURT
++  PLUM
++  POPCORN_BOWL
++  POTATOCHIP_BLUE
++  POTATOCHIP_GREEN
++  POTATOCHIP_YELLOW
++  POTATO_P
++  PROFITEROLES
++  PUDDING
++  PURPLE_JELLY
++  RAINBOW_CAKE
++  RAMEN
++  RASPBERRY_CHEESECAKE_POT
++  RED_JELLY
++  RED_VELVET_CAKE
++  RED_APPLE
++  RED_APPLE_P
++  ROASTED_CHICKEN_DISH
++  SALMON
++  SALMON2
++  SALMON_DISH
++  SALMON_P
++  SALT
++  SANDWICH
++  SANDWICH_DISH
++  SAUSAGE_P
++  SLICED_BREAD_P
++  SNACK1
++  SODA_CAN
++  SOFT_DRINK_BLUE
++  SOFT_DRINK_GREEN
++  SOFT_DRINK_RED
++  SOFT_DRINK_YELLOW
++  SPAGHETTI
++  STEAK_DISH
++  STRAWBERRY
++  STRAWBERRY_CAKE
++  STRAWBERRY_CAKE_DISH
++  STRAWBERRY_DONUT
++  STRAWBERRY_SHORTCAKE
++  STRAWBERRY_WAFFLES
++  STRAWBERRY_ICE_CREAM
++  STRAWBERRY_JAM
++  STRAWBERRY_P
++  SUGAR
++  SUSHI_DISH
++  SWISSROLL
++  TACO
++  TACO_DISH
++  TIRAMISU
++  TUNA_CAN
++  VANILLA_CAKE
++  VANILLA_OR_LEMON_ICE_CREAM
++  WAFFLE
++  WAFFLES
++  WAFFLE_DISH
++  WATER
++  WATERMELON
++  WATERMELON2
++  WHITE_CHEESE
++  WHITE_CHEESE_PIECE_P
++  WINE_RED
++  WINE_WHITE
++  WINE_WHITE2
++  WINE_WHITE3
++  YELLOW_JELLY
++  ALUMINUM_FOIL
++  BAKING_POWDER
++  BALL_PEN
++  BANDAGE_BOX
++  BASKET_METAL
++  BASKET_YELLOW
++  BATHROOM_CLEANER
++  BATTERIES
++  BODY_LOTION
++  BOWL
++  CHOPPING_BOARD
++  CLEANING_BRUSH
++  CLEANING_GLOVES
++  COFFEE_MUG
++  CREDIT_CARD_1
++  CREDIT_CARD_2
++  CREDIT_CARD_3
++  DETERGENT
++  ERASER
++  FRYING_PAN
++  GLUE
++  GLUE_STICK
++  HAND_SANITISER
++  I_WOOL_CLOTH
++  KITCHEN_KNIFE_SET
++  KITCHEN_KNIFE_SET_P
++  KITCHEN_SOAP
++  LIGHT_BULB
++  LIGHT_BULB_BOX
++  PAPER_BAG
++  POWER_STRIP_TYPEA
++  POWER_STRIP_TYPEF
++  RECEIPT
++  ROLLING_PIN
++  SCISSORS
++  SCISSORS_P
++  SCRUB_BRUSH
++  SCRUB_SPONGE
++  SHAMPOO
++  SOAP
++  SOAP_BOX
++  SPATULA
++  SUN_CREAM_TUBE
++  TEAKETTLE
++  TOILET_PAPER
++  TOOTHBRUSH
++  TOOTHBRUSH_SET
++  TOOTHPASTE
++  TOOTHPASTE_BOX
++  WAX
++  WET_WIPE
++  WHISK
++  CHOCOLATE_DISH
++  EGGTART_DISH
++  GARLICBREAD_DISH
++  GIANTGUMMYBEAR_DISH
++  HOTDOG_DISH
++  ICECREAM_BOWL
++  LOAFBREAD_DISH
++  MEATBALL_DISH
++  NACHO_DISH
++  POTATOCHIPS_BOWL
++  MEDIPCK
++  POTION_PURPLE
++  POTION_RED
++  POTION_BLUE
++  POTION_WHITE
++  COIN
+~ boolean isAdible
+~ Bitmap atlas
+~ Bitmap[] images
+~ boolean isAni
+~ int amount
++ boolean isPotion()
++ Bitmap getImage(int)
++ Bitmap getImage()
++ Bitmap getSmallImage()
++ Bitmap getSmallestImage()
++ Bitmap getBiggerImage()
++ boolean isAdible()
++ boolean isAni()
++ int getAmount()
++ String getName()
+}
+
+
+class com.example.gameproject.entities.entities.PlayerShopAI {
+- Random random
+- int y
+- RectF bound
+- GameCharacters skin
+- int aniTick
+- int x
+- int faceDir
++ void update(double)
++ void render(Canvas)
+# void updateAnimation()
+}
+
+
+enum com.example.gameproject.gamestates.shop.ShopImages {
++  SHOP_SLOTH_1
++  SHOP_SLOTH_2
++  SHOP_SLOTH_3
++  SHOP_BAR_1
++  SHOP_BAR_2
++  SHOP_BAR_3
++  SHOP_INVENTORY_MOUSE
++  SHOP_BUY_BACKGRAWND
++  SHOP_BUY_BLOCK
++  SHOP_BAR_2_SCALED
++  SHOP_BRICK_BOX_BACKGRAWND
++  SHOP_BRICK_BOX_DOUBLED_BACKGRAWND
++  SHOP_BRICK_LINE_BACKGRAWND
++  SHOP_DOOR_CLOSED_BACKGRAWND
++  SHOP_WINDOW_BACKGRAWND
++  SHOP_BARREL_BACKGRAWND
++  SHOP_TREASURE_BOX_BACKGRAWND
++  SHOP_LADDER_BACKGRAWND
++  SHOP_LAMP
++  SHOP_ARROW_LEFT
++  SHOP_ARROW_RIGHT
++  CHARACTER_SHOP_BOOK
+~ int width
+- Bitmap atlas
+- Bitmap image
++ Bitmap getImage()
++ int getWidth()
++ int getHeight()
+}
+
+
+class com.example.gameproject.gamestates.shop.ShopState {
+- Paint textPaint
+- CustomButton btnBack
+- CustomButton door
+- CustomButton chest
+- Paint paint
+- int yButtons
+- CustomButton arrowLeft
+- float arrowLeftX
+- float arrowLeftY
+- CustomButton arrowRight
+- float arrowRightX
+- float arrowRightY
+- float gameWidth
+- float gameHeight
+- float scaleMultiplier
+- float windowX
+- float windowY
+- float brickBoxY
+- float lampX
+- float lampY
+- float barrelX
+- float barrelY
+- float bar1X
+- float bar1Y
+- boolean init
+- ShopStates state
+- boolean isBuying
+- ItemShop shopItemState
+- CharacterShop shopCharactersState
+- int page
+- int maxPagesInThis
++ void update(double)
++ void render(Canvas)
++ void setPage(int)
+- void drawBackground(Canvas)
+- int calculateCoinsLength()
+- void drawArrow(Canvas,CustomButton,float,float)
++ void touchEvents(MotionEvent)
+- void initStates()
++ void setIsBuying(boolean)
++ void setState(ShopStates)
+}
+
+
+enum com.example.gameproject.gamestates.shop.ShopStates {
++  ITEMS
++  CHARACTERS
+}
+
+class com.example.gameproject.tutorial.PlayerHolder {
++ double getSPEED()
++ void update(boolean)
+}
+
+enum com.example.gameproject.environments.Tiles {
++  OUTSIDE
++  INSIDE
+- Bitmap[] sprites
++ Bitmap getSprite(int)
+}
+
+
+class com.example.gameproject.notification.NotificationScheduler {
++ {static} void scheduleNotification(Context,long,TimeUnit)
+}
+
+class com.example.gameproject.gamestates.shop.BuyPage {
+- int MAX_AMOUNT
+- CustomButton btnBack
+- Paint BlackPaint
+~ int space
+~ int xMiddle
+~ int yMiddle
+~ float xDrawBackground
+~ float xDrawApprove
+~ float yDrawBackground
+~ float yDrawApprove
+- CustomButton btnApprove
+~ float xDrawBlock
+~ float xDrawBar
+~ float xDrawPrice
+~ float xDrawADD
+~ float xDrawReduce
+~ float yDrawBlock
+~ float yDrawBar
+~ float yDrawPrice
+~ float yDrawAmount
+~ float yDrawADD
+- CustomButton btnAdd
+~ float yDrawReduce
+- CustomButton btnReduce
+- Items item
+- int amount
+~ float xDrawAmount
+- int price
+- boolean isInPage
+- ItemShop itemShop
++ void update(double)
++ void render(Canvas)
++ void touchEvents(MotionEvent)
+- void buyItems()
+- void setNotBuying()
++ boolean isInPage()
++ void setToPage(boolean,ShopSloth)
+- void updatePrice()
+}
+
+
+
+
+com.example.gameproject.helpers.GameConstants +.. com.example.gameproject.helpers.GameConstants$Face_Dir
+com.example.gameproject.helpers.GameConstants +.. com.example.gameproject.helpers.GameConstants$Sprite
+com.example.gameproject.helpers.GameConstants +.. com.example.gameproject.helpers.GameConstants$Animation
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.shop.ItemShop
+com.example.gameproject.gamestates.BaseState <|-- com.example.gameproject.gamestates.shop.ItemShop
+com.example.gameproject.entities.Entity <|-- com.example.gameproject.entities.particals.Particle
+android.content.BroadcastReceiver <|-- com.example.gameproject.NetworkReceiver
+com.example.gameproject.entities.enemies.AttackingEnemy <|-- com.example.gameproject.entities.enemies.DarkWizard
+com.example.gameproject.entities.enemies.AttackingEnemy <|-- com.example.gameproject.entities.enemies.DarkNinja
+com.example.gameproject.entities.Entity <|-- com.example.gameproject.entities.objects.Building
+com.example.gameproject.Media.MediaSongs +.. com.example.gameproject.Media.MediaSongs$song
+com.example.gameproject.tutorial.Callback <|.. com.example.gameproject.tutorial.TutorialView
+android.view.SurfaceView <|-- com.example.gameproject.tutorial.TutorialView
+com.example.gameproject.main.OnClickListener <|.. com.example.gameproject.main.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.gameproject.main.MainActivity
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.invenory.InventoryState
+com.example.gameproject.gamestates.BaseState <|-- com.example.gameproject.gamestates.invenory.InventoryState
+com.example.gameproject.gamestates.setting.Callback <|.. com.example.gameproject.gamestates.setting.SettingView
+android.view.SurfaceView <|-- com.example.gameproject.gamestates.setting.SettingView
+com.example.gameproject.entities.Entity <|-- com.example.gameproject.entities.items.Item
+android.database.sqlite.SQLiteOpenHelper <|-- com.example.gameproject.database.DatabaseHelper
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.shop.CategoryPage
+com.example.gameproject.entities.entities.Character <|-- com.example.gameproject.entities.entities.Villager
+com.example.gameproject.database.DatabaseColumns +.. com.example.gameproject.database.DatabaseColumns$Column
+com.example.gameproject.main.Runnable <|.. com.example.gameproject.main.GameLoop
+androidx.appcompat.app.AppCompatActivity <|-- com.example.gameproject.gamestates.setting.SettingActivity
+com.example.gameproject.gamestates.setting.SettingActivity +.. com.example.gameproject.gamestates.setting.SettingActivity$Settingloop
+com.example.gameproject.gamestates.setting.Runnable <|.. com.example.gameproject.gamestates.setting.SettingActivity$Settingloop
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.lostConnection.LostConnectionState
+com.example.gameproject.gamestates.BaseState <|-- com.example.gameproject.gamestates.lostConnection.LostConnectionState
+com.example.gameproject.entities.enemies.AttackingEnemy <|-- com.example.gameproject.entities.enemies.Skeleton
+com.example.gameproject.gamestates.invenory.InventorySloth <|-- com.example.gameproject.gamestates.shop.ShopSloth
+com.example.gameproject.entities.enemies.Enemy <|-- com.example.gameproject.entities.enemies.MaskedRaccoon
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.death.DeathScreen
+com.example.gameproject.gamestates.BaseState <|-- com.example.gameproject.gamestates.death.DeathScreen
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.shop.CharacterShop
+com.example.gameproject.gamestates.BaseState <|-- com.example.gameproject.gamestates.shop.CharacterShop
+androidx.work.Worker <|-- com.example.gameproject.notification.NotificationWorker
+com.example.gameproject.Media.MediaPlayerHelper +.. com.example.gameproject.Media.MediaPlayerHelper$MediaPlayerReadyCallback
+com.example.gameproject.entities.Entity <|-- com.example.gameproject.entities.objects.GameObject
+com.example.gameproject.main.Callback <|.. com.example.gameproject.main.GamePanel
+android.view.SurfaceView <|-- com.example.gameproject.main.GamePanel
+com.example.gameproject.entities.Comparable <|.. com.example.gameproject.entities.Entity
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.playing.Playing
+com.example.gameproject.gamestates.BaseState <|-- com.example.gameproject.gamestates.playing.Playing
+com.example.gameproject.entities.enemies.Enemy <|-- com.example.gameproject.entities.enemies.AttackingEnemy
+androidx.appcompat.app.AppCompatActivity <|-- com.example.gameproject.tutorial.TutorialActivity
+com.example.gameproject.tutorial.TutorialActivity +.. com.example.gameproject.tutorial.TutorialActivity$Tutorialloop
+com.example.gameproject.tutorial.Runnable <|.. com.example.gameproject.tutorial.TutorialActivity$Tutorialloop
+com.example.gameproject.entities.entities.Character <|-- com.example.gameproject.entities.enemies.Enemy
+com.example.gameproject.ui.CustomButton <|-- com.example.gameproject.gamestates.invenory.InventorySloth
+androidx.appcompat.app.AppCompatActivity <|-- com.example.gameproject.main.GameActivity
+com.example.gameproject.GeminiAPI +.. com.example.gameproject.GeminiAPI$ResponseCallback
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.shop.CharacterPage
+com.example.gameproject.entities.entities.Character <|-- com.example.gameproject.entities.entities.Player
+com.example.gameproject.entities.Entity <|-- com.example.gameproject.entities.entities.Character
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.shop.ShopState
+com.example.gameproject.gamestates.BaseState <|-- com.example.gameproject.gamestates.shop.ShopState
+com.example.gameproject.entities.entities.Character <|-- com.example.gameproject.tutorial.PlayerHolder
+com.example.gameproject.helpers.interfaces.GameStateInterface <|.. com.example.gameproject.gamestates.shop.BuyPage
+@enduml
