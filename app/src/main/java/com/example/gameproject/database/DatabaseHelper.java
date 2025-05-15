@@ -18,12 +18,10 @@ import androidx.annotation.Nullable;
 
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.gamestates.invenory.InventorySloth;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -38,21 +36,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.context = context;
     }
 
+
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         this.db = db;
-        StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("CREATE TABLE " + TABLE_NAME + " (");
+        StringBuilder SQL_Builder = new StringBuilder();
+        SQL_Builder.append("CREATE TABLE " + TABLE_NAME + " (");
 
         for (int i = 0; i < DatabaseColumns.ALL_COLUMNS.size(); i++) {
             DatabaseColumns.Column column = DatabaseColumns.ALL_COLUMNS.get(i);
-            queryBuilder.append(column.name()).append(" ").append(column.type());
+            SQL_Builder.append(column.name()).append(" ").append(column.type());
 
-            if (i < DatabaseColumns.ALL_COLUMNS.size() - 1) queryBuilder.append(", ");
+            if (i < DatabaseColumns.ALL_COLUMNS.size() - 1) SQL_Builder.append(", ");
         }
-        queryBuilder.append(");");
+        SQL_Builder.append(");");
 
-        db.execSQL(queryBuilder.toString());
+        db.execSQL(SQL_Builder.toString());
     }
 
 
@@ -196,6 +197,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void assignRandomValuesToPlayers() {
+        db = this.getWritableDatabase();
+        Random random = new Random();
+
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + TABLE_NAME, null);
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") int playerId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+
+                String[] items = {
+                        "item_APPLE", "item_APPLE_PIE_DISH", "item_APRICOT",
+                        "item_BACON", "item_BACON_DISH", "item_BAGEL",
+                        "item_BAGEL_DISH", "item_BAGUETTE"
+                };
+                for (String item : items) {
+                    int randomAmount = random.nextInt(21);
+                    updateIntColumn(playerId, new DatabaseColumns.Column(item, "INTEGER"), randomAmount);
+                }
+
+                int randomCoins = 100 + random.nextInt(901);
+                updateIntColumn(playerId, DatabaseColumns.COINS, randomCoins);
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+    }
+
     public void deleteTable() {
         try (SQLiteDatabase db = this.getWritableDatabase()) {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
@@ -245,7 +273,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean loginUserByUsername(String username, String password) {
+    public boolean loginUser(String username, String password) {
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
         boolean result = cursor.moveToFirst();
@@ -291,7 +319,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         for (Items item : tempInventory)
-            player.addToInventory(item);
+            player.addToInventoryWithoutSQL(item);
 
 
         Log("setInventory", tempInventory.toString());

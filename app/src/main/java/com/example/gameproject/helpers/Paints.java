@@ -7,6 +7,7 @@ public final class Paints {
     public static final Paint BLACK_PAINT = new Paint();
     public static final Paint WHITE_PAINT = new Paint();
     public static final Paint HITBOX_PAINT = new Paint();
+    public static final Paint RED_PAINT = new Paint();
     public static final Paint GREEN_PAINT = new Paint();
     public static final Paint GOLD_PAINT = new Paint();
     public static final Paint BLUE_PAINT = new Paint();
@@ -68,7 +69,13 @@ public final class Paints {
         HITBOX_PAINT.setColor(android.graphics.Color.RED);
         HITBOX_PAINT.setTextSize(20);
         HITBOX_PAINT.setStyle(Paint.Style.STROKE);
-        HITBOX_PAINT.setStrokeWidth(2);
+        HITBOX_PAINT.setStrokeWidth(4.2f);
+
+
+        RED_PAINT.setColor(Color.RED);
+        RED_PAINT.setStyle(Paint.Style.FILL);
+        RED_PAINT.setTextSize(45);
+
 
 
         BLUE_PAINT.setColor(Color.parseColor("#151328"));

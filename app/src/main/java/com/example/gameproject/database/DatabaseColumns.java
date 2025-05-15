@@ -13,7 +13,7 @@ public class DatabaseColumns {
     public static final String COLUMN_USERNAME = "username";
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_COINS = "coins";
-    public static final String COLUMN_ITEM_PREFIX = "item_"; // Prefix to generate item columns
+    public static final String COLUMN_ITEM_PREFIX = "item_";
 
 
     public static final Column ID = new Column(COLUMN_ID, "INTEGER PRIMARY KEY AUTOINCREMENT");

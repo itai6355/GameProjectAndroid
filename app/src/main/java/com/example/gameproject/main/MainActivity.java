@@ -1,11 +1,8 @@
 package com.example.gameproject.main;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -19,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int GAME_WIDTH, GAME_HEIGHT;
     private static Context gameContext;
     private static DatabaseHelper dbHelper;
-    private final static boolean dev = true;
+    private final static boolean dev = false;
     private final boolean isBtnPushed = false;
     private EditText userName;
     private EditText password;
@@ -135,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (usernameSt.isEmpty() || passwordSt.isEmpty()) return;
 
 
-        if (dbHelper.loginUserByUsername(usernameSt, passwordSt)) {
+        if (dbHelper.loginUser(usernameSt, passwordSt)) {
             Toast.makeText(this, "Welcome back " + usernameSt, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, GameActivity.class);
             intent.putExtra("username", usernameSt);

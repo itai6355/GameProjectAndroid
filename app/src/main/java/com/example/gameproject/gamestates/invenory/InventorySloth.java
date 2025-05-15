@@ -31,6 +31,9 @@ public class InventorySloth extends CustomButton {
         if (this.item == null) {
             this.item = item;
             amount = 1;
+        }else if (item == null){
+            this.item = null;
+            amount = 0;
         }
     }
 

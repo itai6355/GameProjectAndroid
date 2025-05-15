@@ -23,7 +23,6 @@ public class InventoryState extends BaseState implements GameStateInterface {
     public static final int inventoryWidth = 8;
     public static final int inventoryHeight = 4;
 
-    //every time to change, change in player the itemBar too.
     int xCurr = 550;
     int yCurr = 200;
     int space = 10 * GameConstants.Sprite.SCALE_MULTIPLIER;
@@ -40,15 +39,13 @@ public class InventoryState extends BaseState implements GameStateInterface {
         BlackPaint = Paints.BLACK_PAINT;
 
 
-        for (int i = 0; i < inventory.length; i++) {
-            for (int j = 0; j < inventory[i].length; j++) {
-                if (j == inventory[i].length - 1) {
+        for (int i = 0; i < inventory.length; i++)
+            for (int j = 0; j < inventory[i].length; j++)
+                if (j == inventory[i].length - 1)
                     inventory[i][j] = new InventorySloth(i, j, xCurr + (i * (InventorySloth.SLOT_SIZE + space)), GAME_HEIGHT - InventorySloth.SLOT_SIZE - GameConstants.Sprite.Y_DRAW_OFFSET - space);
-                } else {
+                else
                     inventory[i][j] = new InventorySloth(i, j, xCurr + (i * (InventorySloth.SLOT_SIZE + space)), yCurr + (j * (InventorySloth.SLOT_SIZE + space)));
-                }
-            }
-        }
+
     }
 
     @Override
@@ -70,7 +67,8 @@ public class InventoryState extends BaseState implements GameStateInterface {
             for (InventorySloth IS : ISs)
                 if (IS != null && IS.getAmount() > 0) drawItem(canvas, IS);
 
-        canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), inventory[xCurrIndex][yCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, inventory[xCurrIndex][yCurrIndex].getY() - GameConstants.Sprite.SCALE_MULTIPLIER, null);
+        if (xCurrIndex != -1 && yCurrIndex != -1)
+            canvas.drawBitmap(GameImages.INVENTORY_MOUSE.getImage(), inventory[xCurrIndex][yCurrIndex].getX() - GameConstants.Sprite.SCALE_MULTIPLIER, inventory[xCurrIndex][yCurrIndex].getY() - GameConstants.Sprite.SCALE_MULTIPLIER, null);
     }
 
     private void drawItem(Canvas canvas, InventorySloth IS) {
@@ -83,28 +81,49 @@ public class InventoryState extends BaseState implements GameStateInterface {
 
     @Override
     public void touchEvents(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isIn(event, btnBack)) btnBack.setPushed(true);
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (isIn(event, btnBack)) {
-                if (btnBack.isPushed()) game.setCurrentGameState(Game.GameState.PLAYING);
-            }
-            btnBack.setPushed(false);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                ActionDown(event);
+                break;
+            case MotionEvent.ACTION_UP:
+                ActionUp(event);
+                break;
         }
+        InventoryInteraction(event);
+    }
 
-        for (int i = 0; i < inventory.length; i++) {
-            for (int j = 0; j < inventory[i].length; j++) {
+    private void ActionDown(MotionEvent event) {
+        boolean found = false;
+        if (isIn(event, btnBack)) btnBack.setPushed(true);
+        for (int i = 0; i < inventory.length && !found; i++)
+            for (int j = 0; j < inventory[i].length && !found; j++)
+                if (inventory[i][j].isIn(event)) found = true;
+
+
+        if (!found) {
+            xCurrIndex = -1;
+            yCurrIndex = -1;
+            lstItem = null;
+        }
+    }
+
+    private void ActionUp(MotionEvent event) {
+        if (isIn(event, btnBack) && btnBack.isPushed())
+            game.setCurrentGameState(Game.GameState.PLAYING);
+        btnBack.setPushed(false);
+    }
+
+    private void InventoryInteraction(MotionEvent event) {
+        for (int i = 0; i < inventory.length; i++)
+            for (int j = 0; j < inventory[i].length; j++)
                 if (inventory[i][j].isIn(event)) {
                     xCurrIndex = i;
                     yCurrIndex = j;
-                    if (lstItem != null && inventory[i][j].getItem() == null) {
+                    if (lstItem != null && inventory[i][j].getItem() == null)
                         moveItem(lstItem, inventory[i][j]);
-                    } else {
-                        lstItem = inventory[i][j];
-                    }
+                    else lstItem = inventory[i][j];
+
                 }
-            }
-        }
     }
 
     private void moveItem(InventorySloth lst, InventorySloth curr) {

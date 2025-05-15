@@ -1,6 +1,20 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
+
+val properties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        load(file.inputStream())
+    } else {
+        throw GradleException("Missing local.properties file")
+    }
+}
+
+val apiKey = properties["API_KEY"]?.toString()
+    ?: throw GradleException("API_KEY not found in local.properties")
 
 android {
     namespace = "com.example.gameproject"
@@ -14,6 +28,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -26,6 +41,12 @@ android {
         }
     }
 
+
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -33,6 +54,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     implementation(libs.appcompat)

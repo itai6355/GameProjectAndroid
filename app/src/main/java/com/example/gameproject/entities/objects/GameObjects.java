@@ -81,7 +81,11 @@ public enum GameObjects implements BitmapMethods {
     CHAIR_BIRCH_RIGHT(R.drawable.furniture, 96, 4, 15, 27, 27, 27, 0.85f, false),
     TABLE_BIG(R.drawable.furniture, 0, 64, 31, 46, 0, 46, 0.85f, false),
     CARPET(R.drawable.furniture, 160, 32, 48, 33, 0, 33, 1.5f, true),
-    DRAWERS_OAK(R.drawable.furniture, 4, 117, 25, 35, 35, 35, 0.85f, false);
+    DRAWERS_OAK(R.drawable.furniture, 4, 117, 25, 35, 35, 35, 0.85f, false),
+    TOOLSET_HANGING(R.drawable.furniture, 67, 241, 25, 14, 12, 3, 0.85f, false),
+    CLOCK(R.drawable.furniture, 70, 112, 22, 46, 39, 40, 0.85f, false),
+    PLANT2(R.drawable.furniture, 3, 168, 10, 23, 15, 21, false),
+    STOOL(R.drawable.furniture, 193, 16, 14, 16, 14, 14, 0.85f, false);
 
     private final Bitmap objectImg;
     private final int width, height;

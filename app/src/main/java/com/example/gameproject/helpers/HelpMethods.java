@@ -166,7 +166,8 @@ public class HelpMethods {
     public static boolean isOutsideGameObject(RectF hitbox, GameMap gameMap) {
         if (gameMap.getGameObjectArrayList() != null)
             for (GameObject go : gameMap.getGameObjectArrayList())
-                if (RectF.intersects(go.getHitbox(), hitbox) && !go.getObjectType().isWalkable()) return false;
+                if (RectF.intersects(go.getHitbox(), hitbox) && !go.getObjectType().isWalkable())
+                    return false;
         return true;
     }
 
@@ -223,5 +224,18 @@ public class HelpMethods {
 
         return distance < GameConstants.Sprite.SIZE * 1.5f;
 
+    }
+
+    public static void CreateSecreteTeleport(GameMap gameMamp1, GameMap gameMap2, int xTile1, int yTile1, int xTile2, int yTile2) {
+        PointF teleport1 = CreatePointForDoorway(xTile1, yTile1);
+        PointF teleport2 = CreatePointForDoorway(xTile2, yTile2);
+
+        ConnectTwoDoorways(gameMamp1, teleport1, gameMap2, teleport2);
+    }
+    public static void CreateSecreteTeleportFromCoordinate(GameMap gameMamp1, GameMap gameMap2, int x1, int y1, int x2, int y2) {
+        PointF teleport1 = new PointF(x1, y1);
+        PointF teleport2 = new PointF(x2, y2);
+
+        ConnectTwoDoorways(gameMamp1, teleport1, gameMap2, teleport2);
     }
 }

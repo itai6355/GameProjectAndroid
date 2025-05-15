@@ -425,9 +425,8 @@ public class Playing extends BaseState implements GameStateInterface {
                 drawPlayer(canvas);
             }
         }
+        if (GameActivity.isDrawHitbox()) mapManager.drawDoorways(canvas, cameraX, cameraY);
     }
-
-
 
 
     private void drawPlayer(Canvas canvas) {

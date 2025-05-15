@@ -12,7 +12,7 @@ import com.example.gameproject.main.MainActivity;
 
 public class CharacterShop extends BaseState implements GameStateInterface {
 
-    private static final int MAX_PAGES = GameCharacters.getValCharacter();
+    private static final int MAX_PAGES = GameCharacters.getValCharacter() - 1;
 
     private static final CharacterPage[] pages = new CharacterPage[MAX_PAGES];
 
@@ -81,21 +81,20 @@ public class CharacterShop extends BaseState implements GameStateInterface {
         pages[19] = new CharacterPage(game, GameCharacters.NINJAMASKED, Icons.NINJAMASKED_ICON, "Ninja Masked", 45000);
         pages[20] = new CharacterPage(game, GameCharacters.NINJARED, Icons.NINJARED_ICON, "Ninja Red", 50000);
         pages[21] = new CharacterPage(game, GameCharacters.NINJAYELLOW, Icons.NINJAYELLOW_ICON, "Ninja Yellow", 55000);
-        pages[22] = new CharacterPage(game, GameCharacters.NOBLE, Icons.NOBLE_ICON, "Noble", 60000);
-        pages[23] = new CharacterPage(game, GameCharacters.OLDMAN2, Icons.OLDMAN2_ICON, "Old Man 2", 65000);
-        pages[24] = new CharacterPage(game, GameCharacters.OLDMAN3, Icons.OLDMAN3_ICON, "Old Man 3", 70000);
-        pages[25] = new CharacterPage(game, GameCharacters.OLDMAN, Icons.OLDMAN_ICON, "Old Man", 75000);
-        pages[26] = new CharacterPage(game, GameCharacters.PRINCESS, Icons.PRINCESS_ICON, "Princess", 85000);
-        pages[27] = new CharacterPage(game, GameCharacters.REDNINJA3, Icons.REDNINJA3_ICON, "Red Ninja 3", 90000);
-        pages[28] = new CharacterPage(game, GameCharacters.ROBOTGREEN, Icons.ROBOTGREEN_ICON, "Robot Green", 95000);
-        pages[29] = new CharacterPage(game, GameCharacters.ROBOTGREY, Icons.ROBOTGREY_ICON, "Robot Grey", 100000);
-        pages[30] = new CharacterPage(game, GameCharacters.SAMURAIBLUE, Icons.SAMURAIBLUE_ICON, "Samurai Blue", 105000);
-        pages[31] = new CharacterPage(game, GameCharacters.SORCERERBLACK, Icons.SORCERERBLACK_ICON, "Sorcerer Black", 110000);
-        pages[32] = new CharacterPage(game, GameCharacters.SORCERERORANGE, Icons.SORCERERORANGE_ICON, "Sorcerer Orange", 115000);
-        pages[33] = new CharacterPage(game, GameCharacters.STATUE, Icons.STATUE_ICON, "Statue", 120000);
-        pages[34] = new CharacterPage(game, GameCharacters.SULTAN2, Icons.SULTAN2_ICON, "Sultan 2", 125000);
-        pages[35] = new CharacterPage(game, GameCharacters.SULTAN, Icons.SULTAN_ICON, "Sultan", 130000);
-        pages[36] = new CharacterPage(game, GameCharacters.VAMPIRE, Icons.VAMPIRE_ICON, "Vampire", 135000);
+        pages[22] = new CharacterPage(game, GameCharacters.OLDMAN2, Icons.OLDMAN2_ICON, "Old Man 2", 65000);
+        pages[23] = new CharacterPage(game, GameCharacters.OLDMAN3, Icons.OLDMAN3_ICON, "Old Man 3", 70000);
+        pages[24] = new CharacterPage(game, GameCharacters.OLDMAN, Icons.OLDMAN_ICON, "Old Man", 75000);
+        pages[25] = new CharacterPage(game, GameCharacters.PRINCESS, Icons.PRINCESS_ICON, "Princess", 85000);
+        pages[26] = new CharacterPage(game, GameCharacters.REDNINJA3, Icons.REDNINJA3_ICON, "Red Ninja 3", 90000);
+        pages[27] = new CharacterPage(game, GameCharacters.ROBOTGREEN, Icons.ROBOTGREEN_ICON, "Robot Green", 95000);
+        pages[28] = new CharacterPage(game, GameCharacters.ROBOTGREY, Icons.ROBOTGREY_ICON, "Robot Grey", 100000);
+        pages[29] = new CharacterPage(game, GameCharacters.SAMURAIBLUE, Icons.SAMURAIBLUE_ICON, "Samurai Blue", 105000);
+        pages[30] = new CharacterPage(game, GameCharacters.SORCERERBLACK, Icons.SORCERERBLACK_ICON, "Sorcerer Black", 110000);
+        pages[31] = new CharacterPage(game, GameCharacters.SORCERERORANGE, Icons.SORCERERORANGE_ICON, "Sorcerer Orange", 115000);
+        pages[32] = new CharacterPage(game, GameCharacters.STATUE, Icons.STATUE_ICON, "Statue", 120000);
+        pages[33] = new CharacterPage(game, GameCharacters.SULTAN2, Icons.SULTAN2_ICON, "Sultan 2", 125000);
+        pages[34] = new CharacterPage(game, GameCharacters.SULTAN, Icons.SULTAN_ICON, "Sultan", 130000);
+        pages[35] = new CharacterPage(game, GameCharacters.VAMPIRE, Icons.VAMPIRE_ICON, "Vampire", 135000);
 
 
         pages[0].Buy();
@@ -112,6 +111,7 @@ public class CharacterShop extends BaseState implements GameStateInterface {
     public void buyPage(int page) {
         pages[page].Buy();
     }
+
     public static CharacterPage[] getPages() {
         return pages;
     }

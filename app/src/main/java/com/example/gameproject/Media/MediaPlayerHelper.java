@@ -82,7 +82,7 @@ public class MediaPlayerHelper {
                     }
                 }, delay * i);
             }
-        }catch (Exception e){}
+        }catch (Exception ignored){}
     }
 
     private void fadeOut(final MediaPlayer player, int durationMs, Runnable onComplete) {
@@ -154,8 +154,20 @@ public class MediaPlayerHelper {
         playSong(context, (currentSongId - 1 + mSongs.getSongLength()) % mSongs.getSongLength());
     }
 
-    private void playSong(Context context, int idSong) {
-        fadeOut(mPlayer, 500, () -> {
+   private void playSong(Context context, int idSong) {
+        if (mPlayer != null && mPlayer.isPlaying()) {
+            fadeOut(mPlayer, 500, () -> {
+                currentSongId = idSong;
+                mPlayer = MediaPlayer.create(context, mSongs.getSong(currentSongId).path());
+                if (mPlayer != null) {
+                    mPlayer.setOnCompletionListener(mp -> playNextSong());
+                    mPlayer.start();
+                    fadeIn(mPlayer, leftVolume, 500);
+                } else {
+                    Log.e("MPHelper", "Failed to create MediaPlayer for song: " + idSong);
+                }
+            });
+        } else {
             currentSongId = idSong;
             mPlayer = MediaPlayer.create(context, mSongs.getSong(currentSongId).path());
             if (mPlayer != null) {
@@ -165,7 +177,7 @@ public class MediaPlayerHelper {
             } else {
                 Log.e("MPHelper", "Failed to create MediaPlayer for song: " + idSong);
             }
-        });
+        }
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.gameproject.environments;
 
+import android.graphics.Canvas;
+
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.entities.Villager;
@@ -164,4 +166,6 @@ public class GameMap {
     public int getMaxEnemies() {
         return MAX_ENEMIES;
     }
+
+
 }

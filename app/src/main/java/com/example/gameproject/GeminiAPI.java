@@ -1,7 +1,5 @@
 package com.example.gameproject;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonArray;
@@ -26,8 +24,8 @@ public class GeminiAPI {
     private String response = null;
     private static boolean ShowText = true;
 
-    private static final String API_KEY = "AIzaSyAvRr7uJNTGMp0TyPjyLOtObZW6qN3pcpw";
-    private static final String BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+    private static final String API_KEY = BuildConfig.API_KEY;
+    private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 
     private interface ResponseCallback {
@@ -69,7 +67,7 @@ public class GeminiAPI {
 
         RequestBody body = RequestBody.create(requestBody.toString(), MediaType.get("application/json; charset=utf-8"));
 
-        HttpUrl url = Objects.requireNonNull(HttpUrl.parse(BASE_URL))
+        HttpUrl url = Objects.requireNonNull(HttpUrl.parse(URL))
                 .newBuilder()
                 .addQueryParameter("key", API_KEY)
                 .build();
@@ -127,7 +125,6 @@ public class GeminiAPI {
 
     public void setIsShowText(boolean pushed) {
         ShowText = pushed;
-        Log.d("GeminiAPI", "ShowText toggled to: " + pushed);
     }
 
     public boolean isShowText() {
