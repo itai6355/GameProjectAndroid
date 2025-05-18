@@ -34,7 +34,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
     public static int GAME_WIDTH, GAME_HEIGHT;
     private static Context gameContext;
     private static DatabaseHelper dbHelper;

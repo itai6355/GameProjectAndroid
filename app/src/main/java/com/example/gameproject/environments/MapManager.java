@@ -127,7 +127,7 @@ public class MapManager {
 
         GameMap insideMap1 = new GameMap(insideRegHouseArray, Tiles.INSIDE, MapHelper.getObjectsReg1(), particles);
         GameMap insideMap2 = new GameMap(insideRegHouseArray, Tiles.INSIDE, MapHelper.getObjectsReg2(), particles);
-        GameMap insideMap3 = new GameMap(insideMailHouseArray, Tiles.INSIDE, MapHelper.getObjectsMail(), particles);
+        GameMap MailMap = new GameMap(insideMailHouseArray, Tiles.INSIDE, MapHelper.getObjectsMail(), particles);
         GameMap insideFlatRoofHouseMap1 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat1(), particles);
         GameMap insideFlatRoofHouseMap2 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat2(), particles);
         GameMap insideFlatRoofHouseMap3 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat3(), particles);
@@ -135,7 +135,7 @@ public class MapManager {
         GameMap insideGreenRoofHouseMap2 = new GameMap(insideBlacksmithHouseArr, Tiles.INSIDE, MapHelper.getObjectsGreen2(), particles);
         GameMap insideGreenRoofHouseMap3 = new GameMap(insideBlacksmithHouseArr, Tiles.INSIDE, MapHelper.getObjectsGreen3(), particles);
 
-        MapHelper.connectDoorways(outsideMap, insideMap1, insideMap2, insideMap3, insideFlatRoofHouseMap1, insideFlatRoofHouseMap2, insideFlatRoofHouseMap3, insideGreenRoofHouseMap1, insideGreenRoofHouseMap2, insideGreenRoofHouseMap3);
+        MapHelper.connectDoorways(outsideMap, insideMap1, insideMap2, MailMap, insideFlatRoofHouseMap1, insideFlatRoofHouseMap2, insideFlatRoofHouseMap3, insideGreenRoofHouseMap1, insideGreenRoofHouseMap2, insideGreenRoofHouseMap3);
 
         HelpMethods.AddVillagersToBuildings(buildings);
         HelpMethods.CreateSecreteTeleport(insideMap2, insideFlatRoofHouseMap1, 1, 1, 1, 1);

@@ -314,20 +314,35 @@ public class Player extends Character {
             dbHelper.addIntColumn(id, DatabaseColumns.COINS);
             return;
         }
-        addToInventoryInternal(item);
+        int iEmpty = -1, jEmpty = -1;
+        boolean found = false;
+        for (int i = 0; i < inventory.length; i++) {
+            for (int j = 0; j < inventory[i].length; j++) {
+                if (inventory[i][j].getItem() == item) {
+                    inventory[i][j].addAmount();
+                    found = true;
+                    break;
+                }
+                if (inventory[i][j].getItem() == null && iEmpty == -1 && jEmpty == -1) {
+                    iEmpty = i;
+                    jEmpty = j;
+                }
+            }
+            if (found) break;
+        }
+
+        if (!found && iEmpty != -1 && jEmpty != -1) {
+            inventory[iEmpty][jEmpty].setItem(item);
+        }
         addToSQL(item);
     }
 
     public void addToInventoryWithoutSQL(Items item) {
         if (item == Items.COIN) return;
-        addToInventoryInternal(item);
-    }
-
-    private void addToInventoryInternal(Items item) {
         int iEmpty = -1, jEmpty = -1;
         boolean found = false;
         for (int i = 0; i < inventory.length; i++) {
-            for (int j = 0; j < inventory[i].length; j++) {
+            for (int j = 0; j < inventory[i].length - 1; j++) {
                 if (inventory[i][j].getItem() == item) {
                     inventory[i][j].addAmount();
                     found = true;
