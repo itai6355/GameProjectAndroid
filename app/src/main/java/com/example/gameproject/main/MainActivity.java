@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return dbHelper;
     }
 
-
-
-
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         dbHelper.closeDatabase();
         super.onDestroy();
-
     }
     public static void updateSurfaceSize(int width, int height) {
         GAME_WIDTH = width;

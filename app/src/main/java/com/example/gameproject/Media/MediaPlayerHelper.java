@@ -20,7 +20,6 @@ public class MediaPlayerHelper {
     private float leftVolume = 1.0f;
     private float rightVolume = 1.0f;
 
-
     public MediaPlayerHelper(Context context) {
         this.context = context;
         mSongs = new MediaSongs();
@@ -82,7 +81,8 @@ public class MediaPlayerHelper {
                     }
                 }, delay * i);
             }
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     private void fadeOut(final MediaPlayer player, int durationMs, Runnable onComplete) {
@@ -96,29 +96,30 @@ public class MediaPlayerHelper {
         final long delay = durationMs / steps;
         final float[] currentVolume = {leftVolume};
 
-        try{
-        for (int i = 0; i <= steps; i++) {
-            final float volume = currentVolume[0] - (currentVolume[0] / steps) * i;
-            handler.postDelayed(() -> {
-                try {
-                    if (player.isPlaying()) {
-                        player.setVolume(volume, volume);
-                    }
-                } catch (IllegalStateException e) {
-                    Log.e("MPHelper", "MediaPlayer is in an invalid state during fadeOut", e);
-                }
-                if (volume <= 0.01f) {
+        try {
+            for (int i = 0; i <= steps; i++) {
+                final float volume = currentVolume[0] - (currentVolume[0] / steps) * i;
+                handler.postDelayed(() -> {
                     try {
-                        player.stop();
-                        player.release();
-                        if (onComplete != null) onComplete.run();
+                        if (player.isPlaying()) {
+                            player.setVolume(volume, volume);
+                        }
                     } catch (IllegalStateException e) {
-                        Log.e("MPHelper", "Error stopping or releasing MediaPlayer during fadeOut", e);
+                        Log.e("MPHelper", "MediaPlayer is in an invalid state during fadeOut", e);
                     }
-                }
-            }, delay * i);
+                    if (volume <= 0.01f) {
+                        try {
+                            player.stop();
+                            player.release();
+                            if (onComplete != null) onComplete.run();
+                        } catch (IllegalStateException e) {
+                            Log.e("MPHelper", "Error stopping or releasing MediaPlayer during fadeOut", e);
+                        }
+                    }
+                }, delay * i);
+            }
+        } catch (Exception ignored) {
         }
-        }catch (Exception ignored){}
     }
 
 
@@ -127,7 +128,8 @@ public class MediaPlayerHelper {
         rightVolume = right;
         try {
             if (mPlayer != null && mPlayer.isPlaying()) mPlayer.setVolume(left, right);
-            if (EffectPlayer != null && EffectPlayer.isPlaying()) EffectPlayer.setVolume(left, right);
+            if (EffectPlayer != null && EffectPlayer.isPlaying())
+                EffectPlayer.setVolume(left, right);
         } catch (Exception e) {
             Log.e("MPHelper", "Error setting volume", e);
         }
@@ -154,7 +156,7 @@ public class MediaPlayerHelper {
         playSong(context, (currentSongId - 1 + mSongs.getSongLength()) % mSongs.getSongLength());
     }
 
-   private void playSong(Context context, int idSong) {
+    private void playSong(Context context, int idSong) {
         if (mPlayer != null && mPlayer.isPlaying()) {
             fadeOut(mPlayer, 500, () -> {
                 currentSongId = idSong;

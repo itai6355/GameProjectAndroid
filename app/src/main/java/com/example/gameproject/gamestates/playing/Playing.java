@@ -62,11 +62,9 @@ public class Playing extends BaseState implements GameStateInterface {
         mapManager = new MapManager(this);
         calcStartCameraValues();
 
-
         player = new Player(game);
 
         playingUI = new PlayingUI(this);
-
 
         redPaint = Paints.HITBOX_PAINT;
         healthBarBlack = Paints.HELTH_BAR_BLACK_PAINT;
@@ -419,7 +417,7 @@ public class Playing extends BaseState implements GameStateInterface {
                 mapManager.drawItem(canvas, item);
             } else if (e instanceof Particle particle) {
                 particle.draw(canvas);
-            } else if (e instanceof Villager villager) {
+            }else if (e instanceof Villager villager) {
                 drawVillager(canvas, villager);
             } else if (e instanceof Player) {
                 drawPlayer(canvas);

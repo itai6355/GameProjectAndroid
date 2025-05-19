@@ -97,7 +97,8 @@ public class CharacterShop extends BaseState implements GameStateInterface {
         pages[35] = new CharacterPage(game, GameCharacters.VAMPIRE, Icons.VAMPIRE_ICON, "Vampire", 135000);
 
 
-        pages[0].Buy();
+        if (game.getPlayer().getSkin() == GameCharacters.BOY)
+            pages[0].Buy();
     }
 
     public CharacterPage getPage(int page) {

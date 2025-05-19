@@ -294,6 +294,7 @@ public class Player extends Character {
                 icon = Icons.BOY_ICON;
             }
         }
+        dbHelper.updateStringColumn(id,DatabaseColumns.SKIN,skinName);
     }
 
     public int getCoins() {
