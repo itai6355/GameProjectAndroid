@@ -1,7 +1,5 @@
 package com.example.gameproject.environments;
 
-import android.graphics.Canvas;
-
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.entities.Character;
 import com.example.gameproject.entities.entities.Villager;
@@ -9,7 +7,7 @@ import com.example.gameproject.entities.items.Item;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.particals.Particle;
-import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.var.GameConstants;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;

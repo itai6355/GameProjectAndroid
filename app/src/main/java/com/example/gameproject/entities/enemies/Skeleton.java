@@ -2,12 +2,8 @@ package com.example.gameproject.entities.enemies;
 
 import android.graphics.PointF;
 
-import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Weapons;
-import com.example.gameproject.environments.GameMap;
-import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.HelpMethods;
 
 import java.util.Random;
 

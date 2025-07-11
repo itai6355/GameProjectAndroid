@@ -1,4 +1,4 @@
-package com.example.gameproject;
+package com.example.gameproject.helpers.logic;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

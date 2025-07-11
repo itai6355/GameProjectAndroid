@@ -1,8 +1,8 @@
 package com.example.gameproject.entities.entities;
 
-import static com.example.gameproject.helpers.GameConstants.Sprite.HITBOX_SIZE;
-import static com.example.gameproject.helpers.GameConstants.Sprite.X_DRAW_OFFSET;
-import static com.example.gameproject.helpers.GameConstants.Sprite.Y_DRAW_OFFSET;
+import static com.example.gameproject.helpers.var.GameConstants.Sprite.HITBOX_SIZE;
+import static com.example.gameproject.helpers.var.GameConstants.Sprite.X_DRAW_OFFSET;
+import static com.example.gameproject.helpers.var.GameConstants.Sprite.Y_DRAW_OFFSET;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -10,7 +10,7 @@ import android.graphics.RectF;
 import com.example.gameproject.entities.Entity;
 import com.example.gameproject.entities.enemies.Enemies;
 import com.example.gameproject.entities.objects.Weapons;
-import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.main.MainActivity;
 
 public abstract class Character extends Entity {

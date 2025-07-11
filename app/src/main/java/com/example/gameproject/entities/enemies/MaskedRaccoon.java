@@ -4,8 +4,8 @@ import android.graphics.PointF;
 
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.environments.GameMap;
-import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.HelpMethods;
+import com.example.gameproject.helpers.var.GameConstants;
+import com.example.gameproject.helpers.var.HelpMethods;
 
 import java.util.Random;
 

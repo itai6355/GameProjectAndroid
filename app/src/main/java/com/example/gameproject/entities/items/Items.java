@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.gameproject.R;
-import com.example.gameproject.helpers.ItemHelper;
+import com.example.gameproject.helpers.var.ItemHelper;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.main.MainActivity;
 

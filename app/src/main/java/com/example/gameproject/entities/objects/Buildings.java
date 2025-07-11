@@ -1,6 +1,6 @@
 package com.example.gameproject.entities.objects;
 
-import static com.example.gameproject.helpers.GameConstants.Sprite.SCALE_MULTIPLIER;
+import static com.example.gameproject.helpers.var.GameConstants.Sprite.SCALE_MULTIPLIER;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

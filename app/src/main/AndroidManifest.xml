@@ -21,10 +21,6 @@
         tools:ignore="DiscouragedApi"
         tools:targetApi="31">
         <activity
-            android:name=".tutorial.TutorialActivity"
-            android:exported="false"
-            android:screenOrientation="landscape"/>
-        <activity
             android:name=".gamestates.setting.SettingActivity"
             android:exported="false"
             android:screenOrientation="landscape"/>
@@ -46,7 +42,7 @@
         </activity>
 
         <receiver
-            android:name=".NetworkReceiver"
+            android:name=".helpers.logic.NetworkReceiver"
             android:exported="true">
             <intent-filter>
                 <action

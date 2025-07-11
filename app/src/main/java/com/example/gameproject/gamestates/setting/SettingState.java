@@ -10,8 +10,8 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.shop.ShopImages;
-import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.Paints;
+import com.example.gameproject.helpers.var.GameConstants;
+import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;

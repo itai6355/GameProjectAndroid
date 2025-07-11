@@ -1,4 +1,4 @@
-package com.example.gameproject.helpers;
+package com.example.gameproject.helpers.var;
 
 import android.graphics.Color;
 import android.graphics.Paint;

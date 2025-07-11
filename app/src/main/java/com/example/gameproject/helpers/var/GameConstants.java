@@ -1,4 +1,4 @@
-package com.example.gameproject.helpers;
+package com.example.gameproject.helpers.var;
 
 
 public final class GameConstants {

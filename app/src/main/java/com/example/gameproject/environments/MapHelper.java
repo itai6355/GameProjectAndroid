@@ -9,8 +9,8 @@ import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.GameObjects;
 import com.example.gameproject.entities.particals.Particle;
 import com.example.gameproject.entities.particals.Particles;
-import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.HelpMethods;
+import com.example.gameproject.helpers.var.GameConstants;
+import com.example.gameproject.helpers.var.HelpMethods;
 
 import java.util.ArrayList;
 import java.util.List;

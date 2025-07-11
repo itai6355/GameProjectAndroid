@@ -7,8 +7,8 @@ import android.graphics.RectF;
 
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Weapons;
-import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.Paints;
+import com.example.gameproject.helpers.var.GameConstants;
+import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 

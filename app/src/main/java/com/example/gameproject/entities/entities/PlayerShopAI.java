@@ -3,7 +3,7 @@ package com.example.gameproject.entities.entities;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.var.GameConstants;
 
 import java.util.Random;
 

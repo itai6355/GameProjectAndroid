@@ -1,7 +1,7 @@
 package com.example.gameproject.gamestates.playing;
 
-import static com.example.gameproject.helpers.GameConstants.Face_Dir.LEFT;
-import static com.example.gameproject.helpers.GameConstants.Sprite.X_DRAW_OFFSET;
+import static com.example.gameproject.helpers.var.GameConstants.Face_Dir.LEFT;
+import static com.example.gameproject.helpers.var.GameConstants.Sprite.X_DRAW_OFFSET;
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
@@ -32,14 +32,13 @@ import com.example.gameproject.environments.MapManager;
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.gamestates.setting.SettingActivity;
-import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.HelpMethods;
-import com.example.gameproject.helpers.Paints;
+import com.example.gameproject.helpers.var.GameConstants;
+import com.example.gameproject.helpers.var.HelpMethods;
+import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
-import com.example.gameproject.tutorial.TutorialActivity;
 
 import java.util.Arrays;
 
@@ -578,9 +577,5 @@ public class Playing extends BaseState implements GameStateInterface {
         game.setCurrentGameState(Game.GameState.SHOP);
     }
 
-    public void setToTutorial() {
-        Intent intent = new Intent(MainActivity.getGameContext(), TutorialActivity.class);
-        game.getGameLoop().pauseGameLoop();
-        MainActivity.getGameContext().startActivity(intent);
-    }
+
 }

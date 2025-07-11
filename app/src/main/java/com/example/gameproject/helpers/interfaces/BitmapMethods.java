@@ -3,7 +3,7 @@ package com.example.gameproject.helpers.interfaces;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.var.GameConstants;
 
 public interface BitmapMethods {
 

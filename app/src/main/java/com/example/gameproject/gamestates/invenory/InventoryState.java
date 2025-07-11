@@ -8,8 +8,8 @@ import android.view.MotionEvent;
 
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.gamestates.BaseState;
-import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.Paints;
+import com.example.gameproject.helpers.var.GameConstants;
+import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.ui.ButtonImages;

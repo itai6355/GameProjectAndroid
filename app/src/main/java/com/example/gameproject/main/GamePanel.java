@@ -8,7 +8,7 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
-import com.example.gameproject.NetworkReceiver;
+import com.example.gameproject.helpers.logic.NetworkReceiver;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 

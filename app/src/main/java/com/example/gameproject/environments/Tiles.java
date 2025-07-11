@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.gameproject.R;
-import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.main.MainActivity;
 

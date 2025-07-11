@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.items.Items;
-import com.example.gameproject.helpers.GameConstants;
+import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 
 public class CategoryPage implements GameStateInterface {

@@ -1,7 +1,8 @@
-package com.example.gameproject;
+package com.example.gameproject.helpers.logic;
 
 import androidx.annotation.NonNull;
 
+import com.example.gameproject.BuildConfig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

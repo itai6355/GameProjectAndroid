@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.BaseState;
-import com.example.gameproject.helpers.GameConstants;
-import com.example.gameproject.helpers.ItemHelper;
+import com.example.gameproject.helpers.var.GameConstants;
+import com.example.gameproject.helpers.var.ItemHelper;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;

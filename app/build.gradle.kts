@@ -2,6 +2,7 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
+
 }
 
 val properties = Properties().apply {
@@ -55,6 +56,7 @@ android {
 
 dependencies {
 
+    implementation(libs.appcompat)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     implementation(libs.appcompat)
