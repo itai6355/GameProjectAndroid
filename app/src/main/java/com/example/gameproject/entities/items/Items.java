@@ -4,8 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.gameproject.R;
-import com.example.gameproject.helpers.var.ItemHelper;
+import com.example.gameproject.entities.objects.Buildings;
+import com.example.gameproject.entities.objects.GameObjects;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
+import com.example.gameproject.helpers.var.ItemHelper;
 import com.example.gameproject.main.MainActivity;
 
 public enum Items implements BitmapMethods {
@@ -310,17 +312,102 @@ public enum Items implements BitmapMethods {
     POTATOCHIPS_BOWL(R.drawable.potatochips_bowl, false),
 
     MEDIPCK(R.drawable.medipack),
-//    POTION_PURPLE(R.drawable.potions_items, 7, 73, 17, 17, 0.3f),
-//    POTION_RED(R.drawable.potions_items, 39, 73, 17, 17, 0.3f),
-//    POTION_BLUE(R.drawable.potions_items, 71, 73, 17, 17, 0.3f),
+
+    HOUSE_ONE(Buildings.HOUSE_ONE.getHouseImg()),
+    HOUSE_TWO(Buildings.HOUSE_TWO.getHouseImg()),
+    HOUSE_SIX(Buildings.HOUSE_SIX.getHouseImg()),
+    HOUSE_NINE(Buildings.HOUSE_NINE.getHouseImg()),
+    PILLAR_YELLOW(GameObjects.PILLAR_YELLOW.getObjectImg()),
+    STATUE_ANGRY_YELLOW(GameObjects.STATUE_ANGRY_YELLOW.getObjectImg()),
+    MONK_STATUE_BALL_YELLOW(GameObjects.MONK_STATUE_BALL_YELLOW.getObjectImg()),
+    MONK_STATUE_YELLOW(GameObjects.MONK_STATUE_YELLOW.getObjectImg()),
+    SOLDIER_SPEAR_YELLOW(GameObjects.SOLDIER_SPEAR_YELLOW.getObjectImg()),
+    PLANTER_STICKS_YELLOW(GameObjects.PLANTER_STICKS_YELLOW.getObjectImg()),
+    CUBE_YELLOW(GameObjects.CUBE_YELLOW.getObjectImg()),
+    FROG_YELLOW(GameObjects.FROG_YELLOW.getObjectImg()),
+    SOLDIER_SWORD_YELLOW(GameObjects.SOLDIER_SWORD_YELLOW.getObjectImg()),
+    PILLAR_SHORT_YELLOW(GameObjects.PILLAR_SHORT_YELLOW.getObjectImg()),
+    PILLAR_SNOW_YELLOW(GameObjects.PILLAR_SNOW_YELLOW.getObjectImg()),
+    PILLAR_GREEN(GameObjects.PILLAR_GREEN.getObjectImg()),
+    STATUE_ANGRY_GREEN(GameObjects.STATUE_ANGRY_GREEN.getObjectImg()),
+    MONK_STATUE_BALL_GREEN(GameObjects.MONK_STATUE_BALL_GREEN.getObjectImg()),
+    MONK_STATUE_GREEN(GameObjects.MONK_STATUE_GREEN.getObjectImg()),
+    SOLDIER_SPEAR_GREEN(GameObjects.SOLDIER_SPEAR_GREEN.getObjectImg()),
+    PLANTER_STICKS_GREEN(GameObjects.PLANTER_STICKS_GREEN.getObjectImg()),
+    CUBE_GREEN(GameObjects.CUBE_GREEN.getObjectImg()),
+    FROG_GREEN(GameObjects.FROG_GREEN.getObjectImg()),
+    SOLDIER_SWORD_GREEN(GameObjects.SOLDIER_SWORD_GREEN.getObjectImg()),
+    PILLAR_SHORT_GREEN(GameObjects.PILLAR_SHORT_GREEN.getObjectImg()),
+    PILLAR_SNOW_GREEN(GameObjects.PILLAR_SNOW_GREEN.getObjectImg()),
+    POT_ONE_FULL(GameObjects.POT_ONE_FULL.getObjectImg()),
+    POT_ONE_EMPTY(GameObjects.POT_ONE_EMPTY.getObjectImg()),
+    POT_TWO_FULL(GameObjects.POT_TWO_FULL.getObjectImg()),
+    POT_TWO_EMPTY(GameObjects.POT_TWO_EMPTY.getObjectImg()),
+    BASKET_FULL_RED_FRUIT(GameObjects.BASKET_FULL_RED_FRUIT.getObjectImg()),
+    BASKET_FULL_CHICKEN(GameObjects.BASKET_FULL_CHICKEN.getObjectImg()),
+    BASKET_EMPTY(GameObjects.BASKET_EMPTY.getObjectImg()),
+    BASKET_FULL_BREAD(GameObjects.BASKET_FULL_BREAD.getObjectImg()),
+    OVEN_SNOW_YELLOW(GameObjects.OVEN_SNOW_YELLOW.getObjectImg()),
+    OVEN_YELLOW(GameObjects.OVEN_YELLOW.getObjectImg()),
+    OVEN_GREEN(GameObjects.OVEN_GREEN.getObjectImg()),
+    STOMP(GameObjects.STOMP.getObjectImg()),
+    SMALL_POT_FULL(GameObjects.SMALL_POT_FULL.getObjectImg()),
+    SMALL_POT_EMPTY(GameObjects.SMALL_POT_EMPTY.getObjectImg()),
+    PLANT(GameObjects.PLANT.getObjectImg()),
+    DRAWERS(GameObjects.DRAWERS.getObjectImg()),
+    BOOK_SHELF_SMALL(GameObjects.BOOK_SHELF_SMALL.getObjectImg()),
+    BOOK_SHELF_SMALL_EMPTY(GameObjects.BOOK_SHELF_SMALL_EMPTY.getObjectImg()),
+    DRAWERS_BIG(GameObjects.DRAWERS_BIG.getObjectImg()),
+    BOOK_SHELF(GameObjects.BOOK_SHELF.getObjectImg()),
+    BOOK_SHELF_EMPTY(GameObjects.BOOK_SHELF_EMPTY.getObjectImg()),
+    CHAIR(GameObjects.CHAIR.getObjectImg()),
+    BLUE_POT(GameObjects.BLUE_POT.getObjectImg()),
+    PAINTING(GameObjects.PAINTING.getObjectImg()),
+    BASEMENT_OAK(GameObjects.BASEMENT_OAK.getObjectImg()),
+    BASEMENT_BIRCH(GameObjects.BASEMENT_BIRCH.getObjectImg()),
+    BASEMENT_ACACIA(GameObjects.BASEMENT_ACACIA.getObjectImg()),
+    BASEMENT_PRISMARIN(GameObjects.BASEMENT_PRISMARIN.getObjectImg()),
+    POT_EMPTY(GameObjects.POT_EMPTY.getObjectImg()),
+    TABLE(GameObjects.TABLE.getObjectImg()),
+    TABLE2(GameObjects.TABLE2.getObjectImg()),
+    TABLE3(GameObjects.TABLE3.getObjectImg()),
+    WELL(GameObjects.WELL.getObjectImg()),
+    PIGENS(GameObjects.PIGENS.getObjectImg()),
+    CABINET(GameObjects.CABINET.getObjectImg()),
+    OVEN(GameObjects.OVEN.getObjectImg()),
+    REFRIGERATOR(GameObjects.REFRIGERATOR.getObjectImg()),
+    SOFA_RIGHT(GameObjects.SOFA_RIGHT.getObjectImg()),
+    SOFA_DOWN(GameObjects.SOFA_DOWN.getObjectImg()),
+    SMALL_SOFA_DOWN(GameObjects.SMALL_SOFA_DOWN.getObjectImg()),
+    SMALL_SOFA_UP(GameObjects.SMALL_SOFA_UP.getObjectImg()),
+    OAK_BOOKSHELF(GameObjects.OAK_BOOKSHELF.getObjectImg()),
+    BIRCH_BOOKSHELF(GameObjects.BIRCH_BOOKSHELF.getObjectImg()),
+    CHAIR_BIRCH_DOWN(GameObjects.CHAIR_BIRCH_DOWN.getObjectImg()),
+    CHAIR_BIRCH_RIGHT(GameObjects.CHAIR_BIRCH_RIGHT.getObjectImg()),
+    CHAIR_OAK_DOWN(GameObjects.CHAIR_OAK_DOWN.getObjectImg()),
+    TABLE_BIG(GameObjects.TABLE_BIG.getObjectImg()),
+    CARPET(GameObjects.CARPET.getObjectImg()),
+    DRAWERS_OAK(GameObjects.DRAWERS_OAK.getObjectImg()),
+    TOOLSET_HANGING(GameObjects.TOOLSET_HANGING.getObjectImg()),
+    CLOCK(GameObjects.CLOCK.getObjectImg()),
+    PLANT2(GameObjects.PLANT2.getObjectImg()),
+    STOOL(GameObjects.STOOL.getObjectImg()),
+    STOOL_HIGH(GameObjects.STOOL_HIGH.getObjectImg()),
+    DESK(GameObjects.DESK.getObjectImg()),
+    CABINET_P1(GameObjects.CABINET_P1.getObjectImg()),
+    CABINET_P2(GameObjects.CABINET_P2.getObjectImg()),
+
 
     POTION_PURPLE(R.drawable.potion_purple, false),
     POTION_RED(R.drawable.potion_red, false),
     POTION_BLUE(R.drawable.potion_blue, false),
     POTION_WHITE(R.drawable.potion_white, false),
+
+
     COIN(R.drawable.coins, 16, 16, 14);
 
     final boolean isAdible;
+    final boolean isBuildable;
     final Bitmap atlas;
     final Bitmap[] images;
     final boolean isAni;
@@ -329,6 +416,7 @@ public enum Items implements BitmapMethods {
     Items(int resID, int width, int height, int amount) {
         options.inScaled = false;
         isAni = true;
+        isBuildable = false;
         this.amount = amount;
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
         images = new Bitmap[amount];
@@ -340,6 +428,7 @@ public enum Items implements BitmapMethods {
     Items(int resID, boolean isAdible) {
         options.inScaled = false;
         isAni = false;
+        isBuildable = false;
         this.isAdible = isAdible;
         this.amount = 1;
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
@@ -354,9 +443,26 @@ public enum Items implements BitmapMethods {
     Items(int resID) {
         options.inScaled = false;
         isAni = false;
+        isBuildable = false;
         this.isAdible = false;
         this.amount = 1;
         atlas = BitmapFactory.decodeResource(MainActivity.getGameContext().getResources(), resID, options);
+        images = new Bitmap[4];
+        images[0] = getItemSize(atlas);
+        images[1] = regSize(atlas);
+        images[2] = deSize(atlas);
+        images[3] = SmalldeSize(atlas);
+        ItemHelper.getItems().add(this);
+    }
+
+
+    Items(Bitmap res) {
+        options.inScaled = false;
+        isAni = false;
+        isBuildable = true;
+        this.isAdible = false;
+        this.amount = 1;
+        atlas = res;
         images = new Bitmap[4];
         images[0] = getItemSize(atlas);
         images[1] = regSize(atlas);
@@ -396,6 +502,10 @@ public enum Items implements BitmapMethods {
         return isAdible;
     }
 
+    public boolean isBuildable() {
+        return isBuildable;
+    }
+
     public boolean isAni() {
         return isAni;
     }
@@ -408,6 +518,39 @@ public enum Items implements BitmapMethods {
         return name();
     }
 
+    public boolean isBuilding() {
+        for (Buildings building : Buildings.values())
+            if (building.name().equals(name()))
+                return true;
+
+        return false;
+    }
+
+    public boolean isObject() {
+        for (GameObjects object : GameObjects.values())
+            if (object.name().equals(name()))
+                return true;
+
+        return false;
+    }
+
+    public Buildings getBuildingType() {
+        for (Buildings building : Buildings.values()) {
+            if (building.name().equals(name())) {
+                return building;
+            }
+        }
+        return null;
+    }
+
+    public GameObjects getObjectType() {
+        for (GameObjects object : GameObjects.values()) {
+            if (object.name().equals(name())) {
+                return object;
+            }
+        }
+        return null;
+    }
 }
 
 

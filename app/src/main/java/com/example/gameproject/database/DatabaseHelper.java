@@ -19,8 +19,10 @@ import androidx.annotation.Nullable;
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -34,9 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        deleteAllDatabasesExeptThis();
     }
-
-
 
 
     @Override
@@ -102,7 +103,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return columnValue;
     }
-
 
 
     private boolean isValidColumn(String columnName) {
@@ -206,11 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 @SuppressLint("Range") int playerId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
 
-                String[] items = {
-                        "item_APPLE", "item_APPLE_PIE_DISH", "item_APRICOT",
-                        "item_BACON", "item_BACON_DISH", "item_BAGEL",
-                        "item_BAGEL_DISH", "item_BAGUETTE"
-                };
+                String[] items = {"item_APPLE", "item_APPLE_PIE_DISH", "item_APRICOT", "item_BACON", "item_BACON_DISH", "item_BAGEL", "item_BAGEL_DISH", "item_BAGUETTE"};
                 for (String item : items) {
                     int randomAmount = random.nextInt(21);
                     updateIntColumn(playerId, new DatabaseColumns.Column(item, "INTEGER"), randomAmount);
@@ -355,5 +351,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return usernames;
+    }
+
+    public void deleteAllDatabasesExeptThis() {
+        File databaseDir = context.getDatabasePath(DATABASE_NAME).getParentFile();
+        if (databaseDir != null && databaseDir.isDirectory()) {
+            for (File file : Objects.requireNonNull(databaseDir.listFiles())) {
+                if (file.isFile() && (file.getName().endsWith(".db") || file.getName().endsWith(".db-journal")) && !file.getName().equals(DATABASE_NAME)) {
+                    boolean deleted = file.delete();
+                    Log("deleteAllDatabases", "Deleted: " + file.getName() + " - " + deleted);
+                }
+            }
+        }
     }
 }

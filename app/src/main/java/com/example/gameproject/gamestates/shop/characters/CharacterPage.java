@@ -1,4 +1,4 @@
-package com.example.gameproject.gamestates.shop;
+package com.example.gameproject.gamestates.shop.characters;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import com.example.gameproject.entities.entities.GameCharacters;
 import com.example.gameproject.entities.entities.Icons;
 import com.example.gameproject.entities.entities.PlayerShopAI;
+import com.example.gameproject.gamestates.shop.ShopImages;
 import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;

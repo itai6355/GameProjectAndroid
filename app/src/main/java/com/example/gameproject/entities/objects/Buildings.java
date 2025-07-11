@@ -9,6 +9,7 @@ import android.graphics.PointF;
 import com.example.gameproject.R;
 import com.example.gameproject.entities.entities.Villager;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
+import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.main.MainActivity;
 
 import java.util.Random;
@@ -55,6 +56,10 @@ public enum Buildings implements BitmapMethods {
 
     public Bitmap getHouseImg() {
         return houseImg;
+    }
+
+    public Bitmap getHouseSmallImg() {
+        return Bitmap.createScaledBitmap(houseImg, GameConstants.Sprite.DEFAULT_SIZE * 4, GameConstants.Sprite.DEFAULT_SIZE * 4, false);
     }
 
     public Villager.VillagerType getVillagerType() {

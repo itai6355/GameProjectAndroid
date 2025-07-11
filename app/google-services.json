@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "207609546714",
+    "project_id": "sylvaran-a9bac",
+    "storage_bucket": "sylvaran-a9bac.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207609546714:android:744200bf1b993caa2c22e3",
+        "android_client_info": {
+          "package_name": "com.example.gameproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoocZN2hNEulScgIRgM8iT-sk3F_VxJJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

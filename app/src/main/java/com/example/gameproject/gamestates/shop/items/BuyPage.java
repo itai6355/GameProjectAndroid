@@ -1,4 +1,4 @@
-package com.example.gameproject.gamestates.shop;
+package com.example.gameproject.gamestates.shop.items;
 
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.gamestates.shop.ShopImages;
+import com.example.gameproject.gamestates.shop.ShopSloth;
 import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;

@@ -46,7 +46,7 @@ public enum GameObjects implements BitmapMethods {
     OVEN_GREEN(28, 128, 30, 29, 10, 24, false),
     STOMP(58, 128, 16, 22, 10, 18, false),
     SMALL_POT_FULL(0, 112, 16, 13, 4, 10, false),
-    SMALL_POT_EMPTY(16, 12, 16, 13, 4, 10, false),
+    SMALL_POT_EMPTY(16, 112, 16, 13, 4, 10, false),
     PLANT(R.drawable.tileset_element, 0, 120, 15, 24, 14, 23, false),
     DRAWERS(R.drawable.tileset_element, 32, 120, 16, 24, 24, 23, false),
     BOOK_SHELF_SMALL(R.drawable.tileset_element, 48, 113, 16, 29, 29, 29, false),

@@ -562,6 +562,9 @@ public class Playing extends BaseState implements GameStateInterface {
     public Player getPlayer() {
         return player;
     }
+    public MapManager getMapManager() {
+        return mapManager;
+    }
 
     public void setGameStateToSettings() {
         Intent intent = new Intent(MainActivity.getGameContext(), SettingActivity.class);

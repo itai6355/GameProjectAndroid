@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int GAME_WIDTH, GAME_HEIGHT;
     private static Context gameContext;
     private static DatabaseHelper dbHelper;
-    private final static boolean dev = false;
+    private final static boolean dev = true;
     private final boolean isBtnPushed = false;
     private EditText userName;
     private EditText password;

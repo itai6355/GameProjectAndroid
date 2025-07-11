@@ -1,6 +1,10 @@
 package com.example.gameproject.environments;
 
 
+import static com.example.gameproject.helpers.var.GameConstants.Face_Dir.DOWN;
+import static com.example.gameproject.helpers.var.GameConstants.Face_Dir.LEFT;
+import static com.example.gameproject.helpers.var.GameConstants.Face_Dir.RIGHT;
+import static com.example.gameproject.helpers.var.GameConstants.Face_Dir.UP;
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 import static com.example.gameproject.main.MainActivity.GAME_WIDTH;
 
@@ -8,7 +12,10 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
+import com.example.gameproject.entities.Entity;
+import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Item;
+import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.gamestates.playing.Playing;
@@ -144,4 +151,45 @@ public class MapManager {
         currentMap = outsideMap;
     }
 
+    public boolean buld(Items item) {
+        Player player = playing.getPlayer();
+
+        //TODO: fix.
+        float buildX = cameraX + player.getHitbox().left;
+        float buildY = cameraY + player.getHitbox().top;
+
+        final float distance = GameConstants.Sprite.SIZE;
+        switch (player.getFaceDir()) {
+            case UP -> buildY -= distance;
+            case DOWN -> buildY += distance;
+            case LEFT -> buildX -= distance;
+            case RIGHT -> buildX += distance;
+        }
+
+
+        if (buildX < 0 || buildY < 0 || buildX + item.getImage().getWidth() > currentMap.getMapWidth() || buildY + item.getImage().getHeight() > currentMap.getMapHeight()) {
+            return false;
+        }
+
+        RectF buildHitbox = new RectF(buildX, buildY, buildX + item.getImage().getWidth(), buildY + item.getImage().getHeight());
+
+        for (Entity entity : currentMap.getDrawableList()) {
+            if (entity != null)
+                if (entity.getHitbox() != null && RectF.intersects(entity.getHitbox(), buildHitbox))
+                    return false;
+
+        }
+
+        if (item.isBuilding()) {
+            Building newBuilding = new Building(new PointF(buildX, buildY), item.getBuildingType(), 0);
+            currentMap.getBuildingArrayList().add(newBuilding);
+        }
+        if (item.isObject()) {
+            GameObject newObject = new GameObject(new PointF(buildX, buildY), item.getObjectType());
+            currentMap.getGameObjectArrayList().add(newObject);
+        }
+
+        return true;
+
+    }
 }

@@ -1,12 +1,14 @@
-package com.example.gameproject.gamestates.shop;
+package com.example.gameproject.gamestates.shop.items;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.BaseState;
+import com.example.gameproject.gamestates.shop.ShopSloth;
+import com.example.gameproject.gamestates.shop.ShopState;
+import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.var.ItemHelper;
-import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.MainActivity;
 import com.example.gameproject.ui.ButtonImages;
@@ -14,7 +16,8 @@ import com.example.gameproject.ui.CustomButton;
 
 public class ItemShop extends BaseState implements GameStateInterface {
 
-    private static final Category[] Categories = new Category[7];
+
+    private static final Category[] Categories = new Category[8];
     private final int MAX_CATEGORIES = Category.values().length;
 
     private final int ShopWidth = 10;
@@ -31,7 +34,7 @@ public class ItemShop extends BaseState implements GameStateInterface {
     private Category category = Category.FOOD;
 
 
-//    private final int xBtn = xStart;
+    //    private final int xBtn = xStart;
 //    private final int yBtn = yStart + (ShopSloth.SLOT_SIZE + 100) * (ShopHeight);
     private ShopSloth currSS;
     private int xCurrIndex = 0;
@@ -159,7 +162,7 @@ public class ItemShop extends BaseState implements GameStateInterface {
     }
 
     enum Category {
-        BASIC(0), FRUIT(1), FOOD(2), MEAT(3), SNACKS(4), CAKE(5), BAKERY_TOOLS(6);
+        BASIC(0), FRUIT(1), FOOD(2), MEAT(3), SNACKS(4), CAKE(5), BAKERY_TOOLS(6), OBJECTS(7);
 
         final int value;
 
@@ -177,6 +180,7 @@ public class ItemShop extends BaseState implements GameStateInterface {
                 case SNACKS -> ItemHelper.snacks.values();
                 case CAKE -> ItemHelper.cakes.values();
                 case BAKERY_TOOLS -> ItemHelper.bakeryTools.values();
+                case OBJECTS -> ItemHelper.objects.values();
             };
         }
     }

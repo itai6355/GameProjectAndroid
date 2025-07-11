@@ -24,6 +24,7 @@ public class ShopSloth extends InventorySloth {
         return slothType;
     }
 
+
     public boolean hasItem() {
         return super.getItem() != null;
     }

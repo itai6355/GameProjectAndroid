@@ -19,6 +19,7 @@ import java.util.Random;
 
 public class Player extends Character {
 
+    private final Game game;
     private final InventorySloth[][] inventory;
     private final DatabaseHelper dbHelper;
     private final int id;
@@ -37,6 +38,7 @@ public class Player extends Character {
     public Player(Game game) {
         super(new PointF((float) GAME_WIDTH / 2, (float) GAME_HEIGHT / 2), GameCharacters.BOY);
         setStartHealth(600);
+        this.game = game;
         inventory = game.getInventoryState().getInventory();
 
         dbHelper = MainActivity.getDbHelper();
@@ -294,7 +296,7 @@ public class Player extends Character {
                 icon = Icons.BOY_ICON;
             }
         }
-        dbHelper.updateStringColumn(id,DatabaseColumns.SKIN,skinName);
+        dbHelper.updateStringColumn(id, DatabaseColumns.SKIN, skinName);
     }
 
     public int getCoins() {
@@ -369,34 +371,40 @@ public class Player extends Character {
 
     public void UseItem(InventorySloth item) {
         if (item.getItem() == null) return;
-        if (item.getItem().isAdible()) if (currHunger != maxHunger) addHunger(1);
-        else return;
+        if (item.getItem().isAdible())
+            if (currHunger != maxHunger) addHunger(1);
+            else return;
+        else if (item.getItem().isBuildable()) if (!build(item.getItem())) return;
         else switch (item.getItem()) {
-            case MEDIPCK -> {
-                if (this.getCurrentHealth() == this.getMaxHealth()) return;
-                heal(50);
-            }
-            case POTION_BLUE -> {
-                this.SpeedingStart = System.currentTimeMillis();
-                this.isSpeeding = true;
-            }
-            case POTION_RED -> {
-                this.SatorationStart = System.currentTimeMillis();
-                this.isSatoration = true;
-            }
+                case MEDIPCK -> {
+                    if (this.getCurrentHealth() == this.getMaxHealth()) return;
+                    heal(50);
+                }
+                case POTION_BLUE -> {
+                    this.SpeedingStart = System.currentTimeMillis();
+                    this.isSpeeding = true;
+                }
+                case POTION_RED -> {
+                    this.SatorationStart = System.currentTimeMillis();
+                    this.isSatoration = true;
+                }
 
-            case POTION_PURPLE -> {
-                this.StreangthStart = System.currentTimeMillis();
-                this.isStreangth = true;
+                case POTION_PURPLE -> {
+                    this.StreangthStart = System.currentTimeMillis();
+                    this.isStreangth = true;
+                }
+                case POTION_WHITE -> {
+                    this.InvisibleStart = System.currentTimeMillis();
+                    this.isInvisible = true;
+                }
             }
-            case POTION_WHITE -> {
-                this.InvisibleStart = System.currentTimeMillis();
-                this.isInvisible = true;
-            }
-        }
 
         useItem(item);
 
+    }
+
+    private boolean build(Items item) {
+        return game.getPlaying().getMapManager().buld(item);
     }
 
     private void useItem(InventorySloth item) {
@@ -405,7 +413,6 @@ public class Player extends Character {
             item.reduceAmount();
         } catch (Exception ignored) {
         }
-
     }
 
     public boolean isInvisible() {

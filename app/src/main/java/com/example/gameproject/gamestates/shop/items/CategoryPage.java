@@ -1,10 +1,13 @@
-package com.example.gameproject.gamestates.shop;
+package com.example.gameproject.gamestates.shop.items;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.entities.objects.Buildings;
+import com.example.gameproject.gamestates.shop.ShopImages;
+import com.example.gameproject.gamestates.shop.ShopSloth;
 import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
 
@@ -41,7 +44,7 @@ public class CategoryPage implements GameStateInterface {
                 for (int k = 0; k < ShopHeight; k++) {
                     ShopItems[i][j][k] = new ShopSloth(j, k, xCurr + (j * (ShopSloth.SLOT_SIZE + Xspace)), yCurr + (k * (ShopSloth.SLOT_SIZE + Yspace)));
                     if (index < thiscategory.getItems().length) {
-                        ShopItems[i][j][k].setItem(Items.valueOf(thiscategory.getItems()[index].name()));
+                        ShopItems[i][j][k].setItem(Items.valueOf(thiscategory.getItems()[index].name()));//TODO: if you add house and object there is no item like that.
                         index++;
                     }
                 }
@@ -112,6 +115,7 @@ public class CategoryPage implements GameStateInterface {
             case SNACKS -> icon = Items.POTATOCHIP_BLUE.getSmallestImage();
             case CAKE -> icon = Items.TIRAMISU.getSmallestImage();
             case BAKERY_TOOLS -> icon = Items.SPATULA.getSmallestImage();
+            case OBJECTS -> icon = Buildings.HOUSE_SIX.getHouseSmallImg();
         }
     }
 

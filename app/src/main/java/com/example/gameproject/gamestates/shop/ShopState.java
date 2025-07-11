@@ -5,6 +5,8 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import com.example.gameproject.gamestates.BaseState;
+import com.example.gameproject.gamestates.shop.characters.CharacterShop;
+import com.example.gameproject.gamestates.shop.items.ItemShop;
 import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
