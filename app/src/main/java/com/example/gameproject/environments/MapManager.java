@@ -151,12 +151,14 @@ public class MapManager {
         currentMap = outsideMap;
     }
 
-    public boolean buld(Items item) {
+    public boolean build(Items item) {
         Player player = playing.getPlayer();
 
-        //TODO: fix.
-        float buildX = cameraX + player.getHitbox().left;
-        float buildY = cameraY + player.getHitbox().top;
+        float centerX = GAME_WIDTH / 2f;
+        float centerY = GAME_HEIGHT / 2f;
+
+        float buildX = -cameraX + centerX;
+        float buildY = -cameraY + centerY;
 
         final float distance = GameConstants.Sprite.SIZE;
         switch (player.getFaceDir()) {
@@ -166,23 +168,27 @@ public class MapManager {
             case RIGHT -> buildX += distance;
         }
 
-
-        if (buildX < 0 || buildY < 0 || buildX + item.getImage().getWidth() > currentMap.getMapWidth() || buildY + item.getImage().getHeight() > currentMap.getMapHeight()) {
+        if (buildX < 0 || buildY < 0 ||
+                buildX + item.getImage().getWidth() > currentMap.getMapWidth() ||
+                buildY + item.getImage().getHeight() > currentMap.getMapHeight()) {
             return false;
         }
 
-        RectF buildHitbox = new RectF(buildX, buildY, buildX + item.getImage().getWidth(), buildY + item.getImage().getHeight());
+        RectF buildHitbox = new RectF(buildX, buildY,
+                buildX + item.getImage().getWidth(),
+                buildY + item.getImage().getHeight());
 
         for (Entity entity : currentMap.getDrawableList()) {
-            if (entity != null)
-                if (entity.getHitbox() != null && RectF.intersects(entity.getHitbox(), buildHitbox))
-                    return false;
-
+            if (entity != null && entity.getHitbox() != null &&
+                    RectF.intersects(entity.getHitbox(), buildHitbox)) {
+                return false;
+            }
         }
 
         if (item.isBuilding()) {
             Building newBuilding = new Building(new PointF(buildX, buildY), item.getBuildingType(), 0);
             currentMap.getBuildingArrayList().add(newBuilding);
+            player.saveBuilding(newBuilding,currentMap.getBuildingArrayList());
         }
         if (item.isObject()) {
             GameObject newObject = new GameObject(new PointF(buildX, buildY), item.getObjectType());
@@ -190,6 +196,6 @@ public class MapManager {
         }
 
         return true;
-
     }
+
 }

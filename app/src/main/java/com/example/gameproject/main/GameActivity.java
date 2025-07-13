@@ -11,7 +11,6 @@ import com.example.gameproject.Media.MediaPlayerHelper;
 
 public class GameActivity extends AppCompatActivity {
 
-    private static final String CHANNEL_ID = "game_notifications";
 
     private static final boolean DrawHitbox = MainActivity.isDev();
     private static MediaPlayerHelper mediaPlayerHelper;

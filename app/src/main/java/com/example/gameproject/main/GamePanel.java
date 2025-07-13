@@ -13,7 +13,6 @@ import com.example.gameproject.helpers.logic.NetworkReceiver;
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private final Game game;
-    private final NetworkReceiver networkReceiver;
 
     public GamePanel(Context context) {
         super(context);
@@ -21,10 +20,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         holder.addCallback(this);
         game = new Game(holder);
 
-        networkReceiver = new NetworkReceiver(game);
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        context.registerReceiver(networkReceiver, filter);
+        context.registerReceiver(new NetworkReceiver(game), filter);
     }
 
     public Game getGame() {

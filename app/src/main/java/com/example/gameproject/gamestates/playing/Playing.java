@@ -68,7 +68,6 @@ public class Playing extends BaseState implements GameStateInterface {
         redPaint = Paints.HITBOX_PAINT;
         healthBarBlack = Paints.HELTH_BAR_BLACK_PAINT;
         healthBarRed = Paints.HELTH_BAR_RED_PAINT;
-
     }
 
 
@@ -446,12 +445,7 @@ public class Playing extends BaseState implements GameStateInterface {
             canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), attackingEnemy.getAttackBox().left + cameraX + attackingEnemy.wepRotAdjustLeft(), attackingEnemy.getAttackBox().top + cameraY + attackingEnemy.wepRotAdjustTop(), null);
             canvas.rotate(attackingEnemy.getWepRot() * -1, attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY);
             if (GameActivity.isDrawHitbox())
-                //  not true ): need fix!
-                // when weapon is facing left or up, the hitbox is bigger.
-                // not effecting the game and real hitbox IDK why.
-                // I FIXED IT! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //Just didnt need to add the wep adjustment to the hitbox becose it was already applying when i create the wep hitbox..
-                canvas.drawRect(attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY, attackingEnemy.getAttackBox().right + cameraX, attackingEnemy.getAttackBox().bottom + cameraY, redPaint);
+               canvas.drawRect(attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY, attackingEnemy.getAttackBox().right + cameraX, attackingEnemy.getAttackBox().bottom + cameraY, redPaint);
         } else if (attackingEnemy instanceof DarkNinja darkNinja) {
             darkNinja.drawShuriken(canvas, cameraX, cameraY);
         } else if (attackingEnemy instanceof DarkWizard darkWizard) {
@@ -540,16 +534,23 @@ public class Playing extends BaseState implements GameStateInterface {
     @Override
     public void touchEvents(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            for (int i = 0; i < player.getInventory().length; i++)
-                if (player.getInventory()[i][player.getInventory()[i].length - 1].getItem() != null)
-                    if (player.getInventory()[i][player.getInventory()[i].length - 1].isIn(event))
-                        if (lastItem == null)
-                            lastItem = player.getInventory()[i][player.getInventory()[i].length - 1];
-                        else if (lastItem == player.getInventory()[i][player.getInventory()[i].length - 1])
-                            player.UseItem(lastItem);
-                        else
-                            lastItem = player.getInventory()[i][player.getInventory()[i].length - 1];
+            for (int i = 0; i < player.getInventory().length; i++) {
+                var slotRow = player.getInventory()[i];
+                var currentSlot = slotRow[slotRow.length - 1];
 
+                if (currentSlot.getItem() != null && currentSlot.isIn(event)) {
+                    if (lastItem == null) {
+                        lastItem = currentSlot;
+                    } else if (lastItem == currentSlot) {
+                        if (currentSlot.getItem() != null && currentSlot.getAmount() > 0) {
+                            player.UseItem(lastItem);
+                        }
+                        lastItem = null;
+                    } else {
+                        lastItem = currentSlot;
+                    }
+                }
+            }
         }
 
         playingUI.touchEvents(event);

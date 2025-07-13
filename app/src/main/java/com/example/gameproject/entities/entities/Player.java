@@ -9,11 +9,13 @@ import android.graphics.PointF;
 import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -404,7 +406,7 @@ public class Player extends Character {
     }
 
     private boolean build(Items item) {
-        return game.getPlaying().getMapManager().buld(item);
+        return game.getPlaying().getMapManager().build(item);
     }
 
     private void useItem(InventorySloth item) {
@@ -457,4 +459,18 @@ public class Player extends Character {
             default -> 0;
         };
     }
+
+    public int getId() {
+        return id;
+    }
+    public String getUsername() {
+        return username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public DatabaseHelper getDbHelper() {
+        return dbHelper;
+    }
+
 }

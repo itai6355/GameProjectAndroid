@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.PointF;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +19,11 @@ import androidx.annotation.Nullable;
 
 import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
+import com.example.gameproject.entities.objects.Building;
+import com.example.gameproject.entities.objects.Buildings;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -277,7 +283,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log("loginUserByUsername", "Result: " + result + ", Username: " + username + ", Password: " + password);
         return result;
     }
-
 
     private void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

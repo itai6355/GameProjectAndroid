@@ -14,6 +14,7 @@ public class DatabaseColumns {
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_COINS = "coins";
     public static final String COLUMN_ITEM_PREFIX = "item_";
+    public static final String BUILD_OBJECTS = "built_objects";
 
 
     public static final Column ID = new Column(COLUMN_ID, "INTEGER PRIMARY KEY AUTOINCREMENT");
@@ -21,6 +22,8 @@ public class DatabaseColumns {
     public static final Column PASSWORD = new Column(COLUMN_PASSWORD, "TEXT");
     public static final Column SKIN = new Column("skin", "TEXT");
     public static final Column COINS = new Column(COLUMN_COINS, "INTEGER");
+    public static final Column BUILT_OBJECTS = new Column(BUILD_OBJECTS, "TEXT");
+
 
     static {
         ALL_COLUMNS.add(ID);
@@ -28,6 +31,7 @@ public class DatabaseColumns {
         ALL_COLUMNS.add(PASSWORD);
         ALL_COLUMNS.add(SKIN);
         ALL_COLUMNS.add(COINS);
+        ALL_COLUMNS.add(BUILT_OBJECTS);
 
         for (Items item : Items.values()) {
             if (item.name().equals("COIN")) continue;
