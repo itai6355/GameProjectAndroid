@@ -188,7 +188,6 @@ public class MapManager {
         if (item.isBuilding()) {
             Building newBuilding = new Building(new PointF(buildX, buildY), item.getBuildingType(), 0);
             currentMap.getBuildingArrayList().add(newBuilding);
-            player.saveBuilding(newBuilding,currentMap.getBuildingArrayList());
         }
         if (item.isObject()) {
             GameObject newObject = new GameObject(new PointF(buildX, buildY), item.getObjectType());
