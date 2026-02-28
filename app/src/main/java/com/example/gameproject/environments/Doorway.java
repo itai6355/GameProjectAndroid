@@ -2,6 +2,7 @@ package com.example.gameproject.environments;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.example.gameproject.entities.Entity;
 
@@ -13,7 +14,7 @@ public class Doorway extends Entity {
     private final PointF doorwayPoint;
 
     public Doorway(PointF doorwayPoint, GameMap gameMapLocatedIn) {
-        super(doorwayPoint,1,1);
+        super(doorwayPoint, 1, 1);
         this.doorwayPoint = doorwayPoint;
         this.gameMapLocatedIn = gameMapLocatedIn;
         gameMapLocatedIn.addDoorway(this);
@@ -27,8 +28,9 @@ public class Doorway extends Entity {
         return doorwayConnectedTo;
     }
 
-    public boolean isPlayerInsideDoorway(RectF playerHitbox, float cameraX, float cameraY) {
-        return playerHitbox.contains(doorwayPoint.x + cameraX, doorwayPoint.y + cameraY);
+
+    public boolean isPlayerInsideDoorway(RectF playerHitbox) {
+        return playerHitbox.contains(doorwayPoint.x, doorwayPoint.y);
     }
 
     public boolean isDoorwayActive() {

@@ -21,8 +21,11 @@ import com.example.gameproject.entities.entities.Player;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.Buildings;
+import com.example.gameproject.entities.objects.GameObject;
+import com.example.gameproject.entities.objects.GameObjects;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -34,7 +37,7 @@ import java.util.Random;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "GAME_DataBase.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
     private static final String TABLE_NAME = "ANDROID_GAME_DB";
     private final Context context;
     private SQLiteDatabase db;
@@ -42,7 +45,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-        deleteAllDatabasesExeptThis();
     }
 
 
@@ -85,6 +87,93 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return userId;
+    }
+
+
+    public List<GameObject> getAllObjects(int playerId) {
+        if (playerId == -1) return new ArrayList<>();
+
+        String currentObjects = getColumnValueById(playerId, DatabaseColumns.BUILT_OBJECTS);
+        List<GameObject> objectsList = new ArrayList<>();
+
+        if (currentObjects != null && !currentObjects.isEmpty()) {
+            try {
+                JSONArray objectsArray = new JSONArray(currentObjects);
+                for (int i = 0; i < objectsArray.length(); i++) {
+                    JSONObject object = objectsArray.getJSONObject(i);
+                    float x = (float) object.getDouble("x");
+                    float y = (float) object.getDouble("y");
+                    GameObjects type = GameObjects.valueOf(object.getString("type"));
+                    objectsList.add(new GameObject(new PointF(x, y), type));
+                }
+            } catch (Exception e) {
+                Log.e("getAllObjects", "Error parsing objects: " + e.getMessage());
+            }
+        }
+
+        return objectsList;
+    }
+
+    public List<Building> getAllBuildings(int playerId) {
+        if (playerId == -1) return new ArrayList<>();
+
+        String currentBuildings = getColumnValueById(playerId, DatabaseColumns.BUILT_BUILDINGS);
+        List<Building> buildingsList = new ArrayList<>();
+
+        if (currentBuildings != null && !currentBuildings.isEmpty()) {
+            try {
+                JSONArray buildingsArray = new JSONArray(currentBuildings);
+                for (int i = 0; i < buildingsArray.length(); i++) {
+                    JSONObject buildingObject = buildingsArray.getJSONObject(i);
+                    float x = (float) buildingObject.getDouble("x");
+                    float y = (float) buildingObject.getDouble("y");
+                    Buildings type = Buildings.valueOf(buildingObject.getString("type"));
+//                    buildingsList.add(new Building(new PointF(x, y), type,0));
+                }
+            } catch (Exception e) {
+                Log.e("getAllBuildings", "Error parsing buildings: " + e.getMessage());
+            }
+        }
+
+        return buildingsList;
+    }
+
+    public void addBuilding(int playerId, PointF pos, Buildings building) throws JSONException {
+        if (playerId == -1) return;
+
+        String currentBuildings = getColumnValueById(playerId, DatabaseColumns.BUILT_BUILDINGS);
+        JSONArray buildingsArray = currentBuildings == null || currentBuildings.isEmpty() ? new JSONArray() : new JSONArray(currentBuildings);
+
+        JSONObject buildingObject = new JSONObject();
+        try {
+            buildingObject.put("x", pos.x);
+            buildingObject.put("y", pos.y);
+            buildingObject.put("type", building.name());
+            buildingsArray.put(buildingObject);
+        } catch (Exception e) {
+            Log.e("addBuilding", "Error adding building: " + e.getMessage());
+        }
+
+        updateStringColumn(playerId, DatabaseColumns.BUILT_BUILDINGS, buildingsArray.toString());
+    }
+
+    public void addObject(int playerId, PointF pos, GameObjects gameObject) throws JSONException {
+        if (playerId == -1) return;
+
+        String currentObjects = getColumnValueById(playerId, DatabaseColumns.BUILT_OBJECTS);
+        JSONArray objectsArray = currentObjects == null || currentObjects.isEmpty() ? new JSONArray() : new JSONArray(currentObjects);
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("x", pos.x);
+            object.put("y", pos.y);
+            object.put("type", gameObject.name());
+            objectsArray.put(object);
+        } catch (Exception e) {
+            Log.e("addObject", "Error adding object: " + e.getMessage());
+        }
+
+        updateStringColumn(playerId, DatabaseColumns.BUILT_OBJECTS, objectsArray.toString());
     }
 
     @SuppressLint("Range")
@@ -276,7 +365,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean loginUser(String username, String password) {
-        db = this.getReadableDatabase();
+        Log.e("loginUser", "Username: " + username + ", Password: " + password);
+
+        db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{username, password});
         boolean result = cursor.moveToFirst();
         cursor.close();
@@ -327,7 +418,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public synchronized SQLiteDatabase getReadableDatabase() {
+    public SQLiteDatabase getReadableDatabase() {
         if (db == null || !db.isOpen()) db = super.getReadableDatabase();
         return db;
     }

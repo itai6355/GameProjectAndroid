@@ -24,36 +24,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class HelpMethods {
 
-
-    public static PointF CreatePointForDoorway(GameMap gameMapLocatedIn, int buildingIndex) {
-        Building building = gameMapLocatedIn.getBuildingArrayList().get(buildingIndex);
-
-        float x = building.getPos().x;
-        float y = building.getPos().y;
-        PointF point = gameMapLocatedIn.getBuildingArrayList().get(buildingIndex).getBuildingType().getDoorwayPoint();
-
-        return new PointF(point.x + x, point.y + y - building.getBuildingType().getHitboxRoof());
-
-    }
-
-    public static PointF CreatePointForDoorway(int xTile, int yTile) {
-
-        float x = xTile * GameConstants.Sprite.SIZE + GameConstants.Sprite.SIZE / 2f;
-        float y = yTile * GameConstants.Sprite.SIZE + GameConstants.Sprite.SIZE / 2f;
-
-        return new PointF(x, y);
-    }
-
-    public static void ConnectTwoDoorways(GameMap gameMapOne, PointF pointOne, GameMap gameMapTwo, PointF pointTwo) {
-
-        Doorway doorwayOne = new Doorway(pointOne, gameMapOne);
-        Doorway doorwayTwo = new Doorway(pointTwo, gameMapTwo);
-
-        doorwayOne.connectDoorway(doorwayTwo);
-        doorwayTwo.connectDoorway(doorwayOne);
-    }
-
-
     public static CopyOnWriteArrayList<Character> SpawnStartedEnemies(int amount, int[][] gameMapArray, ArrayList<Building> buildingArrayListFinal, ArrayList<GameObject> gameObjectArrayListFinal) {
         CopyOnWriteArrayList<Character> CharacterArrayList = new CopyOnWriteArrayList<>();
         for (int i = 0; i < amount; i++)
@@ -90,11 +60,6 @@ public class HelpMethods {
         };
     }
 
-    public static void AddVillagersToBuildings(ArrayList<Building> buildingArrayList) {
-        for (Building building : buildingArrayList)
-            for (int i = 0; i < building.getVillagerAmount(); i++)
-                ConnectVillagerToBuilding(building);
-    }
 
     private static void ConnectVillagerToBuilding(Building building) {
         PointF point = building.getBuildingType().getDoorwayPoint();
@@ -224,18 +189,5 @@ public class HelpMethods {
 
         return distance < GameConstants.Sprite.SIZE * 1.5f;
 
-    }
-
-    public static void CreateSecreteTeleport(GameMap gameMamp1, GameMap gameMap2, int xTile1, int yTile1, int xTile2, int yTile2) {
-        PointF teleport1 = CreatePointForDoorway(xTile1, yTile1);
-        PointF teleport2 = CreatePointForDoorway(xTile2, yTile2);
-
-        ConnectTwoDoorways(gameMamp1, teleport1, gameMap2, teleport2);
-    }
-    public static void CreateSecreteTeleportFromCoordinate(GameMap gameMamp1, GameMap gameMap2, int x1, int y1, int x2, int y2) {
-        PointF teleport1 = new PointF(x1, y1);
-        PointF teleport2 = new PointF(x2, y2);
-
-        ConnectTwoDoorways(gameMamp1, teleport1, gameMap2, teleport2);
     }
 }

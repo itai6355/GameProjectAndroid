@@ -27,7 +27,6 @@ public enum Tiles implements BitmapMethods {
                 int index = j * tilesInWidth + i;
                 sprites[index] = getScaledBitmap(Bitmap.createBitmap(spriteSheet, GameConstants.Sprite.DEFAULT_SIZE * i, GameConstants.Sprite.DEFAULT_SIZE * j, GameConstants.Sprite.DEFAULT_SIZE, GameConstants.Sprite.DEFAULT_SIZE));
             }
-
     }
 
     public Bitmap getSprite(int id) {

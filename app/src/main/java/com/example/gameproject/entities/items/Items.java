@@ -498,7 +498,7 @@ public enum Items implements BitmapMethods {
         return images[0];
     }
 
-    public boolean isAdible() {
+    public boolean isAudible() {
         return isAdible;
     }
 

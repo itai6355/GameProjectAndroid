@@ -89,13 +89,15 @@ public class PlayingUI {
     }
 
     private void drawPotionBar(Canvas canvas) {
+        if (!playing.getPlayer().isEffect()) return;
+
         var height = GameImages.POTION_BOX.getImage().getHeight();
         var width = GameImages.POTION_BOX.getImage().getWidth();
 
         var potionHeight = Items.POTION_BLUE.getImage().getHeight();
         var potionWidth = Items.POTION_BLUE.getImage().getWidth();
 
-        if (!playing.getPlayer().isEffect()) return;
+
 
         for (int i = 0; i < playing.getPlayer().getEffects().length; i++) {
             int y = GameImages.PLAYER_BOX.getImage().getHeight();
@@ -124,6 +126,8 @@ public class PlayingUI {
             }
         }
     }
+
+    
 
     private void drawItem(Canvas canvas, InventorySloth IS) {
         Items itemType = IS.getItem();

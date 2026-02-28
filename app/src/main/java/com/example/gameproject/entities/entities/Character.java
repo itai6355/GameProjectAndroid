@@ -54,8 +54,6 @@ public abstract class Character extends Entity {
         this.currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;
         if (this instanceof Player) MainActivity.Vibrate(100);
-
-
     }
 
     protected void heal(int heal) {
@@ -75,7 +73,7 @@ public abstract class Character extends Entity {
                 case SKELETON -> 25;
             };
         else if (this instanceof Player player)
-            return player.getStreangth();
+            return player.getStrength();
         else return 4242;
     }
 
@@ -231,9 +229,4 @@ public abstract class Character extends Entity {
         active = false;
     }
 
-
-    public void addHealth(int health) {
-        currentHealth += health;
-        if (currentHealth > maxHealth) currentHealth = maxHealth;
-    }
 }

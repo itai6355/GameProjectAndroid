@@ -14,6 +14,7 @@ import com.example.gameproject.gamestates.playing.Playing;
 import com.example.gameproject.gamestates.shop.ShopState;
 
 public class Game {
+    //TODO: add farms.
 
     private final SurfaceHolder holder;
     private final DatabaseHelper dbHelper;

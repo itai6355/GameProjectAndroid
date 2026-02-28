@@ -27,15 +27,16 @@ import com.example.gameproject.entities.objects.Building;
 import com.example.gameproject.entities.objects.GameObject;
 import com.example.gameproject.entities.objects.Weapons;
 import com.example.gameproject.entities.particals.Particle;
+import com.example.gameproject.entities.particals.Particles;
 import com.example.gameproject.environments.Doorway;
 import com.example.gameproject.environments.MapManager;
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.gamestates.setting.SettingActivity;
+import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.var.HelpMethods;
 import com.example.gameproject.helpers.var.Paints;
-import com.example.gameproject.helpers.interfaces.GameStateInterface;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
@@ -55,6 +56,8 @@ public class Playing extends BaseState implements GameStateInterface {
     private Entity[] listOfDrawables;
     private boolean listOfEntitiesMade;
     private InventorySloth lastItem;
+
+    private final Particle playerParticle = new Particle(Particles.POTION_EFFECT);
 
     public Playing(Game game) {
         super(game);
@@ -102,8 +105,7 @@ public class Playing extends BaseState implements GameStateInterface {
             for (Villager villager : building.getVillagers())
                 if (villager != null) updateVillager(delta, villager);
 
-        for (var effect : mapManager.getCurrentMap().getParticlesArrayList())
-            effect.update(player);
+        playerParticle.update(player);
 
 
         updateItems();
@@ -279,12 +281,21 @@ public class Playing extends BaseState implements GameStateInterface {
     }
 
     private void checkForDoorway() {
-        Doorway doorwayPlayerIsOn = mapManager.isPlayerOnDoorway(player.getHitbox());
+
+        RectF playerWorldHitbox = new RectF(
+                player.getHitbox().left - cameraX,
+                player.getHitbox().top - cameraY,
+                player.getHitbox().right - cameraX,
+                player.getHitbox().bottom - cameraY
+        );
+
+        Doorway doorwayPlayerIsOn = mapManager.isPlayerOnDoorway(playerWorldHitbox);
 
         if (doorwayPlayerIsOn != null) {
-            if (!doorwayJustPassed) mapManager.changeMap(doorwayPlayerIsOn.getDoorwayConnectedTo());
-        } else doorwayJustPassed = false;
-
+            if (!doorwayJustPassed) mapManager.changeMap(doorwayPlayerIsOn);
+        } else {
+            doorwayJustPassed = false;
+        }
     }
 
     public void setDoorwayJustPassed(boolean doorwayJustPassed) {
@@ -413,12 +424,11 @@ public class Playing extends BaseState implements GameStateInterface {
                 mapManager.drawBuilding(canvas, building);
             } else if (e instanceof Item item) {
                 mapManager.drawItem(canvas, item);
-            } else if (e instanceof Particle particle) {
-                particle.draw(canvas);
-            }else if (e instanceof Villager villager) {
+            } else if (e instanceof Villager villager) {
                 drawVillager(canvas, villager);
             } else if (e instanceof Player) {
                 drawPlayer(canvas);
+                playerParticle.draw(canvas);
             }
         }
         if (GameActivity.isDrawHitbox()) mapManager.drawDoorways(canvas, cameraX, cameraY);
@@ -445,7 +455,7 @@ public class Playing extends BaseState implements GameStateInterface {
             canvas.drawBitmap(Weapons.BIG_SWORD.getWeaponImg(), attackingEnemy.getAttackBox().left + cameraX + attackingEnemy.wepRotAdjustLeft(), attackingEnemy.getAttackBox().top + cameraY + attackingEnemy.wepRotAdjustTop(), null);
             canvas.rotate(attackingEnemy.getWepRot() * -1, attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY);
             if (GameActivity.isDrawHitbox())
-               canvas.drawRect(attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY, attackingEnemy.getAttackBox().right + cameraX, attackingEnemy.getAttackBox().bottom + cameraY, redPaint);
+                canvas.drawRect(attackingEnemy.getAttackBox().left + cameraX, attackingEnemy.getAttackBox().top + cameraY, attackingEnemy.getAttackBox().right + cameraX, attackingEnemy.getAttackBox().bottom + cameraY, redPaint);
         } else if (attackingEnemy instanceof DarkNinja darkNinja) {
             darkNinja.drawShuriken(canvas, cameraX, cameraY);
         } else if (attackingEnemy instanceof DarkWizard darkWizard) {
@@ -534,20 +544,22 @@ public class Playing extends BaseState implements GameStateInterface {
     @Override
     public void touchEvents(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
+            outer:
             for (int i = 0; i < player.getInventory().length; i++) {
                 var slotRow = player.getInventory()[i];
-                var currentSlot = slotRow[slotRow.length - 1];
-
-                if (currentSlot.getItem() != null && currentSlot.isIn(event)) {
-                    if (lastItem == null) {
-                        lastItem = currentSlot;
-                    } else if (lastItem == currentSlot) {
-                        if (currentSlot.getItem() != null && currentSlot.getAmount() > 0) {
-                            player.UseItem(lastItem);
+                for (InventorySloth currentSlot : slotRow) {
+                    if (currentSlot.getItem() != null && currentSlot.isIn(event)) {
+                        if (lastItem == null) {
+                            lastItem = currentSlot;
+                        } else if (lastItem == currentSlot) {
+                            if (currentSlot.getItem() != null && currentSlot.getAmount() > 0) {
+                                player.UseItem(lastItem);
+                            }
+                            lastItem = null;
+                        } else {
+                            lastItem = currentSlot;
                         }
-                        lastItem = null;
-                    } else {
-                        lastItem = currentSlot;
+                        break outer;
                     }
                 }
             }
@@ -563,6 +575,7 @@ public class Playing extends BaseState implements GameStateInterface {
     public Player getPlayer() {
         return player;
     }
+
     public MapManager getMapManager() {
         return mapManager;
     }

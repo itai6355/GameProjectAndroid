@@ -24,8 +24,11 @@ import com.example.gameproject.helpers.var.HelpMethods;
 import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.main.GameActivity;
 
+import java.util.Objects;
+
 public class MapManager {
 
+    //TODO: add world generator.
     private GameMap currentMap;
     private float cameraX, cameraY;
     private final Playing playing;
@@ -33,7 +36,7 @@ public class MapManager {
 
     public MapManager(Playing playing) {
         this.playing = playing;
-        initMaps();
+        currentMap = new GameMap(Tiles.OUTSIDE);
     }
 
     public void setCameraValues(float cameraX, float cameraY) {
@@ -79,16 +82,19 @@ public class MapManager {
 
     public Doorway isPlayerOnDoorway(RectF playerHitbox) {
         for (Doorway doorway : currentMap.getDoorwayArrayList())
-            if (doorway.isPlayerInsideDoorway(playerHitbox, cameraX, cameraY)) return doorway;
+            if (doorway.isPlayerInsideDoorway(playerHitbox)) return doorway;
 
         return null;
     }
 
     public void changeMap(Doorway doorwayTarget) {
-        this.currentMap = doorwayTarget.getGameMapLocatedIn();
+        Doorway destination = doorwayTarget.getDoorwayConnectedTo();
+        if (destination == null) return;
 
-        float cX = GAME_WIDTH / 2f - doorwayTarget.getPosOfDoorway().x + GameConstants.Sprite.HITBOX_SIZE / 2f;
-        float cY = GAME_HEIGHT / 2f - doorwayTarget.getPosOfDoorway().y + GameConstants.Sprite.HITBOX_SIZE / 2f;
+        this.currentMap = destination.getGameMapLocatedIn();
+
+        float cX = GAME_WIDTH / 2f - destination.getPosOfDoorway().x + GameConstants.Sprite.HITBOX_SIZE / 2f;
+        float cY = GAME_HEIGHT / 2f - destination.getPosOfDoorway().y + GameConstants.Sprite.HITBOX_SIZE / 2f;
 
         playing.setCameraValues(new PointF(cX, cY));
         cameraX = cX;
@@ -108,47 +114,6 @@ public class MapManager {
 
     public GameMap getCurrentMap() {
         return currentMap;
-    }
-
-    private void initMaps() {
-        int[][] outside = MapHelper.getMapArrayFinal();
-        var buildings = MapHelper.getBuildings();
-        var objects = MapHelper.getGameObjects();
-
-        var items = MapHelper.getItems();
-        var particles = MapHelper.getParticles();
-
-
-        int MAX_ENEMIES = 15;
-        GameMap outsideMap = new GameMap(outside, MAX_ENEMIES, Tiles.OUTSIDE, buildings, objects, HelpMethods.SpawnStartedEnemies(MAX_ENEMIES, outside, buildings, objects), items, particles);
-
-
-        int[][] insideRegHouseArray = MapHelper.getInsideRegHouseArr();
-
-        int[][] insideMailHouseArray = MapHelper.getInsideMailHouseArray();
-
-        int[][] insideFlatHouseArray = MapHelper.getInsideFlatHouseArray();
-
-        int[][] insideBlacksmithHouseArr = MapHelper.getInsideBlacksmithHouseArray();
-
-
-        GameMap insideMap1 = new GameMap(insideRegHouseArray, Tiles.INSIDE, MapHelper.getObjectsReg1(), particles);
-        GameMap insideMap2 = new GameMap(insideRegHouseArray, Tiles.INSIDE, MapHelper.getObjectsReg2(), particles);
-        GameMap MailMap = new GameMap(insideMailHouseArray, Tiles.INSIDE, MapHelper.getObjectsMail(), particles);
-        GameMap insideFlatRoofHouseMap1 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat1(), particles);
-        GameMap insideFlatRoofHouseMap2 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat2(), particles);
-        GameMap insideFlatRoofHouseMap3 = new GameMap(insideFlatHouseArray, Tiles.INSIDE, MapHelper.getObjectsFlat3(), particles);
-        GameMap insideGreenRoofHouseMap1 = new GameMap(insideBlacksmithHouseArr, Tiles.INSIDE, MapHelper.getObjectsGreen1(), particles);
-        GameMap insideGreenRoofHouseMap2 = new GameMap(insideBlacksmithHouseArr, Tiles.INSIDE, MapHelper.getObjectsGreen2(), particles);
-        GameMap insideGreenRoofHouseMap3 = new GameMap(insideBlacksmithHouseArr, Tiles.INSIDE, MapHelper.getObjectsGreen3(), particles);
-
-        MapHelper.connectDoorways(outsideMap, insideMap1, insideMap2, MailMap, insideFlatRoofHouseMap1, insideFlatRoofHouseMap2, insideFlatRoofHouseMap3, insideGreenRoofHouseMap1, insideGreenRoofHouseMap2, insideGreenRoofHouseMap3);
-
-        HelpMethods.AddVillagersToBuildings(buildings);
-        HelpMethods.CreateSecreteTeleport(insideMap2, insideFlatRoofHouseMap1, 1, 1, 1, 1);
-        HelpMethods.CreateSecreteTeleportFromCoordinate(outsideMap, outsideMap, 45, 30, 3930, 1120);
-
-        currentMap = outsideMap;
     }
 
     public boolean build(Items item) {
@@ -186,11 +151,11 @@ public class MapManager {
         }
 
         if (item.isBuilding()) {
-            Building newBuilding = new Building(new PointF(buildX, buildY), item.getBuildingType(), 0);
+            Building newBuilding = new Building(new PointF(buildX, buildY), Objects.requireNonNull(item.getBuildingType()), 0, currentMap);
             currentMap.getBuildingArrayList().add(newBuilding);
         }
         if (item.isObject()) {
-            GameObject newObject = new GameObject(new PointF(buildX, buildY), item.getObjectType());
+            GameObject newObject = new GameObject(new PointF(buildX, buildY), Objects.requireNonNull(item.getObjectType()));
             currentMap.getGameObjectArrayList().add(newObject);
         }
 

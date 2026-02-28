@@ -17,7 +17,7 @@ import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
 public class ShopState extends BaseState implements GameStateInterface {
-
+//TODO: make the item shop regular' nam make the items craftable.
 
     private final Paint textPaint;
 

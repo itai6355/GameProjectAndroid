@@ -10,12 +10,15 @@ import com.example.gameproject.database.DatabaseColumns;
 import com.example.gameproject.database.DatabaseHelper;
 import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Building;
+import com.example.gameproject.entities.objects.Buildings;
+import com.example.gameproject.entities.objects.GameObject;
+import com.example.gameproject.entities.objects.GameObjects;
 import com.example.gameproject.gamestates.invenory.InventorySloth;
 import com.example.gameproject.main.Game;
 import com.example.gameproject.main.GameActivity;
 import com.example.gameproject.main.MainActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -54,6 +57,8 @@ public class Player extends Character {
         if (id == -1) setSkinAndIcon("Noble");
         else setSkinAndIcon(dbHelper.getColumnValueById(id, DatabaseColumns.SKIN));
         dbHelper.setInventory(id, this);
+
+        addToInventory(Items.POTION_BLUE);
 
     }
 
@@ -373,35 +378,36 @@ public class Player extends Character {
 
     public void UseItem(InventorySloth item) {
         if (item.getItem() == null) return;
-        if (item.getItem().isAdible())
+        if (item.getItem().isAudible()) {
             if (currHunger != maxHunger) addHunger(1);
             else return;
-        else if (item.getItem().isBuildable()) if (!build(item.getItem())) return;
-        else switch (item.getItem()) {
-                case MEDIPCK -> {
-                    if (this.getCurrentHealth() == this.getMaxHealth()) return;
-                    heal(50);
-                }
-                case POTION_BLUE -> {
-                    this.SpeedingStart = System.currentTimeMillis();
-                    this.isSpeeding = true;
-                }
-                case POTION_RED -> {
-                    this.SatorationStart = System.currentTimeMillis();
-                    this.isSatoration = true;
-                }
-
-                case POTION_PURPLE -> {
-                    this.StreangthStart = System.currentTimeMillis();
-                    this.isStreangth = true;
-                }
-                case POTION_WHITE -> {
-                    this.InvisibleStart = System.currentTimeMillis();
-                    this.isInvisible = true;
-                }
+        } else if (item.getItem().isBuildable()) {
+            if (!build(item.getItem())) return;
+        } else switch (item.getItem()) {
+            case MEDIPCK -> {
+                if (this.getCurrentHealth() == this.getMaxHealth()) return;
+                heal(50);
+            }
+            case POTION_BLUE -> {
+                this.SpeedingStart = System.currentTimeMillis();
+                this.isSpeeding = true;
+            }
+            case POTION_RED -> {
+                this.SatorationStart = System.currentTimeMillis();
+                this.isSatoration = true;
             }
 
-        useItem(item);
+            case POTION_PURPLE -> {
+                this.StreangthStart = System.currentTimeMillis();
+                this.isStreangth = true;
+            }
+            case POTION_WHITE -> {
+                this.InvisibleStart = System.currentTimeMillis();
+                this.isInvisible = true;
+            }
+        }
+
+        reduceItem(item);
 
     }
 
@@ -409,11 +415,13 @@ public class Player extends Character {
         return game.getPlaying().getMapManager().build(item);
     }
 
-    private void useItem(InventorySloth item) {
+    private void reduceItem(InventorySloth item) {
         try {
             dbHelper.reduceIntColumn(id, DatabaseColumns.getItemColumnByName(item.getItem()));
             item.reduceAmount();
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
     }
 
@@ -425,7 +433,7 @@ public class Player extends Character {
         return SPEED;
     }
 
-    public int getStreangth() {
+    public int getStrength() {
         return (int) STRENGTH;
     }
 
@@ -463,14 +471,41 @@ public class Player extends Character {
     public int getId() {
         return id;
     }
+
     public String getUsername() {
         return username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public DatabaseHelper getDbHelper() {
         return dbHelper;
     }
 
+    public void addObject(PointF pointF, GameObjects objectType) {
+        try {
+            dbHelper.addObject(id, pointF, objectType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBuilding(PointF pointF, Buildings buildingType) {
+        try {
+            dbHelper.addBuilding(id, pointF, buildingType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public List<GameObject> getGameObjects() {
+        return dbHelper.getAllObjects(id);
+    }
+
+    public List<Building> getBuildings() {
+        return dbHelper.getAllBuildings(id);
+    }
 }

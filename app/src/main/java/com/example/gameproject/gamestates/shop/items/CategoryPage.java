@@ -44,7 +44,7 @@ public class CategoryPage implements GameStateInterface {
                 for (int k = 0; k < ShopHeight; k++) {
                     ShopItems[i][j][k] = new ShopSloth(j, k, xCurr + (j * (ShopSloth.SLOT_SIZE + Xspace)), yCurr + (k * (ShopSloth.SLOT_SIZE + Yspace)));
                     if (index < thiscategory.getItems().length) {
-                        ShopItems[i][j][k].setItem(Items.valueOf(thiscategory.getItems()[index].name()));//TODO: if you add house and object there is no item like that.
+                        ShopItems[i][j][k].setItem(Items.valueOf(thiscategory.getItems()[index].name()));
                         index++;
                     }
                 }

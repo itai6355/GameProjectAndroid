@@ -16,8 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-
 import com.example.gameproject.helpers.logic.GeminiAPI;
 import com.example.gameproject.R;
 import com.example.gameproject.database.DatabaseHelper;
@@ -142,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Registration failed. Try again.", Toast.LENGTH_SHORT).show();
-
             }
         }
     }
