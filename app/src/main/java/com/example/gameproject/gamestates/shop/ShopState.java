@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import com.example.gameproject.gamestates.BaseState;
 import com.example.gameproject.gamestates.shop.characters.CharacterShop;
 import com.example.gameproject.gamestates.shop.items.ItemShop;
+import com.example.gameproject.gamestates.shop.tiles.TileShop;
 import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.var.Paints;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
@@ -17,39 +18,61 @@ import com.example.gameproject.ui.CustomButton;
 import com.example.gameproject.ui.GameImages;
 
 public class ShopState extends BaseState implements GameStateInterface {
-//TODO: make the item shop regular' nam make the items craftable.
 
     private final Paint textPaint;
 
-    private final CustomButton btnBack = new CustomButton(20, 20, ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
-    private final CustomButton door = new CustomButton(MainActivity.GAME_WIDTH - ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getWidth() - 20 * GameConstants.Sprite.SCALE_MULTIPLIER, MainActivity.GAME_HEIGHT - ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getHeight(), ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getWidth(), ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getHeight());
-    private final CustomButton chest = new CustomButton(0, MainActivity.GAME_HEIGHT - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight() - (float) ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getHeight(), ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getWidth(), ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getHeight());
+    private final CustomButton btnBack = new CustomButton(
+            20, 20,
+            ButtonImages.SETTINGS_BACK.getWidth(), ButtonImages.SETTINGS_BACK.getHeight());
+
+    private final CustomButton door = new CustomButton(
+            MainActivity.GAME_WIDTH - ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getWidth()
+                    - 20 * GameConstants.Sprite.SCALE_MULTIPLIER,
+            MainActivity.GAME_HEIGHT - ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getHeight(),
+            ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getWidth(),
+            ShopImages.SHOP_DOOR_CLOSED_BACKGRAWND.getHeight());
+
+    private final CustomButton chest = new CustomButton(
+            0,
+            MainActivity.GAME_HEIGHT
+                    - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight()
+                    - (float) ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getHeight(),
+            ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getWidth(),
+            ShopImages.SHOP_TREASURE_BOX_BACKGRAWND.getHeight());
+
+
+    private final CustomButton barrelBtn;
+
     private final Paint paint;
     private final int yButtons = MainActivity.GAME_HEIGHT / 2 - ShopImages.SHOP_ARROW_LEFT.getHeight() / 2;
-    private final CustomButton arrowLeft = new CustomButton(270, yButtons, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
-    private final float arrowLeftX = arrowLeft.getHitbox().left;
-    private final float arrowLeftY = arrowLeft.getHitbox().top;
+    private final CustomButton arrowLeft  = new CustomButton(270, yButtons, ButtonImages.EMPTY_SMALL.getWidth(),  ButtonImages.EMPTY_SMALL.getHeight());
+    private final float arrowLeftX  = arrowLeft.getHitbox().left;
+    private final float arrowLeftY  = arrowLeft.getHitbox().top;
     private final CustomButton arrowRight = new CustomButton(MainActivity.GAME_WIDTH - 400, yButtons, ButtonImages.EMPTY_SMALL.getWidth(), ButtonImages.EMPTY_SMALL.getHeight());
     private final float arrowRightX = arrowRight.getHitbox().left;
     private final float arrowRightY = arrowRight.getHitbox().top;
-    private final float gameWidth = MainActivity.GAME_WIDTH;
+
+    private final float gameWidth  = MainActivity.GAME_WIDTH;
     private final float gameHeight = MainActivity.GAME_HEIGHT;
     private final float scaleMultiplier = GameConstants.Sprite.SCALE_MULTIPLIER;
     private final float windowX = 200;
     private final float windowY = 200;
-    private final float brickBoxY = gameHeight - ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight();
+    private final float brickBoxY  = gameHeight - ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight();
     private final float lampX = (float) ShopImages.SHOP_LAMP.getWidth() / 2 + 6 * scaleMultiplier;
-    private float lampY = gameHeight - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight() / 2 - (float) ShopImages.SHOP_LAMP.getHeight() / 2;
+    private float lampY = gameHeight - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight() / 2
+            - (float) ShopImages.SHOP_LAMP.getHeight() / 2;
     private final float barrelX = ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getWidth();
     private final float barrelY = gameHeight - (float) ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getHeight() / 2;
-    private final float bar1X = (gameWidth / 2 - (float) ShopImages.SHOP_BAR_1.getWidth() / 2);
-    private final float bar1Y = (gameHeight / 8 * 7) + scaleMultiplier;
+    private final float bar1X = gameWidth / 2 - (float) ShopImages.SHOP_BAR_1.getWidth() / 2;
+    private final float bar1Y = gameHeight / 8 * 7 + scaleMultiplier;
+
     private boolean init = false;
     private ShopStates state = ShopStates.ITEMS;
     private boolean isBuying = false;
 
-    private ItemShop shopItemState;
+    private ItemShop      shopItemState;
     private CharacterShop shopCharactersState;
+    private TileShop      shopTileState;
 
     private int page = 0;
     private int maxPagesInThis;
@@ -57,8 +80,14 @@ public class ShopState extends BaseState implements GameStateInterface {
     public ShopState(Game game) {
         super(game);
         textPaint = Paints.TEXT_PAINT;
-        paint = Paints.BLUE_PAINT;
+        paint     = Paints.BLUE_PAINT;
 
+        float barrelBtnW = ShopImages.SHOP_BARREL_BACKGRAWND.getWidth();
+        float barrelBtnH = ShopImages.SHOP_BARREL_BACKGRAWND.getHeight();
+        barrelBtn = new CustomButton(
+                barrelX,
+                barrelY,
+                barrelBtnW, barrelBtnH);
     }
 
     @Override
@@ -68,27 +97,31 @@ public class ShopState extends BaseState implements GameStateInterface {
             case ITEMS -> {
                 shopItemState.update(delta);
                 shopItemState.setPage(page);
-                this.maxPagesInThis = shopItemState.getMAX_PAGES();
+                maxPagesInThis = shopItemState.getMAX_PAGES();
             }
             case CHARACTERS -> {
                 shopCharactersState.update(delta);
                 shopCharactersState.setPage(page);
-                this.maxPagesInThis = shopCharactersState.getMAX_PAGES();
+                maxPagesInThis = shopCharactersState.getMAX_PAGES();
+            }
+            case TILES -> {
+                shopTileState.update(delta);
+                shopTileState.setPage(page);
+                maxPagesInThis = shopTileState.getMAX_PAGES();
             }
         }
-
     }
 
     @Override
     public void render(Canvas canvas) {
         drawBackground(canvas);
         if (!init) initStates();
-        if (shopItemState == null) return;
-        if (shopCharactersState == null) return;
+        if (shopItemState == null || shopCharactersState == null || shopTileState == null) return;
 
         switch (state) {
-            case ITEMS -> shopItemState.render(canvas);
+            case ITEMS      -> shopItemState.render(canvas);
             case CHARACTERS -> shopCharactersState.render(canvas);
+            case TILES      -> shopTileState.render(canvas);
         }
     }
 
@@ -106,23 +139,32 @@ public class ShopState extends BaseState implements GameStateInterface {
         canvas.drawBitmap(ShopImages.SHOP_BRICK_BOX_BACKGRAWND.getImage(), 0, brickBoxY, null);
         canvas.drawBitmap(ShopImages.SHOP_LAMP.getImage(), lampX, lampY, null);
 
-        float chestY = chest.isPushed() ? chest.getHitbox().top - 4 * scaleMultiplier : chest.getHitbox().top;
-        canvas.drawBitmap(ButtonImages.CHEST.getBtnImg(chest.isPushed()), chest.getHitbox().left, chestY, null);
+        float chestY = chest.isPushed()
+                ? chest.getHitbox().top - 4 * scaleMultiplier
+                : chest.getHitbox().top;
+        canvas.drawBitmap(ButtonImages.CHEST.getBtnImg(chest.isPushed()),
+                chest.getHitbox().left, chestY, null);
 
-        canvas.drawBitmap(ShopImages.SHOP_BARREL_BACKGRAWND.getImage(), barrelX, barrelY, null);
-        canvas.drawBitmap(ButtonImages.DOOR_IMAGE.getBtnImg(door.isPushed()), door.getHitbox().left, door.getHitbox().top, null);
-        canvas.drawBitmap(ButtonImages.SETTINGS_BACK.getBtnImg(btnBack.isPushed()), btnBack.getHitbox().left, btnBack.getHitbox().top, null);
+        canvas.drawBitmap(ShopImages.SHOP_BARREL_BACKGRAWND.getImage(),
+                barrelBtn.getHitbox().left, barrelBtn.getHitbox().top, null);
+
+        canvas.drawBitmap(ButtonImages.DOOR_IMAGE.getBtnImg(door.isPushed()),
+                door.getHitbox().left, door.getHitbox().top, null);
+        canvas.drawBitmap(ButtonImages.SETTINGS_BACK.getBtnImg(btnBack.isPushed()),
+                btnBack.getHitbox().left, btnBack.getHitbox().top, null);
 
         if (!isBuying) {
-            drawArrow(canvas, arrowLeft, arrowLeftX, arrowLeftY);
+            drawArrow(canvas, arrowLeft,  arrowLeftX,  arrowLeftY);
             drawArrow(canvas, arrowRight, arrowRightX, arrowRightY);
         }
 
         canvas.drawText(String.valueOf(game.getPlayer().getCoins()), coinsX, 100, textPaint);
-        canvas.drawBitmap(GameImages.COIN_SMALL.getImage(), coinsX - GameImages.COIN_SMALL.getImage().getWidth(), coinsY, null);
+        canvas.drawBitmap(GameImages.COIN_SMALL.getImage(),
+                coinsX - GameImages.COIN_SMALL.getImage().getWidth(), coinsY, null);
 
         canvas.drawBitmap(ShopImages.SHOP_BAR_1.getImage(), bar1X, bar1Y, null);
-        canvas.drawText("Page: " + (page + 1) + "/" + maxPagesInThis, bar1X + 13 * scaleMultiplier, bar1Y + 14 * scaleMultiplier, textPaint);
+        canvas.drawText("Page: " + (page + 1) + "/" + maxPagesInThis,
+                bar1X + 13 * scaleMultiplier, bar1Y + 14 * scaleMultiplier, textPaint);
     }
 
     private int calculateCoinsLength() {
@@ -132,21 +174,27 @@ public class ShopState extends BaseState implements GameStateInterface {
     private void drawArrow(Canvas canvas, CustomButton arrow, float arrowX, float arrowY) {
         canvas.drawBitmap(ButtonImages.EMPTY_SMALL.getBtnImg(arrow.isPushed()), arrowX, arrowY, null);
         if (arrow == arrowLeft)
-            canvas.drawBitmap(ShopImages.SHOP_ARROW_LEFT.getImage(), arrowX + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, arrowY + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
+            canvas.drawBitmap(ShopImages.SHOP_ARROW_LEFT.getImage(),
+                    arrowX + 5 * GameConstants.Sprite.SCALE_MULTIPLIER,
+                    arrowY + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
         else
-            canvas.drawBitmap(ShopImages.SHOP_ARROW_RIGHT.getImage(), arrowX + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, arrowY + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
+            canvas.drawBitmap(ShopImages.SHOP_ARROW_RIGHT.getImage(),
+                    arrowX + 5 * GameConstants.Sprite.SCALE_MULTIPLIER,
+                    arrowY + 5 * GameConstants.Sprite.SCALE_MULTIPLIER, null);
     }
-
 
     @Override
     public void touchEvents(MotionEvent event) {
         if (!init) initStates();
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isIn(event, btnBack)) btnBack.setPushed(true);
-            else if (isIn(event, door)) door.setPushed(true);
+            if (isIn(event, btnBack))    btnBack.setPushed(true);
+            else if (isIn(event, door))  door.setPushed(true);
             else if (isIn(event, chest)) chest.setPushed(true);
-            else if (isIn(event, arrowLeft)) arrowLeft.setPushed(true);
+            else if (isIn(event, barrelBtn)) barrelBtn.setPushed(true);
+            else if (isIn(event, arrowLeft))  arrowLeft.setPushed(true);
             else if (isIn(event, arrowRight)) arrowRight.setPushed(true);
+
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             if (isIn(event, btnBack)) {
                 if (btnBack.isPushed()) game.setCurrentGameState(Game.GameState.PLAYING);
@@ -154,6 +202,8 @@ public class ShopState extends BaseState implements GameStateInterface {
                 if (door.isPushed()) setState(ShopStates.CHARACTERS);
             } else if (isIn(event, chest)) {
                 if (chest.isPushed()) setState(ShopStates.ITEMS);
+            } else if (isIn(event, barrelBtn)) {
+                if (barrelBtn.isPushed()) setState(ShopStates.TILES);
             } else if (isIn(event, arrowLeft)) {
                 if (arrowLeft.isPushed() && page > 0) page--;
             } else if (isIn(event, arrowRight)) {
@@ -163,20 +213,21 @@ public class ShopState extends BaseState implements GameStateInterface {
             arrowRight.setPushed(false);
             chest.setPushed(false);
             door.setPushed(false);
+            barrelBtn.setPushed(false);
             btnBack.setPushed(false);
         }
 
         switch (state) {
-            case ITEMS -> shopItemState.touchEvents(event);
+            case ITEMS      -> shopItemState.touchEvents(event);
             case CHARACTERS -> shopCharactersState.touchEvents(event);
+            case TILES      -> shopTileState.touchEvents(event);
         }
     }
 
-
-
     private void initStates() {
-        shopItemState = new ItemShop(game, this);
+        shopItemState       = new ItemShop(game, this);
         shopCharactersState = new CharacterShop(game);
+        shopTileState       = new TileShop(game, this);
         init = true;
     }
 
@@ -190,9 +241,6 @@ public class ShopState extends BaseState implements GameStateInterface {
     }
 
     enum ShopStates {
-        ITEMS, CHARACTERS
+        ITEMS, CHARACTERS, TILES
     }
-
 }
-
-

@@ -4,13 +4,12 @@ import com.example.gameproject.gamestates.invenory.InventorySloth;
 
 public class ShopSloth extends InventorySloth {
 
-    private final boolean bought = false;
-    private final int slothType = 1;
+    private int slothType = 1;
+    private int customSpriteId = -1;
 
     public ShopSloth(int xSpot, int ySpot, int x, int y) {
         super(xSpot, ySpot, x, y);
     }
-
 
     public ShopImages getSlothImage() {
         return switch (slothType) {
@@ -20,12 +19,23 @@ public class ShopSloth extends InventorySloth {
         };
     }
 
-    public int getSlothType() {
-        return slothType;
+    public void setSlothType(int slothType) {
+        this.slothType = slothType;
     }
 
+    public void setCustomSpriteId(int id) {
+        this.customSpriteId = id;
+    }
+
+    public int getCustomSpriteId() {
+        return customSpriteId;
+    }
+
+    public boolean hasCustomSprite() {
+        return customSpriteId != -1;
+    }
 
     public boolean hasItem() {
-        return super.getItem() != null;
+        return super.getItem() != null || hasCustomSprite();
     }
 }

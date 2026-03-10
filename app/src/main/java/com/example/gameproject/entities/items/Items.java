@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import com.example.gameproject.R;
 import com.example.gameproject.entities.objects.Buildings;
 import com.example.gameproject.entities.objects.GameObjects;
+import com.example.gameproject.environments.Tiles;
 import com.example.gameproject.helpers.interfaces.BitmapMethods;
 import com.example.gameproject.helpers.var.ItemHelper;
 import com.example.gameproject.main.MainActivity;
@@ -397,14 +398,63 @@ public enum Items implements BitmapMethods {
     CABINET_P1(GameObjects.CABINET_P1.getObjectImg()),
     CABINET_P2(GameObjects.CABINET_P2.getObjectImg()),
 
-
     POTION_PURPLE(R.drawable.potion_purple, false),
     POTION_RED(R.drawable.potion_red, false),
     POTION_BLUE(R.drawable.potion_blue, false),
     POTION_WHITE(R.drawable.potion_white, false),
 
+    COIN(R.drawable.coins, 16, 16, 14),
 
-    COIN(R.drawable.coins, 16, 16, 14);
+    TILE;
+
+
+    public static final int[][] BLOCKS = {
+            /* B0 DESERT_SAND */
+            { 0,1,2,3,4,5,6,7,8,9, 22,23,24,25,26,27,28,29,30,31,
+                    44,45,46,47,48,49,50,51,52,53,54, 66,67,68,69,70,71,72,73,74,75,76,
+                    88,89,92,93,94,95,96 },
+            /* B1 STONE_PINK */
+            { 11,12,13,14,15,16,17,18,19,20, 33,34,35,36,37,38,39,40,41,42,
+                    55,56,57,58,59,60,61,62,63,64, 77,78,79,80,81,82,83,84,85,86,
+                    99,100,103,104,105,106,107 },
+            /* B2 DARK_FOREST */
+            { 154,155,156,157,158,159,160,161,162,163, 176,177,178,179,180,181,182,183,184,185,
+                    198,199,200,201,202,203,204,205,206,207,208, 220,221,222,223,224,225,226,227,228,229,230,
+                    242,243,244,245,246,247,248,249,250 },
+            /* B3 GRASS_DIRT */
+            { 165,166,167,168,169,170,171,172,173,174, 187,188,189,190,191,192,193,194,195,196,
+                    209,210,211,212,213,214,215,216,217,218, 231,232,233,234,235,236,237,238,239,
+                    253,254,256,257,258,259,260,261 },
+            /* B4 SNOW_WHITE */
+            { 308,309,310,311,312,313,314,315,316,317, 330,331,332,333,334,335,336,337,338,339,340,
+                    352,353,354,355,356,357,358,359,360,361,362, 374,375,376,377,378,379,380,381,382,383,384,
+                    396,397,399,400,401,402,403,404 },
+            /* B5 BROWN_STONE */
+            { 319,320,321,322,323,324,325,326,327,328, 341,342,343,344,345,346,347,348,349,350,
+                    363,364,365,366,367,368,369,370,371,372, 385,386,387,388,389,390,391,392,393,394,
+                    407,408,410,411,412,413,414,415 },
+            /* B6 WATER_LAKE */
+            { 462,463,464,465,466,467,468,469,470,471, 484,485,486,487,488,489,490,491,492,493,
+                    506,507,508,509,510,511,512,513,514,515,516, 528,529,530,532,533,534,535,536,537,538,
+                    550,554,555,556,557,558 },
+            /* B7 ICE_TUNDRA */
+            { 473,474,475,476,477,478,479,480,481,482, 495,496,497,498,499,500,501,502,503,504,
+                    517,518,519,520,521,522,523,524,525,526, 539,540,541,543,544,545,546,547,548,
+                    565,566,567,568,569 },
+    };
+
+    public static final String[] BLOCK_NAMES = {
+            "Desert", "Pink Stone", "Dark Forest", "Grass",
+            "Snow", "Brown Stone", "Water", "Ice"
+    };
+
+
+    public static final int[] BLOCK_THUMB = { 113, 124, 267, 165, 278, 421, 485, 496 };
+
+    public static Bitmap getTileSprite(int spriteId) {
+        return Tiles.OUTSIDE.getSprite(spriteId);
+    }
+
 
     final boolean isAdible;
     final boolean isBuildable;
@@ -455,7 +505,6 @@ public enum Items implements BitmapMethods {
         ItemHelper.getItems().add(this);
     }
 
-
     Items(Bitmap res) {
         options.inScaled = false;
         isAni = false;
@@ -471,86 +520,68 @@ public enum Items implements BitmapMethods {
         ItemHelper.getItems().add(this);
     }
 
+    Items() {
+        options.inScaled = false;
+        isAni      = false;
+        isBuildable = false;
+        isAdible   = false;
+        amount     = 1;
+        atlas = Tiles.OUTSIDE.getSprite(0);
+        images = new Bitmap[4];
+        images[0] = getItemBiggerSize(atlas);
+        images[1] = getItemSize(atlas);
+        images[2] = getSmallItemSize(atlas);
+        images[3] = getSmallestItemSize(atlas);
+        ItemHelper.getItems().add(this);
+    }
+
+    public void updateTileImages(int spriteId) {
+        Bitmap sprite = Tiles.OUTSIDE.getSprite(spriteId);
+        images[0] = getItemBiggerSize(sprite);
+        images[1] = getItemSize(sprite);
+        images[2] = getSmallItemSize(sprite);
+        images[3] = getSmallestItemSize(sprite);
+    }
+
     public boolean isPotion() {
         return this == POTION_PURPLE || this == POTION_RED || this == POTION_BLUE || this == POTION_WHITE;
     }
 
-
-    public Bitmap getImage(int index) {
-        return images[index];
-    }
+    public Bitmap getImage(int index) { return images[index]; }
 
     public Bitmap getImage() {
-        if (isPotion())
-            return images[2];
+        if (isPotion()) return images[2];
         return images[1];
     }
 
-    public Bitmap getSmallImage() {
-        return images[2];
-    }
+    public Bitmap getSmallImage()    { return images[2]; }
+    public Bitmap getSmallestImage() { return images[3]; }
+    public Bitmap getBiggerImage()   { return images[0]; }
+    public boolean isAudible()       { return isAdible; }
+    public boolean isBuildable()     { return isBuildable; }
+    public boolean isAni()           { return isAni; }
+    public int getAmount()           { return amount; }
+    public String getName()          { return name(); }
 
-    public Bitmap getSmallestImage() {
-        return images[3];
-    }
-
-    public Bitmap getBiggerImage() {
-        return images[0];
-    }
-
-    public boolean isAudible() {
-        return isAdible;
-    }
-
-    public boolean isBuildable() {
-        return isBuildable;
-    }
-
-    public boolean isAni() {
-        return isAni;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public String getName() {
-        return name();
-    }
+    public boolean isTile() { return this == TILE; }
 
     public boolean isBuilding() {
-        for (Buildings building : Buildings.values())
-            if (building.name().equals(name()))
-                return true;
-
+        for (Buildings b : Buildings.values()) if (b.name().equals(name())) return true;
         return false;
     }
 
     public boolean isObject() {
-        for (GameObjects object : GameObjects.values())
-            if (object.name().equals(name()))
-                return true;
-
+        for (GameObjects o : GameObjects.values()) if (o.name().equals(name())) return true;
         return false;
     }
 
     public Buildings getBuildingType() {
-        for (Buildings building : Buildings.values()) {
-            if (building.name().equals(name())) {
-                return building;
-            }
-        }
+        for (Buildings b : Buildings.values()) if (b.name().equals(name())) return b;
         return null;
     }
 
     public GameObjects getObjectType() {
-        for (GameObjects object : GameObjects.values()) {
-            if (object.name().equals(name())) {
-                return object;
-            }
-        }
+        for (GameObjects o : GameObjects.values()) if (o.name().equals(name())) return o;
         return null;
     }
 }
-
-

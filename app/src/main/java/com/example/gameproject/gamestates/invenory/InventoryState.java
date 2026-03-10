@@ -2,6 +2,7 @@ package com.example.gameproject.gamestates.invenory;
 
 import static com.example.gameproject.main.MainActivity.GAME_HEIGHT;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.MotionEvent;
@@ -73,9 +74,17 @@ public class InventoryState extends BaseState implements GameStateInterface {
 
     private void drawItem(Canvas canvas, InventorySloth IS) {
         Items itemType = IS.getItem();
-        int imageX = (int) (IS.getX() + (float) IS.getImage().getImage().getWidth() / 2 - (float) itemType.getSmallImage().getWidth() / 2);
-        int imageY = (int) (IS.getY() + (float) IS.getImage().getImage().getHeight() / 2 - (float) itemType.getSmallImage().getHeight() / 2);
-        canvas.drawBitmap(itemType.getSmallImage(), imageX, imageY, null);
+
+        Bitmap img;
+        if (itemType == Items.TILE && IS.getTileSpriteId() != -1) {
+            img = Items.getTileSprite(IS.getTileSpriteId());
+        } else {
+            img = itemType.getSmallImage();
+        }
+
+        int imageX = (int) (IS.getX() + (float) IS.getImage().getImage().getWidth() / 2 - (float) img.getWidth() / 2);
+        int imageY = (int) (IS.getY() + (float) IS.getImage().getImage().getHeight() / 2 - (float) img.getHeight() / 2);
+        canvas.drawBitmap(img, imageX, imageY, null);
         canvas.drawText(String.valueOf(IS.getAmount()), IS.getX() + InventorySloth.SLOT_SIZE, IS.getY() + InventorySloth.SLOT_SIZE, BlackPaint);
     }
 
@@ -129,8 +138,10 @@ public class InventoryState extends BaseState implements GameStateInterface {
     private void moveItem(InventorySloth lst, InventorySloth curr) {
         curr.setItem(lst.getItem());
         curr.setAmount(lst.getAmount());
+        curr.setTileSpriteId(lst.getTileSpriteId());
         lst.setItem(null);
         lst.setAmount(0);
+        lst.setTileSpriteId(-1);
         lstItem = null;
     }
 

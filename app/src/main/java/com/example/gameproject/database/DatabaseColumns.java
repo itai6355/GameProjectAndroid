@@ -17,6 +17,8 @@ public class DatabaseColumns {
     public static final String COLUMN_ITEM_PREFIX = "item_";
     public static final String BUILD_OBJECTS = "built_objects";
     public static final String BUILD_BUILDINGS = "built_buildings";
+    public static final String SAVED_ENEMIES = "saved_enemies";
+    public static final String SAVED_TILE_MAP = "saved_tile_map"; // NEW: custom tile overrides
 
 
     public static final Column ID = new Column(COLUMN_ID, "INTEGER PRIMARY KEY AUTOINCREMENT");
@@ -26,6 +28,8 @@ public class DatabaseColumns {
     public static final Column COINS = new Column(COLUMN_COINS, "INTEGER");
     public static final Column BUILT_OBJECTS = new Column(BUILD_OBJECTS, "TEXT");
     public static final Column BUILT_BUILDINGS = new Column(BUILD_BUILDINGS, "TEXT");
+    public static final Column ENEMIES = new Column(SAVED_ENEMIES, "TEXT");
+    public static final Column TILE_MAP = new Column(SAVED_TILE_MAP, "TEXT"); // NEW
 
 
     static {
@@ -36,6 +40,8 @@ public class DatabaseColumns {
         ALL_COLUMNS.add(COINS);
         ALL_COLUMNS.add(BUILT_OBJECTS);
         ALL_COLUMNS.add(BUILT_BUILDINGS);
+        ALL_COLUMNS.add(ENEMIES);
+        ALL_COLUMNS.add(TILE_MAP);
 
         for (Items item : Items.values()) {
             if (item.name().equals("COIN")) continue;

@@ -229,4 +229,7 @@ public abstract class Character extends Entity {
         active = false;
     }
 
+    public void setHealth(int hp) {
+        this.currentHealth = hp;
+    }
 }

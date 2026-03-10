@@ -98,7 +98,6 @@ public class PlayingUI {
         var potionWidth = Items.POTION_BLUE.getImage().getWidth();
 
 
-
         for (int i = 0; i < playing.getPlayer().getEffects().length; i++) {
             int y = GameImages.PLAYER_BOX.getImage().getHeight();
             int x = (GameImages.POTION_BOX.getImage().getWidth() + GameConstants.Sprite.X_DRAW_OFFSET) * i;
@@ -127,13 +126,15 @@ public class PlayingUI {
         }
     }
 
-    
 
     private void drawItem(Canvas canvas, InventorySloth IS) {
         Items itemType = IS.getItem();
-        int imageX = (int) (IS.getX() + (float) IS.getImage().getImage().getWidth() / 2 - (float) itemType.getSmallImage().getWidth() / 2);
-        int imageY = (int) (IS.getY() + (float) IS.getImage().getImage().getHeight() / 2 - (float) itemType.getSmallImage().getHeight() / 2);
-        canvas.drawBitmap(itemType.getSmallImage(), imageX, imageY, null);
+
+        android.graphics.Bitmap img = (itemType == Items.TILE && IS.getTileSpriteId() != -1) ? Items.getTileSprite(IS.getTileSpriteId()) : itemType.getSmallImage();
+
+        int imageX = (int) (IS.getX() + (float) IS.getImage().getImage().getWidth() / 2 - (float) img.getWidth() / 2);
+        int imageY = (int) (IS.getY() + (float) IS.getImage().getImage().getHeight() / 2 - (float) img.getHeight() / 2);
+        canvas.drawBitmap(img, imageX, imageY, null);
         canvas.drawText(String.valueOf(IS.getAmount()), IS.getX() + InventorySloth.SLOT_SIZE, IS.getY() + InventorySloth.SLOT_SIZE, BlackPaint);
     }
 

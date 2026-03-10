@@ -94,7 +94,7 @@ public enum GameObjects implements BitmapMethods {
 
     private final Bitmap objectImg;
     private final int width, height;
-    int hitboxRoof, hitboxFloor, hitboxHeight;
+    public final int hitboxRoof, hitboxFloor, hitboxHeight;
     private final boolean walkable;
 
     GameObjects(int x, int y, int width, int height, int hitboxRoof, int hitboxFloor, boolean walkable) {

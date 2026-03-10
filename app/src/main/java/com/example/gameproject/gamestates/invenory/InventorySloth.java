@@ -15,6 +15,10 @@ public class InventorySloth extends CustomButton {
     private Items item;
     private int amount = 0;
 
+    private int tileSpriteId = -1;
+    public int getTileSpriteId() { return tileSpriteId; }
+    public void setTileSpriteId(int id) { this.tileSpriteId = id; }
+
     public InventorySloth(int xSpot, int ySpot, int x, int y) {
         super(x, y, SLOT_SIZE, SLOT_SIZE);
         this.xSpot = xSpot;
@@ -31,9 +35,10 @@ public class InventorySloth extends CustomButton {
         if (this.item == null) {
             this.item = item;
             amount = 1;
-        }else if (item == null){
+        } else if (item == null) {
             this.item = null;
             amount = 0;
+            tileSpriteId = -1;
         }
     }
 
@@ -68,11 +73,12 @@ public class InventorySloth extends CustomButton {
     }
 
     public void reduceAmount() {
-        if (amount > 0) {
+        if (amount > 1) {
             amount--;
         } else {
             item = null;
             amount = 0;
+            tileSpriteId = -1;
         }
     }
 

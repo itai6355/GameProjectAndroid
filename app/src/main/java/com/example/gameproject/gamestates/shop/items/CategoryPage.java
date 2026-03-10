@@ -8,8 +8,8 @@ import com.example.gameproject.entities.items.Items;
 import com.example.gameproject.entities.objects.Buildings;
 import com.example.gameproject.gamestates.shop.ShopImages;
 import com.example.gameproject.gamestates.shop.ShopSloth;
-import com.example.gameproject.helpers.var.GameConstants;
 import com.example.gameproject.helpers.interfaces.GameStateInterface;
+import com.example.gameproject.helpers.var.GameConstants;
 
 public class CategoryPage implements GameStateInterface {
     private final int MAX_PAGES;
@@ -67,7 +67,7 @@ public class CategoryPage implements GameStateInterface {
 
             canvas.drawBitmap(ShopImages.SHOP_INVENTORY_MOUSE.getImage(), ShopItems[page][xCurrIndex][yCurrIndex].getX() + GameConstants.Sprite.SCALE_MULTIPLIER, ShopItems[page][xCurrIndex][yCurrIndex].getY() + GameConstants.Sprite.SCALE_MULTIPLIER, null);
         } catch (Exception e) {
-            // somtimes when you move from 2 pages to 1 page it can throw an ArrayIndexOutOfBoundsException
+            // sometimes when you move from 2 pages to 1 page it can throw an ArrayIndexOutOfBoundsException
         }
     }
 

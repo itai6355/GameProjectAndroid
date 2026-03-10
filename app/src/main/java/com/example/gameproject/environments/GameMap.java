@@ -21,23 +21,21 @@ public class GameMap {
     private final ArrayList<GameObject> gameObjectArrayList;
     private final CopyOnWriteArrayList<Character> enemysArrayList;
     private final CopyOnWriteArrayList<Item> itemArrayList;
+
     private final int[][] spriteIds;
+
+
+    private final int[][] originalSpriteIds;
+
     private final Tiles tilesType;
     private final ArrayList<Doorway> doorwayArrayList;
     private final int MAX_ENEMIES;
 
-    public GameMap(int[][] spriteIds, int maxEnemies, Tiles tilesType, ArrayList<Building> buildingArrayList, ArrayList<GameObject> gameObjectArrayList, CopyOnWriteArrayList<Character> enemysArrayList, CopyOnWriteArrayList<Item> itemArrayList, ArrayList<Particle> ParticlesArrayList) {
+    public GameMap(int[][] spriteIds, Tiles tilesType,
+                   ArrayList<GameObject> gameObjectArrayList,
+                   ArrayList<Particle> particlesArrayList) {
         this.spriteIds = spriteIds;
-        this.tilesType = tilesType;
-        this.buildingArrayList = buildingArrayList != null ? buildingArrayList : new ArrayList<>();
-        this.gameObjectArrayList = gameObjectArrayList != null ? gameObjectArrayList : new ArrayList<>();
-        this.enemysArrayList = enemysArrayList != null ? enemysArrayList : new CopyOnWriteArrayList<>();
-        this.doorwayArrayList = new ArrayList<>();
-        this.itemArrayList = itemArrayList != null ? itemArrayList : new CopyOnWriteArrayList<>();
-        MAX_ENEMIES = maxEnemies;
-    }
-    public GameMap(int[][] spriteIds, Tiles tilesType,ArrayList<GameObject> gameObjectArrayList, ArrayList<Particle> ParticlesArrayList) {
-        this.spriteIds = spriteIds;
+        this.originalSpriteIds = deepCopy(spriteIds);
         this.tilesType = tilesType;
         this.gameObjectArrayList = gameObjectArrayList;
         this.buildingArrayList = new ArrayList<>();
@@ -46,16 +44,7 @@ public class GameMap {
         this.itemArrayList = new CopyOnWriteArrayList<>();
         MAX_ENEMIES = 0;
     }
-    public GameMap(int[][] spriteIds, Tiles tilesType) {
-        this.spriteIds = spriteIds;
-        this.tilesType = tilesType;
-        this.buildingArrayList = new ArrayList<>();
-        this.gameObjectArrayList = new ArrayList<>();
-        this.enemysArrayList = new CopyOnWriteArrayList<>();
-        this.doorwayArrayList = new ArrayList<>();
-        this.itemArrayList = new CopyOnWriteArrayList<>();
-        MAX_ENEMIES = 0;
-    }
+
     public GameMap(Tiles tilesType) {
         this.spriteIds = new int[50][50];
         this.tilesType = tilesType;
@@ -66,15 +55,26 @@ public class GameMap {
         this.itemArrayList = new CopyOnWriteArrayList<>();
         MAX_ENEMIES = 0;
 
-      for (int[] row : spriteIds)
+        for (int[] row : spriteIds)
             for (int i = 0; i < row.length; i++)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
                     row[i] = new Random().nextInt(275, 280);
                 }
 
-
+        this.originalSpriteIds = deepCopy(spriteIds);
+    }
+    public boolean paintTile(float worldX, float worldY, int spriteId) {
+        int col = (int) (worldX / GameConstants.Sprite.SIZE);
+        int row = (int) (worldY / GameConstants.Sprite.SIZE);
+        if (row < 0 || row >= spriteIds.length || col < 0 || col >= spriteIds[0].length)
+            return false;
+        spriteIds[row][col] = spriteId;
+        return true;
     }
 
+    public int[][] getOriginalSpriteIds() {
+        return originalSpriteIds;
+    }
 
     public Entity[] getDrawableList() {
         Entity[] list = new Entity[getDrawableAmount()];
@@ -135,7 +135,6 @@ public class GameMap {
         return enemysArrayList;
     }
 
-
     public CopyOnWriteArrayList<Item> getItemArrayList() {
         return itemArrayList;
     }
@@ -151,7 +150,6 @@ public class GameMap {
     public int[][] getSpritesID() {
         return spriteIds;
     }
-
 
     public int getArrayWidth() {
         return spriteIds[0].length;
@@ -173,5 +171,10 @@ public class GameMap {
         return MAX_ENEMIES;
     }
 
-
+    private static int[][] deepCopy(int[][] src) {
+        int[][] copy = new int[src.length][];
+        for (int i = 0; i < src.length; i++)
+            copy[i] = src[i].clone();
+        return copy;
+    }
 }

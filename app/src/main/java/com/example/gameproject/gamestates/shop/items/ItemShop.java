@@ -35,7 +35,7 @@ public class ItemShop extends BaseState implements GameStateInterface {
 
 
     //    private final int xBtn = xStart;
-//    private final int yBtn = yStart + (ShopSloth.SLOT_SIZE + 100) * (ShopHeight);
+    //    private final int yBtn = yStart + (ShopSloth.SLOT_SIZE + 100) * (ShopHeight);
     private ShopSloth currSS;
     private int xCurrIndex = 0;
     private int yCurrIndex = 0;

@@ -69,6 +69,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mediaPlayerHelper.stop();
+        panel.getGame().getPlaying().saveWorld();
     }
 
     @Override
